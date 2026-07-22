@@ -1,0 +1,24 @@
+name: i18n validation
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Build (PT root + EN /en/ split)
+        run: node build.js
+
+      - name: Validate i18n (one language per URL, hreflang, canonical, no dashes)
+        run: node scripts/validate-i18n.js
