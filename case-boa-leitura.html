@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Boa Leitura · Danilo Espeleta</title>
+<meta name="description" content="Case de prospecção híbrida e Lifecycle: projeto social de incentivo à leitura desenhado como motor de prospecção de parceiros e captação de recursos.">
+<meta name="author" content="Danilo Espeleta">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Case Boa Leitura · Danilo Espeleta">
+<meta property="og:description" content="Funil de Defensores em cinco estágios, calendário literário como motor de cadência e nicho de convidados como canal de alavancagem.">
+<meta property="og:url" content="https://espeledata.com/case-boa-leitura.html">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg:#0a0a0a; --bg2:#111113; --bg3:#17171a;
+  --cyan:#00d4ff;
+  --accent:#ff5a47;        /* case accent (support coral) */
+  --accent-2:#00d4ff;      /* kicker/secondary (primary cyan) */
+  --white:#f0f0ee; --gray:#a3a39d; --gray2:#888882;
+  --border:rgba(255,255,255,0.08);
+  --sans:'Barlow',system-ui,sans-serif;
+  --cond:'Barlow Condensed',var(--sans);
+  --mono:'JetBrains Mono',Consolas,monospace;
+  --max:960px;
+}
+/* ============ BASE ============ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-padding-top:5.5rem}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{background:var(--bg);color:var(--white);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--cyan)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:2px}
+.visually-hidden{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.skip-link{position:absolute;left:1rem;top:-4rem;z-index:300;background:var(--cyan);color:#00232b;font-weight:600;padding:.6rem 1rem;text-decoration:none;transition:top .15s}
+.skip-link:focus{top:1rem}
+.lang-pt .en{display:none!important}
+.lang-en .pt{display:none!important}
+
+/* ============ READING PROGRESS ============ */
+.progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--accent);z-index:250;pointer-events:none;transition:width .1s linear}
+
+/* ============ NAV ============ */
+.site-nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.8rem 2rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;border-bottom:1px solid var(--border);background:rgba(10,10,10,0.92);backdrop-filter:blur(12px)}
+.brand{display:flex;flex-direction:column;gap:.1rem;text-decoration:none}
+.brand-name{font-family:var(--cond);font-weight:700;font-size:1.1rem;letter-spacing:.06em;color:var(--white);text-transform:uppercase}
+.brand-role{font-family:var(--mono);font-size:.6rem;color:var(--cyan);letter-spacing:.12em;text-transform:uppercase}
+.nav-right{display:flex;align-items:center;gap:1.4rem}
+.nav-links{display:flex;gap:1.4rem;align-items:center}
+.nav-links a{font-family:var(--mono);font-size:.68rem;color:var(--gray);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;padding:.3rem 0}
+.nav-links a:hover,.nav-links a[aria-current="page"]{color:var(--cyan)}
+.lang-switch{display:flex;border:1px solid var(--border)}
+.lang-switch button{background:none;border:none;color:var(--gray);cursor:pointer;font-family:var(--mono);font-size:.65rem;font-weight:500;letter-spacing:.1em;padding:.4rem .7rem}
+.lang-switch button+button{border-left:1px solid var(--border)}
+.lang-switch button[aria-pressed="true"]{background:var(--cyan);color:#00232b}
+.menu-btn{display:none;font-family:var(--mono);font-size:.68rem;color:var(--white);background:none;border:1px solid var(--border);padding:.45rem .9rem;cursor:pointer;letter-spacing:.12em;text-transform:uppercase;transition:all .2s}
+.menu-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:260;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.sidebar-overlay.open{opacity:1;visibility:visible}
+.sidebar{position:fixed;top:0;right:-290px;width:290px;height:100vh;background:var(--bg2);border-left:1px solid var(--border);z-index:270;transition:right .28s;padding:4.5rem 2rem 2rem;display:flex;flex-direction:column}
+.sidebar.open{right:0}
+.sidebar-close{position:absolute;top:1.1rem;right:1.1rem;background:none;border:1px solid var(--border);color:var(--gray);font-size:1rem;line-height:1;cursor:pointer;font-family:var(--mono);padding:.4rem .6rem}
+.sidebar-close:hover{color:var(--cyan);border-color:var(--cyan)}
+.sidebar a{font-family:var(--mono);font-size:.78rem;color:var(--gray);text-decoration:none;letter-spacing:.12em;text-transform:uppercase;padding:1rem 0;border-bottom:1px solid var(--border);transition:color .2s;display:block}
+.sidebar a:hover,.sidebar a[aria-current="page"]{color:var(--cyan)}
+.sidebar .lang-switch{margin-top:1.5rem;align-self:flex-start}
+@media(max-width:820px){
+  .site-nav{padding:.75rem 1.25rem}
+  .brand-role{display:none}
+  .nav-right .nav-links,.nav-right .lang-switch{display:none}
+  .menu-btn{display:block}
+}
+
+/* ============ LAYOUT ============ */
+.case-wrap{max-width:var(--max);margin:0 auto;padding:7.5rem 1.5rem 3rem}
+.breadcrumb{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray2);display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:2.2rem}
+.breadcrumb a{color:var(--gray);text-decoration:none;transition:color .2s}
+.breadcrumb a:hover{color:var(--cyan)}
+.breadcrumb .sep{color:var(--gray2)}
+
+/* ============ HERO ============ */
+.case-hero{border-top:4px solid var(--accent);padding-top:2.2rem;margin-bottom:3rem}
+.case-tag{font-family:var(--mono);font-size:.68rem;color:var(--accent-2);letter-spacing:.18em;text-transform:uppercase;display:block;margin-bottom:1rem}
+.case-title{font-family:var(--cond);font-weight:800;font-size:clamp(2.6rem,6.5vw,4.2rem);line-height:.95;text-transform:uppercase;color:var(--white)}
+.case-title .accent{color:var(--accent)}
+.case-sub{margin-top:1.3rem;font-size:1rem;color:var(--gray);max-width:60ch;line-height:1.8}
+.meta-pills{list-style:none;display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.6rem}
+.meta-pills li{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);border:1px solid var(--border);padding:.35rem .8rem}
+
+/* ============ METRICS ============ */
+.metrics-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin:2.5rem 0}
+.metric{background:var(--bg2);padding:1.6rem 1.2rem;text-align:center}
+.metric-num{font-family:var(--cond);font-weight:800;font-size:2.2rem;color:var(--accent);line-height:1;display:block}
+.metric-label{font-family:var(--mono);font-size:.62rem;color:var(--gray);letter-spacing:.08em;text-transform:uppercase;margin-top:.55rem;display:block}
+
+/* ============ BLOCKS ============ */
+.block{margin:3.2rem 0}
+.block-label{font-family:var(--mono);font-size:.65rem;color:var(--accent-2);letter-spacing:.18em;text-transform:uppercase;margin-bottom:1.3rem;padding-bottom:.7rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.6rem}
+.block-label::before{content:'→';color:var(--accent)}
+.block h2{font-family:var(--cond);font-weight:700;font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.1;text-transform:uppercase;margin-bottom:1.1rem}
+.block h2 .accent{color:var(--accent)}
+.prose p{color:var(--gray);margin-bottom:1.05rem;max-width:70ch}
+.prose p:last-child{margin-bottom:0}
+.prose strong{color:var(--white);font-weight:500}
+
+/* ============ CARD GRIDS ============ */
+.grid-2,.grid-3,.grid-4{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);margin-top:1.4rem}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.grid-4{grid-template-columns:repeat(2,1fr)}
+@media(min-width:760px){.grid-4{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:640px){.grid-2,.grid-3{grid-template-columns:1fr}}
+.mini-card{background:var(--bg2);padding:1.5rem 1.3rem}
+.mini-num{font-family:var(--mono);font-size:.62rem;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:.6rem}
+.mini-title{font-family:var(--cond);font-weight:700;font-size:1.05rem;text-transform:uppercase;letter-spacing:.03em;color:var(--white);margin-bottom:.5rem}
+.mini-card p{font-size:.86rem;color:var(--gray);line-height:1.65}
+
+/* ============ MAP LIST (de → para) ============ */
+.map-list{list-style:none;border:1px solid var(--border);margin-top:1.4rem}
+.map-list li{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;align-items:center;padding:1rem 1.3rem;border-bottom:1px solid var(--border)}
+.map-list li:last-child{border-bottom:none}
+.map-from{color:var(--gray);font-size:.9rem}
+.map-arrow{color:var(--accent);font-family:var(--mono)}
+.map-to{color:var(--white);font-size:.9rem;font-weight:400}
+@media(max-width:640px){
+  .map-list li{grid-template-columns:1fr;gap:.3rem}
+  .map-arrow{display:none}
+  .map-to::before{content:'→ ';color:var(--accent)}
+}
+
+/* ============ STAGES (numbered journey) ============ */
+.stages{list-style:none;counter-reset:stage;margin-top:1.4rem;border:1px solid var(--border)}
+.stages li{counter-increment:stage;padding:1.4rem 1.3rem 1.4rem 4.3rem;border-bottom:1px solid var(--border);position:relative;background:var(--bg2)}
+.stages li:last-child{border-bottom:none}
+.stages li::before{content:counter(stage,decimal-leading-zero);position:absolute;left:1.3rem;top:1.45rem;font-family:var(--cond);font-weight:800;font-size:1.5rem;color:var(--accent);line-height:1}
+.stage-title{font-family:var(--cond);font-weight:700;font-size:1.1rem;text-transform:uppercase;letter-spacing:.03em;margin-bottom:.35rem}
+.stages p{font-size:.88rem;color:var(--gray);max-width:62ch}
+.kpi-pill{display:inline-block;font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);padding:.3rem .7rem;margin-top:.7rem;opacity:.9}
+
+/* ============ CODE ============ */
+.code-wrap{border:1px solid var(--border);border-left:3px solid var(--accent);background:var(--bg2);margin-top:1.4rem;overflow:hidden}
+.code-head{font-family:var(--mono);font-size:.62rem;color:var(--gray);letter-spacing:.15em;text-transform:uppercase;padding:.7rem 1.2rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between}
+.code-wrap pre{padding:1.3rem 1.2rem;overflow-x:auto}
+.code-wrap code{font-family:var(--mono);font-size:.82rem;line-height:1.8;color:var(--white)}
+.kw{color:var(--cyan)} .fn{color:#a78bfa} .str{color:#86efac} .num{color:#fca5a5} .cm{color:var(--gray2);font-style:italic}
+
+/* ============ SVG / FIGURE ============ */
+.svg-wrap{border:1px solid var(--border);background:var(--bg2);padding:1.5rem;margin-top:1.4rem;overflow-x:auto}
+.svg-wrap svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.svg-caption{font-family:var(--mono);font-size:.62rem;color:var(--gray2);letter-spacing:.1em;text-transform:uppercase;margin-top:1rem;text-align:center}
+
+/* ============ CALLOUTS ============ */
+.insight-box{background:color-mix(in srgb,var(--accent) 6%,transparent);border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);border-left:3px solid var(--accent);padding:1.6rem 1.8rem;margin-top:1.4rem}
+.insight-box p{font-style:italic;color:var(--white);font-size:.98rem;line-height:1.8;max-width:70ch}
+.note-bar{border:1px solid var(--border);border-left:3px solid var(--accent);background:var(--bg2);padding:1.1rem 1.4rem;margin-top:1.4rem}
+.note-bar p{font-size:.86rem;color:var(--gray)}
+.note-bar strong{color:var(--white);font-weight:500}
+
+/* ============ DATES ============ */
+.dates-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-top:1.4rem}
+.date-card{background:var(--bg2);padding:1.2rem 1.1rem}
+.date-day{font-family:var(--cond);font-weight:800;font-size:1.3rem;color:var(--accent);display:block;line-height:1.1}
+.date-name{font-size:.8rem;color:var(--gray);margin-top:.3rem;display:block}
+
+/* ============ STATS ROW ============ */
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-top:1.4rem}
+.stat{background:var(--bg2);padding:1.8rem 1.4rem;text-align:center}
+.stat-num{font-family:var(--cond);font-weight:800;font-size:2.4rem;color:var(--accent);line-height:1;display:block}
+.stat-label{font-size:.82rem;color:var(--gray);margin-top:.6rem;display:block}
+.stat-src{font-family:var(--mono);font-size:.6rem;color:var(--gray2);margin-top:.5rem;display:block}
+
+/* ============ TAKEAWAYS ============ */
+.takeaways{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:1.4rem}
+@media(max-width:640px){.takeaways{grid-template-columns:1fr}}
+.takeaway{background:var(--bg2);padding:1.5rem 1.3rem}
+.takeaway h3{font-family:var(--cond);font-weight:700;font-size:1rem;text-transform:uppercase;letter-spacing:.04em;color:var(--accent);margin-bottom:.5rem}
+.takeaway p{font-size:.85rem;color:var(--gray)}
+
+/* ============ BUTTONS / CASE NAV ============ */
+.btn{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.7rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:.85rem 1.5rem;text-decoration:none;border:1px solid;transition:all .15s}
+.btn-solid{background:var(--cyan);border-color:var(--cyan);color:#00232b}
+.btn-solid:hover{background:#33ddff;border-color:#33ddff}
+.btn-outline{background:transparent;border-color:var(--border);color:var(--white)}
+.btn-outline:hover{border-color:var(--cyan);color:var(--cyan)}
+.case-nav{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin:3.5rem 0 0}
+@media(max-width:640px){.case-nav{grid-template-columns:1fr}}
+.case-nav-link{background:var(--bg2);padding:1.4rem 1.5rem;text-decoration:none;display:flex;flex-direction:column;gap:.35rem;transition:background .2s}
+.case-nav-link:hover{background:var(--bg3)}
+.case-nav-link.next{text-align:right;align-items:flex-end}
+.case-nav-link.all{grid-column:1/-1;align-items:center;text-align:center}
+.case-nav-dir{font-family:var(--mono);font-size:.6rem;color:var(--gray2);letter-spacing:.15em;text-transform:uppercase}
+.case-nav-title{font-family:var(--cond);font-weight:700;font-size:1.05rem;text-transform:uppercase;color:var(--white);transition:color .2s}
+.case-nav-link:hover .case-nav-title{color:var(--cyan)}
+
+/* ============ FOOTER ============ */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-top:4rem}
+.footer-name{font-family:var(--cond);font-weight:700;font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray)}
+.footer-info{font-family:var(--mono);font-size:.62rem;color:var(--gray2);letter-spacing:.06em;display:flex;flex-wrap:wrap;gap:.4rem 1rem;align-items:center}
+.footer-info a{color:var(--gray);text-decoration:none;transition:color .2s}
+.footer-info a:hover{color:var(--cyan)}
+@media(max-width:640px){footer{flex-direction:column;align-items:flex-start;padding:1.5rem}}
+
+/* ============ REVEAL ============ */
+@media (prefers-reduced-motion:no-preference){
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}
+  .reveal.in{opacity:1;transform:none}
+}
+</style>
+</head>
+<body class="lang-pt">
+
+<a class="skip-link" href="#main"><span class="pt">Pular para o conteúdo</span><span class="en" lang="en">Skip to content</span></a>
+<div class="progress" aria-hidden="true"></div>
+
+<!-- ============ NAV (identical on every case page) ============ -->
+<nav class="site-nav" aria-label="Principal">
+  <a class="brand" href="index.html">
+    <span class="brand-name">Danilo Espeleta</span>
+    <span class="brand-role"><span class="pt">CRM &amp; Lifecycle Marketing</span><span class="en" lang="en">CRM &amp; Lifecycle Marketing</span></span>
+  </a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="index.html"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
+      <a href="index.html#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
+      <a href="portfolio.html" aria-current="page"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
+      <a href="contact.html"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
+      <a class="cv-link" href="CV/DE-Curriculo.pdf" download><span class="pt">Currículo ↓</span><span class="en" lang="en">Resume ↓</span></a>
+    </div>
+    <div class="lang-switch" role="group" aria-label="Idioma / Language">
+      <button type="button" data-lang="pt" aria-pressed="true">PT</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <button class="menu-btn" aria-expanded="false" aria-controls="sidebar">Menu</button>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="sidebar" id="sidebar" aria-label="Menu">
+  <button class="sidebar-close" aria-label="Fechar menu">✕</button>
+  <a href="index.html"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
+  <a href="index.html#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
+  <a href="portfolio.html" aria-current="page"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
+  <a href="contact.html"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
+  <a class="cv-link" href="CV/DE-Curriculo.pdf" download><span class="pt">Currículo ↓</span><span class="en" lang="en">Resume ↓</span></a>
+  <div class="lang-switch" role="group" aria-label="Idioma / Language">
+    <button type="button" data-lang="pt" aria-pressed="true">PT</button>
+    <button type="button" data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</div>
+
+<main id="main" class="case-wrap">
+
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="portfolio.html">Portfólio</a><span class="sep" aria-hidden="true">/</span>
+    <span>Cases</span><span class="sep" aria-hidden="true">/</span>
+    <span aria-current="page">Boa Leitura</span>
+  </nav>
+
+  <header class="case-hero">
+    <span class="case-tag">Case 02 · <span class="pt">Prospecção híbrida &amp; Lifecycle</span><span class="en" lang="en">Hybrid prospecting &amp; Lifecycle</span></span>
+    <h1 class="case-title">
+      <span class="pt">Boa <span class="accent">Leitura</span></span>
+      <span class="en" lang="en">Boa <span class="accent">Leitura</span></span>
+    </h1>
+    <p class="case-sub">
+      <span class="pt">Um projeto social de incentivo à leitura desenhado como motor de prospecção de parceiros e captação de recursos.</span>
+      <span class="en" lang="en">A reading-incentive social project designed as an engine for partner prospecting and fundraising.</span>
+    </p>
+    <ul class="meta-pills">
+      <li><span class="pt">Grande ONG brasileira</span><span class="en" lang="en">Major Brazilian NGO</span></li>
+      <li><span class="pt">Terceiro setor</span><span class="en" lang="en">Nonprofit sector</span></li>
+      <li><span class="pt">Case conceitual de estratégia</span><span class="en" lang="en">Conceptual strategy case</span></li>
+      <li>2024</li>
+    </ul>
+  </header>
+
+  <!-- 01 THESIS -->
+  <section class="block reveal" aria-labelledby="s1">
+    <p class="block-label">01 · <span class="pt">A tese</span><span class="en" lang="en">The thesis</span></p>
+    <h2 id="s1">
+      <span class="pt">Uma ação social pode ser um <span class="accent">motor de prospecção</span></span>
+      <span class="en" lang="en">A social action can be a <span class="accent">prospecting engine</span></span>
+    </h2>
+    <div class="prose">
+      <p>
+        <span class="pt"><strong>O objetivo declarado do projeto:</strong> não apenas o incentivo à leitura, mas principalmente ampliar operações de relacionamento com contatos estratégicos. O evento literário não é fim: é o touchpoint de aquisição. Cada edição entrega valor social real e, no mesmo movimento, abre relacionamento com contatos de alto valor.</span>
+        <span class="en" lang="en"><strong>The project's declared objective:</strong> not only encouraging reading, but above all expanding relationship operations with strategic contacts. The literary event is not the end: it is the acquisition touchpoint. Each edition delivers real social value and, in the same movement, opens relationships with high-value contacts.</span>
+      </p>
+    </div>
+    <div class="grid-2">
+      <div class="mini-card">
+        <h3 class="mini-title"><span class="pt">Retorno social</span><span class="en" lang="en">Social return</span></h3>
+        <p><span class="pt">Leitura, cultura e pertencimento entregues a quem é atendido.</span><span class="en" lang="en">Reading, culture and belonging delivered to the people served.</span></p>
+      </div>
+      <div class="mini-card">
+        <h3 class="mini-title"><span class="pt">Retorno de captação</span><span class="en" lang="en">Fundraising return</span></h3>
+        <p><span class="pt">Pipeline de parceiros e doadores qualificados em aberto.</span><span class="en" lang="en">An open pipeline of qualified partners and donors.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 MECHANISM -->
+  <section class="block reveal" aria-labelledby="s2">
+    <p class="block-label">02 · <span class="pt">O mecanismo</span><span class="en" lang="en">The mechanism</span></p>
+    <h2 id="s2">
+      <span class="pt">Como funciona, em <span class="accent">quatro perguntas</span></span>
+      <span class="en" lang="en">How it works, in <span class="accent">four questions</span></span>
+    </h2>
+    <div class="grid-4">
+      <div class="mini-card">
+        <h3 class="mini-title"><span class="pt">O quê</span><span class="en" lang="en">What</span></h3>
+        <p><span class="pt">Uma pessoa convidada lê um trecho de livro ou poema, celebrando uma data literária.</span><span class="en" lang="en">A guest reads a book excerpt or poem, celebrating a literary date.</span></p>
+      </div>
+      <div class="mini-card">
+        <h3 class="mini-title"><span class="pt">Onde</span><span class="en" lang="en">Where</span></h3>
+        <p><span class="pt">Unidades educacionais, centros comunitários e humanitários da instituição.</span><span class="en" lang="en">The institution's educational units, community and humanitarian centers.</span></p>
+      </div>
+      <div class="mini-card">
+        <h3 class="mini-title"><span class="pt">Quando</span><span class="en" lang="en">When</span></h3>
+        <p><span class="pt">Um dia por mês, ancorado no calendário de comemorações literárias.</span><span class="en" lang="en">One day a month, anchored to the calendar of literary celebrations.</span></p>
+      </div>
+      <div class="mini-card">
+        <h3 class="mini-title"><span class="pt">Por quê</span><span class="en" lang="en">Why</span></h3>
+        <p><span class="pt">Divulgar o trabalho da instituição e abrir relacionamento com contatos estratégicos.</span><span class="en" lang="en">To showcase the institution's work and open relationships with strategic contacts.</span></p>
+      </div>
+    </div>
+    <div class="note-bar">
+      <p>
+        <span class="pt">Formato leve, replicável e de baixo custo operacional, exatamente o que um canal de aquisição precisa ser para escalar.</span>
+        <span class="en" lang="en">A light, replicable, low-cost format, exactly what an acquisition channel needs to be in order to scale.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- 03 NICHE -->
+  <section class="block reveal" aria-labelledby="s3">
+    <p class="block-label">03 · <span class="pt">O nicho</span><span class="en" lang="en">The niche</span></p>
+    <h2 id="s3">
+      <span class="pt">Um convidado, <span class="accent">duas audiências</span></span>
+      <span class="en" lang="en">One guest, <span class="accent">two audiences</span></span>
+    </h2>
+    <div class="prose">
+      <p>
+        <span class="pt">A pessoa convidada (autores, jornalistas, artistas e lideranças culturais) é o lead de alto valor. Cada convidado chega trazendo a própria base de seguidores.</span>
+        <span class="en" lang="en">The guest (authors, journalists, artists and cultural leaders) is the high-value lead. Each guest arrives bringing their own follower base.</span>
+      </p>
+    </div>
+    <div class="grid-2">
+      <div class="mini-card">
+        <span class="mini-num">1</span>
+        <h3 class="mini-title"><span class="pt">Público atendido</span><span class="en" lang="en">Audience served</span></h3>
+        <p><span class="pt">Crianças e comunidades nos territórios da instituição.</span><span class="en" lang="en">Children and communities in the institution's territories.</span></p>
+      </div>
+      <div class="mini-card">
+        <span class="mini-num">2</span>
+        <h3 class="mini-title"><span class="pt">Audiência do convidado</span><span class="en" lang="en">The guest's audience</span></h3>
+        <p><span class="pt">A base de seguidores que ele mobiliza ao divulgar a ação.</span><span class="en" lang="en">The follower base they mobilize when promoting the action.</span></p>
+      </div>
+    </div>
+    <div class="note-bar">
+      <p>
+        <span class="pt">Não é soma de público, é alavancagem: o nicho específico abre acesso a um público novo e qualificado a cada edição.</span>
+        <span class="en" lang="en">It's not audience addition, it's leverage: the specific niche opens access to a new, qualified audience with every edition.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- 04 APPROACH -->
+  <section class="block reveal" aria-labelledby="s4">
+    <p class="block-label">04 · <span class="pt">A abordagem</span><span class="en" lang="en">The approach</span></p>
+    <h2 id="s4">
+      <span class="pt">O projeto, lido como um <span class="accent">sistema de CRM</span></span>
+      <span class="en" lang="en">The project, read as a <span class="accent">CRM system</span></span>
+    </h2>
+    <div class="prose">
+      <p>
+        <span class="pt">Cada peça da ação social tem um equivalente direto na disciplina de Lifecycle Marketing. Mesma operação, outra lente.</span>
+        <span class="en" lang="en">Each piece of the social action has a direct equivalent in the Lifecycle Marketing discipline. Same operation, another lens.</span>
+      </p>
+    </div>
+    <ul class="map-list">
+      <li>
+        <span class="map-from"><span class="pt">Evento literário</span><span class="en" lang="en">Literary event</span></span>
+        <span class="map-arrow" aria-hidden="true">&rarr;</span>
+        <span class="map-to"><span class="pt">Touchpoint de aquisição</span><span class="en" lang="en">Acquisition touchpoint</span></span>
+      </li>
+      <li>
+        <span class="map-from"><span class="pt">Pessoa convidada</span><span class="en" lang="en">Guest</span></span>
+        <span class="map-arrow" aria-hidden="true">&rarr;</span>
+        <span class="map-to"><span class="pt">Lead qualificado &amp; canal</span><span class="en" lang="en">Qualified lead &amp; channel</span></span>
+      </li>
+      <li>
+        <span class="map-from"><span class="pt">Divulgação nas redes</span><span class="en" lang="en">Social media promotion</span></span>
+        <span class="map-arrow" aria-hidden="true">&rarr;</span>
+        <span class="map-to"><span class="pt">Nutrição &amp; engajamento</span><span class="en" lang="en">Nurturing &amp; engagement</span></span>
+      </li>
+      <li>
+        <span class="map-from"><span class="pt">Defensor da Boa Vontade</span><span class="en" lang="en">Goodwill Defender</span></span>
+        <span class="map-arrow" aria-hidden="true">&rarr;</span>
+        <span class="map-to"><span class="pt">Parceria recorrente &amp; LTV</span><span class="en" lang="en">Recurring partnership &amp; LTV</span></span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- 05 LIFECYCLE -->
+  <section class="block reveal" aria-labelledby="s5">
+    <p class="block-label">05 · Lifecycle</p>
+    <h2 id="s5">
+      <span class="pt">O funil de Defensores, do tour à <span class="accent">recorrência</span></span>
+      <span class="en" lang="en">The Defenders funnel, from tour to <span class="accent">recurrence</span></span>
+    </h2>
+    <ol class="stages">
+      <li>
+        <h3 class="stage-title"><span class="pt">Prospecção</span><span class="en" lang="en">Prospecting</span></h3>
+        <p><span class="pt">Tour institucional apresenta serviços e sonda interesses.</span><span class="en" lang="en">An institutional tour presents services and probes interests.</span></p>
+        <span class="kpi-pill">KPI · <span class="pt">Contatos qualificados</span><span class="en" lang="en">Qualified contacts</span></span>
+      </li>
+      <li>
+        <h3 class="stage-title"><span class="pt">Convite</span><span class="en" lang="en">Invitation</span></h3>
+        <p><span class="pt">Convite presencial ao final do tour, no momento de maior interesse.</span><span class="en" lang="en">An in-person invitation at the end of the tour, at peak interest.</span></p>
+        <span class="kpi-pill">KPI · <span class="pt">Taxa de aceite</span><span class="en" lang="en">Acceptance rate</span></span>
+      </li>
+      <li>
+        <h3 class="stage-title"><span class="pt">Proposta</span><span class="en" lang="en">Proposal</span></h3>
+        <p><span class="pt">Proposta de divulgação anual e envio do kit da Defensoria.</span><span class="en" lang="en">An annual promotion proposal and delivery of the Defender kit.</span></p>
+        <span class="kpi-pill">KPI · <span class="pt">Conversão em Defensor</span><span class="en" lang="en">Conversion to Defender</span></span>
+      </li>
+      <li>
+        <h3 class="stage-title"><span class="pt">Ativação</span><span class="en" lang="en">Activation</span></h3>
+        <p><span class="pt">Escolha do mês, parceria fechada e leitura na edição.</span><span class="en" lang="en">Month chosen, partnership closed and the reading held at the edition.</span></p>
+        <span class="kpi-pill">KPI · <span class="pt">Alcance da edição</span><span class="en" lang="en">Edition reach</span></span>
+      </li>
+      <li>
+        <h3 class="stage-title"><span class="pt">Recorrência</span><span class="en" lang="en">Recurrence</span></h3>
+        <p><span class="pt">Kit periódico, presente e prestação de contas mantêm o vínculo.</span><span class="en" lang="en">A periodic kit, a gift and accountability reports keep the bond alive.</span></p>
+        <span class="kpi-pill">KPI · <span class="pt">Retenção &amp; indicações</span><span class="en" lang="en">Retention &amp; referrals</span></span>
+      </li>
+    </ol>
+  </section>
+
+  <!-- 06 MULTICHANNEL ACTIVATION -->
+  <section class="block reveal" aria-labelledby="s6">
+    <p class="block-label">06 · <span class="pt">Ativação multicanal</span><span class="en" lang="en">Multichannel activation</span></p>
+    <h2 id="s6">
+      <span class="pt">A mobilização como ciclo de <span class="accent">quatro tempos</span></span>
+      <span class="en" lang="en">Mobilization as a <span class="accent">four-beat cycle</span></span>
+    </h2>
+    <div class="grid-4">
+      <div class="mini-card">
+        <span class="mini-num">01</span>
+        <h3 class="mini-title"><span class="pt">O convite</span><span class="en" lang="en">The invitation</span></h3>
+        <p><span class="pt">Anunciar a pessoa convidada e destacar a data celebrada no mês.</span><span class="en" lang="en">Announce the guest and highlight the month's celebrated date.</span></p>
+      </div>
+      <div class="mini-card">
+        <span class="mini-num">02</span>
+        <h3 class="mini-title"><span class="pt">Interatividade</span><span class="en" lang="en">Interactivity</span></h3>
+        <p><span class="pt">Engajar seguidores: qual livro será lido, qual texto favorito de cada um.</span><span class="en" lang="en">Engage followers: which book will be read, everyone's favorite text.</span></p>
+      </div>
+      <div class="mini-card">
+        <span class="mini-num">03</span>
+        <h3 class="mini-title"><span class="pt">Divulgação</span><span class="en" lang="en">Promotion</span></h3>
+        <p><span class="pt">Pauta sobre o convidado e a obra; entrevista para a Boa Vontade TV.</span><span class="en" lang="en">A story on the guest and the work; an interview for Boa Vontade TV.</span></p>
+      </div>
+      <div class="mini-card">
+        <span class="mini-num">04</span>
+        <h3 class="mini-title"><span class="pt">Pesquisa</span><span class="en" lang="en">Survey</span></h3>
+        <p><span class="pt">Ouvir o feedback e já sondar quem será a próxima pessoa convidada.</span><span class="en" lang="en">Listen to feedback and scout who the next guest will be.</span></p>
+      </div>
+    </div>
+    <div class="note-bar">
+      <p>
+        <span class="pt">A etapa 04 realimenta a 01: ciclo contínuo.</span>
+        <span class="en" lang="en">Step 04 feeds back into step 01: a continuous cycle.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- 07 CADENCE -->
+  <section class="block reveal" aria-labelledby="s7">
+    <p class="block-label">07 · <span class="pt">Cadência</span><span class="en" lang="en">Cadence</span></p>
+    <h2 id="s7">
+      <span class="pt">O calendário literário é o <span class="accent">motor de cadência</span></span>
+      <span class="en" lang="en">The literary calendar is the <span class="accent">cadence engine</span></span>
+    </h2>
+    <div class="prose">
+      <p>
+        <span class="pt">Cada data dá um gancho de conteúdo e um momento de ativação por mês: a régua se sustenta o ano inteiro sem inventar pretexto.</span>
+        <span class="en" lang="en">Each date provides a content hook and one activation moment per month: the cadence sustains itself all year without inventing a pretext.</span>
+      </p>
+    </div>
+    <div class="dates-grid">
+      <div class="date-card">
+        <span class="date-day">14 <span class="pt">mar</span><span class="en" lang="en">Mar</span></span>
+        <span class="date-name"><span class="pt">Dia Nacional da Poesia</span><span class="en" lang="en">National Poetry Day</span></span>
+      </div>
+      <div class="date-card">
+        <span class="date-day">21 <span class="pt">mar</span><span class="en" lang="en">Mar</span></span>
+        <span class="date-name"><span class="pt">Dia Mundial da Poesia</span><span class="en" lang="en">World Poetry Day</span></span>
+      </div>
+      <div class="date-card">
+        <span class="date-day">18 <span class="pt">abr</span><span class="en" lang="en">Apr</span></span>
+        <span class="date-name"><span class="pt">Dia do Livro Infantil</span><span class="en" lang="en">Children's Book Day</span></span>
+      </div>
+      <div class="date-card">
+        <span class="date-day">23 <span class="pt">abr</span><span class="en" lang="en">Apr</span></span>
+        <span class="date-name"><span class="pt">Dia Mundial do Livro</span><span class="en" lang="en">World Book Day</span></span>
+      </div>
+      <div class="date-card">
+        <span class="date-day">25 <span class="pt">jul</span><span class="en" lang="en">Jul</span></span>
+        <span class="date-name"><span class="pt">Dia do Escritor</span><span class="en" lang="en">Writer's Day</span></span>
+      </div>
+      <div class="date-card">
+        <span class="date-day">29 <span class="pt">out</span><span class="en" lang="en">Oct</span></span>
+        <span class="date-name"><span class="pt">Dia Nacional do Livro</span><span class="en" lang="en">National Book Day</span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 AMPLIFICATION -->
+  <section class="block reveal" aria-labelledby="s8">
+    <p class="block-label">08 · <span class="pt">Amplificação de impacto</span><span class="en" lang="en">Impact amplification</span></p>
+    <h2 id="s8">
+      <span class="pt">Ações que ampliam <span class="accent">impacto e alcance</span></span>
+      <span class="en" lang="en">Actions that expand <span class="accent">impact and reach</span></span>
+    </h2>
+    <div class="grid-2">
+      <div class="mini-card">
+        <span class="mini-num">A1</span>
+        <h3 class="mini-title"><span class="pt">Campanha de Livros</span><span class="en" lang="en">Book Drive</span></h3>
+        <p><span class="pt">Arrecadação de acervo que sustenta o projeto e gera nova peça de divulgação.</span><span class="en" lang="en">A collection drive that sustains the project and generates a new promotion piece.</span></p>
+      </div>
+      <div class="mini-card">
+        <span class="mini-num">A2</span>
+        <h3 class="mini-title"><span class="pt">Biblioteca Itinerante</span><span class="en" lang="en">Traveling Library</span></h3>
+        <p><span class="pt">Leva o acervo a pessoas em situação de rua: impacto que vira história real.</span><span class="en" lang="en">Brings the collection to people experiencing homelessness: impact that becomes a real story.</span></p>
+      </div>
+    </div>
+    <div class="note-bar">
+      <p>
+        <span class="pt"><strong>O laço de CRM:</strong> o convidado integra a divulgação: mais vínculo, mais alcance, mais captação.</span>
+        <span class="en" lang="en"><strong>The CRM loop:</strong> the guest joins the promotion: more bond, more reach, more fundraising.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- 09 MEASUREMENT -->
+  <section class="block reveal" aria-labelledby="s9">
+    <p class="block-label">09 · <span class="pt">Mensuração</span><span class="en" lang="en">Measurement</span></p>
+    <h2 id="s9">
+      <span class="pt">O que eu mediria: o <span class="accent">framework de KPIs</span></span>
+      <span class="en" lang="en">What I would measure: the <span class="accent">KPI framework</span></span>
+    </h2>
+    <div class="grid-4">
+      <div class="mini-card">
+        <h3 class="mini-title"><span class="pt">Topo · Alcance</span><span class="en" lang="en">Top · Reach</span></h3>
+        <p><span class="pt">Audiência mobilizada por convidado, novos contatos, custo por lead.</span><span class="en" lang="en">Audience mobilized per guest, new contacts, cost per lead.</span></p>
+      </div>
+      <div class="mini-card">
+        <h3 class="mini-title"><span class="pt">Meio · Engajamento</span><span class="en" lang="en">Middle · Engagement</span></h3>
+        <p><span class="pt">Interação nas redes, audiência da Boa Vontade TV, respostas à pesquisa.</span><span class="en" lang="en">Social media interaction, Boa Vontade TV audience, survey responses.</span></p>
+      </div>
+      <div class="mini-card">
+        <h3 class="mini-title"><span class="pt">Ação · Conversão</span><span class="en" lang="en">Action · Conversion</span></h3>
+        <p><span class="pt">Aceite de convite, conversão em Defensores, livros arrecadados.</span><span class="en" lang="en">Invitation acceptance, conversion to Defenders, books collected.</span></p>
+      </div>
+      <div class="mini-card">
+        <h3 class="mini-title"><span class="pt">Fundo · Retenção</span><span class="en" lang="en">Bottom · Retention</span></h3>
+        <p><span class="pt">Renovação de parcerias, recorrência de doação e indicações.</span><span class="en" lang="en">Partnership renewals, recurring donations and referrals.</span></p>
+      </div>
+    </div>
+    <div class="note-bar">
+      <p>
+        <span class="pt">Consolidado em dashboard único: alcance, engajamento, conversão e retenção em uma só visão.</span>
+        <span class="en" lang="en">Consolidated in a single dashboard: reach, engagement, conversion and retention in one view.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- 10 CLOSING -->
+  <section class="block reveal" aria-labelledby="s10">
+    <p class="block-label">10 · <span class="pt">Encerramento</span><span class="en" lang="en">Closing</span></p>
+    <h2 id="s10">
+      <span class="pt">O que este case <span class="accent">demonstra</span></span>
+      <span class="en" lang="en">What this case <span class="accent">demonstrates</span></span>
+    </h2>
+    <div class="takeaways">
+      <div class="takeaway">
+        <h3><span class="pt">Prospecção híbrida</span><span class="en" lang="en">Hybrid prospecting</span></h3>
+        <p><span class="pt">Ação social desenhada como canal de aquisição qualificada.</span><span class="en" lang="en">A social action designed as a qualified acquisition channel.</span></p>
+      </div>
+      <div class="takeaway">
+        <h3><span class="pt">Funil &amp; ciclo de vida</span><span class="en" lang="en">Funnel &amp; lifecycle</span></h3>
+        <p><span class="pt">Do tour à recorrência, com KPI em cada estágio.</span><span class="en" lang="en">From tour to recurrence, with a KPI at every stage.</span></p>
+      </div>
+      <div class="takeaway">
+        <h3><span class="pt">Cadência editorial</span><span class="en" lang="en">Editorial cadence</span></h3>
+        <p><span class="pt">Calendário literário como motor de conteúdo o ano todo.</span><span class="en" lang="en">The literary calendar as a year-round content engine.</span></p>
+      </div>
+      <div class="takeaway">
+        <h3><span class="pt">Impacto &amp; captação</span><span class="en" lang="en">Impact &amp; fundraising</span></h3>
+        <p><span class="pt">Valor social e receita crescendo na mesma operação.</span><span class="en" lang="en">Social value and revenue growing in the same operation.</span></p>
+      </div>
+    </div>
+    <div class="insight-box">
+      <p>
+        <span class="pt">Transformar cada ação em relacionamento, e cada relacionamento em recurso.</span>
+        <span class="en" lang="en">Turning every action into a relationship, and every relationship into resources.</span>
+      </p>
+    </div>
+  </section>
+
+  <nav class="case-nav" aria-label="Navegação entre cases">
+    <a class="case-nav-link prev" href="case-abrindo-caminhos.html">
+      <span class="case-nav-dir"><span class="pt">← Case anterior</span><span class="en" lang="en">← Previous case</span></span>
+      <span class="case-nav-title">Abrindo Caminhos</span>
+    </a>
+    <a class="case-nav-link next" href="case-sql-01.html">
+      <span class="case-nav-dir"><span class="pt">Próximo case →</span><span class="en" lang="en">Next case →</span></span>
+      <span class="case-nav-title">SQL 01 · <span class="pt">Filtros e Qualificação</span><span class="en" lang="en">Filters and Qualification</span></span>
+    </a>
+    <a class="case-nav-link all" href="portfolio.html">
+      <span class="case-nav-title"><span class="pt">Ver todos os cases</span><span class="en" lang="en">View all cases</span></span>
+    </a>
+  </nav>
+
+</main>
+
+<footer>
+  <div class="footer-name">Danilo Campos Espeleta</div>
+  <div class="footer-info">
+    <span>São Paulo / SP</span>
+    <a href="mailto:daniloespeleta@gmail.com">daniloespeleta@gmail.com</a>
+    <a href="https://www.linkedin.com/in/daniloespeleta" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/daniloespeleta" target="_blank" rel="noopener">GitHub</a>
+    <span>© <span id="year">2026</span></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+/* ---- language (persisted; syncs <html lang>, buttons, CV links) ---- */
+var CV={pt:'CV/DE-Curriculo.pdf',en:'CV/DE-Resume.pdf'};
+var langButtons=document.querySelectorAll('.lang-switch button');
+function setLang(lang){
+  document.body.classList.remove('lang-pt','lang-en');
+  document.body.classList.add('lang-'+lang);
+  document.documentElement.lang=(lang==='en')?'en':'pt-BR';
+  langButtons.forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.lang===lang));});
+  document.querySelectorAll('a.cv-link').forEach(function(a){a.setAttribute('href',CV[lang]);});
+  try{localStorage.setItem('lang',lang);}catch(e){}
+}
+langButtons.forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.lang);});});
+var saved=null;try{saved=localStorage.getItem('lang');}catch(e){}
+if(saved==='en'||saved==='pt')setLang(saved);
+
+/* ---- mobile sidebar ---- */
+var menuBtn=document.querySelector('.menu-btn'),sidebar=document.getElementById('sidebar'),
+    overlay=document.getElementById('sidebarOverlay'),closeBtn=document.querySelector('.sidebar-close');
+function openSb(){sidebar.classList.add('open');overlay.classList.add('open');menuBtn.setAttribute('aria-expanded','true');}
+function closeSb(){sidebar.classList.remove('open');overlay.classList.remove('open');menuBtn.setAttribute('aria-expanded','false');}
+if(menuBtn){
+  menuBtn.addEventListener('click',openSb);
+  closeBtn.addEventListener('click',closeSb);
+  overlay.addEventListener('click',closeSb);
+  sidebar.addEventListener('click',function(e){if(e.target.closest('a'))closeSb();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&sidebar.classList.contains('open')){closeSb();menuBtn.focus();}});
+}
+
+/* ---- reading progress ---- */
+var bar=document.querySelector('.progress');
+if(bar){
+  var onScroll=function(){
+    var h=document.documentElement,max=h.scrollHeight-h.clientHeight;
+    bar.style.width=(max>0?(h.scrollTop/max)*100:0)+'%';
+  };
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+}
+
+/* ---- scroll reveal ---- */
+var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var revealEls=document.querySelectorAll('.reveal');
+if('IntersectionObserver' in window&&!reduce&&revealEls.length){
+  var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});},{threshold:.12});
+  revealEls.forEach(function(el){io.observe(el);});
+}else{revealEls.forEach(function(el){el.classList.add('in');});}
+
+/* ---- animated counters ([data-count]) ---- */
+var counters=document.querySelectorAll('[data-count]');
+function animate(el){
+  var target=parseFloat(el.dataset.count),pre=el.dataset.prefix||'',suf=el.dataset.suffix||'',
+      dec=(el.dataset.count.indexOf('.')>-1)?1:0,start=null,dur=1100;
+  function fmt(v){return pre+v.toFixed(dec).replace('.',document.documentElement.lang==='en'?'.':',')+suf;}
+  if(reduce){el.textContent=fmt(target);return;}
+  function step(ts){if(!start)start=ts;var p=Math.min((ts-start)/dur,1),e=1-Math.pow(1-p,3);
+    el.textContent=fmt(target*e);if(p<1)requestAnimationFrame(step);}
+  requestAnimationFrame(step);
+}
+if('IntersectionObserver' in window&&counters.length){
+  var cio=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){animate(en.target);cio.unobserve(en.target);}});},{threshold:.4});
+  counters.forEach(function(el){cio.observe(el);});
+}else{counters.forEach(animate);}
+
+/* ---- year ---- */
+var y=document.getElementById('year');if(y)y.textContent=new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

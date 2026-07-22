@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio · Danilo Espeleta</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0a;--bg2:#111111;--bg3:#161616;--cyan:#00d4ff;--white:#f0f0ee;--gray:#888884;--gray2:#444440;--border:rgba(255,255,255,0.07)}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:'Barlow',sans-serif;font-weight:300;line-height:1.6;overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 3rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);background:rgba(10,10,10,0.95);backdrop-filter:blur(12px)}
+.nav-left{display:flex;flex-direction:column;gap:0.1rem}
+.nav-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.15rem;letter-spacing:0.06em;color:var(--white)}
+.nav-role{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--cyan);letter-spacing:0.1em;text-transform:uppercase}
+.nav-right{display:flex;align-items:center;gap:1.5rem}
+.nav-links{display:flex;gap:1.5rem;align-items:center}
+.nav-links a{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--gray);text-decoration:none;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s}
+.nav-links a:hover{color:var(--cyan)}
+.dropdown{position:relative}
+.dropdown-btn{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--gray);letter-spacing:0.1em;text-transform:uppercase;background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;padding:0}
+.dropdown-btn:hover{color:var(--cyan)}
+.dropdown-btn::after{content:'▾';font-size:0.6rem}
+.dropdown-menu{position:absolute;top:100%;right:0;padding-top:0.75rem;background:transparent;min-width:140px;display:none;flex-direction:column;z-index:200}
+.dropdown-menu-inner{background:var(--bg2);border:1px solid var(--border);display:flex;flex-direction:column}
+.dropdown:hover .dropdown-menu{display:flex}
+.dropdown-menu a{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--gray);text-decoration:none;letter-spacing:0.1em;text-transform:uppercase;padding:0.75rem 1rem;border-bottom:1px solid var(--border);transition:all 0.2s}
+.dropdown-menu a:last-child{border-bottom:none}
+.dropdown-menu a:hover{color:var(--cyan);background:var(--bg3)}
+.lang-flag{position:relative}
+.flag-btn{background:none;border:1px solid var(--border);cursor:pointer;padding:4px 8px;display:flex;align-items:center;gap:6px;transition:border-color 0.2s}
+.flag-btn:hover{border-color:var(--cyan)}
+.flag-btn span{font-size:1rem;line-height:1}
+.flag-label{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--gray);letter-spacing:0.1em;text-transform:uppercase}
+.flag-dropdown{position:absolute;top:100%;right:0;padding-top:0.5rem;background:transparent;display:none;flex-direction:column;min-width:110px;z-index:200}
+.flag-dropdown-inner{background:var(--bg2);border:1px solid var(--border);display:flex;flex-direction:column}
+.lang-flag:hover .flag-dropdown{display:flex}
+.flag-option{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--gray);letter-spacing:0.1em;text-transform:uppercase;padding:0.6rem 0.8rem;border-bottom:1px solid var(--border);cursor:pointer;display:flex;align-items:center;gap:8px;background:none;border-left:none;border-right:none;width:100%;text-align:left;transition:all 0.2s}
+.flag-option:last-child{border-bottom:none}
+.flag-option:hover{color:var(--cyan);background:var(--bg3)}
+.flag-option.active{color:var(--cyan)}
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem 4rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--gray)}
+.footer-info{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--gray2);letter-spacing:0.06em}
+.lang-pt .en{display:none}
+.lang-en .pt{display:none}
+
+/* PAGE HEADER */
+.page-header{padding:8rem 4rem 4rem;max-width:1200px;margin:0 auto}
+.page-tag{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--cyan);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:1rem;display:block}
+.page-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:clamp(3rem,6vw,5rem);line-height:0.95;text-transform:uppercase;color:var(--white)}
+.page-title span{color:var(--cyan)}
+.page-sub{margin-top:1rem;font-size:0.95rem;color:var(--gray);max-width:520px;line-height:1.7}
+
+/* SECTION */
+.port-section{padding:3rem 4rem 2rem;max-width:1200px;margin:0 auto}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--cyan);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:2rem;padding-bottom:0.75rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0.75rem}
+.section-label::before{content:'';display:inline-block;width:20px;height:1px;background:var(--cyan)}
+
+/* CARDS GRID */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--border);margin-bottom:4rem}
+.card{background:var(--bg2);padding:2rem;text-decoration:none;display:flex;flex-direction:column;gap:1rem;transition:background 0.2s;cursor:pointer;position:relative;overflow:hidden}
+.card::after{content:'→';position:absolute;top:1.5rem;right:1.5rem;font-size:1rem;color:var(--cyan);opacity:0;transition:opacity 0.2s,transform 0.2s;transform:translateX(-4px)}
+.card:hover{background:var(--bg3)}
+.card:hover::after{opacity:1;transform:translateX(0)}
+.card-num{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--cyan);letter-spacing:0.15em;text-transform:uppercase}
+.card-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.3rem;text-transform:uppercase;color:var(--white);line-height:1.1;padding-right:2rem}
+.card-desc{font-size:0.85rem;color:var(--gray);line-height:1.65}
+.card-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:auto;padding-top:0.5rem}
+.card-tag{font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:var(--cyan);border:1px solid rgba(0,212,255,0.2);padding:3px 8px;letter-spacing:0.08em;text-transform:uppercase}
+.card-soon{opacity:0.4;cursor:default}
+.card-soon::after{display:none}
+.soon-badge{font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:var(--gray2);letter-spacing:0.1em;text-transform:uppercase;margin-top:auto;padding-top:0.5rem}
+
+/* FEATURED CARD (Fênix) */
+.card-featured{grid-column:1/-1;background:var(--bg2);padding:2.5rem;border-left:3px solid var(--cyan)}
+.card-featured .card-title{font-size:1.8rem}
+
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem}
+  .page-header{padding:6rem 1.5rem 3rem}
+  .port-section{padding:2rem 1.5rem}
+  .cards-grid{grid-template-columns:1fr}
+  footer{padding:1.5rem;flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body class="lang-pt">
+
+<nav>
+  <div class="nav-left">
+    <div class="nav-name">Danilo Espeleta</div>
+    <div class="nav-role"><span class="pt">Líder em CRM & Lifecycle Marketing</span><span class="en">CRM & Lifecycle Marketing Leader</span></div>
+  </div>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="index.html"><span class="pt">Início</span><span class="en">Home</span></a>
+      <a href="#" onclick="openCV(event)"><span class="pt">Currículo</span><span class="en">Resume</span></a>
+      <div class="dropdown">
+        <button class="dropdown-btn">More</button>
+        <div class="dropdown-menu">
+          <div class="dropdown-menu-inner">
+            <a href="portfolio.html">Portfolio</a>
+            <a href="blog.html" target="_blank">Blog</a>
+            <a href="contact.html" target="_blank"><span class="pt">Contato</span><span class="en">Contact</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="lang-flag">
+      <button class="flag-btn"><span id="flag-icon">🇧🇷</span><span class="flag-label" id="flag-label">PT</span></button>
+      <div class="flag-dropdown">
+        <div class="flag-dropdown-inner">
+          <button class="flag-option active" onclick="setLang('pt')">🇧🇷 Português</button>
+          <button class="flag-option" onclick="setLang('en')">🇺🇸 English</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <span class="page-tag pt">Portfólio</span>
+  <span class="page-tag en">Portfolio</span>
+  <h1 class="page-title pt">Projetos &<br><span>Casos</span></h1>
+  <h1 class="page-title en">Projects &<br><span>Cases</span></h1>
+  <p class="page-sub pt">Trabalhos reais, dados reais, resultados mensuráveis. Cada caso documenta o raciocínio por trás das decisões, não apenas os números.</p>
+  <p class="page-sub en">Real work, real data, measurable results. Each case documents the reasoning behind decisions, not just the numbers.</p>
+</div>
+
+<!-- PROJETOS -->
+<div class="port-section">
+  <div class="section-label pt">Projetos</div>
+  <div class="section-label en">Projects</div>
+  <div class="cards-grid">
+    <a href="case-fenix.html" class="card card-featured">
+      <span class="card-num pt">Projeto 01 · Fênix Educação</span>
+      <span class="card-num en">Project 01 · Fênix Educação</span>
+      <div class="card-title pt">CRM Turnaround em base de 50K+ leads</div>
+      <div class="card-title en">CRM Turnaround on a 50K+ lead database</div>
+      <div class="card-desc pt">Base desengajada, disparo em massa, zero segmentação. Operação reconstruída do zero com automação comportamental, régua de ciclo de vida e resultado em 1-2 meses.</div>
+      <div class="card-desc en">Disengaged base, mass blasting, zero segmentation. Operation rebuilt from scratch with behavioral automation, lifecycle logic and results in 1-2 months.</div>
+      <div class="card-tags">
+        <span class="card-tag">RD Station</span>
+        <span class="card-tag">Lead Scoring</span>
+        <span class="card-tag">A/B Testing</span>
+        <span class="card-tag">Power BI</span>
+        <span class="card-tag pt">Segmentação comportamental</span>
+        <span class="card-tag en">Behavioral segmentation</span>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- CASOS SQL -->
+<div class="port-section">
+  <div class="section-label">SQL</div>
+  <div class="cards-grid">
+    <a href="case-sql-01.html" class="card">
+      <span class="card-num">SQL · Caso 01</span>
+      <div class="card-title pt">Filtros e Qualificação de Leads</div>
+      <div class="card-title en">Filters and Lead Qualification</div>
+      <div class="card-desc pt">Estrutura de filtros que isola SQLs com base em cargo, score de intenção e status. Redução de 40% no tempo de prospecção.</div>
+      <div class="card-desc en">Filter structure that isolates SQLs based on role, intent score and status. 40% reduction in prospecting time.</div>
+      <div class="card-tags"><span class="card-tag">WHERE</span><span class="card-tag">LIKE</span><span class="card-tag">AND/OR</span></div>
+    </a>
+    <a href="case-sql-02.html" class="card">
+      <span class="card-num">SQL · Caso 02</span>
+      <div class="card-title pt">Lógica de Precedência</div>
+      <div class="card-title en">Precedence Logic</div>
+      <div class="card-desc pt">Query de auditoria com lógica booleana para recuperar leads VIP inativos há mais de 30 dias. 15 novas oportunidades abertas.</div>
+      <div class="card-desc en">Audit query with boolean logic to recover VIP leads inactive for over 30 days. 15 new opportunities opened.</div>
+      <div class="card-tags"><span class="card-tag">AND/OR</span><span class="card-tag">WHERE</span><span class="card-tag">Score</span></div>
+    </a>
+    <a href="case-sql-03.html" class="card">
+      <span class="card-num">SQL · Caso 03</span>
+      <div class="card-title pt">Visão 360° de Customer Success</div>
+      <div class="card-title en">360° Customer Success View</div>
+      <div class="card-desc pt">LEFT JOIN com IS NULL para identificar clientes sem ativação. Redução de 15 dias no tempo de onboarding.</div>
+      <div class="card-desc en">LEFT JOIN with IS NULL to identify clients without activation. 15-day reduction in onboarding time.</div>
+      <div class="card-tags"><span class="card-tag">LEFT JOIN</span><span class="card-tag">IS NULL</span><span class="card-tag">LTV</span></div>
+    </a>
+    <a href="case-sql-04.html" class="card">
+      <span class="card-num">SQL · Caso 04</span>
+      <div class="card-title pt">Agregação de Funil</div>
+      <div class="card-title en">Funnel Aggregation</div>
+      <div class="card-desc pt">Análise volumétrica por estágio do pipeline. Identificou gargalo crítico em "Proposta Enviada" e gerou automação de documentos.</div>
+      <div class="card-desc en">Volumetric analysis by pipeline stage. Identified critical bottleneck at "Proposal Sent" and triggered document automation.</div>
+      <div class="card-tags"><span class="card-tag">COUNT</span><span class="card-tag">GROUP BY</span><span class="card-tag">ORDER BY</span></div>
+    </a>
+    <a href="case-sql-05.html" class="card">
+      <span class="card-num">SQL · Caso 05</span>
+      <div class="card-title pt">Ticket Médio por Segmento</div>
+      <div class="card-title en">Average Ticket by Segment</div>
+      <div class="card-desc pt">AVG() agrupado por setor para identificar indústrias mais lucrativas. Tecnologia 40% acima da média, definindo foco de expansão.</div>
+      <div class="card-desc en">AVG() grouped by sector to identify most profitable industries. Technology 40% above average, defining expansion focus.</div>
+      <div class="card-tags"><span class="card-tag">AVG</span><span class="card-tag">GROUP BY</span><span class="card-tag">ROUND</span></div>
+    </a>
+  </div>
+</div>
+
+<!-- CASOS PYTHON -->
+<div class="port-section">
+  <div class="section-label">Python</div>
+  <div class="cards-grid">
+    <div class="card card-soon"><span class="card-num">Python · Caso 01</span><div class="card-title pt">Segmentação RFM</div><div class="card-title en">RFM Segmentation</div><div class="card-desc pt">Classificação da base por Recência, Frequência e Valor para priorização de ações de retenção e upsell.</div><div class="card-desc en">Base classification by Recency, Frequency and Value to prioritize retention and upsell actions.</div><div class="soon-badge pt">Em breve</div><div class="soon-badge en">Coming soon</div></div>
+    <div class="card card-soon"><span class="card-num">Python · Caso 02</span><div class="card-title pt">Previsão de Churn</div><div class="card-title en">Churn Prediction</div><div class="card-desc pt">Modelo preditivo para identificar leads e clientes com alta probabilidade de abandono antes que aconteça.</div><div class="card-desc en">Predictive model to identify leads and customers with high dropout probability before it happens.</div><div class="soon-badge pt">Em breve</div><div class="soon-badge en">Coming soon</div></div>
+    <div class="card card-soon"><span class="card-num">Python · Caso 03</span><div class="card-title pt">Lead Scoring</div><div class="card-title en">Lead Scoring</div><div class="card-desc pt">Sistema de pontuação comportamental automatizado para qualificação e priorização do pipeline comercial.</div><div class="card-desc en">Automated behavioral scoring system for commercial pipeline qualification and prioritization.</div><div class="soon-badge pt">Em breve</div><div class="soon-badge en">Coming soon</div></div>
+    <div class="card card-soon"><span class="card-num">Python · Caso 04</span><div class="card-title pt">Análise de Lifecycle</div><div class="card-title en">Lifecycle Analysis</div><div class="card-desc pt">Mapeamento do ciclo de vida do cliente com identificação de padrões de engajamento e pontos de queda.</div><div class="card-desc en">Customer lifecycle mapping with identification of engagement patterns and drop-off points.</div><div class="soon-badge pt">Em breve</div><div class="soon-badge en">Coming soon</div></div>
+    <div class="card card-soon"><span class="card-num">Python · Caso 05</span><div class="card-title pt">Análise Cohort</div><div class="card-title en">Cohort Analysis</div><div class="card-desc pt">Acompanhamento longitudinal de grupos de leads por período de entrada para medir retenção real ao longo do tempo.</div><div class="card-desc en">Longitudinal tracking of lead groups by entry period to measure real retention over time.</div><div class="soon-badge pt">Em breve</div><div class="soon-badge en">Coming soon</div></div>
+    <div class="card card-soon"><span class="card-num">Python · Caso 06</span><div class="card-title pt">Teste A/B</div><div class="card-title en">A/B Testing</div><div class="card-desc pt">Estrutura estatística para validação de hipóteses em campanhas, com cálculo de significância e tamanho de amostra.</div><div class="card-desc en">Statistical framework for hypothesis validation in campaigns, with significance calculation and sample sizing.</div><div class="soon-badge pt">Em breve</div><div class="soon-badge en">Coming soon</div></div>
+    <div class="card card-soon"><span class="card-num">Python · Caso 07</span><div class="card-title pt">Dashboard</div><div class="card-title en">Dashboard</div><div class="card-desc pt">Painel interativo de métricas de CRM e lifecycle com visualizações dinâmicas para tomada de decisão.</div><div class="card-desc en">Interactive CRM and lifecycle metrics dashboard with dynamic visualizations for decision making.</div><div class="soon-badge pt">Em breve</div><div class="soon-badge en">Coming soon</div></div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-name">Danilo Campos Espeleta</div>
+  <div class="footer-info">São Paulo / SP · daniloespeleta@gmail.com · +55 11 92178-6184</div>
+</footer>
+
+<script>
+const CV_PT='DE-Curriculo.pdf';
+const CV_EN='DE-Resume.pdf';
+function openCV(e){e.preventDefault();const lang=document.body.classList.contains('lang-en')?'en':'pt';window.open(lang==='en'?CV_EN:CV_PT,'_blank')}
+function setLang(lang){document.body.className='lang-'+lang;document.getElementById('flag-icon').textContent=lang==='pt'?'🇧🇷':'🇺🇸';document.getElementById('flag-label').textContent=lang==='pt'?'PT':'EN';document.querySelectorAll('.flag-option').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.flag-option')[lang==='pt'?0:1].classList.add('active')}
+</script>
+</body>
+</html>

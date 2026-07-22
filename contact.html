@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contato · Danilo Espeleta</title>
+<meta name="description" content="Fale com Danilo Espeleta, CRM &amp; Lifecycle Marketing em São Paulo. E-mail, WhatsApp, LinkedIn ou mensagem direta.">
+<meta name="author" content="Danilo Espeleta">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Contato · Danilo Espeleta">
+<meta property="og:description" content="Fale com Danilo Espeleta, CRM &amp; Lifecycle Marketing em São Paulo.">
+<meta property="og:url" content="https://espeledata.com/contact.html">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg:#0a0a0a; --bg2:#111113; --bg3:#17171a;
+  --cyan:#00d4ff;
+  --white:#f0f0ee; --gray:#a3a39d; --gray2:#888882;
+  --border:rgba(255,255,255,0.08);
+  --sans:'Barlow',system-ui,sans-serif;
+  --cond:'Barlow Condensed',var(--sans);
+  --mono:'JetBrains Mono',Consolas,monospace;
+  --max:1100px;
+}
+/* ============ BASE ============ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-padding-top:5.5rem}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{background:var(--bg);color:var(--white);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+a{color:var(--cyan)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:2px}
+.visually-hidden{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.skip-link{position:absolute;left:1rem;top:-4rem;z-index:300;background:var(--cyan);color:#00232b;font-weight:600;padding:.6rem 1rem;text-decoration:none;transition:top .15s}
+.skip-link:focus{top:1rem}
+.lang-pt .en{display:none!important}
+.lang-en .pt{display:none!important}
+
+/* ============ NAV ============ */
+.site-nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.8rem 2rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;border-bottom:1px solid var(--border);background:rgba(10,10,10,0.92);backdrop-filter:blur(12px)}
+.brand{display:flex;flex-direction:column;gap:.1rem;text-decoration:none}
+.brand-name{font-family:var(--cond);font-weight:700;font-size:1.1rem;letter-spacing:.06em;color:var(--white);text-transform:uppercase}
+.brand-role{font-family:var(--mono);font-size:.6rem;color:var(--cyan);letter-spacing:.12em;text-transform:uppercase}
+.nav-right{display:flex;align-items:center;gap:1.4rem}
+.nav-links{display:flex;gap:1.4rem;align-items:center}
+.nav-links a{font-family:var(--mono);font-size:.68rem;color:var(--gray);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;padding:.3rem 0}
+.nav-links a:hover,.nav-links a[aria-current="page"]{color:var(--cyan)}
+.lang-switch{display:flex;border:1px solid var(--border)}
+.lang-switch button{background:none;border:none;color:var(--gray);cursor:pointer;font-family:var(--mono);font-size:.65rem;font-weight:500;letter-spacing:.1em;padding:.4rem .7rem}
+.lang-switch button+button{border-left:1px solid var(--border)}
+.lang-switch button[aria-pressed="true"]{background:var(--cyan);color:#00232b}
+.menu-btn{display:none;font-family:var(--mono);font-size:.68rem;color:var(--white);background:none;border:1px solid var(--border);padding:.45rem .9rem;cursor:pointer;letter-spacing:.12em;text-transform:uppercase;transition:all .2s}
+.menu-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:260;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.sidebar-overlay.open{opacity:1;visibility:visible}
+.sidebar{position:fixed;top:0;right:-290px;width:290px;height:100vh;background:var(--bg2);border-left:1px solid var(--border);z-index:270;transition:right .28s;padding:4.5rem 2rem 2rem;display:flex;flex-direction:column;overflow-y:auto}
+.sidebar.open{right:0}
+.sidebar-close{position:absolute;top:1.1rem;right:1.1rem;background:none;border:1px solid var(--border);color:var(--gray);font-size:1rem;line-height:1;cursor:pointer;font-family:var(--mono);padding:.4rem .6rem}
+.sidebar-close:hover{color:var(--cyan);border-color:var(--cyan)}
+.sidebar a{font-family:var(--mono);font-size:.78rem;color:var(--gray);text-decoration:none;letter-spacing:.12em;text-transform:uppercase;padding:1rem 0;border-bottom:1px solid var(--border);transition:color .2s;display:block}
+.sidebar a:hover,.sidebar a[aria-current="page"]{color:var(--cyan)}
+.sidebar .lang-switch{margin-top:1.5rem;align-self:flex-start}
+@media(max-width:900px){
+  .site-nav{padding:.75rem 1.25rem}
+  .brand-role{display:none}
+  .nav-right .nav-links,.nav-right .lang-switch{display:none}
+  .menu-btn{display:block}
+}
+
+/* ============ HERO BAND ============ */
+.contact-hero{padding-top:4.6rem}
+.hero-band{background:var(--bg2);border-bottom:1px solid var(--border);padding:3.4rem 0;overflow:hidden;position:relative}
+.hero-band-inner{max-width:var(--max);margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+.hero-label{font-family:var(--mono);font-size:.65rem;color:var(--cyan);letter-spacing:.2em;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.hero-label::before{content:'→'}
+.hero-title{font-family:var(--cond);font-weight:800;font-size:clamp(4rem,11vw,8rem);line-height:.88;text-transform:uppercase;color:var(--white)}
+.hero-title .accent{color:var(--cyan)}
+.accent-block{position:absolute;left:0;bottom:0;width:38%;height:100%;background:rgba(0,212,255,0.06);border-right:2px solid rgba(0,212,255,0.22);z-index:0}
+
+/* ============ BODY ============ */
+.contact-body{max-width:var(--max);margin:0 auto;padding:4.5rem 1.5rem 6rem;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+@media(max-width:900px){.contact-body{grid-template-columns:1fr;gap:3rem;padding:3rem 1.5rem 4.5rem}}
+.section-label{font-family:var(--mono);font-size:.62rem;color:var(--cyan);letter-spacing:.2em;text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:.5rem}
+.section-label::before{content:'→'}
+.contact-heading{font-family:var(--cond);font-weight:800;font-size:clamp(2rem,4vw,3.2rem);line-height:1;text-transform:uppercase;color:var(--white);margin-bottom:2rem}
+.contact-heading .accent{color:var(--cyan)}
+.contact-desc{font-size:.95rem;color:var(--gray);line-height:1.9;margin-bottom:2rem;max-width:52ch}
+.contact-email-block{border:1px solid var(--border);border-left:3px solid var(--cyan);padding:1.25rem 1.5rem;background:var(--bg2);margin-bottom:2.5rem}
+.email-label{font-family:var(--mono);font-size:.6rem;color:var(--cyan);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.4rem}
+.email-addr{font-family:var(--mono);font-size:.9rem;color:var(--white);text-decoration:none;transition:color .2s;word-break:break-all}
+.email-addr:hover{color:var(--cyan)}
+.contact-links{display:flex;gap:1rem;flex-wrap:wrap}
+.contact-link-btn{font-family:var(--mono);font-size:.65rem;color:var(--gray);letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border:1px solid var(--border);padding:.7rem 1.2rem;transition:all .2s;display:inline-flex;align-items:center;gap:.55rem}
+.contact-link-btn:hover{color:var(--cyan);border-color:var(--cyan)}
+.contact-link-btn svg{width:14px;height:14px;fill:currentColor}
+
+/* form */
+.contact-form{display:flex;flex-direction:column}
+.field-group{margin-bottom:1px}
+.field-group label{font-family:var(--mono);font-size:.58rem;color:var(--cyan);letter-spacing:.12em;text-transform:uppercase;display:block;padding:.7rem 1.25rem 0;background:var(--bg2);border:1px solid var(--border);border-bottom:none}
+.field-group input,.field-group textarea{width:100%;background:var(--bg2);border:1px solid var(--border);border-top:none;color:var(--white);font-family:var(--sans);font-size:.92rem;font-weight:300;padding:.7rem 1.25rem 1rem;outline:none;resize:vertical;transition:border-color .2s,background .2s}
+.field-group input:focus,.field-group textarea:focus{border-color:var(--cyan);background:var(--bg3)}
+.field-group textarea{min-height:150px;line-height:1.7}
+.submit-btn{width:100%;margin-top:1.5rem;background:var(--cyan);color:#00232b;font-family:var(--cond);font-weight:700;font-size:1rem;letter-spacing:.2em;text-transform:uppercase;border:1px solid var(--cyan);padding:1.05rem 2rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.6rem}
+.submit-btn::after{content:'→';font-size:1.05rem}
+.submit-btn:hover{background:#33ddff;border-color:#33ddff}
+.form-note{font-family:var(--mono);font-size:.6rem;color:var(--gray2);letter-spacing:.06em;margin-top:.9rem}
+.hp-field{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+/* ============ FOOTER ============ */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-name{font-family:var(--cond);font-weight:700;font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray)}
+.footer-info{font-family:var(--mono);font-size:.62rem;color:var(--gray2);letter-spacing:.06em;display:flex;flex-wrap:wrap;gap:.4rem 1rem;align-items:center}
+.footer-info a{color:var(--gray);text-decoration:none;transition:color .2s}
+.footer-info a:hover{color:var(--cyan)}
+@media(max-width:640px){footer{flex-direction:column;align-items:flex-start;padding:1.5rem}}
+</style>
+</head>
+<body class="lang-pt">
+
+<a class="skip-link" href="#main"><span class="pt">Pular para o conteúdo</span><span class="en" lang="en">Skip to content</span></a>
+
+<!-- ============ NAV ============ -->
+<nav class="site-nav" aria-label="Principal">
+  <a class="brand" href="index.html">
+    <span class="brand-name">Danilo Espeleta</span>
+    <span class="brand-role">CRM &amp; Lifecycle Marketing</span>
+  </a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="index.html"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
+      <a href="index.html#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
+      <a href="portfolio.html"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
+      <a href="contact.html" aria-current="page"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
+      <a class="cv-link" href="CV/DE-Curriculo.pdf" download><span class="pt">Currículo ↓</span><span class="en" lang="en">Resume ↓</span></a>
+    </div>
+    <div class="lang-switch" role="group" aria-label="Idioma / Language">
+      <button type="button" data-lang="pt" aria-pressed="true">PT</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <button class="menu-btn" aria-expanded="false" aria-controls="sidebar">Menu</button>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="sidebar" id="sidebar" aria-label="Menu">
+  <button class="sidebar-close" aria-label="Fechar menu">✕</button>
+  <a href="index.html"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
+  <a href="index.html#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
+  <a href="portfolio.html"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
+  <a href="contact.html" aria-current="page"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
+  <a class="cv-link" href="CV/DE-Curriculo.pdf" download><span class="pt">Currículo ↓</span><span class="en" lang="en">Resume ↓</span></a>
+  <div class="lang-switch" role="group" aria-label="Idioma / Language">
+    <button type="button" data-lang="pt" aria-pressed="true">PT</button>
+    <button type="button" data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</div>
+
+<main id="main">
+
+  <!-- HERO BAND -->
+  <div class="contact-hero">
+    <div class="hero-band">
+      <div class="accent-block" aria-hidden="true"></div>
+      <div class="hero-band-inner">
+        <p class="hero-label"><span class="pt">Página</span><span class="en" lang="en">Page</span></p>
+        <h1 class="hero-title">
+          <span class="pt">Con<span class="accent">tato</span></span>
+          <span class="en" lang="en">Con<span class="accent">tact</span></span>
+        </h1>
+      </div>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="contact-body">
+
+    <!-- LEFT: intro -->
+    <div class="contact-intro">
+      <p class="section-label"><span class="pt">Vamos conversar</span><span class="en" lang="en">Let's talk</span></p>
+      <h2 class="contact-heading">
+        <span class="pt">Entre em<br><span class="accent">Contato</span></span>
+        <span class="en" lang="en">Get in<br><span class="accent">Touch</span></span>
+      </h2>
+      <p class="contact-desc">
+        <span class="pt">Meu portfólio mostra parte do meu trabalho, mas não tudo. Entre em contato comigo e agende uma conversa para saber mais sobre minha experiência, minhas habilidades e, mais especificamente, como posso contribuir para a sua empresa.</span>
+        <span class="en" lang="en">My portfolio contains some of my work, but not all. Get in touch and schedule a conversation to learn more about my experience, skills, and, more specifically, what I can do for your company.</span>
+      </p>
+
+      <div class="contact-email-block">
+        <div class="email-label">E-mail</div>
+        <a href="mailto:daniloespeleta@gmail.com" class="email-addr">daniloespeleta@gmail.com</a>
+      </div>
+
+      <div class="contact-links">
+        <a href="https://www.linkedin.com/in/daniloespeleta" target="_blank" rel="noopener" class="contact-link-btn">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+        <a href="https://wa.me/5511921786184" target="_blank" rel="noopener" class="contact-link-btn">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp
+        </a>
+        <a href="https://github.com/daniloespeleta" target="_blank" rel="noopener" class="contact-link-btn">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+
+    <!-- RIGHT: form -->
+    <div class="contact-form-wrap">
+      <p class="section-label"><span class="pt">Ou me escreva aqui</span><span class="en" lang="en">Or message me here</span></p>
+
+      <form class="contact-form" id="contactForm" name="contato" method="POST" action="/obrigado.html" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="contato">
+        <p class="hp-field" aria-hidden="true">
+          <label>Não preencha este campo: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+        </p>
+        <div class="field-group">
+          <label for="field-name"><span class="pt">Nome</span><span class="en" lang="en">Name</span></label>
+          <input type="text" id="field-name" name="name" autocomplete="name">
+        </div>
+        <div class="field-group">
+          <label for="field-email">E-mail *</label>
+          <input type="email" id="field-email" name="email" autocomplete="email" required>
+        </div>
+        <div class="field-group">
+          <label for="field-company"><span class="pt">Empresa</span><span class="en" lang="en">Company</span></label>
+          <input type="text" id="field-company" name="company" autocomplete="organization">
+        </div>
+        <div class="field-group">
+          <label for="field-message"><span class="pt">Mensagem *</span><span class="en" lang="en">Message *</span></label>
+          <textarea id="field-message" name="message" required></textarea>
+        </div>
+        <button type="submit" class="submit-btn">
+          <span class="pt">Enviar</span><span class="en" lang="en">Send</span>
+        </button>
+        <p class="form-note">
+          <span class="pt">Sua mensagem chega direto para mim, sem precisar abrir o e-mail.</span>
+          <span class="en" lang="en">Your message reaches me directly, no email app needed.</span>
+        </p>
+      </form>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div class="footer-name">Danilo Campos Espeleta</div>
+  <div class="footer-info">
+    <span>São Paulo / SP</span>
+    <a href="mailto:daniloespeleta@gmail.com">daniloespeleta@gmail.com</a>
+    <a href="https://www.linkedin.com/in/daniloespeleta" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/daniloespeleta" target="_blank" rel="noopener">GitHub</a>
+    <span>© <span id="year">2026</span></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+/* ---- language ---- */
+var CV={pt:'CV/DE-Curriculo.pdf',en:'CV/DE-Resume.pdf'};
+var langButtons=document.querySelectorAll('.lang-switch button');
+function setLang(lang){
+  document.body.classList.remove('lang-pt','lang-en');
+  document.body.classList.add('lang-'+lang);
+  document.documentElement.lang=(lang==='en')?'en':'pt-BR';
+  langButtons.forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.lang===lang));});
+  document.querySelectorAll('a.cv-link').forEach(function(a){a.setAttribute('href',CV[lang]);});
+  try{localStorage.setItem('lang',lang);}catch(e){}
+}
+langButtons.forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.lang);});});
+var saved=null;try{saved=localStorage.getItem('lang');}catch(e){}
+if(saved==='en'||saved==='pt')setLang(saved);
+
+/* ---- mobile sidebar ---- */
+var menuBtn=document.querySelector('.menu-btn'),sidebar=document.getElementById('sidebar'),
+    overlay=document.getElementById('sidebarOverlay'),closeBtn=document.querySelector('.sidebar-close');
+function openSb(){sidebar.classList.add('open');overlay.classList.add('open');menuBtn.setAttribute('aria-expanded','true');}
+function closeSb(){sidebar.classList.remove('open');overlay.classList.remove('open');menuBtn.setAttribute('aria-expanded','false');}
+menuBtn.addEventListener('click',openSb);
+closeBtn.addEventListener('click',closeSb);
+overlay.addEventListener('click',closeSb);
+sidebar.addEventListener('click',function(e){if(e.target.closest('a'))closeSb();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&sidebar.classList.contains('open')){closeSb();menuBtn.focus();}});
+
+/* ---- year ---- */
+var y=document.getElementById('year');if(y)y.textContent=new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

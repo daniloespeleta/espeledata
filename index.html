@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="pt-BR" id="top">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Danilo Espeleta · CRM &amp; Lifecycle Marketing</title>
+<meta name="description" content="Danilo Espeleta, CRM &amp; Lifecycle Marketing em São Paulo. 8+ anos transformando dados em relacionamento e relacionamento em receita: jornadas, automação multicanal, segmentação e análise.">
+<meta name="author" content="Danilo Espeleta">
+<link rel="canonical" href="https://espeledata.com/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Danilo Espeleta · CRM &amp; Lifecycle Marketing">
+<meta property="og:description" content="Estratégia de CRM, automação e ciclo de vida: cases reais e conceituais de segmentação, jornada e captação.">
+<meta property="og:url" content="https://espeledata.com/">
+<meta property="og:image" content="https://espeledata.com/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="pt_BR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Danilo Espeleta · CRM &amp; Lifecycle Marketing">
+<meta name="twitter:description" content="Estratégia de CRM, automação e ciclo de vida: cases reais e conceituais de segmentação, jornada e captação.">
+<meta name="twitter:image" content="https://espeledata.com/og-cover.png">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Danilo Campos Espeleta",
+  "jobTitle": "CRM & Lifecycle Marketing Specialist",
+  "email": "mailto:daniloespeleta@gmail.com",
+  "url": "https://espeledata.com/",
+  "sameAs": [
+    "https://www.linkedin.com/in/daniloespeleta",
+    "https://github.com/daniloespeleta"
+  ],
+  "address": { "@type": "PostalAddress", "addressLocality": "São Paulo", "addressRegion": "SP", "addressCountry": "BR" }
+}
+</script>
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg:#0a0a0a; --bg2:#111113; --bg3:#17171a;
+  --cyan:#00d4ff; --coral:#ff5a47;
+  --white:#f0f0ee; --gray:#a3a39d; --gray2:#888882;
+  --border:rgba(255,255,255,0.08);
+  --sans:'Barlow',system-ui,sans-serif;
+  --cond:'Barlow Condensed',var(--sans);
+  --mono:'JetBrains Mono',Consolas,monospace;
+  --max:1100px;
+}
+/* ============ BASE ============ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-padding-top:5.5rem}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{background:var(--bg);color:var(--white);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--cyan)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:2px}
+.visually-hidden{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.skip-link{position:absolute;left:1rem;top:-4rem;z-index:300;background:var(--cyan);color:#00232b;font-weight:600;padding:.6rem 1rem;text-decoration:none;transition:top .15s}
+.skip-link:focus{top:1rem}
+.lang-pt .en{display:none!important}
+.lang-en .pt{display:none!important}
+
+/* ============ NAV ============ */
+.site-nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.8rem 2rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;border-bottom:1px solid var(--border);background:rgba(10,10,10,0.92);backdrop-filter:blur(12px)}
+.brand{display:flex;flex-direction:column;gap:.1rem;text-decoration:none}
+.brand-name{font-family:var(--cond);font-weight:700;font-size:1.1rem;letter-spacing:.06em;color:var(--white);text-transform:uppercase}
+.brand-role{font-family:var(--mono);font-size:.6rem;color:var(--cyan);letter-spacing:.12em;text-transform:uppercase}
+.nav-right{display:flex;align-items:center;gap:1.4rem}
+.nav-links{display:flex;gap:1.4rem;align-items:center}
+.nav-links a{font-family:var(--mono);font-size:.68rem;color:var(--gray);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;padding:.3rem 0}
+.nav-links a:hover,.nav-links a[aria-current="page"]{color:var(--cyan)}
+.lang-switch{display:flex;border:1px solid var(--border)}
+.lang-switch button{background:none;border:none;color:var(--gray);cursor:pointer;font-family:var(--mono);font-size:.65rem;font-weight:500;letter-spacing:.1em;padding:.4rem .7rem}
+.lang-switch button+button{border-left:1px solid var(--border)}
+.lang-switch button[aria-pressed="true"]{background:var(--cyan);color:#00232b}
+.menu-btn{display:none;font-family:var(--mono);font-size:.68rem;color:var(--white);background:none;border:1px solid var(--border);padding:.45rem .9rem;cursor:pointer;letter-spacing:.12em;text-transform:uppercase;transition:all .2s}
+.menu-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:260;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.sidebar-overlay.open{opacity:1;visibility:visible}
+.sidebar{position:fixed;top:0;right:-290px;width:290px;height:100vh;background:var(--bg2);border-left:1px solid var(--border);z-index:270;transition:right .28s;padding:4.5rem 2rem 2rem;display:flex;flex-direction:column;overflow-y:auto}
+.sidebar.open{right:0}
+.sidebar-close{position:absolute;top:1.1rem;right:1.1rem;background:none;border:1px solid var(--border);color:var(--gray);font-size:1rem;line-height:1;cursor:pointer;font-family:var(--mono);padding:.4rem .6rem}
+.sidebar-close:hover{color:var(--cyan);border-color:var(--cyan)}
+.sidebar a{font-family:var(--mono);font-size:.78rem;color:var(--gray);text-decoration:none;letter-spacing:.12em;text-transform:uppercase;padding:1rem 0;border-bottom:1px solid var(--border);transition:color .2s;display:block}
+.sidebar a:hover{color:var(--cyan)}
+.sidebar .lang-switch{margin-top:1.5rem;align-self:flex-start}
+@media(max-width:900px){
+  .site-nav{padding:.75rem 1.25rem}
+  .brand-role{display:none}
+  .nav-right .nav-links,.nav-right .lang-switch{display:none}
+  .menu-btn{display:block}
+}
+
+/* ============ LAYOUT ============ */
+main section{max-width:var(--max);margin:0 auto;padding:clamp(3.5rem,8vw,6rem) 1.5rem}
+.divider{height:1px;background:var(--border);max-width:var(--max);margin:0 auto}
+.kicker{font-family:var(--mono);font-size:.68rem;color:var(--cyan);letter-spacing:.2em;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:.6rem}
+.kicker::before{content:'→'}
+.section-title{font-family:var(--cond);font-weight:800;font-size:clamp(2.2rem,5vw,3.4rem);line-height:.98;text-transform:uppercase}
+.section-title .accent{color:var(--cyan)}
+.section-sub{margin-top:1rem;color:var(--gray);max-width:580px}
+
+/* ============ HERO ============ */
+.hero{position:relative;overflow:hidden;padding-top:clamp(7rem,14vw,9.5rem)!important}
+#net{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.55}
+.hero-grid{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(2rem,5vw,4rem);align-items:center}
+.hero h1{font-family:var(--cond);font-weight:800;font-size:clamp(2.6rem,6vw,4.4rem);line-height:1;text-transform:uppercase}
+.hero h1 .accent{color:var(--cyan)}
+.hero-sub{margin-top:1.4rem;color:var(--gray);max-width:48ch;font-size:1.02rem}
+.hero-line{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gray2);margin-top:1.6rem;display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
+.hero-line .rot{color:var(--cyan);min-width:12ch;display:inline-block}
+.hero-cta{display:flex;gap:1rem;margin-top:2.2rem;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.7rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:.9rem 1.6rem;text-decoration:none;border:1px solid;transition:all .15s}
+.btn-solid{background:var(--cyan);border-color:var(--cyan);color:#00232b}
+.btn-solid:hover{background:#33ddff;border-color:#33ddff}
+.btn-outline{background:transparent;border-color:var(--border);color:var(--white)}
+.btn-outline:hover{border-color:var(--cyan);color:var(--cyan)}
+.hero-visual{display:flex;justify-content:center}
+.hero-figure{position:relative;width:min(320px,78vw)}
+.hero-figure img{aspect-ratio:340/415;object-fit:cover;object-position:top;width:100%;filter:grayscale(18%) contrast(1.04)}
+.hero-frame{position:absolute;inset:-12px 12px 12px -12px;border:1px solid var(--cyan);opacity:.4;pointer-events:none}
+.hero-figure .monogram{display:none;aspect-ratio:340/415;width:100%;background:var(--bg2);border:1px solid var(--border);align-items:center;justify-content:center;font-family:var(--cond);font-weight:800;font-size:6rem;color:var(--cyan)}
+.hero-figure.img-fallback img{display:none}
+.hero-figure.img-fallback .monogram{display:flex}
+@media (prefers-reduced-motion:no-preference){
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+  .hero-grid>*{animation:fadeUp .6s ease both}
+  .hero-grid>*:last-child{animation-delay:.15s}
+}
+
+/* ============ STATS BAND ============ */
+.stats-band{padding-top:0!important}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border)}
+@media(max-width:760px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+.stat-cell{background:var(--bg2);padding:1.8rem 1.2rem;text-align:center}
+.stat-cell .num{font-family:var(--cond);font-weight:800;font-size:clamp(2rem,4vw,2.8rem);color:var(--cyan);line-height:1;display:block}
+.stat-cell .lbl{font-family:var(--mono);font-size:.6rem;color:var(--gray);letter-spacing:.1em;text-transform:uppercase;margin-top:.6rem;display:block}
+
+/* ============ ABOUT / SKILLS ============ */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2.5rem,6vw,5rem);align-items:stretch}
+@media(max-width:900px){.about-grid{grid-template-columns:1fr}}
+.about-copy{border-left:2px solid var(--cyan);padding-left:1.5rem;margin-top:2rem}
+.about-copy p{color:var(--gray);margin-bottom:1.1rem}
+.about-copy p:last-child{margin-bottom:0}
+.about-copy strong{color:var(--white);font-weight:500}
+.about-actions{display:flex;gap:1rem;margin-top:2.2rem;flex-wrap:wrap}
+.about-side{display:flex;flex-direction:column}
+.tabs{margin-top:2rem}
+.tablist{display:flex;flex-wrap:wrap;gap:1px;background:var(--border);border:1px solid var(--border)}
+.tablist button{flex:1 1 auto;background:var(--bg2);border:none;color:var(--gray);cursor:pointer;font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;padding:.85rem .6rem;transition:all .2s;white-space:nowrap}
+.tablist button:hover{color:var(--cyan)}
+.tablist button[aria-selected="true"]{background:var(--bg3);color:var(--cyan);box-shadow:inset 0 -2px 0 var(--cyan)}
+.tabpanel{border:1px solid var(--border);border-top:none;background:var(--bg2);padding:1.75rem}
+.tabpanel[hidden]{display:none}
+.skill-chips{list-style:none;display:flex;flex-wrap:wrap;gap:.7rem;width:100%}
+.skill-chips li{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;padding:.62rem 1.05rem;border:1px solid var(--border);color:var(--gray)}
+.skill-chips li.hot{border-color:rgba(0,212,255,.45);color:var(--cyan)}
+/* desktop: skills box grows to the last About paragraph (padding-bottom offsets
+   the fixed-height action buttons); chip cluster is enlarged and vertically centered */
+@media(min-width:901px){
+  .about-side{height:100%}
+  .about-side .tabs{flex:1;display:flex;flex-direction:column;padding-bottom:5.3rem}
+  .about-side .tabpanel:not([hidden]){flex:1;display:flex;align-items:center}
+  .about-side .skill-chips{align-content:center;row-gap:.85rem;column-gap:.8rem}
+  .about-side .skill-chips li{font-size:.8rem;padding:.72rem 1.2rem;letter-spacing:.04em}
+}
+
+/* ============ TIMELINE ============ */
+.timeline{margin-top:2.6rem;position:relative;padding-left:1.6rem}
+.timeline::before{content:'';position:absolute;left:5px;top:6px;bottom:6px;width:1px;background:var(--border)}
+.tl-item{position:relative;margin-bottom:1.1rem}
+.tl-item::before{content:'';position:absolute;left:-1.6rem;top:1.45rem;width:11px;height:11px;border-radius:50%;background:var(--bg);border:2px solid var(--cyan)}
+.tl-item.edu::before{border-color:var(--coral)}
+.tl-head{width:100%;display:flex;flex-wrap:wrap;align-items:baseline;gap:.4rem 1rem;background:var(--bg2);border:1px solid var(--border);padding:1.1rem 1.3rem;cursor:pointer;text-align:left;color:var(--white);font:inherit;transition:border-color .2s}
+.tl-head:hover{border-color:rgba(0,212,255,.45)}
+.tl-head[aria-expanded="true"]{border-color:rgba(0,212,255,.45);border-bottom-style:dashed}
+.tl-period{font-family:var(--mono);font-size:.62rem;color:var(--cyan);letter-spacing:.1em;text-transform:uppercase;flex-basis:100%}
+.tl-role{font-family:var(--cond);font-weight:700;font-size:1.15rem;text-transform:uppercase;letter-spacing:.03em}
+.tl-org{font-size:.85rem;color:var(--gray)}
+.tl-head .chev{margin-left:auto;color:var(--gray2);font-family:var(--mono);font-size:.8rem;transition:transform .2s}
+.tl-head[aria-expanded="true"] .chev{transform:rotate(180deg);color:var(--cyan)}
+.tl-body{border:1px solid rgba(0,212,255,.25);border-top:none;background:var(--bg3);padding:1.2rem 1.4rem}
+.tl-body[hidden]{display:none}
+.tl-body ul{list-style:none}
+.tl-body li{font-size:.88rem;color:var(--gray);padding-left:1.2rem;position:relative;margin-bottom:.55rem}
+.tl-body li::before{content:'→';position:absolute;left:0;color:var(--cyan)}
+.tl-body li strong{color:var(--white);font-weight:500}
+
+/* ============ CERTS ============ */
+.certs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-top:2.4rem}
+.cert{background:var(--bg2);padding:1.2rem 1.3rem}
+.cert-name{font-family:var(--cond);font-weight:700;font-size:.98rem;text-transform:uppercase;letter-spacing:.03em;line-height:1.25}
+.cert-org{font-family:var(--mono);font-size:.6rem;color:var(--cyan);letter-spacing:.1em;text-transform:uppercase;margin-top:.45rem;display:block}
+
+/* ============ MANIFESTO ============ */
+.manifesto .manifesto-title{font-family:var(--sans);font-weight:300;font-size:clamp(1.85rem,4.2vw,3.1rem);line-height:1.24;letter-spacing:-.01em;color:var(--white);text-transform:none;max-width:16em}
+.manifesto .manifesto-title b{font-weight:700;color:var(--white)}
+.manifesto-body{margin-top:2.4rem;max-width:56ch}
+.manifesto-body p{color:var(--gray);margin-bottom:1.2rem}
+.manifesto-body p:last-child{margin-bottom:0}
+.manifesto-body .em{color:var(--cyan);font-weight:500}
+.manifesto-cta{margin-top:2.6rem}
+
+/* ============ CASES ============ */
+.cases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:2.6rem}
+@media(max-width:900px){.cases-grid{grid-template-columns:1fr}}
+.case-card{background:var(--bg2);border:1px solid var(--border);display:flex;flex-direction:column;text-decoration:none;transition:transform .2s,border-color .2s;position:relative}
+.case-card:hover{transform:translateY(-4px);border-color:rgba(0,212,255,.35)}
+.case-bar{height:5px}
+.cc-cyan .case-bar{background:var(--cyan)} .cc-coral .case-bar{background:var(--coral)}
+.case-body{padding:1.8rem 1.6rem;display:flex;flex-direction:column;flex:1;gap:.7rem}
+.case-kicker{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase}
+.cc-cyan .case-kicker{color:var(--cyan)} .cc-coral .case-kicker{color:var(--coral)}
+.case-title{font-family:var(--cond);font-weight:700;font-size:1.5rem;line-height:1.05;text-transform:uppercase;color:var(--white)}
+.case-meta{font-family:var(--mono);font-size:.6rem;color:var(--gray2);letter-spacing:.06em;text-transform:uppercase}
+.case-desc{font-size:.87rem;color:var(--gray);flex:1}
+.case-go{font-family:var(--mono);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);display:inline-flex;gap:.5rem;margin-top:.4rem}
+.case-card:hover .case-go .arrow{transform:translateX(4px)}
+.case-go .arrow{transition:transform .2s}
+.cases-cta{margin-top:2.2rem;display:flex;gap:1rem;flex-wrap:wrap}
+
+/* ============ CV DOWNLOAD ============ */
+.cv-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-top:2.6rem;max-width:760px}
+@media(max-width:700px){.cv-grid{grid-template-columns:1fr}}
+.cv-card{border:1px solid var(--border);background:var(--bg2);padding:1.8rem 1.6rem;text-decoration:none;display:flex;flex-direction:column;gap:.6rem;transition:border-color .2s,transform .2s;position:relative;overflow:hidden}
+.cv-card::after{content:'↓';position:absolute;top:1.3rem;right:1.4rem;font-family:var(--mono);font-size:1.1rem;color:var(--cyan);transition:transform .2s}
+.cv-card:hover{border-color:rgba(0,212,255,.45);transform:translateY(-3px)}
+.cv-card:hover::after{transform:translateY(3px)}
+.cv-flag{font-family:var(--mono);font-size:.6rem;color:var(--cyan);letter-spacing:.14em;text-transform:uppercase}
+.cv-name{font-family:var(--cond);font-weight:700;font-size:1.35rem;text-transform:uppercase;color:var(--white);line-height:1.1}
+.cv-note{font-family:var(--mono);font-size:.62rem;color:var(--gray2);letter-spacing:.06em}
+
+/* ============ CONTACT ============ */
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.9rem;margin-top:2.4rem;max-width:820px}
+.contact-item{display:flex;flex-direction:column;gap:.3rem;padding:1.1rem 1.3rem;border:1px solid var(--border);color:var(--white);text-decoration:none;transition:border-color .2s;background:var(--bg2)}
+a.contact-item:hover{border-color:rgba(0,212,255,.45)}
+.contact-label{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan)}
+.contact-value{font-size:.92rem;color:var(--white);word-break:break-word}
+.contact-cta{margin-top:2rem}
+
+/* ============ FOOTER ============ */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-name{font-family:var(--cond);font-weight:700;font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray)}
+.footer-info{font-family:var(--mono);font-size:.62rem;color:var(--gray2);letter-spacing:.06em;display:flex;flex-wrap:wrap;gap:.4rem 1rem;align-items:center}
+.footer-info a{color:var(--gray);text-decoration:none;transition:color .2s}
+.footer-info a:hover{color:var(--cyan)}
+@media(max-width:640px){footer{flex-direction:column;align-items:flex-start;padding:1.5rem}}
+
+/* ============ REVEAL ============ */
+@media (prefers-reduced-motion:no-preference){
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}
+  .reveal.in{opacity:1;transform:none}
+}
+</style>
+</head>
+<body class="lang-pt">
+
+<a class="skip-link" href="#main"><span class="pt">Pular para o conteúdo</span><span class="en" lang="en">Skip to content</span></a>
+
+<!-- ============ NAV ============ -->
+<nav class="site-nav" aria-label="Principal">
+  <a class="brand" href="#top">
+    <span class="brand-name">Danilo Espeleta</span>
+    <span class="brand-role">CRM &amp; Lifecycle Marketing</span>
+  </a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
+      <a href="#trajetoria"><span class="pt">Trajetória</span><span class="en" lang="en">Journey</span></a>
+      <a href="portfolio.html"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
+      <a href="contact.html"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
+      <a class="cv-link" href="CV/DE-Curriculo.pdf" download><span class="pt">Currículo ↓</span><span class="en" lang="en">Resume ↓</span></a>
+    </div>
+    <div class="lang-switch" role="group" aria-label="Idioma / Language">
+      <button type="button" data-lang="pt" aria-pressed="true">PT</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <button class="menu-btn" aria-expanded="false" aria-controls="sidebar">Menu</button>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="sidebar" id="sidebar" aria-label="Menu">
+  <button class="sidebar-close" aria-label="Fechar menu">✕</button>
+  <a href="#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
+  <a href="#trajetoria"><span class="pt">Trajetória</span><span class="en" lang="en">Journey</span></a>
+  <a href="#cases">Cases</a>
+  <a href="portfolio.html"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
+  <a href="contact.html"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
+  <a class="cv-link" href="CV/DE-Curriculo.pdf" download><span class="pt">Currículo ↓</span><span class="en" lang="en">Resume ↓</span></a>
+  <div class="lang-switch" role="group" aria-label="Idioma / Language">
+    <button type="button" data-lang="pt" aria-pressed="true">PT</button>
+    <button type="button" data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</div>
+
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" aria-labelledby="hero-title">
+    <canvas id="net" aria-hidden="true"></canvas>
+    <div class="hero-grid">
+      <div>
+        <p class="kicker">CRM &amp; Lifecycle Marketing</p>
+        <h1 id="hero-title">
+          <span class="pt">Leio linguagem antes de dado.<br><span class="accent">A jornada nasce daí.</span></span>
+          <span class="en" lang="en">I read language before data.<br><span class="accent">The journey starts there.</span></span>
+        </h1>
+        <p class="hero-sub">
+          <span class="pt">Estratégia de CRM, automação multicanal e desenho de ciclo de vida que transformam dados em relacionamento, e relacionamento em receita.</span>
+          <span class="en" lang="en">CRM strategy, multichannel automation and lifecycle design that turn data into relationships, and relationships into revenue.</span>
+        </p>
+        <p class="hero-line" aria-hidden="true">
+          <span>dado →</span><span class="rot" id="rotWord">segmento</span>
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-solid" href="portfolio.html"><span class="pt">Ver portfólio</span><span class="en" lang="en">View portfolio</span></a>
+          <a class="btn btn-outline cv-link" href="CV/DE-Curriculo.pdf" download><span class="pt">Baixar currículo</span><span class="en" lang="en">Download resume</span></a>
+          <a class="btn btn-outline" href="contact.html"><span class="pt">Contato</span><span class="en" lang="en">Get in touch</span></a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <figure class="hero-figure" id="heroFigure">
+          <img src="assets/danilo.jpg"
+               alt="Retrato de Danilo Espeleta, especialista em CRM e Lifecycle Marketing" width="500" height="500"
+               loading="eager" fetchpriority="high"
+               onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='https://daniloespeleta-kchbl.wordpress.com/wp-content/uploads/2026/02/20251120_110957774_ios.jpg'}else{this.closest('.hero-figure').classList.add('img-fallback')}">
+          <div class="monogram" aria-hidden="true">DE</div>
+          <span class="hero-frame" aria-hidden="true"></span>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STATS ============ -->
+  <section class="stats-band" aria-label="Números">
+    <div class="stats-grid reveal">
+      <div class="stat-cell">
+        <span class="num" data-count="8" data-suffix="+">8+</span>
+        <span class="lbl"><span class="pt">Anos de experiência</span><span class="en" lang="en">Years of experience</span></span>
+      </div>
+      <div class="stat-cell">
+        <span class="num" data-count="50" data-suffix="K+">50K+</span>
+        <span class="lbl"><span class="pt">Leads na base gerenciada</span><span class="en" lang="en">Leads in managed base</span></span>
+      </div>
+      <div class="stat-cell">
+        <span class="num" data-count="400" data-prefix="+" data-suffix="%">+400%</span>
+        <span class="lbl"><span class="pt">Taxa de abertura de e-mail</span><span class="en" lang="en">Email open rate increase</span></span>
+      </div>
+      <div class="stat-cell">
+        <span class="num" data-count="500" data-suffix="%">500%</span>
+        <span class="lbl"><span class="pt">Crescimento em participação de eventos</span><span class="en" lang="en">Event attendance growth</span></span>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" role="presentation"></div>
+
+  <!-- ============ ABOUT ============ -->
+  <section id="sobre" aria-labelledby="sobre-title">
+    <div class="about-grid">
+      <div class="reveal">
+        <p class="kicker"><span class="pt">Sobre</span><span class="en" lang="en">About</span></p>
+        <h2 class="section-title" id="sobre-title">
+          <span class="pt">Quem <span class="accent">sou eu</span></span>
+          <span class="en" lang="en">Who <span class="accent">I am</span></span>
+        </h2>
+        <div class="about-copy">
+          <p class="pt">Especialista em CRM que veio das Letras. A ordem importa. Antes do dashboard, antes da régua de automação, vieram anos lendo texto como sistema: o que uma palavra promete, o que uma frase esconde, por que uma mensagem converte e a do lado morre na caixa. Comportamento também é linguagem. E CRM, no fim, é a operação de escutar essa linguagem em escala.</p>
+          <p class="pt">Faço isso de ponta a ponta há mais de oito anos. Na Fênix Educação, reconstruí a operação de CRM do zero para uma base de 50 mil leads: régua de ciclo de vida, lead scoring comportamental, SLAs entre Marketing e Comercial. Deu +20% em matrículas, +400% de open rate, +35% de CTR e 30% a menos de lead desqualificado. Opero a stack inteira, RD Station, Mautic, n8n, Make e Zapier, multicanal em email, WhatsApp, push e SMS, com as métricas de saúde (LTV, Churn, NRR) num Power BI que qualquer um da mesa entende. Não entrego configuração. Entrego jornada que se sustenta no número.</p>
+          <p class="pt">O lugar onde eu rendo mais é o cruzamento: marca virando operação, operação virando relacionamento que dá pra medir. Sem escolher lado. Porque é escolhendo lado que a maioria das operações se perde.</p>
+          <p class="en" lang="en">A CRM specialist who came out of language, not analytics. The order matters. Before the dashboards, before the automation logic, came years of reading text like a system: what a word promises, what a sentence hides, why one message converts and the one beside it dies in the inbox. Behavior is language too. And CRM, in the end, is the work of listening to that language at scale.</p>
+          <p class="en" lang="en">I've done this end to end for eight-plus years. At Fênix Educação, I rebuilt the CRM operation from scratch for a 50K-lead base: lifecycle logic, behavioral lead scoring, SLAs between Marketing and Sales. It drove +20% enrollment, +400% open rate, +35% CTR and 30% fewer unqualified leads. I run the whole stack, RD Station, Mautic, n8n, Make and Zapier, multichannel across email, WhatsApp, push and SMS, with the health metrics (LTV, Churn, NRR) on a Power BI dashboard anyone at the table can read. I don't ship setup. I ship journeys that hold up in the numbers.</p>
+          <p class="en" lang="en">The place I'm sharpest is the crossing: brand becoming operation, operation becoming a relationship you can measure. Without picking a side. Because picking a side is where most operations lose the thread.</p>
+        </div>
+        <div class="about-actions">
+          <a class="btn btn-outline cv-link" href="CV/DE-Curriculo.pdf" download><span class="pt">Baixar currículo</span><span class="en" lang="en">Download resume</span></a>
+          <a class="btn btn-outline" href="portfolio.html"><span class="pt">Ver portfólio</span><span class="en" lang="en">View portfolio</span></a>
+        </div>
+      </div>
+
+      <div class="reveal about-side">
+        <h3 class="visually-hidden"><span class="pt">Competências</span><span class="en" lang="en">Skills</span></h3>
+        <div class="tabs" id="skillTabs">
+          <div class="tablist" role="tablist" aria-label="Competências">
+            <button role="tab" id="tab-1" aria-controls="panel-1" aria-selected="true"><span class="pt">Estratégia</span><span class="en" lang="en">Strategy</span></button>
+            <button role="tab" id="tab-2" aria-controls="panel-2" aria-selected="false" tabindex="-1"><span class="pt">Automação</span><span class="en" lang="en">Automation</span></button>
+            <button role="tab" id="tab-3" aria-controls="panel-3" aria-selected="false" tabindex="-1"><span class="pt">Dados</span><span class="en" lang="en">Data</span></button>
+            <button role="tab" id="tab-4" aria-controls="panel-4" aria-selected="false" tabindex="-1"><span class="pt">IA</span><span class="en" lang="en">AI</span></button>
+          </div>
+          <div class="tabpanel" role="tabpanel" id="panel-1" aria-labelledby="tab-1">
+            <ul class="skill-chips">
+              <li class="hot"><span class="pt">Estratégia de CRM</span><span class="en" lang="en">CRM Strategy</span></li>
+              <li class="hot"><span class="pt">Jornadas de ciclo de vida</span><span class="en" lang="en">Lifecycle journeys</span></li>
+              <li><span class="pt">Segmentação avançada</span><span class="en" lang="en">Advanced segmentation</span></li>
+              <li class="hot">Lead Scoring</li>
+              <li><span class="pt">Retenção &amp; LTV</span><span class="en" lang="en">Retention &amp; LTV</span></li>
+              <li>Growth Marketing</li>
+              <li><span class="pt">SLAs Marketing ↔ Vendas</span><span class="en" lang="en">Marketing ↔ Sales SLAs</span></li>
+              <li><span class="pt">Copywriting para CRM</span><span class="en" lang="en">CRM copywriting</span></li>
+            </ul>
+          </div>
+          <div class="tabpanel" role="tabpanel" id="panel-2" aria-labelledby="tab-2" hidden>
+            <ul class="skill-chips">
+              <li class="hot">RD Station</li>
+              <li class="hot">Mautic</li>
+              <li>Mailchimp</li>
+              <li>HubSpot</li>
+              <li class="hot">n8n</li>
+              <li>Make</li>
+              <li>Zapier</li>
+              <li><span class="pt">APIs &amp; Webhooks</span><span class="en" lang="en">APIs &amp; Webhooks</span></li>
+              <li><span class="pt">E-mail · WhatsApp · Push · SMS</span><span class="en" lang="en">Email · WhatsApp · Push · SMS</span></li>
+            </ul>
+          </div>
+          <div class="tabpanel" role="tabpanel" id="panel-3" aria-labelledby="tab-3" hidden>
+            <ul class="skill-chips">
+              <li class="hot">SQL</li>
+              <li class="hot">Power BI</li>
+              <li>Google Analytics</li>
+              <li>Excel / Google Sheets</li>
+              <li><span class="pt">Dashboards de funil</span><span class="en" lang="en">Funnel dashboards</span></li>
+              <li>Churn · NRR · LTV</li>
+              <li class="hot">A/B Testing</li>
+            </ul>
+          </div>
+          <div class="tabpanel" role="tabpanel" id="panel-4" aria-labelledby="tab-4" hidden>
+            <ul class="skill-chips">
+              <li class="hot"><span class="pt">Claude: análise de segmentos</span><span class="en" lang="en">Claude: segment analysis</span></li>
+              <li><span class="pt">Perplexity: benchmarks</span><span class="en" lang="en">Perplexity: benchmarks</span></li>
+              <li><span class="pt">IA nos fluxos de automação</span><span class="en" lang="en">AI in automation flows</span></li>
+              <li><span class="pt">Síntese de insights</span><span class="en" lang="en">Insight synthesis</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" role="presentation"></div>
+
+  <!-- ============ TIMELINE ============ -->
+  <section id="trajetoria" aria-labelledby="traj-title">
+    <p class="kicker"><span class="pt">Trajetória</span><span class="en" lang="en">Journey</span></p>
+    <h2 class="section-title" id="traj-title">
+      <span class="pt">Do call center <span class="accent">ao lifecycle</span></span>
+      <span class="en" lang="en">From the call center <span class="accent">to lifecycle</span></span>
+    </h2>
+    <p class="section-sub">
+      <span class="pt">Clique em cada etapa para ver as principais entregas.</span>
+      <span class="en" lang="en">Click each step to see the main achievements.</span>
+    </p>
+
+    <div class="timeline reveal">
+
+      <div class="tl-item">
+        <button class="tl-head" aria-expanded="true" aria-controls="tl1">
+          <span class="tl-period"><span class="pt">Desde jul 2022</span><span class="en" lang="en">Since Jul 2022</span></span>
+          <span class="tl-role"><span class="pt">Especialista em CRM e Lifecycle Marketing</span><span class="en" lang="en">CRM &amp; Lifecycle Marketing Specialist</span></span>
+          <span class="tl-org">Fênix Educação · São Paulo</span>
+          <span class="chev" aria-hidden="true">▾</span>
+        </button>
+        <div class="tl-body" id="tl1">
+          <ul>
+            <li><span class="pt">Jornadas de aquisição, onboarding e retenção em base de <strong>50K+ leads</strong> com lead scoring comportamental: <strong>+20% em matrículas</strong>.</span><span class="en" lang="en">Acquisition, onboarding and retention journeys on a <strong>50K+ lead base</strong> with behavioral lead scoring: <strong>+20% enrollment growth</strong>.</span></li>
+            <li><span class="pt"><strong>+400% na taxa de abertura</strong> e engajamento médio de 50% via segmentação avançada e rotina contínua de testes A/B; <strong>+35% de CTR</strong>.</span><span class="en" lang="en"><strong>+400% open rate</strong> and 50% average engagement via advanced segmentation and a continuous A/B testing routine; <strong>+35% CTR</strong>.</span></li>
+            <li><span class="pt"><strong>−30% de leads não qualificados</strong> com automação de qualificação e SLAs definidos entre Marketing e Comercial.</span><span class="en" lang="en"><strong>−30% unqualified leads</strong> with qualification automation and SLAs defined between Marketing and Sales.</span></li>
+            <li><span class="pt">Fluxos multicanal (e-mail, WhatsApp, push, SMS) via Mautic e RD Station; orquestração com n8n, Make e Zapier; IA generativa (Claude, Perplexity) no fluxo operacional.</span><span class="en" lang="en">Multichannel flows (email, WhatsApp, push, SMS) via Mautic and RD Station; orchestration with n8n, Make and Zapier; generative AI (Claude, Perplexity) in the operational flow.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <button class="tl-head" aria-expanded="false" aria-controls="tl2">
+          <span class="tl-period">Abr 2021 a Jul 2022</span>
+          <span class="tl-role"><span class="pt">Analista de Parcerias Estratégicas</span><span class="en" lang="en">Strategic Partnerships Analyst</span></span>
+          <span class="tl-org">Legião da Boa Vontade (LBV) · São Paulo</span>
+          <span class="chev" aria-hidden="true">▾</span>
+        </button>
+        <div class="tl-body" id="tl2" hidden>
+          <ul>
+            <li><span class="pt"><strong>+15% em aquisição de usuários</strong> com campanhas co-branded com influenciadores e celebridades de alto perfil.</span><span class="en" lang="en"><strong>+15% data-driven user acquisition</strong> through co-branded campaigns with high-profile influencers and celebrities.</span></li>
+            <li><span class="pt">Funil de parcerias corporativas de ponta a ponta, garantindo patrocínios B2B de alto valor para grandes projetos promocionais.</span><span class="en" lang="en">End-to-end corporate partnership funnel, securing high-value B2B sponsorships for major promotional projects.</span></li>
+            <li><span class="pt">KPIs de campanha e parâmetros de acompanhamento para avaliar performance de parceiros, alcance e valor de mídia.</span><span class="en" lang="en">Campaign KPIs and tracking parameters to evaluate partner performance, audience reach and media value.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <button class="tl-head" aria-expanded="false" aria-controls="tl3">
+          <span class="tl-period">Mar 2016 a Abr 2019</span>
+          <span class="tl-role"><span class="pt">Gerente de Comunicação e Branding</span><span class="en" lang="en">Communication &amp; Branding Manager</span></span>
+          <span class="tl-org">Monchu Agenciamento, Editora e Eventos · São Paulo</span>
+          <span class="chev" aria-hidden="true">▾</span>
+        </button>
+        <div class="tl-body" id="tl3" hidden>
+          <ul>
+            <li><span class="pt">CRM próprio e pipeline de retenção integrando bases de ticketing com Google Sheets e Mailchimp para dados comportamentais de vários anos.</span><span class="en" lang="en">Custom CRM and retention pipeline integrating ticketing databases with Google Sheets and Mailchimp for multi-year behavioral data.</span></li>
+            <li><span class="pt">Framework RFM com fluxos de reengajamento que escalaram a participação em eventos em <strong>500% (de 500 para 3K+)</strong>.</span><span class="en" lang="en">RFM framework with re-engagement workflows that scaled event attendance by <strong>500% (from 500 to 3K+)</strong>.</span></li>
+            <li><span class="pt">Liderança de equipe de 15 a 20 promotores e estratégia omnichannel que ampliou o alcance orgânico em <strong>+150%</strong>.</span><span class="en" lang="en">Led a 15 to 20 promoter team and an omnichannel strategy that expanded organic reach by <strong>+150%</strong>.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <button class="tl-head" aria-expanded="false" aria-controls="tl4">
+          <span class="tl-period">Jul 2005 a Mar 2012</span>
+          <span class="tl-role"><span class="pt">Coordenador de Telemarketing</span><span class="en" lang="en">Telemarketing Coordinator</span></span>
+          <span class="tl-org">Legião da Boa Vontade (LBV) · São Paulo</span>
+          <span class="chev" aria-hidden="true">▾</span>
+        </button>
+        <div class="tl-body" id="tl4" hidden>
+          <ul>
+            <li><span class="pt"><strong>+25% em novos doadores</strong> e <strong>+20% no ticket médio</strong> com SPIN Selling e coaching contínuo para equipe de 40+ operadores.</span><span class="en" lang="en"><strong>+25% new donors</strong> and <strong>+20% average ticket</strong> with SPIN Selling and continuous coaching for a 40+ operator team.</span></li>
+            <li><span class="pt">Produtividade +15% e AHT −30% com rituais de feedback e KPIs críticos via CRM, Excel e Power BI.</span><span class="en" lang="en">+15% productivity and −30% AHT with feedback rituals and critical KPIs via CRM, Excel and Power BI.</span></li>
+            <li><span class="pt"><strong>−40% de turnover</strong> com cultura de liderança humanizada e onboarding acelerado.</span><span class="en" lang="en"><strong>−40% turnover</strong> with a humanized leadership culture and accelerated onboarding.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-item edu">
+        <button class="tl-head" aria-expanded="false" aria-controls="tl5">
+          <span class="tl-period">2015</span>
+          <span class="tl-role"><span class="pt">Licenciatura: Letras PT &amp; EN</span><span class="en" lang="en">Bachelor of Arts: PT &amp; EN Linguistics and Literature</span></span>
+          <span class="tl-org">PUC-SP · Pontifícia Universidade Católica de São Paulo</span>
+          <span class="chev" aria-hidden="true">▾</span>
+        </button>
+        <div class="tl-body" id="tl5" hidden>
+          <ul>
+            <li><span class="pt">A base em linguagem que hoje sustenta copywriting de CRM, testes A/B de mensagem e comunicação bilíngue.</span><span class="en" lang="en">The language foundation that today underpins CRM copywriting, message A/B testing and bilingual communication.</span></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CERTS -->
+    <h3 class="kicker" style="margin-top:3.5rem"><span class="pt">Certificações</span><span class="en" lang="en">Certifications</span></h3>
+    <div class="certs-grid reveal">
+      <div class="cert"><span class="cert-name">Marketing Psychology: How We Decide</span><span class="cert-org">Oxford Saïd Business School</span></div>
+      <div class="cert"><span class="cert-name">Google Analytics</span><span class="cert-org">Google</span></div>
+      <div class="cert"><span class="cert-name"><span class="pt">Software de Marketing HubSpot</span><span class="en" lang="en">HubSpot Marketing Software</span></span><span class="cert-org">HubSpot Academy</span></div>
+      <div class="cert"><span class="cert-name">Inbound</span><span class="cert-org">HubSpot Academy</span></div>
+      <div class="cert"><span class="cert-name"><span class="pt">Inbound Marketing para Analistas</span><span class="en" lang="en">Inbound Marketing Fundamentals for Analysts</span></span><span class="cert-org">RD Station</span></div>
+      <div class="cert"><span class="cert-name">CRM Sales Dashboard</span><span class="cert-org">Maven Analytics</span></div>
+      <div class="cert"><span class="cert-name">Professional Scrum Product Owner</span><span class="cert-org">Awari</span></div>
+    </div>
+  </section>
+
+  <div class="divider" role="presentation"></div>
+
+  <!-- ============ MANIFESTO ============ -->
+  <section class="manifesto" id="abordagem" aria-labelledby="manifesto-title">
+    <p class="kicker"><span class="pt">Como eu trabalho</span><span class="en" lang="en">How I work</span></p>
+    <h2 class="manifesto-title" id="manifesto-title">
+      <span class="pt">Eu gero <b>impacto</b> desenhando <b>ciclo de vida</b>, onde <b>visão de marca</b> encontra <b>operação de dado</b></span>
+      <span class="en" lang="en">I drive <b>impact</b> by designing <b>lifecycle</b>, where <b>brand vision</b> meets <b>data operation</b></span>
+    </h2>
+    <div class="manifesto-body reveal">
+      <div class="pt">
+        <p>Criatividade e dado não moram em lados opostos. Um lê desejo, o outro lê comportamento, e a jornada que funciona nasce dos dois no mesmo gesto. Faço mais que escrever mensagem que converte: <span class="em">estudo, meço e otimizo em ciclo</span>. Estratégia que dura não vive de intuição. <span class="em">Vive de prova.</span></p>
+        <p>Desafio pra mim é matéria-prima. Encaro, aprendo, reescrevo até a operação ficar de pé. Minha experiência cruza <span class="em">desenho de jornada, segmentação, retenção, automação multicanal</span> e a costura entre marca e dado, entre marketing e comercial.</p>
+        <p>Trabalhar comigo é <span class="em">melhoria contínua com número que dá pra medir</span>. Crescer sem diluir quem a marca é.</p>
+      </div>
+      <div class="en" lang="en">
+        <p>Creativity and data don't live on opposite sides. One reads desire, the other reads behavior, and the journey that works comes from both in the same move. I do more than write copy that converts: <span class="em">I study, measure and optimize on a loop</span>. Strategy that lasts doesn't run on intuition. <span class="em">It runs on proof.</span></p>
+        <p>Challenges are raw material to me. I take them on, learn, rewrite until the operation stands. My experience crosses <span class="em">journey design, segmentation, retention, multichannel automation</span> and the stitching between brand and data, between marketing and sales.</p>
+        <p>Working with me is <span class="em">continuous improvement with numbers you can measure</span>. Growth without diluting who the brand is.</p>
+      </div>
+    </div>
+    <div class="manifesto-cta">
+      <a class="btn btn-outline" href="contact.html"><span class="pt">Fale comigo →</span><span class="en" lang="en">Get in touch →</span></a>
+    </div>
+  </section>
+
+  <div class="divider" role="presentation"></div>
+
+  <!-- ============ CASES ============ -->
+  <section id="cases" aria-labelledby="cases-title">
+    <p class="kicker"><span class="pt">Portfólio · Destaques</span><span class="en" lang="en">Portfolio · Highlights</span></p>
+    <h2 class="section-title" id="cases-title">
+      <span class="pt">CRM &amp; Lifecycle <span class="accent">na prática</span></span>
+      <span class="en" lang="en">CRM &amp; Lifecycle <span class="accent">in practice</span></span>
+    </h2>
+    <p class="section-sub">
+      <span class="pt">Um projeto real de turnaround e dois estudos conceituais de estratégia para o terceiro setor, mais cinco casos de SQL aplicados a marketing no portfólio completo.</span>
+      <span class="en" lang="en">One real turnaround project and two conceptual strategy studies for the nonprofit sector, plus five SQL-for-marketing cases in the full portfolio.</span>
+    </p>
+
+    <div class="cases-grid">
+      <a class="case-card cc-cyan reveal" href="case-fenix.html">
+        <div class="case-bar" aria-hidden="true"></div>
+        <div class="case-body">
+          <span class="case-kicker">Projeto 01 · Fênix Educação</span>
+          <span class="case-title"><span class="pt">CRM Turnaround em base de 50K+ leads</span><span class="en" lang="en">CRM Turnaround on a 50K+ lead base</span></span>
+          <span class="case-meta"><span class="pt">Projeto real · Educação · 2022+</span><span class="en" lang="en">Real project · Education · 2022+</span></span>
+          <span class="case-desc"><span class="pt">Base desengajada, disparo em massa, zero segmentação. Operação reconstruída com automação comportamental e régua de ciclo de vida: resultado em 1-2 meses.</span><span class="en" lang="en">Disengaged base, mass blasting, zero segmentation. Operation rebuilt with behavioral automation and lifecycle logic: results in 1-2 months.</span></span>
+          <span class="case-go"><span class="pt">Ver case</span><span class="en" lang="en">View case</span> <span class="arrow" aria-hidden="true">→</span></span>
+        </div>
+      </a>
+
+      <a class="case-card cc-coral reveal" href="case-abrindo-caminhos.html">
+        <div class="case-bar" aria-hidden="true"></div>
+        <div class="case-body">
+          <span class="case-kicker">Case 01 · CRM &amp; Lifecycle</span>
+          <span class="case-title">Abrindo Caminhos</span>
+          <span class="case-meta"><span class="pt">Case conceitual · Terceiro setor · 2023</span><span class="en" lang="en">Conceptual case · Nonprofit · 2023</span></span>
+          <span class="case-desc"><span class="pt">Segmentação de personas por condição, jornada do doador em 5 estágios e automação multicanal para converter doações pontuais em receita recorrente.</span><span class="en" lang="en">Condition-based persona segmentation, a five-stage donor journey and multichannel automation to turn one-off donations into recurring revenue.</span></span>
+          <span class="case-go"><span class="pt">Ver case</span><span class="en" lang="en">View case</span> <span class="arrow" aria-hidden="true">→</span></span>
+        </div>
+      </a>
+
+      <a class="case-card cc-coral reveal" href="case-boa-leitura.html">
+        <div class="case-bar" aria-hidden="true"></div>
+        <div class="case-body">
+          <span class="case-kicker">Case 02 · <span class="pt">Prospecção híbrida</span><span class="en" lang="en">Hybrid prospecting</span></span>
+          <span class="case-title">Boa Leitura</span>
+          <span class="case-meta"><span class="pt">Case conceitual · Terceiro setor · 2024</span><span class="en" lang="en">Conceptual case · Nonprofit · 2024</span></span>
+          <span class="case-desc"><span class="pt">Projeto de incentivo à leitura desenhado como motor de prospecção: funil de Defensores em 5 estágios e calendário literário como cadência editorial.</span><span class="en" lang="en">A reading-incentive project designed as a prospecting engine: a five-stage Defenders funnel and a literary calendar as editorial cadence.</span></span>
+          <span class="case-go"><span class="pt">Ver case</span><span class="en" lang="en">View case</span> <span class="arrow" aria-hidden="true">→</span></span>
+        </div>
+      </a>
+    </div>
+
+    <div class="cases-cta">
+      <a class="btn btn-solid" href="https://github.com/daniloespeleta" target="_blank" rel="noopener"><span class="pt">Portfólio completo no GitHub (casos SQL)</span><span class="en" lang="en">Full portfolio on GitHub (SQL cases)</span></a>
+    </div>
+  </section>
+
+  <div class="divider" role="presentation"></div>
+
+  <!-- ============ CV ============ -->
+  <section id="cv" aria-labelledby="cv-title">
+    <p class="kicker"><span class="pt">Currículo</span><span class="en" lang="en">Resume</span></p>
+    <h2 class="section-title" id="cv-title">
+      <span class="pt">Baixe o <span class="accent">currículo</span></span>
+      <span class="en" lang="en">Download the <span class="accent">resume</span></span>
+    </h2>
+    <p class="section-sub">
+      <span class="pt">PDF atualizado, em duas versões, escolha o idioma.</span>
+      <span class="en" lang="en">Up-to-date PDF, in two versions, pick your language.</span>
+    </p>
+    <div class="cv-grid">
+      <a class="cv-card reveal" href="CV/DE-Curriculo.pdf" download hreflang="pt-BR">
+        <span class="cv-flag">PT · Português</span>
+        <span class="cv-name"><span class="pt">Currículo em Português</span><span class="en" lang="en">Resume in Portuguese</span></span>
+        <span class="cv-note">DE-Curriculo.pdf · ~100 KB</span>
+      </a>
+      <a class="cv-card reveal" href="CV/DE-Resume.pdf" download hreflang="en">
+        <span class="cv-flag">EN · English</span>
+        <span class="cv-name"><span class="pt">Currículo em Inglês</span><span class="en" lang="en">Resume in English</span></span>
+        <span class="cv-note">DE-Resume.pdf · ~100 KB</span>
+      </a>
+    </div>
+  </section>
+
+  <div class="divider" role="presentation"></div>
+
+  <!-- ============ CONTACT ============ -->
+  <section id="contato" aria-labelledby="contato-title">
+    <p class="kicker"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></p>
+    <h2 class="section-title" id="contato-title">
+      <span class="pt">Vamos <span class="accent">conversar</span></span>
+      <span class="en" lang="en">Let's <span class="accent">talk</span></span>
+    </h2>
+    <address style="font-style:normal">
+      <div class="contact-grid reveal">
+        <a class="contact-item" href="mailto:daniloespeleta@gmail.com">
+          <span class="contact-label">E-mail</span>
+          <span class="contact-value">daniloespeleta@gmail.com</span>
+        </a>
+        <a class="contact-item" href="https://wa.me/5511921786184" target="_blank" rel="noopener">
+          <span class="contact-label">WhatsApp</span>
+          <span class="contact-value">+55 11 92178-6184</span>
+        </a>
+        <a class="contact-item" href="https://www.linkedin.com/in/daniloespeleta" target="_blank" rel="noopener">
+          <span class="contact-label">LinkedIn</span>
+          <span class="contact-value">/in/daniloespeleta</span>
+        </a>
+        <a class="contact-item" href="https://github.com/daniloespeleta" target="_blank" rel="noopener">
+          <span class="contact-label">GitHub</span>
+          <span class="contact-value">/daniloespeleta</span>
+        </a>
+        <div class="contact-item">
+          <span class="contact-label"><span class="pt">Local</span><span class="en" lang="en">Location</span></span>
+          <span class="contact-value">São Paulo / SP · Brasil</span>
+        </div>
+      </div>
+    </address>
+    <div class="contact-cta">
+      <a class="btn btn-outline" href="contact.html"><span class="pt">Ou envie uma mensagem →</span><span class="en" lang="en">Or send a message →</span></a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-name">Danilo Campos Espeleta</div>
+  <div class="footer-info">
+    <span>São Paulo / SP</span>
+    <a href="mailto:daniloespeleta@gmail.com">daniloespeleta@gmail.com</a>
+    <a href="https://www.linkedin.com/in/daniloespeleta" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/daniloespeleta" target="_blank" rel="noopener">GitHub</a>
+    <span>© <span id="year">2026</span></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+/* ---- language (persisted; syncs <html lang>, buttons, CV nav links) ---- */
+var CV={pt:'CV/DE-Curriculo.pdf',en:'CV/DE-Resume.pdf'};
+var langButtons=document.querySelectorAll('.lang-switch button');
+function setLang(lang){
+  document.body.classList.remove('lang-pt','lang-en');
+  document.body.classList.add('lang-'+lang);
+  document.documentElement.lang=(lang==='en')?'en':'pt-BR';
+  langButtons.forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.lang===lang));});
+  document.querySelectorAll('a.cv-link').forEach(function(a){a.setAttribute('href',CV[lang]);});
+  try{localStorage.setItem('lang',lang);}catch(e){}
+}
+langButtons.forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.lang);});});
+var saved=null;try{saved=localStorage.getItem('lang');}catch(e){}
+if(saved==='en'||saved==='pt')setLang(saved);
+
+/* ---- mobile sidebar ---- */
+var menuBtn=document.querySelector('.menu-btn'),sidebar=document.getElementById('sidebar'),
+    overlay=document.getElementById('sidebarOverlay'),closeBtn=document.querySelector('.sidebar-close');
+function openSb(){sidebar.classList.add('open');overlay.classList.add('open');menuBtn.setAttribute('aria-expanded','true');}
+function closeSb(){sidebar.classList.remove('open');overlay.classList.remove('open');menuBtn.setAttribute('aria-expanded','false');}
+menuBtn.addEventListener('click',openSb);
+closeBtn.addEventListener('click',closeSb);
+overlay.addEventListener('click',closeSb);
+sidebar.addEventListener('click',function(e){if(e.target.closest('a'))closeSb();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&sidebar.classList.contains('open')){closeSb();menuBtn.focus();}});
+
+/* ---- reduced motion flag ---- */
+var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---- scroll reveal ---- */
+var revealEls=document.querySelectorAll('.reveal');
+if('IntersectionObserver' in window&&!reduce&&revealEls.length){
+  var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});},{threshold:.12});
+  revealEls.forEach(function(el){io.observe(el);});
+}else{revealEls.forEach(function(el){el.classList.add('in');});}
+
+/* ---- counters ---- */
+var counters=document.querySelectorAll('[data-count]');
+function animate(el){
+  var target=parseFloat(el.dataset.count),pre=el.dataset.prefix||'',suf=el.dataset.suffix||'',start=null,dur=1200;
+  function fmt(v){return pre+Math.round(v)+suf;}
+  if(reduce){el.textContent=fmt(target);return;}
+  function step(ts){if(!start)start=ts;var p=Math.min((ts-start)/dur,1),e=1-Math.pow(1-p,3);
+    el.textContent=fmt(target*e);if(p<1)requestAnimationFrame(step);}
+  requestAnimationFrame(step);
+}
+if('IntersectionObserver' in window&&counters.length){
+  var cio=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){animate(en.target);cio.unobserve(en.target);}});},{threshold:.4});
+  counters.forEach(function(el){cio.observe(el);});
+}else{counters.forEach(animate);}
+
+/* ---- skill tabs (accessible tablist) ---- */
+var tablist=document.querySelector('.tablist');
+if(tablist){
+  var tabs=Array.prototype.slice.call(tablist.querySelectorAll('[role="tab"]'));
+  function selectTab(tab){
+    tabs.forEach(function(t){
+      var sel=t===tab;
+      t.setAttribute('aria-selected',String(sel));
+      t.tabIndex=sel?0:-1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden=!sel;
+    });
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){selectTab(t);});
+    t.addEventListener('keydown',function(e){
+      var ni=null;
+      if(e.key==='ArrowRight')ni=(i+1)%tabs.length;
+      if(e.key==='ArrowLeft')ni=(i-1+tabs.length)%tabs.length;
+      if(e.key==='Home')ni=0;
+      if(e.key==='End')ni=tabs.length-1;
+      if(ni!==null){e.preventDefault();tabs[ni].focus();selectTab(tabs[ni]);}
+    });
+  });
+}
+
+/* ---- timeline expand/collapse ---- */
+document.querySelectorAll('.tl-head').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var open=btn.getAttribute('aria-expanded')==='true';
+    btn.setAttribute('aria-expanded',String(!open));
+    document.getElementById(btn.getAttribute('aria-controls')).hidden=open;
+  });
+});
+
+/* ---- rotating hero word ---- */
+var rot=document.getElementById('rotWord');
+if(rot&&!reduce){
+  var wordsPT=['segmento','jornada','conversão','retenção','receita'];
+  var wordsEN=['segment','journey','conversion','retention','revenue'];
+  var wi=0;
+  setInterval(function(){
+    wi=(wi+1)%wordsPT.length;
+    var en=document.body.classList.contains('lang-en');
+    rot.style.opacity='0';
+    setTimeout(function(){rot.textContent=(en?wordsEN:wordsPT)[wi];rot.style.opacity='1';},220);
+  },2200);
+  rot.style.transition='opacity .22s';
+}
+
+/* ---- hero particle network ---- */
+var canvas=document.getElementById('net');
+if(canvas&&!reduce&&window.innerWidth>640){
+  var ctx=canvas.getContext('2d'),pts=[],W,H,raf;
+  function size(){
+    var r=canvas.parentElement.getBoundingClientRect();
+    W=canvas.width=Math.floor(r.width*devicePixelRatio);
+    H=canvas.height=Math.floor(r.height*devicePixelRatio);
+  }
+  function init(){
+    size();pts=[];
+    var n=Math.min(60,Math.floor(W/(28*devicePixelRatio)));
+    for(var i=0;i<n;i++){
+      pts.push({x:Math.random()*W,y:Math.random()*H,
+        vx:(Math.random()-.5)*.25*devicePixelRatio,vy:(Math.random()-.5)*.25*devicePixelRatio});
+    }
+  }
+  function tick(){
+    ctx.clearRect(0,0,W,H);
+    var LINK=120*devicePixelRatio;
+    for(var i=0;i<pts.length;i++){
+      var p=pts[i];
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>W)p.vx*=-1;
+      if(p.y<0||p.y>H)p.vy*=-1;
+      ctx.fillStyle='rgba(0,212,255,0.5)';
+      ctx.beginPath();ctx.arc(p.x,p.y,1.4*devicePixelRatio,0,Math.PI*2);ctx.fill();
+      for(var j=i+1;j<pts.length;j++){
+        var q=pts[j],dx=p.x-q.x,dy=p.y-q.y,d=Math.sqrt(dx*dx+dy*dy);
+        if(d<LINK){
+          ctx.strokeStyle='rgba(0,212,255,'+(0.14*(1-d/LINK))+')';
+          ctx.lineWidth=devicePixelRatio*.6;
+          ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();
+        }
+      }
+    }
+    raf=requestAnimationFrame(tick);
+  }
+  init();tick();
+  window.addEventListener('resize',function(){cancelAnimationFrame(raf);init();tick();});
+  document.addEventListener('visibilitychange',function(){
+    if(document.hidden)cancelAnimationFrame(raf);else{cancelAnimationFrame(raf);tick();}
+  });
+}
+
+/* ---- year ---- */
+var y=document.getElementById('year');if(y)y.textContent=new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

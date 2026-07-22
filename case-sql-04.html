@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQL 04 · Agregação de Funil · Danilo Espeleta</title>
+<meta name="description" content="Análise volumétrica do funil de vendas com COUNT e GROUP BY: 1.200 leads na entrada, gargalo em Proposta Enviada e automação para destravar a receita.">
+<meta name="author" content="Danilo Espeleta">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL 04 · Agregação de Funil · Danilo Espeleta">
+<meta property="og:description" content="Análise volumétrica do funil de vendas com COUNT e GROUP BY: 1.200 leads na entrada, gargalo em Proposta Enviada e automação para destravar a receita.">
+<meta property="og:url" content="https://espeledata.com/case-sql-04.html">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg:#0a0a0a; --bg2:#111113; --bg3:#17171a;
+  --cyan:#00d4ff;
+  --accent:#00d4ff;        /* case accent: #00d4ff (primary) | #ff5a47 (support) */
+  --accent-2:#00d4ff;    /* kicker/secondary: #00d4ff (primary) | #ff5a47 (support)    */
+  --white:#f0f0ee; --gray:#a3a39d; --gray2:#888882;
+  --border:rgba(255,255,255,0.08);
+  --sans:'Barlow',system-ui,sans-serif;
+  --cond:'Barlow Condensed',var(--sans);
+  --mono:'JetBrains Mono',Consolas,monospace;
+  --max:960px;
+}
+/* ============ BASE ============ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-padding-top:5.5rem}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{background:var(--bg);color:var(--white);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--cyan)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:2px}
+.visually-hidden{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.skip-link{position:absolute;left:1rem;top:-4rem;z-index:300;background:var(--cyan);color:#00232b;font-weight:600;padding:.6rem 1rem;text-decoration:none;transition:top .15s}
+.skip-link:focus{top:1rem}
+.lang-pt .en{display:none!important}
+.lang-en .pt{display:none!important}
+
+/* ============ READING PROGRESS ============ */
+.progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--accent);z-index:250;pointer-events:none;transition:width .1s linear}
+
+/* ============ NAV ============ */
+.site-nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.8rem 2rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;border-bottom:1px solid var(--border);background:rgba(10,10,10,0.92);backdrop-filter:blur(12px)}
+.brand{display:flex;flex-direction:column;gap:.1rem;text-decoration:none}
+.brand-name{font-family:var(--cond);font-weight:700;font-size:1.1rem;letter-spacing:.06em;color:var(--white);text-transform:uppercase}
+.brand-role{font-family:var(--mono);font-size:.6rem;color:var(--cyan);letter-spacing:.12em;text-transform:uppercase}
+.nav-right{display:flex;align-items:center;gap:1.4rem}
+.nav-links{display:flex;gap:1.4rem;align-items:center}
+.nav-links a{font-family:var(--mono);font-size:.68rem;color:var(--gray);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;padding:.3rem 0}
+.nav-links a:hover,.nav-links a[aria-current="page"]{color:var(--cyan)}
+.lang-switch{display:flex;border:1px solid var(--border)}
+.lang-switch button{background:none;border:none;color:var(--gray);cursor:pointer;font-family:var(--mono);font-size:.65rem;font-weight:500;letter-spacing:.1em;padding:.4rem .7rem}
+.lang-switch button+button{border-left:1px solid var(--border)}
+.lang-switch button[aria-pressed="true"]{background:var(--cyan);color:#00232b}
+.menu-btn{display:none;font-family:var(--mono);font-size:.68rem;color:var(--white);background:none;border:1px solid var(--border);padding:.45rem .9rem;cursor:pointer;letter-spacing:.12em;text-transform:uppercase;transition:all .2s}
+.menu-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:260;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.sidebar-overlay.open{opacity:1;visibility:visible}
+.sidebar{position:fixed;top:0;right:-290px;width:290px;height:100vh;background:var(--bg2);border-left:1px solid var(--border);z-index:270;transition:right .28s;padding:4.5rem 2rem 2rem;display:flex;flex-direction:column}
+.sidebar.open{right:0}
+.sidebar-close{position:absolute;top:1.1rem;right:1.1rem;background:none;border:1px solid var(--border);color:var(--gray);font-size:1rem;line-height:1;cursor:pointer;font-family:var(--mono);padding:.4rem .6rem}
+.sidebar-close:hover{color:var(--cyan);border-color:var(--cyan)}
+.sidebar a{font-family:var(--mono);font-size:.78rem;color:var(--gray);text-decoration:none;letter-spacing:.12em;text-transform:uppercase;padding:1rem 0;border-bottom:1px solid var(--border);transition:color .2s;display:block}
+.sidebar a:hover,.sidebar a[aria-current="page"]{color:var(--cyan)}
+.sidebar .lang-switch{margin-top:1.5rem;align-self:flex-start}
+@media(max-width:820px){
+  .site-nav{padding:.75rem 1.25rem}
+  .brand-role{display:none}
+  .nav-right .nav-links,.nav-right .lang-switch{display:none}
+  .menu-btn{display:block}
+}
+
+/* ============ LAYOUT ============ */
+.case-wrap{max-width:var(--max);margin:0 auto;padding:7.5rem 1.5rem 3rem}
+.breadcrumb{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray2);display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:2.2rem}
+.breadcrumb a{color:var(--gray);text-decoration:none;transition:color .2s}
+.breadcrumb a:hover{color:var(--cyan)}
+.breadcrumb .sep{color:var(--gray2)}
+
+/* ============ HERO ============ */
+.case-hero{border-top:4px solid var(--accent);padding-top:2.2rem;margin-bottom:3rem}
+.case-tag{font-family:var(--mono);font-size:.68rem;color:var(--accent-2);letter-spacing:.18em;text-transform:uppercase;display:block;margin-bottom:1rem}
+.case-title{font-family:var(--cond);font-weight:800;font-size:clamp(2.6rem,6.5vw,4.2rem);line-height:.95;text-transform:uppercase;color:var(--white)}
+.case-title .accent{color:var(--accent)}
+.case-sub{margin-top:1.3rem;font-size:1rem;color:var(--gray);max-width:60ch;line-height:1.8}
+.meta-pills{list-style:none;display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.6rem}
+.meta-pills li{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);border:1px solid var(--border);padding:.35rem .8rem}
+
+/* ============ METRICS ============ */
+.metrics-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin:2.5rem 0}
+.metric{background:var(--bg2);padding:1.6rem 1.2rem;text-align:center}
+.metric-num{font-family:var(--cond);font-weight:800;font-size:2.2rem;color:var(--accent);line-height:1;display:block}
+.metric-label{font-family:var(--mono);font-size:.62rem;color:var(--gray);letter-spacing:.08em;text-transform:uppercase;margin-top:.55rem;display:block}
+
+/* ============ BLOCKS ============ */
+.block{margin:3.2rem 0}
+.block-label{font-family:var(--mono);font-size:.65rem;color:var(--accent-2);letter-spacing:.18em;text-transform:uppercase;margin-bottom:1.3rem;padding-bottom:.7rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.6rem}
+.block-label::before{content:'→';color:var(--accent)}
+.block h2{font-family:var(--cond);font-weight:700;font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.1;text-transform:uppercase;margin-bottom:1.1rem}
+.block h2 .accent{color:var(--accent)}
+.prose p{color:var(--gray);margin-bottom:1.05rem;max-width:70ch}
+.prose p:last-child{margin-bottom:0}
+.prose strong{color:var(--white);font-weight:500}
+
+/* ============ CARD GRIDS ============ */
+.grid-2,.grid-3,.grid-4{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);margin-top:1.4rem}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.grid-4{grid-template-columns:repeat(2,1fr)}
+@media(min-width:760px){.grid-4{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:640px){.grid-2,.grid-3{grid-template-columns:1fr}}
+.mini-card{background:var(--bg2);padding:1.5rem 1.3rem}
+.mini-num{font-family:var(--mono);font-size:.62rem;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:.6rem}
+.mini-title{font-family:var(--cond);font-weight:700;font-size:1.05rem;text-transform:uppercase;letter-spacing:.03em;color:var(--white);margin-bottom:.5rem}
+.mini-card p{font-size:.86rem;color:var(--gray);line-height:1.65}
+
+/* ============ MAP LIST (de → para) ============ */
+.map-list{list-style:none;border:1px solid var(--border);margin-top:1.4rem}
+.map-list li{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;align-items:center;padding:1rem 1.3rem;border-bottom:1px solid var(--border)}
+.map-list li:last-child{border-bottom:none}
+.map-from{color:var(--gray);font-size:.9rem}
+.map-arrow{color:var(--accent);font-family:var(--mono)}
+.map-to{color:var(--white);font-size:.9rem;font-weight:400}
+@media(max-width:640px){
+  .map-list li{grid-template-columns:1fr;gap:.3rem}
+  .map-arrow{display:none}
+  .map-to::before{content:'→ ';color:var(--accent)}
+}
+
+/* ============ STAGES (numbered journey) ============ */
+.stages{list-style:none;counter-reset:stage;margin-top:1.4rem;border:1px solid var(--border)}
+.stages li{counter-increment:stage;padding:1.4rem 1.3rem 1.4rem 4.3rem;border-bottom:1px solid var(--border);position:relative;background:var(--bg2)}
+.stages li:last-child{border-bottom:none}
+.stages li::before{content:counter(stage,decimal-leading-zero);position:absolute;left:1.3rem;top:1.45rem;font-family:var(--cond);font-weight:800;font-size:1.5rem;color:var(--accent);line-height:1}
+.stage-title{font-family:var(--cond);font-weight:700;font-size:1.1rem;text-transform:uppercase;letter-spacing:.03em;margin-bottom:.35rem}
+.stages p{font-size:.88rem;color:var(--gray);max-width:62ch}
+.kpi-pill{display:inline-block;font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);padding:.3rem .7rem;margin-top:.7rem;opacity:.9}
+
+/* ============ CODE ============ */
+.code-wrap{border:1px solid var(--border);border-left:3px solid var(--accent);background:var(--bg2);margin-top:1.4rem;overflow:hidden}
+.code-head{font-family:var(--mono);font-size:.62rem;color:var(--gray);letter-spacing:.15em;text-transform:uppercase;padding:.7rem 1.2rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between}
+.code-wrap pre{padding:1.3rem 1.2rem;overflow-x:auto}
+.code-wrap code{font-family:var(--mono);font-size:.82rem;line-height:1.8;color:var(--white)}
+.kw{color:var(--cyan)} .fn{color:#a78bfa} .str{color:#86efac} .num{color:#fca5a5} .cm{color:var(--gray2);font-style:italic}
+
+/* ============ SVG / FIGURE ============ */
+.svg-wrap{border:1px solid var(--border);background:var(--bg2);padding:1.5rem;margin-top:1.4rem;overflow-x:auto}
+.svg-wrap svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.svg-caption{font-family:var(--mono);font-size:.62rem;color:var(--gray2);letter-spacing:.1em;text-transform:uppercase;margin-top:1rem;text-align:center}
+
+/* ============ CALLOUTS ============ */
+.insight-box{background:color-mix(in srgb,var(--accent) 6%,transparent);border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);border-left:3px solid var(--accent);padding:1.6rem 1.8rem;margin-top:1.4rem}
+.insight-box p{font-style:italic;color:var(--white);font-size:.98rem;line-height:1.8;max-width:70ch}
+.note-bar{border:1px solid var(--border);border-left:3px solid var(--accent);background:var(--bg2);padding:1.1rem 1.4rem;margin-top:1.4rem}
+.note-bar p{font-size:.86rem;color:var(--gray)}
+.note-bar strong{color:var(--white);font-weight:500}
+
+/* ============ DATES ============ */
+.dates-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-top:1.4rem}
+.date-card{background:var(--bg2);padding:1.2rem 1.1rem}
+.date-day{font-family:var(--cond);font-weight:800;font-size:1.3rem;color:var(--accent);display:block;line-height:1.1}
+.date-name{font-size:.8rem;color:var(--gray);margin-top:.3rem;display:block}
+
+/* ============ STATS ROW ============ */
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-top:1.4rem}
+.stat{background:var(--bg2);padding:1.8rem 1.4rem;text-align:center}
+.stat-num{font-family:var(--cond);font-weight:800;font-size:2.4rem;color:var(--accent);line-height:1;display:block}
+.stat-label{font-size:.82rem;color:var(--gray);margin-top:.6rem;display:block}
+.stat-src{font-family:var(--mono);font-size:.6rem;color:var(--gray2);margin-top:.5rem;display:block}
+
+/* ============ TAKEAWAYS ============ */
+.takeaways{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:1.4rem}
+@media(max-width:640px){.takeaways{grid-template-columns:1fr}}
+.takeaway{background:var(--bg2);padding:1.5rem 1.3rem}
+.takeaway h3{font-family:var(--cond);font-weight:700;font-size:1rem;text-transform:uppercase;letter-spacing:.04em;color:var(--accent);margin-bottom:.5rem}
+.takeaway p{font-size:.85rem;color:var(--gray)}
+
+/* ============ BUTTONS / CASE NAV ============ */
+.btn{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.7rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:.85rem 1.5rem;text-decoration:none;border:1px solid;transition:all .15s}
+.btn-solid{background:var(--cyan);border-color:var(--cyan);color:#00232b}
+.btn-solid:hover{background:#33ddff;border-color:#33ddff}
+.btn-outline{background:transparent;border-color:var(--border);color:var(--white)}
+.btn-outline:hover{border-color:var(--cyan);color:var(--cyan)}
+.case-nav{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin:3.5rem 0 0}
+@media(max-width:640px){.case-nav{grid-template-columns:1fr}}
+.case-nav-link{background:var(--bg2);padding:1.4rem 1.5rem;text-decoration:none;display:flex;flex-direction:column;gap:.35rem;transition:background .2s}
+.case-nav-link:hover{background:var(--bg3)}
+.case-nav-link.next{text-align:right;align-items:flex-end}
+.case-nav-link.all{grid-column:1/-1;align-items:center;text-align:center}
+.case-nav-dir{font-family:var(--mono);font-size:.6rem;color:var(--gray2);letter-spacing:.15em;text-transform:uppercase}
+.case-nav-title{font-family:var(--cond);font-weight:700;font-size:1.05rem;text-transform:uppercase;color:var(--white);transition:color .2s}
+.case-nav-link:hover .case-nav-title{color:var(--cyan)}
+
+/* ============ FOOTER ============ */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-top:4rem}
+.footer-name{font-family:var(--cond);font-weight:700;font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray)}
+.footer-info{font-family:var(--mono);font-size:.62rem;color:var(--gray2);letter-spacing:.06em;display:flex;flex-wrap:wrap;gap:.4rem 1rem;align-items:center}
+.footer-info a{color:var(--gray);text-decoration:none;transition:color .2s}
+.footer-info a:hover{color:var(--cyan)}
+@media(max-width:640px){footer{flex-direction:column;align-items:flex-start;padding:1.5rem}}
+
+/* ============ REVEAL ============ */
+@media (prefers-reduced-motion:no-preference){
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}
+  .reveal.in{opacity:1;transform:none}
+}
+</style>
+</head>
+<body class="lang-pt">
+
+<a class="skip-link" href="#main"><span class="pt">Pular para o conteúdo</span><span class="en" lang="en">Skip to content</span></a>
+<div class="progress" aria-hidden="true"></div>
+
+<!-- ============ NAV (identical on every case page) ============ -->
+<nav class="site-nav" aria-label="Principal">
+  <a class="brand" href="index.html">
+    <span class="brand-name">Danilo Espeleta</span>
+    <span class="brand-role"><span class="pt">CRM &amp; Lifecycle Marketing</span><span class="en" lang="en">CRM &amp; Lifecycle Marketing</span></span>
+  </a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="index.html"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
+      <a href="index.html#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
+      <a href="portfolio.html" aria-current="page"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
+      <a href="contact.html"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
+      <a class="cv-link" href="CV/DE-Curriculo.pdf" download><span class="pt">Currículo ↓</span><span class="en" lang="en">Resume ↓</span></a>
+    </div>
+    <div class="lang-switch" role="group" aria-label="Idioma / Language">
+      <button type="button" data-lang="pt" aria-pressed="true">PT</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <button class="menu-btn" aria-expanded="false" aria-controls="sidebar">Menu</button>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="sidebar" id="sidebar" aria-label="Menu">
+  <button class="sidebar-close" aria-label="Fechar menu">✕</button>
+  <a href="index.html"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
+  <a href="index.html#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
+  <a href="portfolio.html" aria-current="page"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
+  <a href="contact.html"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
+  <a class="cv-link" href="CV/DE-Curriculo.pdf" download><span class="pt">Currículo ↓</span><span class="en" lang="en">Resume ↓</span></a>
+  <div class="lang-switch" role="group" aria-label="Idioma / Language">
+    <button type="button" data-lang="pt" aria-pressed="true">PT</button>
+    <button type="button" data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</div>
+
+<main id="main" class="case-wrap">
+
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="portfolio.html">Portfólio</a><span class="sep" aria-hidden="true">/</span>
+    <span>SQL</span><span class="sep" aria-hidden="true">/</span>
+    <span aria-current="page"><span class="pt">Caso 04</span><span class="en" lang="en">Case 04</span></span>
+  </nav>
+
+  <header class="case-hero">
+    <span class="case-tag">SQL · <span class="pt">Caso 04</span><span class="en" lang="en">Case 04</span></span>
+    <h1 class="case-title">
+      <span class="pt">Agregação<br><span class="accent">de Funil</span></span>
+      <span class="en" lang="en">Funnel<br><span class="accent">Aggregation</span></span>
+    </h1>
+    <p class="case-sub">
+      <span class="pt">Análise volumétrica do pipeline de vendas para gestão de capacidade e detecção de gargalos operacionais.</span>
+      <span class="en" lang="en">Volumetric analysis of the sales pipeline for capacity management and detection of operational bottlenecks.</span>
+    </p>
+  </header>
+
+  <div class="metrics-strip reveal">
+    <div class="metric">
+      <span class="metric-num"><span class="pt">1.200</span><span class="en" lang="en">1,200</span></span>
+      <span class="metric-label"><span class="pt">Leads na entrada</span><span class="en" lang="en">Leads at entry</span></span>
+    </div>
+    <div class="metric">
+      <span class="metric-num" data-count="250">250</span>
+      <span class="metric-label"><span class="pt">Acúmulo em Proposta</span><span class="en" lang="en">Stuck at Proposal</span></span>
+    </div>
+    <div class="metric">
+      <span class="metric-num" data-count="50">50</span>
+      <span class="metric-label"><span class="pt">Em negociação ativa</span><span class="en" lang="en">In active negotiation</span></span>
+    </div>
+  </div>
+
+  <section class="block reveal">
+    <div class="block-label"><span class="pt">Sobre o caso</span><span class="en" lang="en">About the case</span></div>
+    <div class="prose">
+      <p>
+        <span class="pt">O time comercial encontrava-se sobrecarregado, mas as metas de fechamento não eram atingidas por falta de clareza sobre onde os leads ficavam retidos. Desenvolvi uma query de agregação volumétrica por estágio do pipeline usando <strong>COUNT</strong> e <strong>GROUP BY</strong>. A análise identificou um gargalo crítico na etapa 'Proposta Enviada', o que levou à decisão de automatizar a geração de documentos para acelerar a conclusão dos contratos.</span>
+        <span class="en" lang="en">The commercial team was overloaded, but closing targets were not being met due to lack of clarity on where leads were getting stuck. I developed a volumetric aggregation query by pipeline stage using <strong>COUNT</strong> and <strong>GROUP BY</strong>. The analysis identified a critical bottleneck at the 'Proposal Sent' stage, leading to the decision to automate document generation to accelerate contract completion.</span>
+      </p>
+      <p>
+        <span class="pt">Dos <strong>1.200 leads</strong> que entravam no funil, <strong>800</strong> chegavam ao estágio Qualificado e <strong>300</strong> avançavam para Em Reunião, mas <strong>250</strong> ficavam acumulados em Proposta Enviada e apenas <strong>50</strong> seguiam para a negociação ativa.</span>
+        <span class="en" lang="en">Of the <strong>1,200 leads</strong> entering the funnel, <strong>800</strong> reached the Qualified stage and <strong>300</strong> moved on to In Meeting, but <strong>250</strong> piled up at Proposal Sent and only <strong>50</strong> progressed to active negotiation.</span>
+      </p>
+    </div>
+  </section>
+
+  <section class="block reveal">
+    <div class="block-label"><span class="pt">Query SQL</span><span class="en" lang="en">SQL Query</span></div>
+    <div class="code-wrap">
+      <div class="code-head">SQL</div>
+      <pre><code><span class="cm">-- <span class="pt">Monitorar volume por estágio do funil</span><span class="en" lang="en">Monitor volume per funnel stage</span></span>
+
+<span class="kw">SELECT</span>
+    etapa_funil,
+    <span class="fn">COUNT</span>(id) <span class="kw">AS</span> total_leads
+<span class="kw">FROM</span>
+    leads
+<span class="kw">GROUP BY</span>
+    etapa_funil
+<span class="kw">ORDER BY</span>
+    total_leads <span class="kw">DESC</span>;</code></pre>
+    </div>
+  </section>
+
+  <section class="block reveal">
+    <div class="block-label"><span class="pt">Visualização do processo</span><span class="en" lang="en">Process visualization</span></div>
+    <figure class="svg-wrap" role="img" aria-label="Funil de vendas em cinco estágios: Novo com 1.200 leads, Qualificado com 800, Em Reunião com 300, Proposta Enviada com 250 leads acumulados (gargalo) e Negociação com 50 leads.">
+      <svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono',Consolas,monospace">
+        <title>Funil volumétrico por estágio com gargalo em Proposta Enviada / Volumetric funnel by stage with bottleneck at Proposal Sent</title>
+        <!-- Estágio 1: NOVO / NEW -->
+        <rect x="100" y="10" width="560" height="44" rx="3" fill="rgba(0,212,255,0.08)" stroke="#00d4ff" stroke-width="1"/>
+        <text text-anchor="middle" fill="#00d4ff" font-size="11" letter-spacing="1">
+          <tspan class="pt" x="380" y="28">NOVO</tspan><tspan class="en" lang="en" x="380" y="28">NEW</tspan>
+        </text>
+        <text text-anchor="middle" fill="#f0f0ee" font-size="13" font-weight="700">
+          <tspan class="pt" x="380" y="46">1.200 leads</tspan><tspan class="en" lang="en" x="380" y="46">1,200 leads</tspan>
+        </text>
+        <!-- Estágio 2: QUALIFICADO / QUALIFIED -->
+        <rect x="160" y="64" width="440" height="44" rx="3" fill="#17171a" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+        <text text-anchor="middle" fill="#a3a39d" font-size="11" letter-spacing="1">
+          <tspan class="pt" x="380" y="82">QUALIFICADO</tspan><tspan class="en" lang="en" x="380" y="82">QUALIFIED</tspan>
+        </text>
+        <text text-anchor="middle" fill="#f0f0ee" font-size="12">
+          <tspan class="pt" x="380" y="100">800 leads</tspan><tspan class="en" lang="en" x="380" y="100">800 leads</tspan>
+        </text>
+        <!-- Estágio 3: EM REUNIÃO / IN MEETING -->
+        <rect x="230" y="118" width="300" height="44" rx="3" fill="#17171a" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+        <text text-anchor="middle" fill="#a3a39d" font-size="11" letter-spacing="1">
+          <tspan class="pt" x="380" y="136">EM REUNIÃO</tspan><tspan class="en" lang="en" x="380" y="136">IN MEETING</tspan>
+        </text>
+        <text text-anchor="middle" fill="#f0f0ee" font-size="12">
+          <tspan class="pt" x="380" y="154">300 leads</tspan><tspan class="en" lang="en" x="380" y="154">300 leads</tspan>
+        </text>
+        <!-- Estágio 4: PROPOSTA ENVIADA: GARGALO / PROPOSAL SENT: BOTTLENECK -->
+        <rect x="205" y="172" width="350" height="48" rx="3" fill="rgba(255,90,71,0.12)" stroke="#ff5a47" stroke-width="1.5"/>
+        <text text-anchor="middle" fill="#ff5a47" font-size="11" letter-spacing="1">
+          <tspan class="pt" x="380" y="192">⚠ PROPOSTA ENVIADA: GARGALO</tspan><tspan class="en" lang="en" x="380" y="192">⚠ PROPOSAL SENT: BOTTLENECK</tspan>
+        </text>
+        <text text-anchor="middle" fill="#ff5a47" font-size="13" font-weight="700">
+          <tspan class="pt" x="380" y="211">250 leads acumulados</tspan><tspan class="en" lang="en" x="380" y="211">250 leads stuck</tspan>
+        </text>
+        <!-- Estágio 5: NEGOCIAÇÃO / NEGOTIATION -->
+        <rect x="290" y="230" width="180" height="44" rx="3" fill="#17171a" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+        <text text-anchor="middle" fill="#a3a39d" font-size="11" letter-spacing="1">
+          <tspan class="pt" x="380" y="248">NEGOCIAÇÃO</tspan><tspan class="en" lang="en" x="380" y="248">NEGOTIATION</tspan>
+        </text>
+        <text text-anchor="middle" fill="#f0f0ee" font-size="12">
+          <tspan class="pt" x="380" y="266">50 leads</tspan><tspan class="en" lang="en" x="380" y="266">50 leads</tspan>
+        </text>
+      </svg>
+      <figcaption class="svg-caption">
+        <span class="pt">Funil volumétrico por estágio: gargalo em Proposta Enviada</span>
+        <span class="en" lang="en">Volumetric funnel by stage: bottleneck at Proposal Sent</span>
+      </figcaption>
+    </figure>
+  </section>
+
+  <section class="block reveal">
+    <div class="block-label"><span class="pt">Explicação de negócio</span><span class="en" lang="en">Business explanation</span></div>
+    <div class="insight-box">
+      <p>
+        <span class="pt">O SQL transforma percepções subjetivas da equipe comercial em dados concretos. Visualizar onde o funil está inchado permite que o gestor aplique os recursos corretos, treinamentos ou automações, no ponto exato para destravar o fluxo de receita.</span>
+        <span class="en" lang="en">SQL transforms the commercial team's subjective perceptions into concrete data. Visualizing where the funnel is bloated allows the manager to apply the right resources, training or automations, at the exact point to unblock revenue flow.</span>
+      </p>
+    </div>
+  </section>
+
+  <nav class="case-nav" aria-label="Navegação entre cases">
+    <a class="case-nav-link prev" href="case-sql-03.html">
+      <span class="case-nav-dir"><span class="pt">← Case anterior</span><span class="en" lang="en">← Previous case</span></span>
+      <span class="case-nav-title"><span class="pt">SQL 03 · Visão 360° de CS</span><span class="en" lang="en">SQL 03 · 360° CS View</span></span>
+    </a>
+    <a class="case-nav-link next" href="case-sql-05.html">
+      <span class="case-nav-dir"><span class="pt">Próximo case →</span><span class="en" lang="en">Next case →</span></span>
+      <span class="case-nav-title"><span class="pt">SQL 05 · Ticket Médio</span><span class="en" lang="en">SQL 05 · Average Ticket</span></span>
+    </a>
+    <a class="case-nav-link all" href="portfolio.html">
+      <span class="case-nav-title"><span class="pt">Ver todos os cases</span><span class="en" lang="en">View all cases</span></span>
+    </a>
+  </nav>
+
+</main>
+
+<footer>
+  <div class="footer-name">Danilo Campos Espeleta</div>
+  <div class="footer-info">
+    <span>São Paulo / SP</span>
+    <a href="mailto:daniloespeleta@gmail.com">daniloespeleta@gmail.com</a>
+    <a href="https://www.linkedin.com/in/daniloespeleta" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/daniloespeleta" target="_blank" rel="noopener">GitHub</a>
+    <span>© <span id="year">2026</span></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+/* ---- language (persisted; syncs <html lang>, buttons, CV links) ---- */
+var CV={pt:'CV/DE-Curriculo.pdf',en:'CV/DE-Resume.pdf'};
+var langButtons=document.querySelectorAll('.lang-switch button');
+function setLang(lang){
+  document.body.classList.remove('lang-pt','lang-en');
+  document.body.classList.add('lang-'+lang);
+  document.documentElement.lang=(lang==='en')?'en':'pt-BR';
+  langButtons.forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.lang===lang));});
+  document.querySelectorAll('a.cv-link').forEach(function(a){a.setAttribute('href',CV[lang]);});
+  try{localStorage.setItem('lang',lang);}catch(e){}
+}
+langButtons.forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.lang);});});
+var saved=null;try{saved=localStorage.getItem('lang');}catch(e){}
+if(saved==='en'||saved==='pt')setLang(saved);
+
+/* ---- mobile sidebar ---- */
+var menuBtn=document.querySelector('.menu-btn'),sidebar=document.getElementById('sidebar'),
+    overlay=document.getElementById('sidebarOverlay'),closeBtn=document.querySelector('.sidebar-close');
+function openSb(){sidebar.classList.add('open');overlay.classList.add('open');menuBtn.setAttribute('aria-expanded','true');}
+function closeSb(){sidebar.classList.remove('open');overlay.classList.remove('open');menuBtn.setAttribute('aria-expanded','false');}
+if(menuBtn){
+  menuBtn.addEventListener('click',openSb);
+  closeBtn.addEventListener('click',closeSb);
+  overlay.addEventListener('click',closeSb);
+  sidebar.addEventListener('click',function(e){if(e.target.closest('a'))closeSb();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&sidebar.classList.contains('open')){closeSb();menuBtn.focus();}});
+}
+
+/* ---- reading progress ---- */
+var bar=document.querySelector('.progress');
+if(bar){
+  var onScroll=function(){
+    var h=document.documentElement,max=h.scrollHeight-h.clientHeight;
+    bar.style.width=(max>0?(h.scrollTop/max)*100:0)+'%';
+  };
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+}
+
+/* ---- scroll reveal ---- */
+var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var revealEls=document.querySelectorAll('.reveal');
+if('IntersectionObserver' in window&&!reduce&&revealEls.length){
+  var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});},{threshold:.12});
+  revealEls.forEach(function(el){io.observe(el);});
+}else{revealEls.forEach(function(el){el.classList.add('in');});}
+
+/* ---- animated counters ([data-count]) ---- */
+var counters=document.querySelectorAll('[data-count]');
+function animate(el){
+  var target=parseFloat(el.dataset.count),pre=el.dataset.prefix||'',suf=el.dataset.suffix||'',
+      dec=(el.dataset.count.indexOf('.')>-1)?1:0,start=null,dur=1100;
+  function fmt(v){return pre+v.toFixed(dec).replace('.',document.documentElement.lang==='en'?'.':',')+suf;}
+  if(reduce){el.textContent=fmt(target);return;}
+  function step(ts){if(!start)start=ts;var p=Math.min((ts-start)/dur,1),e=1-Math.pow(1-p,3);
+    el.textContent=fmt(target*e);if(p<1)requestAnimationFrame(step);}
+  requestAnimationFrame(step);
+}
+if('IntersectionObserver' in window&&counters.length){
+  var cio=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){animate(en.target);cio.unobserve(en.target);}});},{threshold:.4});
+  counters.forEach(function(el){cio.observe(el);});
+}else{counters.forEach(animate);}
+
+/* ---- year ---- */
+var y=document.getElementById('year');if(y)y.textContent=new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

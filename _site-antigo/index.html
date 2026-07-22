@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="pt-BR" id="top">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Danilo Espeleta · CRM & Lifecycle Marketing</title>
+<meta name="description" content="Danilo Espeleta — líder em CRM & Lifecycle Marketing em São Paulo. Estratégia de CRM, automação multicanal e jornadas de ciclo de vida que transformam dados em relacionamento e relacionamento em receita.">
+<meta name="author" content="Danilo Espeleta">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Danilo Espeleta · CRM & Lifecycle Marketing">
+<meta property="og:description" content="Estratégia de CRM, automação e ciclo de vida — cases de segmentação, jornada do doador e prospecção híbrida.">
+<meta property="og:url" content="https://www.espeledata.com/">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" type="image/png" href="favicon.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Danilo Espeleta",
+  "jobTitle": "CRM & Lifecycle Marketing Leader",
+  "email": "mailto:daniloespeleta@gmail.com",
+  "url": "https://www.espeledata.com/",
+  "address": { "@type": "PostalAddress", "addressLocality": "São Paulo", "addressRegion": "SP", "addressCountry": "BR" }
+}
+</script>
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg:#0a0a0a;
+  --bg2:#111114;
+  --card:#16121E;          /* from the case-design system */
+  --card-soft:#231d30;
+  --cyan:#00d4ff;
+  --coral:#ff5a47;         /* case 01 accent */
+  --teal:#2fb59b;          /* case 02 accent */
+  --yellow:#ffc93c;        /* case kicker accent */
+  --white:#f0f0ee;
+  --muted:#b4b4ae;         /* ≥ 9:1 on --bg */
+  --muted-2:#8f8f89;       /* ≥ 5.5:1 on --bg, large/secondary text only */
+  --border:rgba(255,255,255,0.1);
+  --sans:"Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --serif:Georgia, "Times New Roman", serif;
+  --max:1100px;
+}
+
+/* ============ BASE ============ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-padding-top:5.5rem}
+@media (prefers-reduced-motion: no-preference){
+  html{scroll-behavior:smooth}
+}
+body{
+  background:var(--bg);
+  color:var(--white);
+  font-family:var(--sans);
+  font-weight:400;
+  line-height:1.65;
+}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--cyan)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:2px}
+
+.skip-link{
+  position:absolute;left:1rem;top:-4rem;z-index:200;
+  background:var(--cyan);color:#00232b;font-weight:600;
+  padding:.6rem 1rem;text-decoration:none;transition:top .15s;
+}
+.skip-link:focus{top:1rem}
+
+.visually-hidden{
+  position:absolute!important;width:1px;height:1px;overflow:hidden;
+  clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;
+}
+
+/* bilingual toggle — hidden language is display:none, so it is
+   also hidden from assistive tech */
+.lang-pt .en{display:none!important}
+.lang-en .pt{display:none!important}
+
+/* ============ HEADER ============ */
+.site-header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(10,10,10,0.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+}
+.header-inner{
+  max-width:var(--max);margin:0 auto;
+  padding:.85rem 1.5rem;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+}
+.brand{display:flex;flex-direction:column;text-decoration:none;color:var(--white)}
+.brand-name{font-weight:600;font-size:1rem;letter-spacing:.05em}
+.brand-role{font-size:.8rem;color:var(--cyan);letter-spacing:.08em}
+
+.menu-toggle{
+  display:none;
+  background:none;border:1px solid var(--border);color:var(--white);
+  padding:.5rem .7rem;cursor:pointer;font:inherit;line-height:0;
+}
+.menu-toggle .bars{display:inline-block;width:20px}
+.menu-toggle .bars span{
+  display:block;height:2px;background:var(--white);margin:4px 0;transition:transform .2s,opacity .2s;
+}
+.menu-toggle[aria-expanded="true"] .bars span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.menu-toggle[aria-expanded="true"] .bars span:nth-child(2){opacity:0}
+.menu-toggle[aria-expanded="true"] .bars span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+.site-nav{display:flex;align-items:center;gap:1.75rem}
+.site-nav ul{display:flex;list-style:none;gap:1.5rem;align-items:center}
+.site-nav a{
+  color:var(--muted);text-decoration:none;font-size:.95rem;letter-spacing:.05em;
+  transition:color .15s;
+}
+.site-nav a:hover{color:var(--cyan)}
+
+.lang-switch{display:flex;border:1px solid var(--border)}
+.lang-switch button{
+  background:none;border:none;color:var(--muted);cursor:pointer;
+  font:inherit;font-size:.8rem;font-weight:600;letter-spacing:.08em;
+  padding:.4rem .7rem;
+}
+.lang-switch button+button{border-left:1px solid var(--border)}
+.lang-switch button[aria-pressed="true"]{background:var(--cyan);color:#00232b}
+
+/* ============ LAYOUT ============ */
+main section{
+  max-width:var(--max);
+  margin:0 auto;
+  padding:clamp(3.5rem,8vw,6rem) 1.5rem;
+}
+.divider{height:1px;background:var(--border);max-width:var(--max);margin:0 auto}
+
+.kicker{
+  color:var(--cyan);font-size:.8rem;font-weight:600;
+  letter-spacing:.18em;text-transform:uppercase;margin-bottom:.9rem;
+}
+.section-title{
+  font-size:clamp(1.9rem,4vw,2.8rem);
+  font-weight:800;line-height:1.1;
+}
+.section-title .accent{color:var(--cyan)}
+.section-sub{margin-top:.9rem;color:var(--muted);max-width:560px}
+
+/* ============ HERO ============ */
+.hero{position:relative;overflow:hidden}
+.hero::before{
+  content:'';position:absolute;top:-30%;right:-15%;width:600px;height:600px;
+  background:radial-gradient(ellipse,rgba(0,212,255,0.06) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-grid{
+  display:grid;grid-template-columns:1.15fr .85fr;
+  gap:clamp(2rem,5vw,4rem);align-items:center;
+}
+.hero h1{
+  font-size:clamp(1.9rem,4.5vw,3rem);
+  font-weight:300;line-height:1.25;
+}
+.hero h1 .accent{color:var(--cyan);font-weight:400}
+.hero-sub{margin-top:1.4rem;color:var(--muted);max-width:46ch;font-size:1.05rem}
+.hero-cta{display:flex;gap:1rem;margin-top:2.2rem;flex-wrap:wrap}
+
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-size:.9rem;font-weight:600;letter-spacing:.06em;
+  padding:.8rem 1.6rem;text-decoration:none;border:1px solid;transition:all .15s;
+}
+.btn-solid{background:var(--cyan);border-color:var(--cyan);color:#00232b}
+.btn-solid:hover{background:#33ddff;border-color:#33ddff}
+.btn-outline{background:transparent;border-color:var(--border);color:var(--white)}
+.btn-outline:hover{border-color:var(--cyan);color:var(--cyan)}
+
+.hero-visual{display:flex;justify-content:center}
+.hero-figure{position:relative;width:min(340px,80vw)}
+.hero-figure img{aspect-ratio:340/415;object-fit:cover;object-position:top;width:100%}
+.hero-frame{
+  position:absolute;inset:-12px 12px 12px -12px;
+  border:1px solid var(--cyan);opacity:.35;pointer-events:none;
+}
+
+@media (prefers-reduced-motion: no-preference){
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+  .hero-grid>*{animation:fadeUp .6s ease both}
+  .hero-grid>*:last-child{animation-delay:.15s}
+}
+
+/* ============ ABOUT ============ */
+.about-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:clamp(2.5rem,6vw,5rem);align-items:start;
+}
+.about-copy{border-left:2px solid var(--cyan);padding-left:1.5rem;margin-top:2rem}
+.about-copy p{color:var(--muted);margin-bottom:1.1rem}
+.about-copy p:last-child{margin-bottom:0}
+.about-actions{display:flex;gap:1rem;margin-top:2.2rem;flex-wrap:wrap}
+
+.chips{list-style:none;display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2rem}
+.chips li{
+  font-size:.85rem;font-weight:500;letter-spacing:.04em;
+  padding:.5rem 1rem;border:1px solid var(--border);color:var(--muted);
+}
+.chips li.hot{border-color:var(--cyan);color:var(--cyan)}
+
+/* ============ CASES (extended from the Claude design) ============ */
+.cases-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:2rem;margin-top:3rem;
+}
+.case-card{
+  background:var(--card);
+  display:flex;flex-direction:column;
+  border:1px solid var(--border);
+}
+.case-bar{height:6px}
+.case-card--01 .case-bar{background:var(--coral)}
+.case-card--02 .case-bar{background:var(--teal)}
+.case-body{padding:2.4rem 2.2rem;display:flex;flex-direction:column;flex:1}
+.case-kicker{
+  font-size:.78rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+}
+.case-card--01 .case-kicker{color:var(--yellow)}
+.case-card--02 .case-kicker{color:var(--teal)}
+.case-title{
+  font-family:var(--serif);font-weight:500;
+  font-size:clamp(1.6rem,3vw,2.1rem);line-height:1.15;
+  color:#f3eef6;margin-top:.8rem;
+}
+.case-meta{font-size:.85rem;color:#a99fbd;margin-top:.5rem}
+.case-desc{color:#c4bcd4;margin-top:1.1rem;flex:1}
+.case-tags{list-style:none;display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.5rem}
+.case-tags li{
+  background:var(--card-soft);color:#e9e3f2;
+  font-size:.78rem;padding:.4rem .9rem;border-radius:100px;
+}
+.case-link{
+  margin-top:1.8rem;
+  font-family:var(--serif);font-size:1.15rem;font-weight:600;
+  text-decoration:none;display:inline-flex;align-items:center;gap:.6rem;
+  color:var(--cyan);transition:color .15s;
+}
+.case-card--01 .case-link:hover{color:var(--coral)}
+.case-card--02 .case-link:hover{color:var(--teal)}
+.case-link .arrow{transition:transform .15s}
+.case-link:hover .arrow{transform:translateX(4px)}
+
+/* ============ CONTACT ============ */
+.contact-list{list-style:none;margin-top:2rem;display:grid;gap:.9rem;max-width:420px}
+.contact-list a{
+  display:flex;justify-content:space-between;gap:1rem;align-items:baseline;
+  padding:1rem 1.2rem;border:1px solid var(--border);
+  color:var(--white);text-decoration:none;transition:border-color .15s;
+}
+.contact-list a:hover{border-color:var(--cyan)}
+.contact-list .label{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2)}
+.contact-loc{
+  display:flex;justify-content:space-between;gap:1rem;align-items:baseline;
+  padding:1rem 1.2rem;border:1px solid var(--border);
+}
+
+/* ============ FOOTER ============ */
+.site-footer{border-top:1px solid var(--border)}
+.footer-inner{
+  max-width:var(--max);margin:0 auto;padding:1.6rem 1.5rem;
+  display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+  font-size:.82rem;color:var(--muted-2);
+}
+.site-footer a{color:var(--muted)}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:940px){
+  .hero-grid{grid-template-columns:1fr}
+  .hero-visual{order:-1;justify-content:flex-start}
+  .hero-figure{width:min(260px,70vw)}
+  .about-grid,.cases-grid{grid-template-columns:1fr}
+}
+@media (max-width:760px){
+  .menu-toggle{display:inline-block}
+  .site-nav{
+    display:none;
+    position:absolute;top:100%;left:0;right:0;
+    flex-direction:column;align-items:stretch;gap:0;
+    background:var(--bg2);border-bottom:1px solid var(--border);
+    padding:.5rem 1.5rem 1.25rem;
+  }
+  .site-nav.open{display:flex}
+  .site-nav ul{flex-direction:column;align-items:stretch;gap:0}
+  .site-nav a{display:block;padding:.9rem 0;border-bottom:1px solid var(--border)}
+  .lang-switch{margin-top:1rem;align-self:flex-start}
+}
+</style>
+</head>
+<body class="lang-pt">
+
+<a class="skip-link" href="#main"><span class="pt">Pular para o conteúdo</span><span class="en" lang="en">Skip to content</span></a>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="#top">
+      <span class="brand-name">Danilo Espeleta</span>
+      <span class="brand-role"><span class="pt">Líder em CRM &amp; Lifecycle Marketing</span><span class="en" lang="en">CRM &amp; Lifecycle Marketing Leader</span></span>
+    </a>
+
+    <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav">
+      <span class="visually-hidden"><span class="pt">Abrir menu</span><span class="en" lang="en">Open menu</span></span>
+      <span class="bars" aria-hidden="true"><span></span><span></span><span></span></span>
+    </button>
+
+    <nav class="site-nav" id="site-nav" aria-label="Principal">
+      <ul>
+        <li><a href="#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a></li>
+        <li><a href="#cases">Cases</a></li>
+        <li><a href="#contato"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a></li>
+        <li><a id="cv-link" href="DE-Curriculo.pdf"><span class="pt">Currículo</span><span class="en" lang="en">Resume</span></a></li>
+        <li><a href="/portfolio">Portfólio</a></li>
+      </ul>
+      <div class="lang-switch" role="group" aria-label="Idioma / Language">
+        <button type="button" data-lang="pt" aria-pressed="true">PT</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-grid">
+      <div>
+        <p class="kicker">CRM &amp; Lifecycle Marketing</p>
+        <h1 id="hero-title">
+          <span class="pt">Lendo o dado, <span class="accent">escrevo a jornada</span> — nenhum sinal escapa.</span>
+          <span class="en" lang="en">Reading the data, <span class="accent">I write the journey</span> — nothing escapes.</span>
+        </h1>
+        <p class="hero-sub">
+          <span class="pt">Estratégia de CRM, automação multicanal e desenho de ciclo de vida que transformam dados em relacionamento — e relacionamento em receita.</span>
+          <span class="en" lang="en">CRM strategy, multichannel automation and lifecycle design that turn data into relationships — and relationships into revenue.</span>
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-solid" href="#cases"><span class="pt">Ver cases</span><span class="en" lang="en">See case studies</span></a>
+          <a class="btn btn-outline" href="#contato"><span class="pt">Contato</span><span class="en" lang="en">Get in touch</span></a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <figure class="hero-figure">
+          <!-- TODO: self-host this photo (e.g. /assets/danilo.jpg, ~700px wide, compressed)
+               instead of hotlinking WordPress -->
+          <img src="https://daniloespeleta-kchbl.wordpress.com/wp-content/uploads/2026/02/20251120_110957774_ios.jpg"
+               alt="Retrato de Danilo Espeleta" width="340" height="415"
+               loading="eager" fetchpriority="high">
+          <span class="hero-frame" aria-hidden="true"></span>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" role="presentation"></div>
+
+  <!-- ================= ABOUT ================= -->
+  <section id="sobre" aria-labelledby="sobre-title">
+    <div class="about-grid">
+      <div>
+        <p class="kicker"><span class="pt">Sobre</span><span class="en" lang="en">About</span></p>
+        <h2 class="section-title" id="sobre-title">
+          <span class="pt">Quem <span class="accent">sou eu</span></span>
+          <span class="en" lang="en">Who <span class="accent">I am</span></span>
+        </h2>
+        <div class="about-copy">
+          <p class="pt">Do centro de São Paulo, sou movido por linguagem, diversidade e descoberta. Aprendi a dançar no tempo e fora do tempo, e foi aí que comecei a enxergar os padrões. Minha experiência em educação e ambientes digitais me fez crescer em criatividade, adaptabilidade e uma liderança orientada por propósito.</p>
+          <p class="pt">Movido por criatividade e colaboração, transformo desafios em oportunidades de crescimento, celebro a individualidade e inspiro equipes a performarem no seu melhor.</p>
+          <p class="en" lang="en">From downtown São Paulo, I'm all about language, diversity, and discovery. I've learned I can dance on and off the beat everywhere; that's when I really saw the patterns. My experience in education and digital environments helped me grow in creativity, quick adaptability, and a purpose-driven approach to leadership.</p>
+          <p class="en" lang="en">Fueled by creativity and collaboration, I turn challenges into growth opportunities, celebrate individuality, and inspire teams to perform at their best.</p>
+        </div>
+        <div class="about-actions">
+          <a class="btn btn-outline cv-link" href="DE-Curriculo.pdf"><span class="pt">Ver Currículo</span><span class="en" lang="en">See Resume</span></a>
+          <a class="btn btn-outline" href="/portfolio"><span class="pt">Ver Portfólio</span><span class="en" lang="en">See Portfolio</span></a>
+        </div>
+      </div>
+      <div>
+        <h3 class="visually-hidden"><span class="pt">Competências</span><span class="en" lang="en">Skills</span></h3>
+        <ul class="chips">
+          <li class="hot"><span class="pt">Estratégia de CRM &amp; Automação</span><span class="en" lang="en">CRM Strategy &amp; Automation</span></li>
+          <li><span class="pt">Gestão de Ciclo de Vida</span><span class="en" lang="en">Lifecycle Management</span></li>
+          <li class="hot">Growth Marketing</li>
+          <li><span class="pt">Planejamento de Campanhas</span><span class="en" lang="en">Campaign Planning</span></li>
+          <li class="hot"><span class="pt">Otimização Orientada por Dados</span><span class="en" lang="en">Data-Driven Optimization</span></li>
+          <li><span class="pt">Engajamento &amp; Retenção</span><span class="en" lang="en">Engagement &amp; Retention</span></li>
+          <li class="hot">Lead Scoring</li>
+          <li><span class="pt">Marketing Integrado</span><span class="en" lang="en">Integrated Marketing</span></li>
+          <li class="hot"><span class="pt">Análise de Dados</span><span class="en" lang="en">Analytics</span></li>
+          <li>Lifetime Value</li>
+          <li><span class="pt">Liderança de Marca</span><span class="en" lang="en">Brand Leadership</span></li>
+          <li class="hot">NRR</li>
+          <li><span class="pt">Taxa de Churn</span><span class="en" lang="en">Churn Rate</span></li>
+          <li>A/B Testing</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" role="presentation"></div>
+
+  <!-- ================= CASES (extended from the Claude design) ================= -->
+  <section id="cases" aria-labelledby="cases-title">
+    <p class="kicker"><span class="pt">Portfólio · Cases</span><span class="en" lang="en">Portfolio · Case studies</span></p>
+    <h2 class="section-title" id="cases-title">
+      <span class="pt">CRM &amp; Lifecycle <span class="accent">na prática</span></span>
+      <span class="en" lang="en">CRM &amp; Lifecycle <span class="accent">in practice</span></span>
+    </h2>
+    <p class="section-sub">
+      <span class="pt">Dois estudos de caso conceituais sobre estruturar prospecção, jornada e captação de recursos no terceiro setor.</span>
+      <span class="en" lang="en">Two conceptual case studies on structuring prospecting, journeys and fundraising in the nonprofit sector.</span>
+    </p>
+
+    <div class="cases-grid">
+      <!-- CASE 01 -->
+      <article class="case-card case-card--01" aria-labelledby="case1-title">
+        <div class="case-bar" aria-hidden="true"></div>
+        <div class="case-body">
+          <p class="case-kicker">Case 01 · CRM &amp; Lifecycle</p>
+          <h3 class="case-title" id="case1-title">Abrindo Caminhos</h3>
+          <p class="case-meta">
+            <span class="pt">Grande ONG brasileira · Terceiro setor · Case conceitual · 2023</span>
+            <span class="en" lang="en">Major Brazilian NGO · Nonprofit sector · Conceptual case · 2023</span>
+          </p>
+          <p class="case-desc">
+            <span class="pt">Reposicionamento de marketing institucional: segmentação de personas por condição, jornada do doador em cinco estágios (do alcance à advocacia), framework de KPIs e automação multicanal para captar um novo nicho de apoiadores e converter doações pontuais em receita recorrente.</span>
+            <span class="en" lang="en">Institutional marketing repositioning: condition-based persona segmentation, a five-stage donor journey (from reach to advocacy), a KPI framework and multichannel automation to win an untapped niche of supporters and turn one-off donations into recurring revenue.</span>
+          </p>
+          <ul class="case-tags" aria-label="Ferramentas e disciplinas">
+            <li><span class="pt">Segmentação de personas</span><span class="en" lang="en">Persona segmentation</span></li>
+            <li><span class="pt">Jornada do doador</span><span class="en" lang="en">Donor journey</span></li>
+            <li>HubSpot / RD Station</li>
+            <li><span class="pt">Automação multicanal</span><span class="en" lang="en">Multichannel automation</span></li>
+            <li>Power BI</li>
+          </ul>
+          <a class="case-link" href="case-abrindo-caminhos.html">
+            <span class="pt">Ver case completo</span><span class="en" lang="en">View full case</span>
+            <span class="arrow" aria-hidden="true">&rarr;</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- CASE 02 -->
+      <article class="case-card case-card--02" aria-labelledby="case2-title">
+        <div class="case-bar" aria-hidden="true"></div>
+        <div class="case-body">
+          <p class="case-kicker">Case 02 · <span class="pt">Prospecção híbrida</span><span class="en" lang="en">Hybrid prospecting</span></p>
+          <h3 class="case-title" id="case2-title">Boa Leitura</h3>
+          <p class="case-meta">
+            <span class="pt">Grande ONG brasileira · Terceiro setor · Case conceitual · 2024</span>
+            <span class="en" lang="en">Major Brazilian NGO · Nonprofit sector · Conceptual case · 2024</span>
+          </p>
+          <p class="case-desc">
+            <span class="pt">Projeto social de incentivo à leitura desenhado como motor de prospecção híbrida: funil de Defensores em cinco estágios, calendário literário como motor de cadência editorial e nicho de convidados como canal de alavancagem de audiência — impacto social e captação crescendo na mesma operação.</span>
+            <span class="en" lang="en">A reading-incentive social project designed as a hybrid prospecting engine: a five-stage Defenders funnel, a literary calendar as an editorial cadence engine, and a guest niche as an audience-leverage channel — social impact and fundraising growing in the same operation.</span>
+          </p>
+          <ul class="case-tags" aria-label="Ferramentas e disciplinas">
+            <li><span class="pt">Funil de ciclo de vida</span><span class="en" lang="en">Lifecycle funnel</span></li>
+            <li><span class="pt">Prospecção híbrida</span><span class="en" lang="en">Hybrid prospecting</span></li>
+            <li><span class="pt">Calendário editorial</span><span class="en" lang="en">Editorial calendar</span></li>
+            <li>Mautic / Make</li>
+            <li><span class="pt">Framework de KPIs</span><span class="en" lang="en">KPI framework</span></li>
+          </ul>
+          <a class="case-link" href="case-boa-leitura.html">
+            <span class="pt">Ver case completo</span><span class="en" lang="en">View full case</span>
+            <span class="arrow" aria-hidden="true">&rarr;</span>
+          </a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <div class="divider" role="presentation"></div>
+
+  <!-- ================= CONTACT ================= -->
+  <section id="contato" aria-labelledby="contato-title">
+    <p class="kicker"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></p>
+    <h2 class="section-title" id="contato-title">
+      <span class="pt">Vamos <span class="accent">conversar</span></span>
+      <span class="en" lang="en">Let's <span class="accent">talk</span></span>
+    </h2>
+    <address style="font-style:normal">
+      <ul class="contact-list">
+        <li><a href="mailto:daniloespeleta@gmail.com"><span class="label">E-mail</span> daniloespeleta@gmail.com</a></li>
+        <li><a href="tel:+5511921786184"><span class="label"><span class="pt">Telefone</span><span class="en" lang="en">Phone</span></span> +55 11 92178-6184</a></li>
+        <li><div class="contact-loc"><span class="label"><span class="pt">Local</span><span class="en" lang="en">Location</span></span> São Paulo / SP · Brasil</div></li>
+      </ul>
+    </address>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <span>© <span id="year">2026</span> Danilo Espeleta</span>
+    <span><a href="/portfolio">Portfólio</a> · <a href="blog.html">Blog</a> · <a href="contact.html"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ---- language toggle (persisted, syncs <html lang> and CV href) ---- */
+  var CV = { pt: 'DE-Curriculo.pdf', en: 'DE-Resume.pdf' };
+  var langButtons = document.querySelectorAll('.lang-switch button');
+
+  function setLang(lang){
+    document.body.className = 'lang-' + lang;
+    document.documentElement.lang = lang === 'en' ? 'en' : 'pt-BR';
+    langButtons.forEach(function(btn){
+      btn.setAttribute('aria-pressed', String(btn.dataset.lang === lang));
+    });
+    document.querySelectorAll('#cv-link, .cv-link').forEach(function(a){
+      a.setAttribute('href', CV[lang]);
+    });
+    try { localStorage.setItem('lang', lang); } catch(e){}
+  }
+
+  langButtons.forEach(function(btn){
+    btn.addEventListener('click', function(){ setLang(btn.dataset.lang); });
+  });
+
+  var saved = null;
+  try { saved = localStorage.getItem('lang'); } catch(e){}
+  if (saved === 'en' || saved === 'pt') setLang(saved);
+
+  /* ---- mobile menu ---- */
+  var toggle = document.querySelector('.menu-toggle');
+  var nav = document.getElementById('site-nav');
+
+  function closeMenu(){
+    nav.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+  }
+
+  toggle.addEventListener('click', function(){
+    var open = nav.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', String(open));
+  });
+  nav.addEventListener('click', function(e){
+    if (e.target.closest('a')) closeMenu();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && nav.classList.contains('open')){
+      closeMenu();
+      toggle.focus();
+    }
+  });
+
+  /* ---- footer year ---- */
+  document.getElementById('year').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

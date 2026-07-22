@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQL 02 · Lógica de Precedência · Danilo Espeleta</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0a;--bg2:#111111;--bg3:#161616;--cyan:#00d4ff;--white:#f0f0ee;--gray:#888884;--gray2:#444440;--border:rgba(255,255,255,0.07)}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:'Barlow',sans-serif;font-weight:300;line-height:1.6;overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 3rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);background:rgba(10,10,10,0.95);backdrop-filter:blur(12px)}
+.nav-left{display:flex;flex-direction:column;gap:0.1rem}
+.nav-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.15rem;letter-spacing:0.06em;color:var(--white)}
+.nav-role{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--cyan);letter-spacing:0.1em;text-transform:uppercase}
+.nav-right{display:flex;align-items:center;gap:1.5rem}
+.nav-links{display:flex;gap:1.5rem;align-items:center}
+.nav-links a{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--gray);text-decoration:none;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s}
+.nav-links a:hover{color:var(--cyan)}
+.dropdown{position:relative}
+.dropdown-btn{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--gray);letter-spacing:0.1em;text-transform:uppercase;background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;padding:0}
+.dropdown-btn:hover{color:var(--cyan)}
+.dropdown-btn::after{content:'▾';font-size:0.6rem}
+.dropdown-menu{position:absolute;top:100%;right:0;padding-top:0.75rem;background:transparent;min-width:140px;display:none;flex-direction:column;z-index:200}
+.dropdown-menu-inner{background:var(--bg2);border:1px solid var(--border);display:flex;flex-direction:column}
+.dropdown:hover .dropdown-menu{display:flex}
+.dropdown-menu a{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--gray);text-decoration:none;letter-spacing:0.1em;text-transform:uppercase;padding:0.75rem 1rem;border-bottom:1px solid var(--border);transition:all 0.2s}
+.dropdown-menu a:last-child{border-bottom:none}
+.dropdown-menu a:hover{color:var(--cyan);background:var(--bg3)}
+.lang-flag{position:relative}
+.flag-btn{background:none;border:1px solid var(--border);cursor:pointer;padding:4px 8px;display:flex;align-items:center;gap:6px;transition:border-color 0.2s}
+.flag-btn:hover{border-color:var(--cyan)}
+.flag-btn span{font-size:1rem;line-height:1}
+.flag-label{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--gray);letter-spacing:0.1em;text-transform:uppercase}
+.flag-dropdown{position:absolute;top:100%;right:0;padding-top:0.5rem;background:transparent;display:none;flex-direction:column;min-width:110px;z-index:200}
+.flag-dropdown-inner{background:var(--bg2);border:1px solid var(--border);display:flex;flex-direction:column}
+.lang-flag:hover .flag-dropdown{display:flex}
+.flag-option{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--gray);letter-spacing:0.1em;text-transform:uppercase;padding:0.6rem 0.8rem;border-bottom:1px solid var(--border);cursor:pointer;display:flex;align-items:center;gap:8px;background:none;border-left:none;border-right:none;width:100%;text-align:left;transition:all 0.2s}
+.flag-option:last-child{border-bottom:none}
+.flag-option:hover{color:var(--cyan);background:var(--bg3)}
+.flag-option.active{color:var(--cyan)}
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem 4rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--gray)}
+.footer-info{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--gray2);letter-spacing:0.06em}
+.lang-pt .en{display:none}
+.lang-en .pt{display:none}
+.case-wrap{max-width:860px;margin:0 auto;padding:8rem 3rem 6rem}
+.breadcrumb{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--gray2);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:2rem;display:flex;align-items:center;gap:0.5rem}
+.breadcrumb a{color:var(--gray);text-decoration:none;transition:color 0.2s}
+.breadcrumb a:hover{color:var(--cyan)}
+.breadcrumb-sep{color:var(--gray2)}
+.case-tag{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--cyan);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:1rem;display:block}
+.case-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:clamp(2.5rem,5vw,4rem);line-height:0.95;text-transform:uppercase;color:var(--white);margin-bottom:2rem}
+.case-title span{color:var(--cyan)}
+.metrics-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-bottom:3rem}
+.metric-cell{background:var(--bg2);padding:1.5rem;text-align:center}
+.metric-num{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:2rem;color:var(--cyan);line-height:1;margin-bottom:0.3rem}
+.metric-label{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--gray);letter-spacing:0.1em;text-transform:uppercase;line-height:1.4}
+.content-block{margin-bottom:2.5rem}
+.block-label{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--cyan);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.75rem;display:flex;align-items:center;gap:0.5rem}
+.block-label::before{content:'→'}
+.block-text{font-size:0.95rem;color:rgba(240,240,238,0.7);line-height:1.85}
+.block-text p{margin-bottom:0.75rem}
+.block-text p:last-child{margin-bottom:0}
+.code-wrap{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--cyan);margin-bottom:2.5rem;overflow:hidden}
+.code-header{padding:0.75rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center}
+.code-lang{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--cyan);letter-spacing:0.12em;text-transform:uppercase}
+.code-body{padding:1.5rem;overflow-x:auto}
+.code-body pre{font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.8;color:rgba(240,240,238,0.8);white-space:pre}
+.kw{color:var(--cyan)}.fn{color:#a78bfa}.str{color:#86efac}.cm{color:var(--gray2);font-style:italic}
+.mockup-wrap{background:var(--bg2);border:1px solid var(--border);padding:2rem;margin-bottom:2.5rem}
+.mockup-label{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--cyan);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.5rem}
+.mockup-label::before{content:'→'}
+.insight-box{background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.2);border-left:3px solid var(--cyan);padding:1.75rem;margin-bottom:2.5rem}
+.insight-label{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--cyan);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.75rem}
+.insight-text{font-size:0.95rem;color:rgba(240,240,238,0.8);line-height:1.8;font-style:italic}
+.back-link{display:inline-flex;align-items:center;gap:0.5rem;font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--gray);text-decoration:none;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s;margin-top:3rem;border-top:1px solid var(--border);padding-top:2rem;width:100%}
+.back-link:hover{color:var(--cyan)}
+@media(max-width:768px){nav{padding:1rem 1.5rem}.case-wrap{padding:6rem 1.5rem 4rem}.metrics-strip{grid-template-columns:repeat(3,1fr)}footer{padding:1.5rem;flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body class="lang-pt">
+<nav>
+  <div class="nav-left">
+    <div class="nav-name">Danilo Espeleta</div>
+    <div class="nav-role"><span class="pt">Líder em CRM &amp; Lifecycle Marketing</span><span class="en">CRM &amp; Lifecycle Marketing Leader</span></div>
+  </div>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="index.html"><span class="pt">Início</span><span class="en">Home</span></a>
+      <a href="#" onclick="openCV(event)"><span class="pt">Currículo</span><span class="en">Resume</span></a>
+      <div class="dropdown">
+        <button class="dropdown-btn">More</button>
+        <div class="dropdown-menu"><div class="dropdown-menu-inner">
+          <a href="portfolio.html">Portfolio</a>
+          <a href="blog.html">Blog</a>
+          <a href="contact.html"><span class="pt">Contato</span><span class="en">Contact</span></a>
+        </div></div>
+      </div>
+    </div>
+    <div class="lang-flag">
+      <button class="flag-btn"><span id="flag-icon">🇧🇷</span><span class="flag-label" id="flag-label">PT</span></button>
+      <div class="flag-dropdown"><div class="flag-dropdown-inner">
+        <button class="flag-option active" onclick="setLang('pt')">🇧🇷 Português</button>
+        <button class="flag-option" onclick="setLang('en')">🇺🇸 English</button>
+      </div></div>
+    </div>
+  </div>
+</nav>
+
+<div class="case-wrap">
+  <div class="breadcrumb"><a href="portfolio.html">Portfolio</a><span class="breadcrumb-sep">/</span><span>SQL</span><span class="breadcrumb-sep">/</span><span class="pt">Caso 02</span><span class="en">Case 02</span></div>
+  <span class="case-tag">SQL · <span class="pt">Caso 02</span><span class="en">Case 02</span></span>
+  <h1 class="case-title pt">Lógica de<br><span>Precedência</span></h1>
+  <h1 class="case-title en">Precedence<br><span>Logic</span></h1>
+  <div class="metrics-strip">
+    <div class="metric-cell"><div class="metric-num">15</div><div class="metric-label pt">Novas oportunidades</div><div class="metric-label en">New opportunities</div></div>
+    <div class="metric-cell"><div class="metric-num">30+</div><div class="metric-label pt">Dias de inatividade filtrada</div><div class="metric-label en">Days of inactivity filtered</div></div>
+    <div class="metric-cell"><div class="metric-num">85+</div><div class="metric-label pt">Score mínimo dos leads</div><div class="metric-label en">Minimum lead score</div></div>
+  </div>
+  <div class="content-block">
+    <div class="block-label pt">Contexto</div><div class="block-label en">Context</div>
+    <div class="block-text pt"><p>Este caso demonstra o uso estratégico de lógica booleana avançada para recuperar oportunidades de alto valor que esfriaram no funil comercial por falta de interação.</p></div>
+    <div class="block-text en"><p>This case demonstrates the strategic use of advanced boolean logic to recover high-value opportunities that went cold in the commercial funnel due to lack of interaction.</p></div>
+  </div>
+  <div class="content-block">
+    <div class="block-label pt">Sobre o caso</div><div class="block-label en">About the case</div>
+    <div class="block-text pt"><p>Uma parcela crítica de leads com cargos de decisão (C-Level e Diretores) estava sem interações do time comercial há mais de 30 dias, representando risco de perda de receita qualificada. Desenvolvi uma query de auditoria que usa parênteses para garantir a precedência correta dos filtros, isolando lideranças com alto score e inatividade prolongada. A ação resultou na abertura imediata de 15 novas oportunidades de negócio.</p></div>
+    <div class="block-text en"><p>A critical portion of leads with decision-making roles (C-Level and Directors) had no commercial team interactions for over 30 days, representing a qualified revenue loss risk. I developed an audit query using parentheses to ensure correct filter precedence, isolating high-score leadership profiles with prolonged inactivity. The action immediately opened 15 new business opportunities.</p></div>
+  </div>
+  <div class="code-wrap">
+    <div class="code-header"><span class="code-lang">SQL</span></div>
+    <div class="code-body"><pre><span class="cm">-- Recuperação de Leads VIP Inativos</span>
+
+<span class="kw">SELECT</span>
+    nome,
+    cargo,
+    score,
+    dias_desde_ultimo_contato
+<span class="kw">FROM</span>
+    leads_potenciais
+<span class="kw">WHERE</span>
+    (cargo = <span class="str">'coordenador'</span>
+     <span class="kw">OR</span> cargo = <span class="str">'diretor'</span>
+     <span class="kw">OR</span> cargo = <span class="str">'ceo'</span>)
+    <span class="kw">AND</span> score > <span class="str">85</span>
+    <span class="kw">AND</span> dias_desde_ultimo_contato > <span class="str">30</span>;</pre></div>
+  </div>
+  <div class="mockup-wrap">
+    <div class="mockup-label pt">Visualização do processo</div>
+    <div class="mockup-label en">Process visualization</div>
+    <svg viewBox="0 0 760 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;font-family:'JetBrains Mono',monospace">
+  <rect x="10" y="65" width="140" height="70" rx="4" fill="#161616" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  <text x="80" y="93" text-anchor="middle" fill="#888884" font-size="8" letter-spacing="1">BASE TOTAL</text>
+  <text x="80" y="113" text-anchor="middle" fill="#f0f0ee" font-size="13" font-weight="700">Todos os Leads</text>
+  <text x="168" y="103" fill="#00d4ff" font-size="18">→</text>
+  <rect x="190" y="50" width="160" height="100" rx="4" fill="rgba(0,212,255,0.06)" stroke="#00d4ff" stroke-width="1"/>
+  <text x="270" y="78" text-anchor="middle" fill="#00d4ff" font-size="8" letter-spacing="1">FILTRO BOOLEANO</text>
+  <text x="270" y="98" text-anchor="middle" fill="#00d4ff" font-size="11" font-weight="700">Cargo VIP?</text>
+  <text x="270" y="115" text-anchor="middle" fill="#888884" font-size="8">Score &gt; 85?</text>
+  <text x="270" y="130" text-anchor="middle" fill="#888884" font-size="8">Inativo &gt; 30 dias?</text>
+  <text x="368" y="83" fill="#888884" font-size="12">→</text>
+  <text x="368" y="123" fill="#00d4ff" font-size="12">→</text>
+  <rect x="390" y="55" width="160" height="45" rx="4" fill="#161616" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  <text x="470" y="75" text-anchor="middle" fill="#888884" font-size="8">NÃO</text>
+  <text x="470" y="92" text-anchor="middle" fill="#888884" font-size="10">Manter Nutrição</text>
+  <rect x="390" y="110" width="160" height="45" rx="4" fill="rgba(0,212,255,0.08)" stroke="#00d4ff" stroke-width="1.5"/>
+  <text x="470" y="130" text-anchor="middle" fill="#00d4ff" font-size="8">SIM → LISTA DE RESGATE</text>
+  <text x="470" y="148" text-anchor="middle" fill="#00d4ff" font-size="13" font-weight="700">15 Oportunidades</text>
+</svg>
+  </div>
+  <div class="insight-box">
+    <div class="insight-label pt">Explicação de negócio</div><div class="insight-label en">Business explanation</div>
+    <p class="insight-text pt">No CRM, o tempo é o maior inimigo da conversão. Quanto mais tempo um lead qualificado fica sem contato, menores as chances de fechamento. Esta query atua como um sistema de segurança operacional, impedindo que o investimento em perfis de alto escalão seja desperdiçado por falhas de processo.</p>
+    <p class="insight-text en">In CRM, time is the biggest enemy of conversion. The longer a qualified lead goes without contact, the lower the chances of closing. This query acts as an operational safety system, preventing investment in high-profile acquisition from being wasted due to process failures.</p>
+  </div>
+  <a href="portfolio.html" class="back-link">← <span class="pt">Voltar para o Portfolio</span><span class="en">Back to Portfolio</span></a>
+</div>
+
+<footer>
+  <div class="footer-name">Danilo Campos Espeleta</div>
+  <div class="footer-info">São Paulo / SP · daniloespeleta@gmail.com · +55 11 92178-6184</div>
+</footer>
+<script>
+const CV_PT='DE-Curriculo.pdf';const CV_EN='DE-Resume.pdf';
+function openCV(e){e.preventDefault();const lang=document.body.classList.contains('lang-en')?'en':'pt';window.open(lang==='en'?CV_EN:CV_PT,'_blank')}
+function setLang(lang){document.body.className='lang-'+lang;document.getElementById('flag-icon').textContent=lang==='pt'?'🇧🇷':'🇺🇸';document.getElementById('flag-label').textContent=lang==='pt'?'PT':'EN';document.querySelectorAll('.flag-option').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.flag-option')[lang==='pt'?0:1].classList.add('active')}
+</script>
+</body>
+</html>

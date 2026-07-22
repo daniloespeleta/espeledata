@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfólio · Danilo Espeleta</title>
+<meta name="description" content="Portfólio de Danilo Espeleta: projetos de CRM &amp; Lifecycle Marketing, cases conceituais de estratégia para o terceiro setor e casos de SQL aplicados a marketing.">
+<meta name="author" content="Danilo Espeleta">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Portfólio · Danilo Espeleta">
+<meta property="og:description" content="Projetos de CRM &amp; Lifecycle, cases de estratégia e SQL aplicado a marketing.">
+<meta property="og:url" content="https://espeledata.com/portfolio.html">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg:#0a0a0a; --bg2:#111113; --bg3:#17171a;
+  --cyan:#00d4ff; --coral:#ff5a47;
+  --white:#f0f0ee; --gray:#a3a39d; --gray2:#888882;
+  --border:rgba(255,255,255,0.08);
+  --sans:'Barlow',system-ui,sans-serif;
+  --cond:'Barlow Condensed',var(--sans);
+  --mono:'JetBrains Mono',Consolas,monospace;
+  --max:1100px;
+}
+/* ============ BASE ============ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-padding-top:5.5rem}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{background:var(--bg);color:var(--white);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--cyan)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:2px}
+.visually-hidden{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.skip-link{position:absolute;left:1rem;top:-4rem;z-index:300;background:var(--cyan);color:#00232b;font-weight:600;padding:.6rem 1rem;text-decoration:none;transition:top .15s}
+.skip-link:focus{top:1rem}
+.lang-pt .en{display:none!important}
+.lang-en .pt{display:none!important}
+
+/* ============ NAV ============ */
+.site-nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.8rem 2rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;border-bottom:1px solid var(--border);background:rgba(10,10,10,0.92);backdrop-filter:blur(12px)}
+.brand{display:flex;flex-direction:column;gap:.1rem;text-decoration:none}
+.brand-name{font-family:var(--cond);font-weight:700;font-size:1.1rem;letter-spacing:.06em;color:var(--white);text-transform:uppercase}
+.brand-role{font-family:var(--mono);font-size:.6rem;color:var(--cyan);letter-spacing:.12em;text-transform:uppercase}
+.nav-right{display:flex;align-items:center;gap:1.4rem}
+.nav-links{display:flex;gap:1.4rem;align-items:center}
+.nav-links a{font-family:var(--mono);font-size:.68rem;color:var(--gray);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;padding:.3rem 0}
+.nav-links a:hover,.nav-links a[aria-current="page"]{color:var(--cyan)}
+.lang-switch{display:flex;border:1px solid var(--border)}
+.lang-switch button{background:none;border:none;color:var(--gray);cursor:pointer;font-family:var(--mono);font-size:.65rem;font-weight:500;letter-spacing:.1em;padding:.4rem .7rem}
+.lang-switch button+button{border-left:1px solid var(--border)}
+.lang-switch button[aria-pressed="true"]{background:var(--cyan);color:#00232b}
+.menu-btn{display:none;font-family:var(--mono);font-size:.68rem;color:var(--white);background:none;border:1px solid var(--border);padding:.45rem .9rem;cursor:pointer;letter-spacing:.12em;text-transform:uppercase;transition:all .2s}
+.menu-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:260;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.sidebar-overlay.open{opacity:1;visibility:visible}
+.sidebar{position:fixed;top:0;right:-290px;width:290px;height:100vh;background:var(--bg2);border-left:1px solid var(--border);z-index:270;transition:right .28s;padding:4.5rem 2rem 2rem;display:flex;flex-direction:column;overflow-y:auto}
+.sidebar.open{right:0}
+.sidebar-close{position:absolute;top:1.1rem;right:1.1rem;background:none;border:1px solid var(--border);color:var(--gray);font-size:1rem;line-height:1;cursor:pointer;font-family:var(--mono);padding:.4rem .6rem}
+.sidebar-close:hover{color:var(--cyan);border-color:var(--cyan)}
+.sidebar a{font-family:var(--mono);font-size:.78rem;color:var(--gray);text-decoration:none;letter-spacing:.12em;text-transform:uppercase;padding:1rem 0;border-bottom:1px solid var(--border);transition:color .2s;display:block}
+.sidebar a:hover,.sidebar a[aria-current="page"]{color:var(--cyan)}
+.sidebar .lang-switch{margin-top:1.5rem;align-self:flex-start}
+@media(max-width:900px){
+  .site-nav{padding:.75rem 1.25rem}
+  .brand-role{display:none}
+  .nav-right .nav-links,.nav-right .lang-switch{display:none}
+  .menu-btn{display:block}
+}
+
+/* ============ HEADER ============ */
+.page-header{max-width:var(--max);margin:0 auto;padding:8rem 1.5rem 2.5rem}
+.kicker{font-family:var(--mono);font-size:.68rem;color:var(--cyan);letter-spacing:.2em;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:.6rem}
+.kicker::before{content:'→'}
+.page-title{font-family:var(--cond);font-weight:800;font-size:clamp(3rem,7vw,5rem);line-height:.92;text-transform:uppercase;color:var(--white)}
+.page-title .accent{color:var(--cyan)}
+.page-sub{margin-top:1.2rem;font-size:.98rem;color:var(--gray);max-width:560px;line-height:1.8}
+
+/* ============ FILTERS ============ */
+.filters{max-width:var(--max);margin:0 auto;padding:0 1.5rem 1rem;display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.filter-btn{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);background:var(--bg2);border:1px solid var(--border);padding:.6rem 1.1rem;cursor:pointer;transition:all .2s;display:inline-flex;gap:.5rem;align-items:center}
+.filter-btn:hover{color:var(--cyan);border-color:rgba(0,212,255,.4)}
+.filter-btn[aria-pressed="true"]{background:var(--cyan);border-color:var(--cyan);color:#00232b}
+.filter-btn .count{font-size:.58rem;opacity:.75}
+.results-line{max-width:var(--max);margin:0 auto;padding:0 1.5rem 1.5rem;font-family:var(--mono);font-size:.62rem;color:var(--gray2);letter-spacing:.1em;text-transform:uppercase}
+
+/* ============ GRID ============ */
+.port-section{max-width:var(--max);margin:0 auto;padding:0 1.5rem 4rem}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--border);border:1px solid var(--border)}
+.card{background:var(--bg2);padding:1.9rem 1.7rem;text-decoration:none;display:flex;flex-direction:column;gap:.85rem;transition:background .2s;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--card-accent,var(--cyan));opacity:0;transition:opacity .2s}
+.card::after{content:'→';position:absolute;top:1.5rem;right:1.5rem;font-family:var(--mono);font-size:1rem;color:var(--cyan);opacity:0;transition:opacity .2s,transform .2s;transform:translateX(-4px)}
+a.card:hover{background:var(--bg3)}
+a.card:hover::before{opacity:1}
+a.card:hover::after{opacity:1;transform:translateX(0)}
+.card.hidden{display:none}
+.card-num{font-family:var(--mono);font-size:.6rem;color:var(--card-accent,var(--cyan));letter-spacing:.14em;text-transform:uppercase}
+.card-title{font-family:var(--cond);font-weight:700;font-size:1.35rem;text-transform:uppercase;color:var(--white);line-height:1.08;padding-right:1.6rem}
+.card-desc{font-size:.86rem;color:var(--gray);line-height:1.65;flex:1}
+.card-tags{display:flex;flex-wrap:wrap;gap:4px;padding-top:.4rem}
+.card-tag{font-family:var(--mono);font-size:.56rem;color:var(--cyan);border:1px solid rgba(0,212,255,0.22);padding:3px 8px;letter-spacing:.08em;text-transform:uppercase}
+.card-featured{grid-column:1/-1;border-left:3px solid var(--cyan)}
+.card-featured .card-title{font-size:1.8rem}
+.card-soon{opacity:.45;cursor:default}
+.soon-badge{font-family:var(--mono);font-size:.56rem;color:var(--gray2);letter-spacing:.12em;text-transform:uppercase;border:1px dashed var(--border);padding:3px 8px;align-self:flex-start}
+.cc-coral{--card-accent:var(--coral)}
+
+/* ============ FOOTER ============ */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-name{font-family:var(--cond);font-weight:700;font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray)}
+.footer-info{font-family:var(--mono);font-size:.62rem;color:var(--gray2);letter-spacing:.06em;display:flex;flex-wrap:wrap;gap:.4rem 1rem;align-items:center}
+.footer-info a{color:var(--gray);text-decoration:none;transition:color .2s}
+.footer-info a:hover{color:var(--cyan)}
+@media(max-width:640px){footer{flex-direction:column;align-items:flex-start;padding:1.5rem}}
+
+/* ============ REVEAL ============ */
+@media (prefers-reduced-motion:no-preference){
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}
+  .reveal.in{opacity:1;transform:none}
+}
+</style>
+</head>
+<body class="lang-pt">
+
+<a class="skip-link" href="#main"><span class="pt">Pular para o conteúdo</span><span class="en" lang="en">Skip to content</span></a>
+
+<!-- ============ NAV ============ -->
+<nav class="site-nav" aria-label="Principal">
+  <a class="brand" href="index.html">
+    <span class="brand-name">Danilo Espeleta</span>
+    <span class="brand-role">CRM &amp; Lifecycle Marketing</span>
+  </a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="index.html"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
+      <a href="index.html#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
+      <a href="portfolio.html" aria-current="page"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
+      <a href="contact.html"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
+      <a class="cv-link" href="CV/DE-Curriculo.pdf" download><span class="pt">Currículo ↓</span><span class="en" lang="en">Resume ↓</span></a>
+    </div>
+    <div class="lang-switch" role="group" aria-label="Idioma / Language">
+      <button type="button" data-lang="pt" aria-pressed="true">PT</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <button class="menu-btn" aria-expanded="false" aria-controls="sidebar">Menu</button>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="sidebar" id="sidebar" aria-label="Menu">
+  <button class="sidebar-close" aria-label="Fechar menu">✕</button>
+  <a href="index.html"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
+  <a href="index.html#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
+  <a href="portfolio.html" aria-current="page"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
+  <a href="contact.html"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
+  <a class="cv-link" href="CV/DE-Curriculo.pdf" download><span class="pt">Currículo ↓</span><span class="en" lang="en">Resume ↓</span></a>
+  <div class="lang-switch" role="group" aria-label="Idioma / Language">
+    <button type="button" data-lang="pt" aria-pressed="true">PT</button>
+    <button type="button" data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</div>
+
+<main id="main">
+
+  <header class="page-header">
+    <p class="kicker"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></p>
+    <h1 class="page-title">
+      <span class="pt">Projetos &amp;<br><span class="accent">Casos</span></span>
+      <span class="en" lang="en">Projects &amp;<br><span class="accent">Cases</span></span>
+    </h1>
+    <p class="page-sub">
+      <span class="pt">Trabalho real, estratégia conceitual e técnica aplicada. Cada caso documenta o raciocínio por trás das decisões, não apenas os números.</span>
+      <span class="en" lang="en">Real work, conceptual strategy and applied technique. Each case documents the reasoning behind decisions, not just the numbers.</span>
+    </p>
+  </header>
+
+  <!-- FILTERS -->
+  <div class="filters" role="group" aria-label="Filtrar por categoria">
+    <button class="filter-btn" data-filter="all" aria-pressed="true"><span class="pt">Todos</span><span class="en" lang="en">All</span> <span class="count">8</span></button>
+    <button class="filter-btn" data-filter="projeto" aria-pressed="false"><span class="pt">Projetos</span><span class="en" lang="en">Projects</span> <span class="count">1</span></button>
+    <button class="filter-btn" data-filter="estrategia" aria-pressed="false"><span class="pt">Estratégia</span><span class="en" lang="en">Strategy</span> <span class="count">2</span></button>
+    <button class="filter-btn" data-filter="sql" aria-pressed="false">SQL <span class="count">5</span></button>
+  </div>
+  <p class="results-line" id="resultsLine" aria-live="polite"></p>
+
+  <div class="port-section">
+    <div class="cards-grid" id="cardsGrid">
+
+      <!-- PROJETO · FÊNIX (featured) -->
+      <a href="case-fenix.html" class="card card-featured" data-cat="projeto">
+        <span class="card-num"><span class="pt">Projeto 01 · Fênix Educação</span><span class="en" lang="en">Project 01 · Fênix Educação</span></span>
+        <span class="card-title"><span class="pt">CRM Turnaround em base de 50K+ leads</span><span class="en" lang="en">CRM Turnaround on a 50K+ lead database</span></span>
+        <span class="card-desc"><span class="pt">Base desengajada, disparo em massa, zero segmentação. Operação reconstruída do zero com automação comportamental, régua de ciclo de vida e resultado em 1-2 meses: +400% abertura, +35% CTR, +20% matrículas.</span><span class="en" lang="en">Disengaged base, mass blasting, zero segmentation. Operation rebuilt from scratch with behavioral automation and lifecycle logic. Results in 1-2 months: +400% open rate, +35% CTR, +20% enrollments.</span></span>
+        <span class="card-tags">
+          <span class="card-tag">RD Station</span>
+          <span class="card-tag">Lead Scoring</span>
+          <span class="card-tag">A/B Testing</span>
+          <span class="card-tag">Power BI</span>
+          <span class="card-tag"><span class="pt">Segmentação comportamental</span><span class="en" lang="en">Behavioral segmentation</span></span>
+        </span>
+      </a>
+
+      <!-- ESTRATÉGIA -->
+      <a href="case-abrindo-caminhos.html" class="card cc-coral" data-cat="estrategia">
+        <span class="card-num">Case 01 · CRM &amp; Lifecycle</span>
+        <span class="card-title">Abrindo Caminhos</span>
+        <span class="card-desc"><span class="pt">Reposicionamento institucional para uma grande ONG: personas por condição, jornada do doador em 5 estágios, framework de KPIs e automação multicanal para receita recorrente.</span><span class="en" lang="en">Institutional repositioning for a major NGO: condition-based personas, a 5-stage donor journey, a KPI framework and multichannel automation for recurring revenue.</span></span>
+        <span class="card-tags">
+          <span class="card-tag"><span class="pt">Jornada do doador</span><span class="en" lang="en">Donor journey</span></span>
+          <span class="card-tag">HubSpot / RD</span>
+          <span class="card-tag">Power BI</span>
+        </span>
+      </a>
+
+      <a href="case-boa-leitura.html" class="card cc-coral" data-cat="estrategia">
+        <span class="card-num">Case 02 · <span class="pt">Prospecção híbrida</span><span class="en" lang="en">Hybrid prospecting</span></span>
+        <span class="card-title">Boa Leitura</span>
+        <span class="card-desc"><span class="pt">Ação social de incentivo à leitura desenhada como motor de prospecção: funil de Defensores em 5 estágios, calendário literário como cadência e convidados como canal de alavancagem.</span><span class="en" lang="en">A reading-incentive social project designed as a prospecting engine: a 5-stage Defenders funnel, a literary calendar as cadence and guests as a leverage channel.</span></span>
+        <span class="card-tags">
+          <span class="card-tag"><span class="pt">Funil de lifecycle</span><span class="en" lang="en">Lifecycle funnel</span></span>
+          <span class="card-tag">Mautic / Make</span>
+          <span class="card-tag">KPIs</span>
+        </span>
+      </a>
+
+      <!-- SQL -->
+      <a href="case-sql-01.html" class="card" data-cat="sql">
+        <span class="card-num">SQL · <span class="pt">Caso 01</span><span class="en" lang="en">Case 01</span></span>
+        <span class="card-title"><span class="pt">Filtros e Qualificação de Leads</span><span class="en" lang="en">Filters and Lead Qualification</span></span>
+        <span class="card-desc"><span class="pt">Estrutura de filtros que isola SQLs com base em cargo, score de intenção e status. Redução de 40% no tempo de prospecção.</span><span class="en" lang="en">Filter structure that isolates SQLs based on role, intent score and status. 40% reduction in prospecting time.</span></span>
+        <span class="card-tags"><span class="card-tag">WHERE</span><span class="card-tag">LIKE</span><span class="card-tag">AND/OR</span></span>
+      </a>
+
+      <a href="case-sql-02.html" class="card" data-cat="sql">
+        <span class="card-num">SQL · <span class="pt">Caso 02</span><span class="en" lang="en">Case 02</span></span>
+        <span class="card-title"><span class="pt">Lógica de Precedência</span><span class="en" lang="en">Precedence Logic</span></span>
+        <span class="card-desc"><span class="pt">Query de auditoria com lógica booleana para recuperar leads VIP inativos há mais de 30 dias. 15 novas oportunidades abertas.</span><span class="en" lang="en">Audit query with boolean logic to recover VIP leads inactive for over 30 days. 15 new opportunities opened.</span></span>
+        <span class="card-tags"><span class="card-tag">AND/OR</span><span class="card-tag">WHERE</span><span class="card-tag">Score</span></span>
+      </a>
+
+      <a href="case-sql-03.html" class="card" data-cat="sql">
+        <span class="card-num">SQL · <span class="pt">Caso 03</span><span class="en" lang="en">Case 03</span></span>
+        <span class="card-title"><span class="pt">Visão 360° de Customer Success</span><span class="en" lang="en">360° Customer Success View</span></span>
+        <span class="card-desc"><span class="pt">LEFT JOIN com IS NULL para identificar clientes sem ativação. Redução de 15 dias no tempo de onboarding.</span><span class="en" lang="en">LEFT JOIN with IS NULL to identify clients without activation. 15-day reduction in onboarding time.</span></span>
+        <span class="card-tags"><span class="card-tag">LEFT JOIN</span><span class="card-tag">IS NULL</span><span class="card-tag">LTV</span></span>
+      </a>
+
+      <a href="case-sql-04.html" class="card" data-cat="sql">
+        <span class="card-num">SQL · <span class="pt">Caso 04</span><span class="en" lang="en">Case 04</span></span>
+        <span class="card-title"><span class="pt">Agregação de Funil</span><span class="en" lang="en">Funnel Aggregation</span></span>
+        <span class="card-desc"><span class="pt">Análise volumétrica por estágio do pipeline. Identificou gargalo crítico em "Proposta Enviada" e gerou automação de documentos.</span><span class="en" lang="en">Volumetric analysis by pipeline stage. Identified a critical bottleneck at "Proposal Sent" and triggered document automation.</span></span>
+        <span class="card-tags"><span class="card-tag">COUNT</span><span class="card-tag">GROUP BY</span><span class="card-tag">ORDER BY</span></span>
+      </a>
+
+      <a href="case-sql-05.html" class="card" data-cat="sql">
+        <span class="card-num">SQL · <span class="pt">Caso 05</span><span class="en" lang="en">Case 05</span></span>
+        <span class="card-title"><span class="pt">Ticket Médio por Segmento</span><span class="en" lang="en">Average Ticket by Segment</span></span>
+        <span class="card-desc"><span class="pt">AVG() agrupado por setor para identificar indústrias mais lucrativas. Tecnologia 40% acima da média, definindo foco de expansão.</span><span class="en" lang="en">AVG() grouped by sector to identify the most profitable industries. Technology 40% above average, defining expansion focus.</span></span>
+        <span class="card-tags"><span class="card-tag">AVG</span><span class="card-tag">GROUP BY</span><span class="card-tag">ROUND</span></span>
+      </a>
+
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-name">Danilo Campos Espeleta</div>
+  <div class="footer-info">
+    <span>São Paulo / SP</span>
+    <a href="mailto:daniloespeleta@gmail.com">daniloespeleta@gmail.com</a>
+    <a href="https://www.linkedin.com/in/daniloespeleta" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/daniloespeleta" target="_blank" rel="noopener">GitHub</a>
+    <span>© <span id="year">2026</span></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+/* ---- language ---- */
+var CV={pt:'CV/DE-Curriculo.pdf',en:'CV/DE-Resume.pdf'};
+var langButtons=document.querySelectorAll('.lang-switch button');
+function setLang(lang){
+  document.body.classList.remove('lang-pt','lang-en');
+  document.body.classList.add('lang-'+lang);
+  document.documentElement.lang=(lang==='en')?'en':'pt-BR';
+  langButtons.forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.lang===lang));});
+  document.querySelectorAll('a.cv-link').forEach(function(a){a.setAttribute('href',CV[lang]);});
+  try{localStorage.setItem('lang',lang);}catch(e){}
+  updateResultsLine();
+}
+langButtons.forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.lang);});});
+var saved=null;try{saved=localStorage.getItem('lang');}catch(e){}
+if(saved==='en'||saved==='pt')setLang(saved);
+
+/* ---- mobile sidebar ---- */
+var menuBtn=document.querySelector('.menu-btn'),sidebar=document.getElementById('sidebar'),
+    overlay=document.getElementById('sidebarOverlay'),closeBtn=document.querySelector('.sidebar-close');
+function openSb(){sidebar.classList.add('open');overlay.classList.add('open');menuBtn.setAttribute('aria-expanded','true');}
+function closeSb(){sidebar.classList.remove('open');overlay.classList.remove('open');menuBtn.setAttribute('aria-expanded','false');}
+menuBtn.addEventListener('click',openSb);
+closeBtn.addEventListener('click',closeSb);
+overlay.addEventListener('click',closeSb);
+sidebar.addEventListener('click',function(e){if(e.target.closest('a'))closeSb();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&sidebar.classList.contains('open')){closeSb();menuBtn.focus();}});
+
+/* ---- filters ---- */
+var filterBtns=document.querySelectorAll('.filter-btn');
+var cards=document.querySelectorAll('#cardsGrid .card');
+var resultsLine=document.getElementById('resultsLine');
+var current='all';
+function updateResultsLine(){
+  var visible=document.querySelectorAll('#cardsGrid .card:not(.hidden)').length;
+  var en=document.body.classList.contains('lang-en');
+  resultsLine.textContent=en
+    ? visible+' item'+(visible===1?'':'s')+' shown'
+    : visible+' ite'+(visible===1?'m':'ns')+' exibido'+(visible===1?'':'s');
+}
+function applyFilter(cat){
+  current=cat;
+  filterBtns.forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.filter===cat));});
+  cards.forEach(function(c){
+    c.classList.toggle('hidden',cat!=='all'&&c.dataset.cat!==cat);
+  });
+  updateResultsLine();
+}
+filterBtns.forEach(function(b){b.addEventListener('click',function(){applyFilter(b.dataset.filter);});});
+updateResultsLine();
+
+/* ---- year ---- */
+var y=document.getElementById('year');if(y)y.textContent=new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

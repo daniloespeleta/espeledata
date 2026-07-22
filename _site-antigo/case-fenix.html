@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fênix Educação · CRM Turnaround · Danilo Espeleta</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0a;--bg2:#111111;--bg3:#161616;--cyan:#00d4ff;--white:#f0f0ee;--gray:#888884;--gray2:#444440;--border:rgba(255,255,255,0.07)}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:'Barlow',sans-serif;font-weight:300;line-height:1.6;overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 3rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);background:rgba(10,10,10,0.95);backdrop-filter:blur(12px)}
+.nav-left{display:flex;flex-direction:column;gap:0.1rem}
+.nav-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.15rem;letter-spacing:0.06em;color:var(--white)}
+.nav-role{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--cyan);letter-spacing:0.1em;text-transform:uppercase}
+.nav-right{display:flex;align-items:center;gap:1.5rem}
+.nav-links{display:flex;gap:1.5rem;align-items:center}
+.nav-links a{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--gray);text-decoration:none;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s}
+.nav-links a:hover{color:var(--cyan)}
+.dropdown{position:relative}
+.dropdown-btn{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--gray);letter-spacing:0.1em;text-transform:uppercase;background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;padding:0}
+.dropdown-btn:hover{color:var(--cyan)}
+.dropdown-btn::after{content:'▾';font-size:0.6rem}
+.dropdown-menu{position:absolute;top:100%;right:0;padding-top:0.75rem;background:transparent;min-width:140px;display:none;flex-direction:column;z-index:200}
+.dropdown-menu-inner{background:var(--bg2);border:1px solid var(--border);display:flex;flex-direction:column}
+.dropdown:hover .dropdown-menu{display:flex}
+.dropdown-menu a{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--gray);text-decoration:none;letter-spacing:0.1em;text-transform:uppercase;padding:0.75rem 1rem;border-bottom:1px solid var(--border);transition:all 0.2s}
+.dropdown-menu a:last-child{border-bottom:none}
+.dropdown-menu a:hover{color:var(--cyan);background:var(--bg3)}
+.lang-flag{position:relative}
+.flag-btn{background:none;border:1px solid var(--border);cursor:pointer;padding:4px 8px;display:flex;align-items:center;gap:6px;transition:border-color 0.2s}
+.flag-btn:hover{border-color:var(--cyan)}
+.flag-btn span{font-size:1rem;line-height:1}
+.flag-label{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--gray);letter-spacing:0.1em;text-transform:uppercase}
+.flag-dropdown{position:absolute;top:100%;right:0;padding-top:0.5rem;background:transparent;display:none;flex-direction:column;min-width:110px;z-index:200}
+.flag-dropdown-inner{background:var(--bg2);border:1px solid var(--border);display:flex;flex-direction:column}
+.lang-flag:hover .flag-dropdown{display:flex}
+.flag-option{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--gray);letter-spacing:0.1em;text-transform:uppercase;padding:0.6rem 0.8rem;border-bottom:1px solid var(--border);cursor:pointer;display:flex;align-items:center;gap:8px;background:none;border-left:none;border-right:none;width:100%;text-align:left;transition:all 0.2s}
+.flag-option:last-child{border-bottom:none}
+.flag-option:hover{color:var(--cyan);background:var(--bg3)}
+.flag-option.active{color:var(--cyan)}
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem 4rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--gray)}
+.footer-info{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--gray2);letter-spacing:0.06em}
+.lang-pt .en{display:none}
+.lang-en .pt{display:none}
+
+/* CASE PAGE */
+.case-wrap{max-width:860px;margin:0 auto;padding:8rem 3rem 6rem}
+.breadcrumb{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--gray2);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:2rem;display:flex;align-items:center;gap:0.5rem}
+.breadcrumb a{color:var(--gray);text-decoration:none;transition:color 0.2s}
+.breadcrumb a:hover{color:var(--cyan)}
+.breadcrumb-sep{color:var(--gray2)}
+.case-tag{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--cyan);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:1rem;display:block}
+.case-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:clamp(2.5rem,5vw,4rem);line-height:0.95;text-transform:uppercase;color:var(--white);margin-bottom:0.5rem}
+.case-title span{color:var(--cyan)}
+.case-subtitle{font-size:1rem;color:var(--gray);margin-bottom:2.5rem;line-height:1.6}
+
+/* METRICS STRIP */
+.metrics-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-bottom:3rem}
+.metric-cell{background:var(--bg2);padding:1.5rem 1rem;text-align:center}
+.metric-num{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:2rem;color:var(--cyan);line-height:1;margin-bottom:0.3rem}
+.metric-label{font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:var(--gray);letter-spacing:0.08em;text-transform:uppercase;line-height:1.4}
+
+/* NARRATIVE GRID */
+.narrative-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-bottom:2.5rem}
+.nb{background:var(--bg2);padding:1.75rem;border-left:2px solid transparent}
+.nb:nth-child(odd){border-left-color:var(--cyan)}
+.nb-label{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--cyan);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.75rem;display:flex;align-items:center;gap:0.4rem}
+.nb-label::before{content:'→'}
+.nb-text{font-size:0.875rem;color:rgba(240,240,238,0.7);line-height:1.8}
+.nb-text strong{color:var(--white);font-weight:500}
+
+/* CONTENT BLOCKS */
+.content-block{margin-bottom:2.5rem}
+.block-label{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--cyan);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.75rem;display:flex;align-items:center;gap:0.5rem}
+.block-label::before{content:'→'}
+.block-text{font-size:0.95rem;color:rgba(240,240,238,0.7);line-height:1.85}
+.block-text p{margin-bottom:0.75rem}
+.block-text p:last-child{margin-bottom:0}
+
+/* STACK STRIP */
+.stack-strip{display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;padding:1.5rem;background:var(--bg2);border:1px solid var(--border);margin-bottom:2.5rem}
+.stack-strip-label{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--gray);letter-spacing:0.1em;text-transform:uppercase}
+.stack-chip{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--white);background:rgba(255,255,255,0.05);border:1px solid var(--border);padding:4px 10px;letter-spacing:0.06em}
+
+/* INSIGHT BOX */
+.insight-box{background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.2);border-left:3px solid var(--cyan);padding:1.75rem;margin-bottom:2.5rem}
+.insight-label{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--cyan);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.75rem}
+.insight-text{font-size:0.95rem;color:rgba(240,240,238,0.8);line-height:1.8;font-style:italic}
+
+/* BACK LINK */
+.back-link{display:inline-flex;align-items:center;gap:0.5rem;font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--gray);text-decoration:none;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s;margin-top:3rem;border-top:1px solid var(--border);padding-top:2rem;width:100%}
+.back-link:hover{color:var(--cyan)}
+
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem}
+  .case-wrap{padding:6rem 1.5rem 4rem}
+  .metrics-strip{grid-template-columns:repeat(2,1fr)}
+  .narrative-grid{grid-template-columns:1fr}
+  footer{padding:1.5rem;flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body class="lang-pt">
+
+<nav>
+  <div class="nav-left">
+    <div class="nav-name">Danilo Espeleta</div>
+    <div class="nav-role"><span class="pt">Líder em CRM & Lifecycle Marketing</span><span class="en">CRM & Lifecycle Marketing Leader</span></div>
+  </div>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="index.html"><span class="pt">Início</span><span class="en">Home</span></a>
+      <a href="#" onclick="openCV(event)"><span class="pt">Currículo</span><span class="en">Resume</span></a>
+      <div class="dropdown">
+        <button class="dropdown-btn">More</button>
+        <div class="dropdown-menu">
+          <div class="dropdown-menu-inner">
+            <a href="portfolio.html">Portfolio</a>
+            <a href="blog.html">Blog</a>
+            <a href="contact.html"><span class="pt">Contato</span><span class="en">Contact</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="lang-flag">
+      <button class="flag-btn"><span id="flag-icon">🇧🇷</span><span class="flag-label" id="flag-label">PT</span></button>
+      <div class="flag-dropdown">
+        <div class="flag-dropdown-inner">
+          <button class="flag-option active" onclick="setLang('pt')">🇧🇷 Português</button>
+          <button class="flag-option" onclick="setLang('en')">🇺🇸 English</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="case-wrap">
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="portfolio.html">Portfolio</a>
+    <span class="breadcrumb-sep">/</span>
+    <span class="pt">Projetos</span>
+    <span class="en">Projects</span>
+    <span class="breadcrumb-sep">/</span>
+    <span>Fênix Educação</span>
+  </div>
+
+  <!-- HEADER -->
+  <span class="case-tag pt">Projeto 01 · Fênix Educação</span>
+  <span class="case-tag en">Project 01 · Fênix Educação</span>
+  <h1 class="case-title pt">CRM<br><span>Turnaround</span></h1>
+  <h1 class="case-title en">CRM<br><span>Turnaround</span></h1>
+  <p class="case-subtitle pt">Base de 50K+ leads desengajada, disparo em massa, zero segmentação. Operação reconstruída do zero em 1-2 meses.</p>
+  <p class="case-subtitle en">50K+ disengaged lead base, mass blasting, zero segmentation. Operation rebuilt from scratch in 1-2 months.</p>
+
+  <!-- METRICS -->
+  <div class="metrics-strip">
+    <div class="metric-cell">
+      <div class="metric-num">400%</div>
+      <div class="metric-label pt">Taxa de abertura</div>
+      <div class="metric-label en">Open rate increase</div>
+    </div>
+    <div class="metric-cell">
+      <div class="metric-num">+35%</div>
+      <div class="metric-label">CTR <span class="pt">médio</span><span class="en">average</span></div>
+    </div>
+    <div class="metric-cell">
+      <div class="metric-num">+20%</div>
+      <div class="metric-label pt">Volume de matrículas</div>
+      <div class="metric-label en">Enrollment volume</div>
+    </div>
+    <div class="metric-cell">
+      <div class="metric-num">−25%</div>
+      <div class="metric-label pt">Custo operacional</div>
+      <div class="metric-label en">Operational cost</div>
+    </div>
+  </div>
+
+  <!-- NARRATIVA -->
+  <div class="narrative-grid">
+    <div class="nb">
+      <div class="nb-label pt">Problema</div>
+      <div class="nb-label en">Problem</div>
+      <div class="nb-text pt">Base de 50K com <strong>e-mails inválidos, contatos inativos e zero segmentação</strong>. Disparo em massa para todos, sem personalização, sem régua. Entregabilidade comprometida, métricas caindo silenciosamente.</div>
+      <div class="nb-text en">50K database with <strong>invalid emails, inactive contacts and zero segmentation</strong>. Mass blast to everyone, no personalization, no lifecycle logic. Deliverability compromised, metrics silently declining.</div>
+    </div>
+    <div class="nb">
+      <div class="nb-label pt">Decisão</div>
+      <div class="nb-label en">Decision</div>
+      <div class="nb-text pt"><strong>Limpar antes de otimizar.</strong> Automação de reengajamento para mapear comportamento de abertura e sinalizar interesse por curso. Quem não respondia era inativado. Quem sinalizava interesse migrava para fluxos segmentados.</div>
+      <div class="nb-text en"><strong>Clean before optimizing.</strong> Re-engagement automation to map open behavior and signal course interest. Non-responsive contacts deactivated. Interested ones migrated to segmented flows.</div>
+    </div>
+    <div class="nb">
+      <div class="nb-label pt">Execução</div>
+      <div class="nb-label en">Execution</div>
+      <div class="nb-text pt">Operação migrou de disparo em massa para <strong>newsletters segmentadas por curso</strong> com régua comportamental. Sem troca de stack, apenas uso profissional do RD Station que já existia. Resultados em 1-2 meses.</div>
+      <div class="nb-text en">Operation shifted from mass blast to <strong>course-segmented newsletters</strong> with behavioral logic. No stack swap — just professional use of existing RD Station. Results visible in 1-2 months.</div>
+    </div>
+    <div class="nb">
+      <div class="nb-label pt">Aprendizado</div>
+      <div class="nb-label en">Key insight</div>
+      <div class="nb-text pt">Resultado não veio de ferramenta nova. Veio de <strong>diagnóstico correto e sequência certa</strong>: base limpa primeiro, segmentação depois, otimização por cima. CRM como método, não como configuração de plataforma.</div>
+      <div class="nb-text en">Results didn't come from a new tool. They came from <strong>correct diagnosis and right sequence</strong>: clean first, segment second, optimize on top. CRM as method, not platform configuration.</div>
+    </div>
+  </div>
+
+  <!-- STACK -->
+  <div class="stack-strip">
+    <span class="stack-strip-label">Stack:</span>
+    <span class="stack-chip">RD Station</span>
+    <span class="stack-chip">Lead Scoring</span>
+    <span class="stack-chip pt">Segmentação comportamental</span>
+    <span class="stack-chip en">Behavioral segmentation</span>
+    <span class="stack-chip">A/B Testing</span>
+    <span class="stack-chip">Power BI</span>
+    <span class="stack-chip">Mautic</span>
+  </div>
+
+  <!-- INSIGHT -->
+  <div class="insight-box">
+    <div class="insight-label pt">Raciocínio central</div>
+    <div class="insight-label en">Core reasoning</div>
+    <p class="insight-text pt">CRM não é uma ferramenta. É um método. Antes de otimizar qualquer mensagem, é preciso garantir que a base que vai recebê-la vale o esforço. Base limpa é pré-requisito, não detalhe operacional.</p>
+    <p class="insight-text en">CRM is not a tool. It's a method. Before optimizing any message, you need to ensure the base receiving it is worth the effort. A clean base is a prerequisite, not an operational detail.</p>
+  </div>
+
+  <a href="portfolio.html" class="back-link">← <span class="pt">Voltar para o Portfolio</span><span class="en">Back to Portfolio</span></a>
+
+</div>
+
+<footer>
+  <div class="footer-name">Danilo Campos Espeleta</div>
+  <div class="footer-info">São Paulo / SP · daniloespeleta@gmail.com · +55 11 92178-6184</div>
+</footer>
+
+<script>
+const CV_PT='DE-Curriculo.pdf';
+const CV_EN='DE-Resume.pdf';
+function openCV(e){e.preventDefault();const lang=document.body.classList.contains('lang-en')?'en':'pt';window.open(lang==='en'?CV_EN:CV_PT,'_blank')}
+function setLang(lang){document.body.className='lang-'+lang;document.getElementById('flag-icon').textContent=lang==='pt'?'🇧🇷':'🇺🇸';document.getElementById('flag-label').textContent=lang==='pt'?'PT':'EN';document.querySelectorAll('.flag-option').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.flag-option')[lang==='pt'?0:1].classList.add('active')}
+</script>
+</body>
+</html>

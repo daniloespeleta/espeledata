@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQL 01 · Filtros e Qualificação · Danilo Espeleta</title>
+<meta name="description" content="Case de SQL: filtros de qualificação que isolam decisores com score acima de 85 em ~5.000 leads/mês, gerando 450 SQLs e +22% na conversão de reuniões.">
+<meta name="author" content="Danilo Espeleta">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL 01 · Filtros e Qualificação · Danilo Espeleta">
+<meta property="og:description" content="Case de SQL: filtros de qualificação que isolam decisores com score acima de 85 em ~5.000 leads/mês, gerando 450 SQLs e +22% na conversão de reuniões.">
+<meta property="og:url" content="https://espeledata.com/case-sql-01.html">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg:#0a0a0a; --bg2:#111113; --bg3:#17171a;
+  --cyan:#00d4ff;
+  --accent:#00d4ff;        /* case accent: #00d4ff (primary) | #ff5a47 (support) */
+  --accent-2:#00d4ff;      /* kicker/secondary: #00d4ff (primary) | #ff5a47 (support)    */
+  --white:#f0f0ee; --gray:#a3a39d; --gray2:#888882;
+  --border:rgba(255,255,255,0.08);
+  --sans:'Barlow',system-ui,sans-serif;
+  --cond:'Barlow Condensed',var(--sans);
+  --mono:'JetBrains Mono',Consolas,monospace;
+  --max:960px;
+}
+/* ============ BASE ============ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-padding-top:5.5rem}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{background:var(--bg);color:var(--white);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--cyan)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:2px}
+.visually-hidden{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.skip-link{position:absolute;left:1rem;top:-4rem;z-index:300;background:var(--cyan);color:#00232b;font-weight:600;padding:.6rem 1rem;text-decoration:none;transition:top .15s}
+.skip-link:focus{top:1rem}
+.lang-pt .en{display:none!important}
+.lang-en .pt{display:none!important}
+
+/* ============ READING PROGRESS ============ */
+.progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--accent);z-index:250;pointer-events:none;transition:width .1s linear}
+
+/* ============ NAV ============ */
+.site-nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.8rem 2rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;border-bottom:1px solid var(--border);background:rgba(10,10,10,0.92);backdrop-filter:blur(12px)}
+.brand{display:flex;flex-direction:column;gap:.1rem;text-decoration:none}
+.brand-name{font-family:var(--cond);font-weight:700;font-size:1.1rem;letter-spacing:.06em;color:var(--white);text-transform:uppercase}
+.brand-role{font-family:var(--mono);font-size:.6rem;color:var(--cyan);letter-spacing:.12em;text-transform:uppercase}
+.nav-right{display:flex;align-items:center;gap:1.4rem}
+.nav-links{display:flex;gap:1.4rem;align-items:center}
+.nav-links a{font-family:var(--mono);font-size:.68rem;color:var(--gray);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;padding:.3rem 0}
+.nav-links a:hover,.nav-links a[aria-current="page"]{color:var(--cyan)}
+.lang-switch{display:flex;border:1px solid var(--border)}
+.lang-switch button{background:none;border:none;color:var(--gray);cursor:pointer;font-family:var(--mono);font-size:.65rem;font-weight:500;letter-spacing:.1em;padding:.4rem .7rem}
+.lang-switch button+button{border-left:1px solid var(--border)}
+.lang-switch button[aria-pressed="true"]{background:var(--cyan);color:#00232b}
+.menu-btn{display:none;font-family:var(--mono);font-size:.68rem;color:var(--white);background:none;border:1px solid var(--border);padding:.45rem .9rem;cursor:pointer;letter-spacing:.12em;text-transform:uppercase;transition:all .2s}
+.menu-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:260;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.sidebar-overlay.open{opacity:1;visibility:visible}
+.sidebar{position:fixed;top:0;right:-290px;width:290px;height:100vh;background:var(--bg2);border-left:1px solid var(--border);z-index:270;transition:right .28s;padding:4.5rem 2rem 2rem;display:flex;flex-direction:column}
+.sidebar.open{right:0}
+.sidebar-close{position:absolute;top:1.1rem;right:1.1rem;background:none;border:1px solid var(--border);color:var(--gray);font-size:1rem;line-height:1;cursor:pointer;font-family:var(--mono);padding:.4rem .6rem}
+.sidebar-close:hover{color:var(--cyan);border-color:var(--cyan)}
+.sidebar a{font-family:var(--mono);font-size:.78rem;color:var(--gray);text-decoration:none;letter-spacing:.12em;text-transform:uppercase;padding:1rem 0;border-bottom:1px solid var(--border);transition:color .2s;display:block}
+.sidebar a:hover,.sidebar a[aria-current="page"]{color:var(--cyan)}
+.sidebar .lang-switch{margin-top:1.5rem;align-self:flex-start}
+@media(max-width:820px){
+  .site-nav{padding:.75rem 1.25rem}
+  .brand-role{display:none}
+  .nav-right .nav-links,.nav-right .lang-switch{display:none}
+  .menu-btn{display:block}
+}
+
+/* ============ LAYOUT ============ */
+.case-wrap{max-width:var(--max);margin:0 auto;padding:7.5rem 1.5rem 3rem}
+.breadcrumb{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray2);display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:2.2rem}
+.breadcrumb a{color:var(--gray);text-decoration:none;transition:color .2s}
+.breadcrumb a:hover{color:var(--cyan)}
+.breadcrumb .sep{color:var(--gray2)}
+
+/* ============ HERO ============ */
+.case-hero{border-top:4px solid var(--accent);padding-top:2.2rem;margin-bottom:3rem}
+.case-tag{font-family:var(--mono);font-size:.68rem;color:var(--accent-2);letter-spacing:.18em;text-transform:uppercase;display:block;margin-bottom:1rem}
+.case-title{font-family:var(--cond);font-weight:800;font-size:clamp(2.6rem,6.5vw,4.2rem);line-height:.95;text-transform:uppercase;color:var(--white)}
+.case-title .accent{color:var(--accent)}
+.case-sub{margin-top:1.3rem;font-size:1rem;color:var(--gray);max-width:60ch;line-height:1.8}
+.meta-pills{list-style:none;display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.6rem}
+.meta-pills li{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);border:1px solid var(--border);padding:.35rem .8rem}
+
+/* ============ METRICS ============ */
+.metrics-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin:2.5rem 0}
+.metric{background:var(--bg2);padding:1.6rem 1.2rem;text-align:center}
+.metric-num{font-family:var(--cond);font-weight:800;font-size:2.2rem;color:var(--accent);line-height:1;display:block}
+.metric-label{font-family:var(--mono);font-size:.62rem;color:var(--gray);letter-spacing:.08em;text-transform:uppercase;margin-top:.55rem;display:block}
+
+/* ============ BLOCKS ============ */
+.block{margin:3.2rem 0}
+.block-label{font-family:var(--mono);font-size:.65rem;color:var(--accent-2);letter-spacing:.18em;text-transform:uppercase;margin-bottom:1.3rem;padding-bottom:.7rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.6rem}
+.block-label::before{content:'→';color:var(--accent)}
+.block h2{font-family:var(--cond);font-weight:700;font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.1;text-transform:uppercase;margin-bottom:1.1rem}
+.block h2 .accent{color:var(--accent)}
+.prose p{color:var(--gray);margin-bottom:1.05rem;max-width:70ch}
+.prose p:last-child{margin-bottom:0}
+.prose strong{color:var(--white);font-weight:500}
+
+/* ============ CARD GRIDS ============ */
+.grid-2,.grid-3,.grid-4{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);margin-top:1.4rem}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.grid-4{grid-template-columns:repeat(2,1fr)}
+@media(min-width:760px){.grid-4{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:640px){.grid-2,.grid-3{grid-template-columns:1fr}}
+.mini-card{background:var(--bg2);padding:1.5rem 1.3rem}
+.mini-num{font-family:var(--mono);font-size:.62rem;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:.6rem}
+.mini-title{font-family:var(--cond);font-weight:700;font-size:1.05rem;text-transform:uppercase;letter-spacing:.03em;color:var(--white);margin-bottom:.5rem}
+.mini-card p{font-size:.86rem;color:var(--gray);line-height:1.65}
+
+/* ============ MAP LIST (de → para) ============ */
+.map-list{list-style:none;border:1px solid var(--border);margin-top:1.4rem}
+.map-list li{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;align-items:center;padding:1rem 1.3rem;border-bottom:1px solid var(--border)}
+.map-list li:last-child{border-bottom:none}
+.map-from{color:var(--gray);font-size:.9rem}
+.map-arrow{color:var(--accent);font-family:var(--mono)}
+.map-to{color:var(--white);font-size:.9rem;font-weight:400}
+@media(max-width:640px){
+  .map-list li{grid-template-columns:1fr;gap:.3rem}
+  .map-arrow{display:none}
+  .map-to::before{content:'→ ';color:var(--accent)}
+}
+
+/* ============ STAGES (numbered journey) ============ */
+.stages{list-style:none;counter-reset:stage;margin-top:1.4rem;border:1px solid var(--border)}
+.stages li{counter-increment:stage;padding:1.4rem 1.3rem 1.4rem 4.3rem;border-bottom:1px solid var(--border);position:relative;background:var(--bg2)}
+.stages li:last-child{border-bottom:none}
+.stages li::before{content:counter(stage,decimal-leading-zero);position:absolute;left:1.3rem;top:1.45rem;font-family:var(--cond);font-weight:800;font-size:1.5rem;color:var(--accent);line-height:1}
+.stage-title{font-family:var(--cond);font-weight:700;font-size:1.1rem;text-transform:uppercase;letter-spacing:.03em;margin-bottom:.35rem}
+.stages p{font-size:.88rem;color:var(--gray);max-width:62ch}
+.kpi-pill{display:inline-block;font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);padding:.3rem .7rem;margin-top:.7rem;opacity:.9}
+
+/* ============ CODE ============ */
+.code-wrap{border:1px solid var(--border);border-left:3px solid var(--accent);background:var(--bg2);margin-top:1.4rem;overflow:hidden}
+.code-head{font-family:var(--mono);font-size:.62rem;color:var(--gray);letter-spacing:.15em;text-transform:uppercase;padding:.7rem 1.2rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between}
+.code-wrap pre{padding:1.3rem 1.2rem;overflow-x:auto}
+.code-wrap code{font-family:var(--mono);font-size:.82rem;line-height:1.8;color:var(--white)}
+.kw{color:var(--cyan)} .fn{color:#a78bfa} .str{color:#86efac} .num{color:#fca5a5} .cm{color:var(--gray2);font-style:italic}
+
+/* ============ SVG / FIGURE ============ */
+.svg-wrap{border:1px solid var(--border);background:var(--bg2);padding:1.5rem;margin-top:1.4rem;overflow-x:auto}
+.svg-wrap svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.svg-caption{font-family:var(--mono);font-size:.62rem;color:var(--gray2);letter-spacing:.1em;text-transform:uppercase;margin-top:1rem;text-align:center}
+
+/* ============ CALLOUTS ============ */
+.insight-box{background:color-mix(in srgb,var(--accent) 6%,transparent);border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);border-left:3px solid var(--accent);padding:1.6rem 1.8rem;margin-top:1.4rem}
+.insight-box p{font-style:italic;color:var(--white);font-size:.98rem;line-height:1.8;max-width:70ch}
+.note-bar{border:1px solid var(--border);border-left:3px solid var(--accent);background:var(--bg2);padding:1.1rem 1.4rem;margin-top:1.4rem}
+.note-bar p{font-size:.86rem;color:var(--gray)}
+.note-bar strong{color:var(--white);font-weight:500}
+
+/* ============ DATES ============ */
+.dates-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-top:1.4rem}
+.date-card{background:var(--bg2);padding:1.2rem 1.1rem}
+.date-day{font-family:var(--cond);font-weight:800;font-size:1.3rem;color:var(--accent);display:block;line-height:1.1}
+.date-name{font-size:.8rem;color:var(--gray);margin-top:.3rem;display:block}
+
+/* ============ STATS ROW ============ */
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-top:1.4rem}
+.stat{background:var(--bg2);padding:1.8rem 1.4rem;text-align:center}
+.stat-num{font-family:var(--cond);font-weight:800;font-size:2.4rem;color:var(--accent);line-height:1;display:block}
+.stat-label{font-size:.82rem;color:var(--gray);margin-top:.6rem;display:block}
+.stat-src{font-family:var(--mono);font-size:.6rem;color:var(--gray2);margin-top:.5rem;display:block}
+
+/* ============ TAKEAWAYS ============ */
+.takeaways{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:1.4rem}
+@media(max-width:640px){.takeaways{grid-template-columns:1fr}}
+.takeaway{background:var(--bg2);padding:1.5rem 1.3rem}
+.takeaway h3{font-family:var(--cond);font-weight:700;font-size:1rem;text-transform:uppercase;letter-spacing:.04em;color:var(--accent);margin-bottom:.5rem}
+.takeaway p{font-size:.85rem;color:var(--gray)}
+
+/* ============ BUTTONS / CASE NAV ============ */
+.btn{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.7rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:.85rem 1.5rem;text-decoration:none;border:1px solid;transition:all .15s}
+.btn-solid{background:var(--cyan);border-color:var(--cyan);color:#00232b}
+.btn-solid:hover{background:#33ddff;border-color:#33ddff}
+.btn-outline{background:transparent;border-color:var(--border);color:var(--white)}
+.btn-outline:hover{border-color:var(--cyan);color:var(--cyan)}
+.case-nav{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin:3.5rem 0 0}
+@media(max-width:640px){.case-nav{grid-template-columns:1fr}}
+.case-nav-link{background:var(--bg2);padding:1.4rem 1.5rem;text-decoration:none;display:flex;flex-direction:column;gap:.35rem;transition:background .2s}
+.case-nav-link:hover{background:var(--bg3)}
+.case-nav-link.next{text-align:right;align-items:flex-end}
+.case-nav-link.all{grid-column:1/-1;align-items:center;text-align:center}
+.case-nav-dir{font-family:var(--mono);font-size:.6rem;color:var(--gray2);letter-spacing:.15em;text-transform:uppercase}
+.case-nav-title{font-family:var(--cond);font-weight:700;font-size:1.05rem;text-transform:uppercase;color:var(--white);transition:color .2s}
+.case-nav-link:hover .case-nav-title{color:var(--cyan)}
+
+/* ============ FOOTER ============ */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-top:4rem}
+.footer-name{font-family:var(--cond);font-weight:700;font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray)}
+.footer-info{font-family:var(--mono);font-size:.62rem;color:var(--gray2);letter-spacing:.06em;display:flex;flex-wrap:wrap;gap:.4rem 1rem;align-items:center}
+.footer-info a{color:var(--gray);text-decoration:none;transition:color .2s}
+.footer-info a:hover{color:var(--cyan)}
+@media(max-width:640px){footer{flex-direction:column;align-items:flex-start;padding:1.5rem}}
+
+/* ============ REVEAL ============ */
+@media (prefers-reduced-motion:no-preference){
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}
+  .reveal.in{opacity:1;transform:none}
+}
+</style>
+</head>
+<body class="lang-pt">
+
+<a class="skip-link" href="#main"><span class="pt">Pular para o conteúdo</span><span class="en" lang="en">Skip to content</span></a>
+<div class="progress" aria-hidden="true"></div>
+
+<!-- ============ NAV (identical on every case page) ============ -->
+<nav class="site-nav" aria-label="Principal">
+  <a class="brand" href="index.html">
+    <span class="brand-name">Danilo Espeleta</span>
+    <span class="brand-role"><span class="pt">CRM &amp; Lifecycle Marketing</span><span class="en" lang="en">CRM &amp; Lifecycle Marketing</span></span>
+  </a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="index.html"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
+      <a href="index.html#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
+      <a href="portfolio.html" aria-current="page"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
+      <a href="contact.html"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
+      <a class="cv-link" href="CV/DE-Curriculo.pdf" download><span class="pt">Currículo ↓</span><span class="en" lang="en">Resume ↓</span></a>
+    </div>
+    <div class="lang-switch" role="group" aria-label="Idioma / Language">
+      <button type="button" data-lang="pt" aria-pressed="true">PT</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <button class="menu-btn" aria-expanded="false" aria-controls="sidebar">Menu</button>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="sidebar" id="sidebar" aria-label="Menu">
+  <button class="sidebar-close" aria-label="Fechar menu">✕</button>
+  <a href="index.html"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
+  <a href="index.html#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
+  <a href="portfolio.html" aria-current="page"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
+  <a href="contact.html"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
+  <a class="cv-link" href="CV/DE-Curriculo.pdf" download><span class="pt">Currículo ↓</span><span class="en" lang="en">Resume ↓</span></a>
+  <div class="lang-switch" role="group" aria-label="Idioma / Language">
+    <button type="button" data-lang="pt" aria-pressed="true">PT</button>
+    <button type="button" data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</div>
+
+<main id="main" class="case-wrap">
+
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="portfolio.html"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a><span class="sep" aria-hidden="true">/</span>
+    <span>SQL</span><span class="sep" aria-hidden="true">/</span>
+    <span aria-current="page"><span class="pt">Caso 01</span><span class="en" lang="en">Case 01</span></span>
+  </nav>
+
+  <header class="case-hero">
+    <span class="case-tag">SQL · <span class="pt">Caso 01</span><span class="en" lang="en">Case 01</span></span>
+    <h1 class="case-title">
+      <span class="pt">Filtros e<br><span class="accent">Qualificação</span></span>
+      <span class="en" lang="en">Filters and<br><span class="accent">Qualification</span></span>
+    </h1>
+    <p class="case-sub">
+      <span class="pt">Como uma estrutura de filtros em SQL transformou ~5.000 leads mensais em uma lista priorizada de decisores prontos para a abordagem comercial.</span>
+      <span class="en" lang="en">How a SQL filter structure turned ~5,000 monthly leads into a prioritized list of decision-makers ready for commercial outreach.</span>
+    </p>
+  </header>
+
+  <section class="metrics-strip reveal" aria-label="Métricas do case">
+    <div class="metric">
+      <span class="metric-num" data-count="5" data-suffix="K">5K</span>
+      <span class="metric-label"><span class="pt">Leads / mês</span><span class="en" lang="en">Leads / month</span></span>
+    </div>
+    <div class="metric">
+      <span class="metric-num" data-count="40" data-prefix="−" data-suffix="%">−40%</span>
+      <span class="metric-label"><span class="pt">Tempo de prospecção</span><span class="en" lang="en">Prospecting time</span></span>
+    </div>
+    <div class="metric">
+      <span class="metric-num" data-count="22" data-prefix="+" data-suffix="%">+22%</span>
+      <span class="metric-label"><span class="pt">Conversão de reuniões</span><span class="en" lang="en">Meeting conversion</span></span>
+    </div>
+  </section>
+
+  <section class="block reveal">
+    <div class="block-label"><span class="pt">Contexto</span><span class="en" lang="en">Context</span></div>
+    <div class="prose">
+      <p>
+        <span class="pt">Este caso foca na etapa fundamental de Marketing Operations: a limpeza e qualificação de dados brutos para identificar leads prontos para a abordagem comercial (SQLs).</span>
+        <span class="en" lang="en">This case focuses on the fundamental step of Marketing Operations: cleaning and qualifying raw data to identify leads ready for commercial outreach (SQLs).</span>
+      </p>
+    </div>
+  </section>
+
+  <section class="block reveal">
+    <div class="block-label"><span class="pt">Sobre o caso</span><span class="en" lang="en">About the case</span></div>
+    <div class="prose">
+      <p>
+        <span class="pt">Em uma operação de marketing de alto volume, o time de vendas desperdiçava tempo contatando leads sem perfil de decisão ou com baixo engajamento. Com ~5.000 novos contatos mensais, desenvolvi uma estrutura de filtros em SQL que isola apenas os perfis do ICP da empresa, focando em cargos de liderança com score de intenção superior a 85: cerca de <strong>450 SQLs</strong> por mês prontos para a abordagem comercial. A implementação reduziu em 40% o tempo de prospecção manual e aumentou em 22% a taxa de conversão de reuniões.</span>
+        <span class="en" lang="en">In a high-volume marketing operation, the sales team wasted time contacting leads without decision-making profiles or low engagement. With ~5,000 monthly new contacts, I developed a SQL filter structure that isolates only ICP profiles, focusing on leadership roles with intent score above 85: about <strong>450 SQLs</strong> per month ready for commercial outreach. The implementation reduced manual prospecting time by 40% and increased meeting conversion by 22%.</span>
+      </p>
+    </div>
+  </section>
+
+  <section class="block reveal">
+    <div class="block-label"><span class="pt">Query SQL</span><span class="en" lang="en">SQL query</span></div>
+    <div class="code-wrap">
+      <div class="code-head"><span>SQL</span></div>
+      <pre><code><span class="cm"><span class="pt">-- Identificar SQLs: Cargo de decisão, Score elevado, Status Novo</span><span class="en" lang="en">-- Identify SQLs: decision-making role, high score, New status</span></span>
+
+<span class="kw">SELECT</span>
+    nome,
+    email,
+    cargo,
+    score
+<span class="kw">FROM</span>
+    leads_gerais
+<span class="kw">WHERE</span>
+    (cargo <span class="kw">LIKE</span> <span class="str">'%Diretor%'</span>
+     <span class="kw">OR</span> cargo <span class="kw">LIKE</span> <span class="str">'%Coordenador%'</span>
+     <span class="kw">OR</span> cargo <span class="kw">LIKE</span> <span class="str">'%Gerente%'</span>)
+    <span class="kw">AND</span> score &gt;= <span class="num">85</span>
+    <span class="kw">AND</span> status_contato = <span class="str">'Novo'</span>
+    <span class="kw">AND</span> pais = <span class="str">'Brasil'</span>;</code></pre>
+    </div>
+  </section>
+
+  <section class="block reveal">
+    <div class="block-label"><span class="pt">Visualização do processo</span><span class="en" lang="en">Process visualization</span></div>
+    <figure class="svg-wrap" role="img" aria-label="Funil de qualificação de leads: base bruta de 5.000 leads passa pelo filtro SQL (cargo, score e status) e se divide em baixo fit, enviado para nutrição automática, e decisores com score acima de 85, gerando 450 SQLs.">
+      <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Funil de qualificação de leads: base bruta, filtro SQL, baixo fit e decisores (450 SQLs)" style="font-family:var(--mono);min-width:640px">
+        <title>Funil de qualificação de leads · Lead qualification funnel</title>
+        <!-- base bruta -->
+        <rect x="2" y="55" width="170" height="90" rx="4" fill="#17171a" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+        <text x="87" y="85" text-anchor="middle" font-size="11" letter-spacing="1" fill="#a3a39d">
+          <tspan class="pt" x="87" y="85">BASE BRUTA</tspan><tspan class="en" lang="en" x="87" y="85">RAW BASE</tspan>
+        </text>
+        <text x="87" y="110" text-anchor="middle" font-size="18" font-weight="700" fill="#f0f0ee">
+          <tspan class="pt" x="87" y="110">5.000</tspan><tspan class="en" lang="en" x="87" y="110">5,000</tspan>
+        </text>
+        <text x="87" y="131" text-anchor="middle" font-size="11" fill="#a3a39d">
+          <tspan class="pt" x="87" y="131">leads</tspan><tspan class="en" lang="en" x="87" y="131">leads</tspan>
+        </text>
+        <!-- arrow: base -> filtro -->
+        <text x="188" y="107" font-size="18" fill="#00d4ff">
+          <tspan class="pt" x="188" y="107">→</tspan><tspan class="en" lang="en" x="188" y="107">→</tspan>
+        </text>
+        <!-- filtro sql -->
+        <rect x="222" y="55" width="180" height="90" rx="4" fill="rgba(0,212,255,0.06)" stroke="#00d4ff" stroke-width="1"/>
+        <text x="312" y="83" text-anchor="middle" font-size="11" letter-spacing="1" fill="#00d4ff">
+          <tspan class="pt" x="312" y="83">FILTRO SQL</tspan><tspan class="en" lang="en" x="312" y="83">SQL FILTER</tspan>
+        </text>
+        <text x="312" y="106" text-anchor="middle" font-size="15" font-weight="700" fill="#00d4ff">
+          <tspan class="pt" x="312" y="106">WHERE</tspan><tspan class="en" lang="en" x="312" y="106">WHERE</tspan>
+        </text>
+        <text x="312" y="128" text-anchor="middle" font-size="11" fill="#a3a39d">
+          <tspan class="pt" x="312" y="128">cargo + score + status</tspan><tspan class="en" lang="en" x="312" y="128">role + score + status</tspan>
+        </text>
+        <!-- split arrows -->
+        <text x="418" y="60" font-size="15" fill="#a3a39d">
+          <tspan class="pt" x="418" y="60">→</tspan><tspan class="en" lang="en" x="418" y="60">→</tspan>
+        </text>
+        <text x="418" y="155" font-size="15" fill="#00d4ff">
+          <tspan class="pt" x="418" y="155">→</tspan><tspan class="en" lang="en" x="418" y="155">→</tspan>
+        </text>
+        <!-- baixo fit -->
+        <rect x="452" y="18" width="235" height="64" rx="4" fill="#17171a" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+        <text x="569" y="45" text-anchor="middle" font-size="11" letter-spacing="1" fill="#a3a39d">
+          <tspan class="pt" x="569" y="45">BAIXO FIT</tspan><tspan class="en" lang="en" x="569" y="45">LOW FIT</tspan>
+        </text>
+        <text x="569" y="67" text-anchor="middle" font-size="12" fill="#a3a39d">
+          <tspan class="pt" x="569" y="67">Nutrição automática</tspan><tspan class="en" lang="en" x="569" y="67">Automated nurturing</tspan>
+        </text>
+        <!-- decisores -->
+        <rect x="452" y="112" width="235" height="70" rx="4" fill="rgba(0,212,255,0.08)" stroke="#00d4ff" stroke-width="1.5"/>
+        <text x="569" y="139" text-anchor="middle" font-size="11" letter-spacing="0.5" fill="#00d4ff">
+          <tspan class="pt" x="569" y="139">DECISORES · SCORE &gt; 85</tspan><tspan class="en" lang="en" x="569" y="139">DECISION-MAKERS · SCORE &gt; 85</tspan>
+        </text>
+        <text x="569" y="164" text-anchor="middle" font-size="15" font-weight="700" fill="#00d4ff">
+          <tspan class="pt" x="569" y="164">450 SQLs</tspan><tspan class="en" lang="en" x="569" y="164">450 SQLs</tspan>
+        </text>
+      </svg>
+      <figcaption class="svg-caption">
+        <span class="pt">Funil de qualificação: base bruta → filtro SQL → 450 SQLs</span>
+        <span class="en" lang="en">Qualification funnel: raw base → SQL filter → 450 SQLs</span>
+      </figcaption>
+    </figure>
+  </section>
+
+  <section class="block reveal">
+    <div class="block-label"><span class="pt">Explicação de negócio</span><span class="en" lang="en">Business explanation</span></div>
+    <div class="insight-box">
+      <p>
+        <span class="pt">O valor real de Marketing Operations está em otimizar o recurso mais caro de uma empresa: o tempo das pessoas. Ao aplicar filtros de precisão, o Marketing deixa de entregar "volume" e passa a entregar "oportunidade", otimizando o CAC ao eliminar o desperdício de energia em leads desqualificados.</span>
+        <span class="en" lang="en">The real value of Marketing Operations is optimizing the most expensive resource in a company: people's time. By applying precision filters, Marketing stops delivering "volume" and starts delivering "opportunity", optimizing CAC by eliminating wasted energy on disqualified leads.</span>
+      </p>
+    </div>
+  </section>
+
+  <nav class="case-nav" aria-label="Navegação entre cases">
+    <a class="case-nav-link prev" href="case-boa-leitura.html">
+      <span class="case-nav-dir"><span class="pt">← Case anterior</span><span class="en" lang="en">← Previous case</span></span>
+      <span class="case-nav-title">Boa Leitura</span>
+    </a>
+    <a class="case-nav-link next" href="case-sql-02.html">
+      <span class="case-nav-dir"><span class="pt">Próximo case →</span><span class="en" lang="en">Next case →</span></span>
+      <span class="case-nav-title"><span class="pt">SQL 02 · Lógica de Precedência</span><span class="en" lang="en">SQL 02 · Precedence Logic</span></span>
+    </a>
+    <a class="case-nav-link all" href="portfolio.html">
+      <span class="case-nav-title"><span class="pt">Ver todos os cases</span><span class="en" lang="en">View all cases</span></span>
+    </a>
+  </nav>
+
+</main>
+
+<footer>
+  <div class="footer-name">Danilo Campos Espeleta</div>
+  <div class="footer-info">
+    <span>São Paulo / SP</span>
+    <a href="mailto:daniloespeleta@gmail.com">daniloespeleta@gmail.com</a>
+    <a href="https://www.linkedin.com/in/daniloespeleta" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/daniloespeleta" target="_blank" rel="noopener">GitHub</a>
+    <span>© <span id="year">2026</span></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+/* ---- language (persisted; syncs <html lang>, buttons, CV links) ---- */
+var CV={pt:'CV/DE-Curriculo.pdf',en:'CV/DE-Resume.pdf'};
+var langButtons=document.querySelectorAll('.lang-switch button');
+function setLang(lang){
+  document.body.classList.remove('lang-pt','lang-en');
+  document.body.classList.add('lang-'+lang);
+  document.documentElement.lang=(lang==='en')?'en':'pt-BR';
+  langButtons.forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.lang===lang));});
+  document.querySelectorAll('a.cv-link').forEach(function(a){a.setAttribute('href',CV[lang]);});
+  try{localStorage.setItem('lang',lang);}catch(e){}
+}
+langButtons.forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.lang);});});
+var saved=null;try{saved=localStorage.getItem('lang');}catch(e){}
+if(saved==='en'||saved==='pt')setLang(saved);
+
+/* ---- mobile sidebar ---- */
+var menuBtn=document.querySelector('.menu-btn'),sidebar=document.getElementById('sidebar'),
+    overlay=document.getElementById('sidebarOverlay'),closeBtn=document.querySelector('.sidebar-close');
+function openSb(){sidebar.classList.add('open');overlay.classList.add('open');menuBtn.setAttribute('aria-expanded','true');}
+function closeSb(){sidebar.classList.remove('open');overlay.classList.remove('open');menuBtn.setAttribute('aria-expanded','false');}
+if(menuBtn){
+  menuBtn.addEventListener('click',openSb);
+  closeBtn.addEventListener('click',closeSb);
+  overlay.addEventListener('click',closeSb);
+  sidebar.addEventListener('click',function(e){if(e.target.closest('a'))closeSb();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&sidebar.classList.contains('open')){closeSb();menuBtn.focus();}});
+}
+
+/* ---- reading progress ---- */
+var bar=document.querySelector('.progress');
+if(bar){
+  var onScroll=function(){
+    var h=document.documentElement,max=h.scrollHeight-h.clientHeight;
+    bar.style.width=(max>0?(h.scrollTop/max)*100:0)+'%';
+  };
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+}
+
+/* ---- scroll reveal ---- */
+var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var revealEls=document.querySelectorAll('.reveal');
+if('IntersectionObserver' in window&&!reduce&&revealEls.length){
+  var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});},{threshold:.12});
+  revealEls.forEach(function(el){io.observe(el);});
+}else{revealEls.forEach(function(el){el.classList.add('in');});}
+
+/* ---- animated counters ([data-count]) ---- */
+var counters=document.querySelectorAll('[data-count]');
+function animate(el){
+  var target=parseFloat(el.dataset.count),pre=el.dataset.prefix||'',suf=el.dataset.suffix||'',
+      dec=(el.dataset.count.indexOf('.')>-1)?1:0,start=null,dur=1100;
+  function fmt(v){return pre+v.toFixed(dec).replace('.',document.documentElement.lang==='en'?'.':',')+suf;}
+  if(reduce){el.textContent=fmt(target);return;}
+  function step(ts){if(!start)start=ts;var p=Math.min((ts-start)/dur,1),e=1-Math.pow(1-p,3);
+    el.textContent=fmt(target*e);if(p<1)requestAnimationFrame(step);}
+  requestAnimationFrame(step);
+}
+if('IntersectionObserver' in window&&counters.length){
+  var cio=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){animate(en.target);cio.unobserve(en.target);}});},{threshold:.4});
+  counters.forEach(function(el){cio.observe(el);});
+}else{counters.forEach(animate);}
+
+/* ---- year ---- */
+var y=document.getElementById('year');if(y)y.textContent=new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

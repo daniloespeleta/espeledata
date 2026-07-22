@@ -1,0 +1,3 @@
+# Paginas nao encontradas dentro de /en/ servem o 404 em ingles.
+# O restante cai no /404.html (PT), 404 global padrao do Netlify.
+/en/*   /en/404.html   404

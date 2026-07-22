@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 · Danilo Espeleta</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Barlow:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0a; --bg2:#111113; --cyan:#00d4ff;
+  --white:#f0f0ee; --gray:#a3a39d;
+  --border:rgba(255,255,255,0.08);
+  --sans:'Barlow',system-ui,sans-serif;
+  --cond:'Barlow Condensed',var(--sans);
+  --mono:'JetBrains Mono',Consolas,monospace;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--white);font-family:var(--sans);font-weight:300;line-height:1.7;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center}
+a{color:var(--cyan)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+.lang-pt .en{display:none!important}
+.lang-en .pt{display:none!important}
+.code{font-family:var(--cond);font-weight:800;font-size:clamp(6rem,20vw,11rem);line-height:.9;color:var(--cyan);letter-spacing:.02em}
+.kicker{font-family:var(--mono);font-size:.68rem;color:var(--gray);letter-spacing:.2em;text-transform:uppercase;margin-top:1.2rem}
+h1{font-family:var(--cond);font-weight:700;font-size:clamp(1.4rem,4vw,2.1rem);text-transform:uppercase;margin-top:.6rem}
+p{color:var(--gray);max-width:44ch;margin-top:.8rem;font-size:.95rem}
+.actions{display:flex;gap:1rem;margin-top:2.2rem;flex-wrap:wrap;justify-content:center}
+.btn{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.7rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:.9rem 1.6rem;text-decoration:none;border:1px solid;transition:all .15s}
+.btn-solid{background:var(--cyan);border-color:var(--cyan);color:#00232b}
+.btn-solid:hover{background:#33ddff}
+.btn-outline{background:transparent;border-color:var(--border);color:var(--white)}
+.btn-outline:hover{border-color:var(--cyan);color:var(--cyan)}
+.brand{font-family:var(--mono);font-size:.62rem;color:var(--gray);letter-spacing:.14em;text-transform:uppercase;margin-top:3.5rem}
+</style>
+</head>
+<body class="lang-pt">
+<div class="code" aria-hidden="true">404</div>
+<p class="kicker">SELECT * FROM pages WHERE url = ? <span aria-hidden="true">→</span> 0 rows</p>
+<h1><span class="pt">Página não encontrada</span><span class="en" lang="en">Page not found</span></h1>
+<p>
+  <span class="pt">O endereço que você buscou não existe. Talvez o link esteja antigo ou tenha um erro de digitação.</span>
+  <span class="en" lang="en">The address you looked for doesn't exist. The link may be outdated or mistyped.</span>
+</p>
+<div class="actions">
+  <a class="btn btn-solid" href="/"><span class="pt">Ir para o início</span><span class="en" lang="en">Go home</span></a>
+  <a class="btn btn-outline" href="/portfolio.html"><span class="pt">Ver portfólio</span><span class="en" lang="en">View portfolio</span></a>
+</div>
+<div class="brand">Danilo Espeleta · CRM &amp; Lifecycle Marketing</div>
+<script>
+(function(){var s=null;try{s=localStorage.getItem('lang');}catch(e){}
+if(s==='en'){document.body.className='lang-en';document.documentElement.lang='en';}})();
+</script>
+</body>
+</html>

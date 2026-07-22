@@ -1,0 +1,6 @@
+# Normalize line endings to LF in the repo (build scripts + HTML are LF-authored)
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.pdf binary
+*.docx binary
