@@ -55,8 +55,8 @@ const EN_META = {
      "Get in touch with Danilo Espeleta, CRM &amp; Lifecycle Marketing in São Paulo."],
   ],
   'case-fenix.html': [
-    ["CRM turnaround na Fênix Educação: base de 50K+ leads limpa e segmentada do zero: +400% na taxa de abertura, +35% de CTR e +20% em matrículas.",
-     "CRM turnaround at Fênix Educação: a 50K+ lead base cleaned and segmented from scratch: +400% open rate, +35% CTR and +20% enrollment."],
+    ["CRM turnaround na Fênix Educação: base de 50K+ leads limpa e segmentada do zero, elevando a abertura de ~2% para ~25%, com +35% de CTR e +20% em matrículas.",
+     "CRM turnaround at Fênix Educação: a 50K+ lead base cleaned and segmented from scratch, lifting open rate from ~2% to ~25%, with +35% CTR and +20% enrollment."],
   ],
   'case-abrindo-caminhos.html': [
     ["Case de CRM &amp; Lifecycle Marketing: segmentação por condição, jornada do apoiador em cinco estágios e framework de KPIs para captação no terceiro setor.",
