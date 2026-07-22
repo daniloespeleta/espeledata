@@ -3,6 +3,9 @@ _deploy/
 _test_i18n/
 espeledata-site.zip
 
+# Generated CV PDFs live in CV/; cv-src/ holds only the HTML sources + renderer
+cv-src/*.pdf
+
 # Local tooling state (machine-specific, not part of the site)
 .claude/
 .netlify/
