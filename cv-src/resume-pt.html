@@ -1,147 +1,160 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Danilo Espeleta — Currículo</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Danilo Espeleta - Currículo</title>
 <style>
-@page { size: A4; margin: 12mm 14mm; }
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Barlow',Arial,sans-serif;font-size:9.4pt;line-height:1.42;color:#1c1c1c}
-.name{font-family:'Barlow Condensed',Arial,sans-serif;font-weight:800;font-size:27pt;letter-spacing:.3px;text-transform:uppercase;color:#111;line-height:1}
-.role{font-family:'Barlow',sans-serif;font-weight:600;font-size:12pt;color:#0091b3;margin-top:2px;letter-spacing:.2px}
-.contact{font-family:'JetBrains Mono',monospace;font-size:7.6pt;color:#4a4a4a;margin-top:7px;line-height:1.6}
-.rule{height:2.5px;background:#00d4ff;margin:9px 0 4px}
-h2{font-family:'Barlow Condensed',Arial,sans-serif;font-weight:700;font-size:12.5pt;text-transform:uppercase;letter-spacing:.5px;color:#111;margin:13px 0 5px;padding-bottom:2px;border-bottom:1.5px solid #00d4ff}
-p.summary{color:#2a2a2a}
-.skills li{padding-left:0;margin-bottom:2.5px}
-.skills li::before{content:none}
-.skills b{font-weight:600;color:#111}
-ul{list-style:none}
-.job{margin-bottom:9px}
-.job-title{font-weight:600;font-size:10pt;color:#111}
-.job-title .org{color:#0091b3;font-weight:600}
-.job-meta{font-family:'JetBrains Mono',monospace;font-size:7.5pt;color:#666;margin:1px 0 3px}
-.job ul li,.edu li{padding-left:12px;text-indent:-12px;margin-bottom:2px;color:#2a2a2a}
-.job ul li::before,.edu li::before{content:'▸  ';color:#00d4ff;font-weight:600}
-.stack{font-family:'JetBrains Mono',monospace;font-size:7.2pt;color:#555;margin-top:3px;line-height:1.5}
-.stack b{color:#0091b3;font-weight:500}
-.two-col{display:flex;gap:22px}
-.two-col>div{flex:1}
-.certs{columns:2;column-gap:18px}
-.cert{break-inside:avoid;margin-bottom:3.5px;font-size:8.6pt;padding-left:12px;text-indent:-12px}
-.cert::before{content:'▸  ';color:#00d4ff;font-weight:600}
-.cert b{font-weight:600;color:#111}
-.cert .meta{color:#666}
-.inline{font-size:9.2pt}
-.inline b{font-weight:600;color:#111}
-a{color:inherit;text-decoration:none}
+  @page { size: A4; margin: 12mm 14mm; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: Arial, Helvetica, 'Liberation Sans', sans-serif; color: #1a1a1a; font-size: 9.4pt; line-height: 1.36; }
+  a { color: #1a1a1a; text-decoration: underline; }
+  .name { font-size: 18pt; font-weight: 700; letter-spacing: 0.2px; color: #1a1a1a; line-height: 1.05; }
+  .role { font-size: 10.5pt; color: #333; margin-top: 2px; }
+  .contact { font-size: 8.4pt; color: #444; margin-top: 4px; }
+  hr.divider { border: none; border-top: 1.5px solid #1a1a1a; margin: 8px 0 9px; }
+  h2 { font-size: 8.6pt; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid #999; padding-bottom: 2px; margin-bottom: 5px; break-after: avoid; }
+  section { margin-top: 9px; }
+  section.brk { break-inside: avoid; }
+  p.summary { text-wrap: pretty; orphans: 3; widows: 3; }
+  ul { list-style: disc; padding-left: 15px; display: flex; flex-direction: column; gap: 2px; }
+  ul.skills { gap: 3px; }
+  li { orphans: 3; widows: 3; }
+  .exp { margin-bottom: 8px; }
+  .exp-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; break-after: avoid; }
+  .exp-role { font-size: 10pt; font-weight: 700; }
+  .exp-date { font-size: 8.4pt; color: #444; white-space: nowrap; }
+  .exp-org { font-size: 8.4pt; color: #444; font-style: italic; margin-bottom: 4px; break-after: avoid; }
+  .exp ul li:first-child { break-before: avoid; }
+  strong { font-weight: 700; }
 </style>
 </head>
 <body>
 
-  <div class="name">Danilo Campos Espeleta</div>
-  <div class="role">Especialista em CRM &amp; Lifecycle Marketing</div>
-  <div class="contact">São Paulo, SP · daniloespeleta@gmail.com · +55 11 92178-6184 · espeledata.com<br>linkedin.com/in/daniloespeleta · github.com/daniloespeleta</div>
-  <div class="rule"></div>
+  <h1 class="name">Danilo Campos Espeleta</h1>
+  <p class="role">Especialista em CRM e Lifecycle Marketing</p>
+  <p class="contact">São Paulo, SP &nbsp;&bull;&nbsp; daniloespeleta@gmail.com &nbsp;&bull;&nbsp; +55 11 92178-6184 &nbsp;&bull;&nbsp; <a href="https://linkedin.com/in/daniloespeleta">linkedin.com/in/daniloespeleta</a></p>
 
-  <h2>Resumo</h2>
-  <p class="summary">Especialista em CRM &amp; Lifecycle Marketing com mais de 8 anos estruturando jornadas de relacionamento de ponta a ponta, automações multicanais e segmentação avançada. Domínio de gestão de base, Lead Scoring, definição de SLAs entre Marketing e Vendas e monitoramento de métricas de saúde (LTV, Churn, NRR) em dashboards no Power BI. Opero stacks complexas com n8n, Make e Zapier para garantir integração e qualidade de dados em todo o funil.</p>
+  <hr class="divider">
 
-  <h2>Competências</h2>
-  <ul class="skills">
-    <li><b>Gestão de base e segmentação:</b> organização, qualidade de dados, segmentação avançada.</li>
-    <li><b>Jornadas de ciclo de vida:</b> fluxos para lead, cliente ativo e pós-venda, com foco em retenção e LTV.</li>
-    <li><b>Automação multicanal:</b> RD Station, Mautic, Mailchimp, SendPulse (e-mail, WhatsApp, push, SMS).</li>
-    <li><b>Orquestração de dados:</b> integração de stacks via APIs e webhooks com n8n, Make e Zapier.</li>
-    <li><b>Inteligência de engajamento:</b> Lead Scoring comportamental, nutrição segmentada, retenção, cross-sell e upsell.</li>
-    <li><b>Métricas e dashboards:</b> abertura, CTR, conversão, Churn, LTV e recorrência via Power BI, GA4 e Google Analytics.</li>
-    <li><b>Alinhamento Marketing/CS/Comercial:</b> SLAs de handoff, governança de campanhas e QA de processos.</li>
-    <li><b>IA aplicada:</b> Claude (análise de segmentos), Perplexity (benchmarks), ChatGPT.</li>
-  </ul>
+  <section class="brk">
+    <h2>Resumo</h2>
+    <p class="summary">Especialista em CRM e Lifecycle Marketing com 8+ anos de experiência estruturando jornadas de relacionamento de ponta a ponta, automações multicanais e segmentação avançada. Domínio de gestão de base, lead scoring, definição de SLAs entre Marketing e Vendas e monitoramento de métricas de saúde (LTV, Churn Rate, NRR) via dashboards no Power BI. Opera stacks complexas com n8n, Make e Zapier para garantir integração e qualidade dos dados em todo o funil.</p>
+  </section>
 
-  <h2>Experiência</h2>
-
-  <div class="job">
-    <div class="job-title"><span class="org">Fênix Educação</span> · Especialista em CRM &amp; Lifecycle Marketing</div>
-    <div class="job-meta">Jul 2022 a hoje · Tempo integral · São Paulo, SP · Híbrido</div>
-    <ul>
-      <li>Construiu e otimizou jornadas de ciclo de vida para aquisição, onboarding e retenção em uma base de 50K+ leads, com Lead Scoring comportamental e nutrição segmentada, resultando em 20% de crescimento no volume de matrículas.</li>
-      <li>Herdou uma base com taxa de abertura de ~2%, higiene precária e problemas de entregabilidade, e a elevou para ~25% reconstruindo segmentação, higiene e cadência.</li>
-      <li>Reduziu leads desqualificados em 30% com automação de e-mail para qualificação e padronização de formulários, melhorando a qualidade dos dados e a eficiência do funil de MQL a SQL, com SLAs entre Marketing e Comercial.</li>
-      <li>Automatizou fluxos multicanais (e-mail, WhatsApp, push, SMS) via Mautic e RD Station, e workflows de captura, distribuição, comunicação, IA e relatórios via n8n, Make e Zapier.</li>
-      <li>Aumentou o CTR médio de e-mail em 35% e construiu dashboards de captura, engajamento e conversão no Power BI, monitorando Churn, LTV e recorrência para embasar decisões da liderança.</li>
-      <li>Integrou IA generativa ao fluxo operacional: Claude para análise de segmentos e síntese de insights, Perplexity para benchmarks de mercado.</li>
+  <section>
+    <h2>Habilidades</h2>
+    <ul class="skills">
+      <li><strong>Gestão de bases e segmentação:</strong> organização, qualidade dos dados, segmentação avançada e consultas SQL para criação de segmentos e extração de listas de disparo.</li>
+      <li><strong>Jornadas do ciclo de vida:</strong> construção de fluxos de relacionamento para leads, clientes ativos e pós-vendas, com foco em retenção e LTV.</li>
+      <li><strong>Automação multicanal:</strong> criação e otimização de fluxos via RD Station, Mautic, Mailchimp.</li>
+      <li><strong>Redação publicitária aplicada ao CRM:</strong> escrita e testes A/B com uma rotina estruturada.</li>
+      <li><strong>Inteligência de engajamento:</strong> pontuação comportamental de leads, nutrição direcionada e identificação de oportunidades de retenção, cross-sell e upsell.</li>
+      <li><strong>Métricas e painéis:</strong> monitoramento da taxa de abertura, CTR, conversão, taxa de rotatividade, LTV e recorrência via Power BI e Google Analytics.</li>
+      <li><strong>Alinhamento Marketing/CS/Comercial:</strong> definição de SLAs de transferência, governança de campanhas e QA de processos para previsibilidade do pipeline.</li>
+      <li><strong>Ferramentas de análise:</strong> Power BI, Google Sheets, Excel, Google Analytics, SQL.</li>
+      <li><strong>IA aplicada e MarTech:</strong> agentes, segmentação e qualificação (Claude AI), otimização de prompts e tokens (Gemini), benchmarking de mercado (Perplexity), automação com n8n e Make, design de fluxos agênticos e integrações customizadas de CRM.</li>
     </ul>
-    <div class="stack"><b>Stack:</b> RD Station · Mautic · SendPulse · Make · n8n · Zapier · Devzapp · Typebot · ManyChat · WordPress · Google Tag Manager · Power BI · Excel · APIs · Webhooks · ChatGPT · Claude · Perplexity</div>
-  </div>
+  </section>
 
-  <div class="job">
-    <div class="job-title"><span class="org">LBV</span> · Analista de Parcerias Estratégicas</div>
-    <div class="job-meta">Abr 2021 a Jul 2022 · Tempo integral · São Paulo · Presencial</div>
-    <ul>
-      <li>Acelerou a aquisição de usuários orientada por dados em 15% com campanhas co-branded com influenciadores e celebridades de alto perfil, expandindo a base de marketing no topo do funil.</li>
-      <li>Construiu e gerenciou um funil de parcerias corporativas de ponta a ponta, assegurando patrocínios B2B de alto valor (em dinheiro e em espécie) para financiar projetos promocionais de grande porte.</li>
-      <li>Dirigiu colaborações interfuncionais entre executivos externos, agências de talentos e equipes criativas internas para lançar campanhas multicanais unificadas.</li>
-      <li>Estabeleceu KPIs de campanha e parâmetros de rastreamento para avaliar performance de parceiros, alcance de audiência e valor de mídia.</li>
-      <li>Gerenciou relacionamento e negociações contratuais com stakeholders de alto valor, com alinhamento estrito aos valores e diretrizes de marca.</li>
-    </ul>
-    <div class="stack"><b>Stack:</b> Google Analytics · CRM · Pacote Office</div>
-  </div>
+  <section>
+    <h2>Experiência</h2>
 
-  <div class="job">
-    <div class="job-title"><span class="org">Monchu Agenciamento, Editora e Eventos</span> · Gerente de Comunicação e Branding</div>
-    <div class="job-meta">Mar 2016 a Abr 2019 · Tempo integral · São Paulo, SP · Híbrido</div>
-    <ul>
-      <li>Criou um pipeline personalizado de CRM e retenção integrando bases externas de ticketing com Google Sheets e Mailchimp para rastrear dados comportamentais de múltiplos anos, via n8n e Make.</li>
-      <li>Construiu um framework RFM acionável para monitorar frequência de participação e janelas de inatividade, com workflows de reengajamento que escalaram a presença em eventos em 500% (de 500 para 3 mil+).</li>
-      <li>Analisou métricas comportamentais de eventos, incluindo horários de check-in e checkout, para otimizar o planejamento e a fidelidade da comunidade, usando Excel.</li>
-      <li>Reformulou a infraestrutura de field marketing recrutando e liderando uma equipe de 15 a 20 promotores para aquisição de público de nicho e performance de vendas.</li>
-      <li>Orquestrou uma estratégia de conteúdo omnicanal, alinhando ativações online e offline a um calendário unificado que expandiu o alcance digital orgânico em 150%.</li>
-    </ul>
-    <div class="stack"><b>Stack:</b> Google Analytics · Excel · Meta (orgânico) · Mailchimp · n8n · Make</div>
-  </div>
-
-  <div class="job">
-    <div class="job-title"><span class="org">LBV</span> · Coordenador de Telemarketing</div>
-    <div class="job-meta">Jul 2005 a Mar 2012 · Tempo integral · São Paulo, SP</div>
-    <ul>
-      <li>Aumentou o volume de novos doadores em 25% e o ticket médio em 20% aplicando SPIN Selling, com coaching contínuo para equipe de 40+ operadores.</li>
-      <li>Otimizou a produtividade em 15% e melhorou o AHT em 30% estruturando rituais de feedback e monitorando KPIs críticos via CRM, Excel e Power BI.</li>
-      <li>Reduziu o turnover em 40% com cultura de liderança humanizada e ramp-up acelerado de novos colaboradores.</li>
-    </ul>
-  </div>
-
-  <div class="two-col">
-    <div>
-      <h2>Formação</h2>
-      <ul class="edu">
-        <li><b>Licenciatura em Letras (Português e Inglês)</b><br>PUC-SP · Conclusão 07/2015</li>
+    <div class="exp">
+      <div class="exp-head">
+        <h3 class="exp-role">Especialista em CRM e Lifecycle Marketing</h3>
+        <span class="exp-date">Jul. 2022 &ndash; presente</span>
+      </div>
+      <p class="exp-org">Fênix Educação | São Paulo, SP</p>
+      <ul>
+        <li>Aumentou em 20% as matrículas sobre uma base de 50 mil leads em ~2 meses, com lead scoring comportamental e nutrição por estágio do funil.</li>
+        <li>Herdou uma base com taxa de abertura de ~2%, higiene e entregabilidade ruins, e a elevou para ~25% reconstruindo segmentação, higiene e cadência.</li>
+        <li>Cortou 30% dos leads não qualificados na passagem de MQL para SQL, padronizando formulários e scoring e fechando SLAs entre Marketing e Comercial, o que deu previsibilidade ao pipeline.</li>
+        <li>Automatizou fluxos multicanais (e-mail, WhatsApp, push, SMS) via Mautic, RD Station e integrações com WordPress, além de fluxos de trabalho (captura e distribuição de leads, comunicação, integrações de IA, relatórios) via n8n, Make e Zapier.</li>
+        <li>Aumentou a taxa média de CTR de e-mail em 35% e construiu painéis de captura, engajamento e conversão no Power BI, acompanhando a taxa de abandono, LTV e métricas de recorrência para apoiar decisões estratégicas de liderança.</li>
+        <li>Aprimorou tarefas de CRM com agentes de IA; desenvolveu fluxo multi-LLM com Claude e otimização de prompts no Gemini; agendou pesquisas semanais no Perplexity.</li>
       </ul>
     </div>
-    <div>
-      <h2>Idiomas</h2>
-      <p class="inline"><b>Português</b> nativo · <b>Inglês</b> avançado</p>
-      <h2>Links</h2>
-      <p class="inline">espeledata.com · linkedin.com/in/daniloespeleta · github.com/daniloespeleta</p>
-    </div>
-  </div>
 
-  <h2>Certificações</h2>
-  <div class="certs">
-    <div class="cert"><b>Marketing Psychology: How We Decide</b><br><span class="meta">Saïd Business School, University of Oxford · 2025</span></div>
-    <div class="cert"><b>Software de Marketing HubSpot</b><br><span class="meta">HubSpot Academy · 2025</span></div>
-    <div class="cert"><b>Inbound</b><br><span class="meta">HubSpot Academy · 2025</span></div>
-    <div class="cert"><b>Certificação do Google Analytics</b><br><span class="meta">Google · 2025</span></div>
-    <div class="cert"><b>Manage GA4 Data and Learn to Read Reports</b><br><span class="meta">Google · 2025</span></div>
-    <div class="cert"><b>Build a CRM Performance Sales Track Dashboard</b><br><span class="meta">Maven Analytics · 2024</span></div>
-    <div class="cert"><b>Fundamentos de Inbound Marketing para Analistas</b><br><span class="meta">RD Station · 2024</span></div>
-    <div class="cert"><b>Fundamentos de SEO</b><br><span class="meta">LinkedIn · 2025</span></div>
-    <div class="cert"><b>Como Conduzir Conversas Difíceis</b><br><span class="meta">LinkedIn · 2025</span></div>
-    <div class="cert"><b>Professional Scrum Product Owner</b><br><span class="meta">Awari · 2024</span></div>
-  </div>
+    <div class="exp">
+      <div class="exp-head">
+        <h3 class="exp-role">Analista de Parcerias Estratégicas</h3>
+        <span class="exp-date">Abr. 2021 &ndash; Jul. 2022</span>
+      </div>
+      <p class="exp-org">Legião da Boa Vontade (LBV) | São Paulo, SP</p>
+      <ul>
+        <li>Acelerou a aquisição de usuários orientada por dados em 15% por meio de campanhas co-branded com influenciadores e celebridades de alto perfil, expandindo o banco de dados comercializável do topo do funil.</li>
+        <li>Construiu e gerenciou um funil de parceria corporativa de ponta a ponta, garantindo patrocínios B2B de alto valor monetário e em espécie para financiar grandes projetos promocionais.</li>
+        <li>Dirigiu colaborações multifuncionais entre executivos corporativos externos, agências de talentos e equipes criativas internas para lançar campanhas promocionais unificadas e multicanais.</li>
+        <li>Otimizou o engajamento ao longo da vida ao criar benefícios e iniciativas exclusivas patrocinadas por parceiros que aumentaram a lealdade da comunidade e impulsionaram a retenção a longo prazo.</li>
+        <li>Estabeleceu KPIs de campanha e parâmetros de acompanhamento para avaliar o desempenho dos parceiros, analisando o alcance do público e o valor da mídia para otimizar estratégias futuras de colaboração.</li>
+        <li>Gerenciou o desenvolvimento integral de relacionamentos e negociações contratuais com stakeholders de alto valor, garantindo alinhamento com os valores organizacionais e as diretrizes da marca.</li>
+      </ul>
+    </div>
+
+    <div class="exp">
+      <div class="exp-head">
+        <h3 class="exp-role">Gerente de Comunicação e Branding</h3>
+        <span class="exp-date">Mar. 2016 &ndash; Abr. 2019</span>
+      </div>
+      <p class="exp-org">Monchu Agenciamento, Editora e Eventos Ltda | São Paulo, SP</p>
+      <ul>
+        <li>Desenvolveu um CRM personalizado e pipeline de retenção de clientes integrando bancos de dados externos de tickets com Google Sheets e Mailchimp para rastrear dados comportamentais de vários anos.</li>
+        <li>Construiu um framework acionável de RFM para monitorar a frequência dos eventos dos clientes e as janelas de lapso, lançando fluxos de reengajamento que escalaram a participação em eventos em 500% (de 500 para 3k+).</li>
+        <li>Analisou métricas comportamentais de eventos, incluindo horários precisos de check-in e checkout, para otimizar o planejamento do evento e melhorar a lealdade a longo prazo da comunidade.</li>
+        <li>Reformulou a infraestrutura de marketing de campo recrutando, contratando e liderando uma equipe de 15 a 20 promotores selecionados para aquisição de público de nicho e desempenho em vendas.</li>
+        <li>Orquestrou uma estratégia de conteúdo omnichannel, alinhando ativações online e offline dos promotores com um calendário unificado que ampliou o alcance digital orgânico em 150%.</li>
+      </ul>
+    </div>
+
+    <div class="exp">
+      <div class="exp-head">
+        <h3 class="exp-role">Coordenador de Telemarketing</h3>
+        <span class="exp-date">Jul. 2005 &ndash; Mar. 2012</span>
+      </div>
+      <p class="exp-org">Legião da Boa Vontade (LBV) | São Paulo, SP</p>
+      <ul>
+        <li>Aumentou o volume de novos doadores em 25% e o ticket médio em 20% por meio da aplicação da metodologia SPIN Selling, com sessões contínuas de coaching de vendas para uma equipe de 40+ operadores.</li>
+        <li>Otimizou a produtividade em 15% e melhorou o AHT em 30%, estruturando rituais de feedback e monitorando KPIs críticos (CPC, taxas de conversão) via CRM, Excel e Power BI.</li>
+        <li>Reduziu a rotatividade em 40% ao implementar uma cultura de liderança humanizada e acelerar a incorporação de novos funcionários por meio de oficinas técnicas e manuais de processos.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="brk">
+    <h2>Educação</h2>
+    <div class="exp-head">
+      <h3 class="exp-role">Graduação: Letras Português-Inglês</h3>
+      <span class="exp-date">Conclusão em 07/2015</span>
+    </div>
+    <p class="exp-org">Pontifícia Universidade Católica de São Paulo (PUC-SP)</p>
+  </section>
+
+  <section class="brk">
+    <h2>Sites e Portfólios</h2>
+    <p><a href="https://espeledata.com">espeledata.com</a> &nbsp;&bull;&nbsp; <a href="https://github.com/daniloespeleta">github.com/daniloespeleta</a> &nbsp;&bull;&nbsp; <a href="https://bit.ly/espeleta-mavenshowcase">bit.ly/espeleta-mavenshowcase</a></p>
+  </section>
+
+  <section class="brk">
+    <h2>Idiomas</h2>
+    <ul>
+      <li>Português &ndash; Nativo</li>
+      <li>Inglês &ndash; Avançado (comunicação profissional, leitura e produção de materiais, relatórios e apresentações)</li>
+    </ul>
+  </section>
+
+  <section class="brk">
+    <h2>Certificações</h2>
+    <ul>
+      <li>Google Analytics &ndash; Google</li>
+      <li>Psicologia do Marketing: Como Decidimos &ndash; Oxford Saïd Business School</li>
+      <li>Software de Marketing HubSpot &ndash; HubSpot Academy</li>
+      <li>Inbound &ndash; HubSpot Academy</li>
+      <li>Fundamentos do Marketing Inbound para Analistas &ndash; RD Station</li>
+      <li>CRM Sales Dashboard &ndash; Maven Analytics</li>
+      <li>Professional Scrum Product Owner &ndash; Awari</li>
+    </ul>
+  </section>
 
 </body>
 </html>
