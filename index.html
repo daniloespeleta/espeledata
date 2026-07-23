@@ -206,6 +206,11 @@ main section{max-width:var(--max);margin:0 auto;padding:clamp(3.5rem,8vw,6rem) 1
 .manifesto-body .em{color:var(--cyan);font-weight:500}
 .manifesto-cta{margin-top:2.6rem}
 
+/* ============ CLOSING ============ */
+.closing-lead{font-family:var(--sans);font-weight:300;font-size:clamp(1.05rem,2.2vw,1.4rem);color:var(--gray);line-height:1.5;max-width:34ch}
+.closing-punch{font-family:var(--cond);font-weight:800;font-size:clamp(2.2rem,6vw,4rem);line-height:1;text-transform:uppercase;color:var(--white);margin-top:.8rem}
+.closing-punch .accent{color:var(--cyan)}
+
 /* ============ CASES ============ */
 .cases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:2.6rem}
 @media(max-width:900px){.cases-grid{grid-template-columns:1fr}}
@@ -321,7 +326,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
         <div class="hero-cta">
           <a class="btn btn-solid" href="portfolio.html"><span class="pt">Ver portfólio</span><span class="en" lang="en">View portfolio</span></a>
           <a class="btn btn-outline cv-link" href="CV/DE-Curriculo.pdf" download><span class="pt">Baixar currículo</span><span class="en" lang="en">Download resume</span></a>
-          <a class="btn btn-outline" href="contact.html"><span class="pt">Contato</span><span class="en" lang="en">Get in touch</span></a>
+          <a class="btn btn-outline" href="contact.html"><span class="pt">Fale comigo</span><span class="en" lang="en">Get in touch</span></a>
         </div>
       </div>
       <div class="hero-visual">
@@ -606,7 +611,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
           <span class="case-kicker">Projeto 01 · Fênix Educação</span>
           <span class="case-title"><span class="pt">CRM Turnaround em base de 50K+ leads</span><span class="en" lang="en">CRM Turnaround on a 50K+ lead base</span></span>
           <span class="case-meta"><span class="pt">Projeto real · Educação · 2022+</span><span class="en" lang="en">Real project · Education · 2022+</span></span>
-          <span class="case-desc"><span class="pt">Base desengajada, disparo em massa, zero segmentação. Operação reconstruída com automação comportamental e régua de ciclo de vida: resultado em 1-2 meses.</span><span class="en" lang="en">Disengaged base, mass blasting, zero segmentation. Operation rebuilt with behavioral automation and lifecycle logic: results in 1-2 months.</span></span>
+          <span class="case-desc"><span class="pt">Reconstrução da operação de CRM numa base de 50K: da higiene e do reengajamento à régua comportamental por curso. Resultado em ~2 meses.</span><span class="en" lang="en">Rebuilding the CRM operation on a 50K base: from cleanup and re-engagement to a course-level behavioral cadence. Results in ~2 months.</span></span>
           <span class="case-go"><span class="pt">Ver case</span><span class="en" lang="en">View case</span> <span class="arrow" aria-hidden="true">→</span></span>
         </div>
       </a>
@@ -702,6 +707,20 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
     <div class="contact-cta">
       <a class="btn btn-outline" href="contact.html"><span class="pt">Ou envie uma mensagem →</span><span class="en" lang="en">Or send a message →</span></a>
     </div>
+  </section>
+
+  <div class="divider" role="presentation"></div>
+
+  <!-- ============ CLOSING ============ -->
+  <section class="closing" aria-label="Fechamento">
+    <p class="closing-lead reveal">
+      <span class="pt">Currículo organiza fatos. LinkedIn organiza presença. GitHub organiza projeto.</span>
+      <span class="en" lang="en">A resume organizes facts. LinkedIn organizes presence. GitHub organizes projects.</span>
+    </p>
+    <p class="closing-punch reveal">
+      <span class="pt">Este site organiza <span class="accent">raciocínio</span>.</span>
+      <span class="en" lang="en">This site organizes <span class="accent">reasoning</span>.</span>
+    </p>
   </section>
 
 </main>
