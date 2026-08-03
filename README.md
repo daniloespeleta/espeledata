@@ -54,8 +54,3 @@ A cada push e em pull requests, a Action **i18n validation** builda o site e rod
 `scripts/validate-i18n.js`, que falha o build se houver: vazamento de idioma,
 `canonical`/`hreflang`/`og:locale` errado, `<h1>` duplicado, JS/CSS de idioma
 remanescente, asset relativo, ou **travessão / em-dash** na copy.
-
-## Convenção de escrita
-
-Na copy (PT e EN): **sem travessão, em-dash ou en-dash**. Usar vírgula, ponto,
-dois-pontos ou parênteses. A regra é validada no CI.
