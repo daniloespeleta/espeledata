@@ -3,7 +3,7 @@
 [![i18n validation](https://github.com/daniloespeleta/espeledata/actions/workflows/i18n.yml/badge.svg)](https://github.com/daniloespeleta/espeledata/actions/workflows/i18n.yml)
 
 Site pessoal e portfólio de **Danilo Espeleta** (CRM & Lifecycle Marketing).
-Estático, feito à mão, sem framework. Bilíngue PT/EN.
+Estático, feito à mão. Bilíngue PT/EN.
 
 ## Arquitetura
 
