@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9NB09LQ1PT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9NB09LQ1PT');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notas · Danilo Espeleta</title>
+<meta name="description" content="Notas de Danilo Espeleta sobre CRM, retenção, dados de jornada e leitura de linguagem. Texto curto, com data e palavras-chave.">
+<meta name="author" content="Danilo Espeleta">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Notas · Danilo Espeleta">
+<meta property="og:description" content="Notas sobre CRM, retenção e leitura de linguagem.">
+<meta property="og:url" content="https://espeledata.com/notas.html">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg:#0a0a0a; --bg2:#111113; --bg3:#17171a;
+  --cyan:#00d4ff;
+  --white:#f0f0ee; --gray:#a3a39d; --gray2:#888882;
+  --border:rgba(255,255,255,0.08);
+  --sans:'Barlow',system-ui,sans-serif;
+  --cond:'Barlow Condensed',var(--sans);
+  --mono:'JetBrains Mono',Consolas,monospace;
+  --max:1100px;
+}
+/* ============ BASE ============ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-padding-top:5.5rem}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{background:var(--bg);color:var(--white);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+a{color:var(--cyan)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:2px}
+.visually-hidden{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.skip-link{position:absolute;left:1rem;top:-4rem;z-index:300;background:var(--cyan);color:#00232b;font-weight:600;padding:.6rem 1rem;text-decoration:none;transition:top .15s}
+.skip-link:focus{top:1rem}
+.lang-pt .en{display:none!important}
+.lang-en .pt{display:none!important}
+
+/* ============ NAV ============ */
+.site-nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.8rem 2rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;border-bottom:1px solid var(--border);background:rgba(10,10,10,0.92);backdrop-filter:blur(12px)}
+.brand{display:flex;flex-direction:column;gap:.1rem;text-decoration:none}
+.brand-name{font-family:var(--cond);font-weight:700;font-size:1.1rem;letter-spacing:.06em;color:var(--white);text-transform:uppercase}
+.brand-role{font-family:var(--mono);font-size:.6rem;color:var(--cyan);letter-spacing:.12em;text-transform:uppercase}
+.nav-right{display:flex;align-items:center;gap:1.4rem}
+.nav-links{display:flex;gap:1.4rem;align-items:center}
+.nav-links a{font-family:var(--mono);font-size:.68rem;color:var(--gray);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;padding:.3rem 0}
+.nav-links a:hover,.nav-links a[aria-current="page"]{color:var(--cyan)}
+.nav-links a.nav-leea,.sidebar a.nav-leea{color:var(--cyan)}
+.lang-switch{display:flex;border:1px solid var(--border)}
+.lang-switch button{background:none;border:none;color:var(--gray);cursor:pointer;font-family:var(--mono);font-size:.65rem;font-weight:500;letter-spacing:.1em;padding:.4rem .7rem}
+.lang-switch button+button{border-left:1px solid var(--border)}
+.lang-switch button[aria-pressed="true"]{background:var(--cyan);color:#00232b}
+.menu-btn{display:none;font-family:var(--mono);font-size:.68rem;color:var(--white);background:none;border:1px solid var(--border);padding:.45rem .9rem;cursor:pointer;letter-spacing:.12em;text-transform:uppercase;transition:all .2s}
+.menu-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:260;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.sidebar-overlay.open{opacity:1;visibility:visible}
+.sidebar{position:fixed;top:0;right:-290px;width:290px;height:100vh;background:var(--bg2);border-left:1px solid var(--border);z-index:270;transition:right .28s;padding:4.5rem 2rem 2rem;display:flex;flex-direction:column;overflow-y:auto}
+.sidebar.open{right:0}
+.sidebar-close{position:absolute;top:1.1rem;right:1.1rem;background:none;border:1px solid var(--border);color:var(--gray);font-size:1rem;line-height:1;cursor:pointer;font-family:var(--mono);padding:.4rem .6rem}
+.sidebar-close:hover{color:var(--cyan);border-color:var(--cyan)}
+.sidebar a{font-family:var(--mono);font-size:.78rem;color:var(--gray);text-decoration:none;letter-spacing:.12em;text-transform:uppercase;padding:1rem 0;border-bottom:1px solid var(--border);transition:color .2s;display:block}
+.sidebar a:hover,.sidebar a[aria-current="page"]{color:var(--cyan)}
+.sidebar .lang-switch{margin-top:1.5rem;align-self:flex-start}
+@media(max-width:900px){
+  .site-nav{padding:.75rem 1.25rem}
+  .brand-role{display:none}
+  .nav-right .nav-links,.nav-right .lang-switch{display:none}
+  .menu-btn{display:block}
+}
+
+/* ============ HERO BAND ============ */
+.notes-hero{padding-top:4.6rem}
+.hero-band{background:var(--bg2);border-bottom:1px solid var(--border);padding:3.4rem 0;overflow:hidden;position:relative}
+.hero-band-inner{max-width:var(--max);margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+.hero-label{font-family:var(--mono);font-size:.65rem;color:var(--cyan);letter-spacing:.2em;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.hero-label::before{content:'→'}
+.hero-title{font-family:var(--cond);font-weight:800;font-size:clamp(4rem,11vw,8rem);line-height:.88;text-transform:uppercase;color:var(--white)}
+.hero-title .accent{color:var(--cyan)}
+.accent-block{position:absolute;left:0;bottom:0;width:38%;height:100%;background:rgba(0,212,255,0.06);border-right:2px solid rgba(0,212,255,0.22);z-index:0}
+
+/* ============ NOTAS ============ */
+.notes-body{max-width:var(--max);margin:0 auto;padding:3.5rem 1.5rem 5rem}
+.notes-intro{color:var(--gray);font-size:1rem;line-height:1.75;max-width:62ch;margin-bottom:3rem}
+.notes-list{list-style:none;display:flex;flex-direction:column;gap:0}
+.note{border-top:1px solid var(--border);padding:2.6rem 0}
+.note:last-child{border-bottom:1px solid var(--border)}
+.note-meta{display:flex;align-items:center;gap:.9rem;flex-wrap:wrap;margin-bottom:1rem}
+.note-date{font-family:var(--mono);font-size:.75rem;color:var(--cyan);letter-spacing:.1em}
+.note-lang{font-family:var(--mono);font-size:.66rem;color:var(--gray2);letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--border);padding:.15rem .45rem}
+.note-title{font-family:var(--cond);font-weight:800;font-size:clamp(1.6rem,3.2vw,2.3rem);line-height:1.05;text-transform:uppercase;color:var(--white);margin-bottom:1.1rem}
+.note-text{color:var(--gray);font-size:1.02rem;line-height:1.8;max-width:68ch}
+.note-text p+p{margin-top:1.1rem}
+.note-text strong{color:var(--white);font-weight:600}
+.note-text code{font-family:var(--mono);font-size:.88em;color:var(--cyan);background:var(--bg2);padding:.1em .35em;border:1px solid var(--border)}
+.note-keys{list-style:none;display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.6rem}
+.note-keys li{font-family:var(--mono);font-size:.68rem;color:var(--gray2);letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--border);padding:.3rem .6rem;transition:all .2s}
+.note-keys li:hover{border-color:var(--cyan);color:var(--cyan)}
+.notes-empty{color:var(--gray2);font-family:var(--mono);font-size:.85rem}
+
+/* ============ FOOTER ============ */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-name{font-family:var(--cond);font-weight:700;font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray)}
+.footer-info{font-family:var(--mono);font-size:.72rem;color:var(--gray2);letter-spacing:.06em;display:flex;flex-wrap:wrap;gap:.4rem 1rem;align-items:center}
+.footer-info a{color:var(--gray);text-decoration:none;transition:color .2s}
+.footer-info a:hover{color:var(--cyan)}
+@media(max-width:640px){footer{flex-direction:column;align-items:flex-start;padding:1.5rem}}
+</style>
+</head>
+<body class="lang-pt">
+
+<a class="skip-link" href="#main"><span class="pt">Pular para o conteúdo</span><span class="en" lang="en">Skip to content</span></a>
+
+<!-- ============ NAV ============ -->
+<nav class="site-nav" aria-label="Principal">
+  <a class="brand" href="index.html">
+    <span class="brand-name">Danilo Espeleta</span>
+    <span class="brand-role">CRM &amp; Lifecycle Marketing</span>
+  </a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="index.html"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
+      <a href="index.html#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
+      <a href="leea.html" class="nav-leea"><span class="pt">Agência Leea</span><span class="en" lang="en">Leea Agency</span></a>
+      <a href="portfolio.html"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
+      <a href="notas.html" aria-current="page"><span class="pt">Notas</span><span class="en" lang="en">Notes</span></a>
+      <a href="contact.html"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
+      <a class="cv-link" href="CV/DE-Curriculo.pdf" download><span class="pt">Currículo ↓</span><span class="en" lang="en">Resume ↓</span></a>
+    </div>
+    <div class="lang-switch" role="group" aria-label="Idioma / Language">
+      <button type="button" data-lang="pt" aria-pressed="true">PT</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <button class="menu-btn" aria-expanded="false" aria-controls="sidebar">Menu</button>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="sidebar" id="sidebar" aria-label="Menu">
+  <button class="sidebar-close" aria-label="Fechar menu">✕</button>
+  <a href="index.html"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
+  <a href="index.html#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
+  <a href="leea.html" class="nav-leea"><span class="pt">Agência Leea</span><span class="en" lang="en">Leea Agency</span></a>
+  <a href="portfolio.html"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
+  <a href="notas.html" aria-current="page"><span class="pt">Notas</span><span class="en" lang="en">Notes</span></a>
+  <a href="contact.html"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
+  <a class="cv-link" href="CV/DE-Curriculo.pdf" download><span class="pt">Currículo ↓</span><span class="en" lang="en">Resume ↓</span></a>
+  <div class="lang-switch" role="group" aria-label="Idioma / Language">
+    <button type="button" data-lang="pt" aria-pressed="true">PT</button>
+    <button type="button" data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</div>
+
+<main id="main">
+
+  <!-- HERO BAND -->
+  <div class="notes-hero">
+    <div class="hero-band">
+      <div class="accent-block" aria-hidden="true"></div>
+      <div class="hero-band-inner">
+        <p class="hero-label"><span class="pt">Página</span><span class="en" lang="en">Page</span></p>
+        <h1 class="hero-title">
+          <span class="pt">No<span class="accent">tas</span></span>
+          <span class="en" lang="en">No<span class="accent">tes</span></span>
+        </h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="notes-body">
+
+    <p class="notes-intro">
+      <span class="pt">Texto curto sobre o que eu ando lendo, testando e quebrando. Cada nota tem data e palavras-chave. Ficam na língua em que foram escritas.</span>
+      <span class="en" lang="en">Short pieces on what I am reading, testing and breaking. Each note carries a date and keywords. They stay in the language they were written in.</span>
+    </p>
+
+    <!-- ==========================================================
+         PARA ADICIONAR UMA NOTA:
+         copie o bloco abaixo, cole no TOPO da lista (mais nova em cima),
+         e troque data, título, texto e palavras-chave.
+         O atributo datetime usa AAAA-MM-DD. A data visível é livre.
+         Se a nota for em inglês, troque a etiqueta note-lang para EN.
+         Não use travessão, o CI reprova o build.
+
+    <li class="note">
+      <div class="note-meta">
+        <time class="note-date" datetime="2026-01-31">31.01.2026</time>
+        <span class="note-lang">PT</span>
+      </div>
+      <h2 class="note-title">Título da nota</h2>
+      <div class="note-text">
+        <p>Primeiro parágrafo.</p>
+        <p>Segundo parágrafo.</p>
+      </div>
+      <ul class="note-keys">
+        <li>palavra-chave</li>
+        <li>outra</li>
+      </ul>
+    </li>
+
+    ========================================================== -->
+
+    <ul class="notes-list">
+
+      <li class="note">
+        <div class="note-meta">
+          <time class="note-date" datetime="2026-08-07">07.08.2026</time>
+          <span class="note-lang">PT</span>
+        </div>
+        <h2 class="note-title">Churn diz quantos, não diz quando</h2>
+        <div class="note-text">
+          <p>Passei os últimos dias lendo como o DIW Berlin documenta <strong>spell data</strong>, que é o nome que as ciências sociais dão para dado de duração: cada linha é um período com começo, fim e o estado em que a pessoa estava. Eles publicam cinco rotinas para converter isso de episódio para painel e de volta, com o dado de entrada e o de saída lado a lado no mesmo pacote.</p>
+          <p>O que me pegou não foi a técnica, foi a forma de apresentar. Eles abrem dizendo que lidar com esse dado <strong>é trabalhoso</strong>, dão dois exemplos de onde trava, e só então dizem quantos arquivos você recebe. Nenhum nome de metodologia, nenhuma tese. O método é a lista dos cinco arquivos.</p>
+          <p>Jornada de cliente é exatamente isso. Um cliente em <code>trial</code> de janeiro a fevereiro, <code>ativo_basic</code> até julho, <code>ativo_pro</code> até novembro, <code>churned</code> em 16 de novembro. O relatório mensal diz uma coisa só: churn em novembro. A tabela diz que ele subiu de plano 107 dias antes de sair. A pergunta interessante mora nesse intervalo, e o número mensal apaga ele.</p>
+        </div>
+        <ul class="note-keys">
+          <li>spell data</li>
+          <li>retenção</li>
+          <li>churn</li>
+          <li>modelagem de jornada</li>
+          <li>DIW</li>
+        </ul>
+      </li>
+
+      <li class="note">
+        <div class="note-meta">
+          <time class="note-date" datetime="2026-08-07">07.08.2026</time>
+          <span class="note-lang">PT</span>
+        </div>
+        <h2 class="note-title">O bug que passou pelo próprio validador</h2>
+        <div class="note-text">
+          <p>Este site é bilíngue por um truque simples: cada trecho existe duas vezes no mesmo arquivo, marcado como <code>class=&quot;pt&quot;</code> ou <code>class=&quot;en&quot;</code>, e um script apaga o idioma oposto na hora do build. Tem até um validador de CI que confere se sobrou alguma coisa.</p>
+          <p>O script procurava a string exata <code>class=&quot;en&quot;</code>. Aí uma página nova apareceu com <code>class=&quot;step en&quot;</code>, classe composta, e nada disso foi removido. A versão em português passou a mostrar o texto em inglês inteiro. O validador não viu, porque ele procurava a mesma string exata.</p>
+          <p>A lição não é sobre CSS. É que <strong>a verificação herdou a suposição errada do código que ela deveria vigiar</strong>. Se o teste e o alvo compartilham o mesmo ponto cego, o teste passa e o erro vai ao ar. Consertei os dois para tratar a classe como lista de palavras, que é o que ela sempre foi.</p>
+        </div>
+        <ul class="note-keys">
+          <li>i18n</li>
+          <li>CI</li>
+          <li>bug</li>
+          <li>teste</li>
+        </ul>
+      </li>
+
+    </ul>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-name">Danilo Campos Espeleta</div>
+  <div class="footer-info">
+    <span>São Paulo / SP</span>
+    <a href="mailto:daniloespeleta@gmail.com">daniloespeleta@gmail.com</a>
+    <a href="https://www.linkedin.com/in/daniloespeleta" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/daniloespeleta" target="_blank" rel="noopener">GitHub</a>
+    <span>© <span id="year">2026</span></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+/* ---- language ---- */
+var CV={pt:'CV/DE-Curriculo.pdf',en:'CV/DE-Resume.pdf'};
+var langButtons=document.querySelectorAll('.lang-switch button');
+function setLang(lang){
+  document.body.classList.remove('lang-pt','lang-en');
+  document.body.classList.add('lang-'+lang);
+  document.documentElement.lang=(lang==='en')?'en':'pt-BR';
+  langButtons.forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.lang===lang));});
+  document.querySelectorAll('a.cv-link').forEach(function(a){a.setAttribute('href',CV[lang]);});
+  try{localStorage.setItem('lang',lang);}catch(e){}
+}
+langButtons.forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.lang);});});
+var saved=null;try{saved=localStorage.getItem('lang');}catch(e){}
+if(saved==='en'||saved==='pt')setLang(saved);
+
+/* ---- mobile sidebar ---- */
+var menuBtn=document.querySelector('.menu-btn'),sidebar=document.getElementById('sidebar'),
+    overlay=document.getElementById('sidebarOverlay'),closeBtn=document.querySelector('.sidebar-close');
+function openSb(){sidebar.classList.add('open');overlay.classList.add('open');menuBtn.setAttribute('aria-expanded','true');}
+function closeSb(){sidebar.classList.remove('open');overlay.classList.remove('open');menuBtn.setAttribute('aria-expanded','false');}
+menuBtn.addEventListener('click',openSb);
+closeBtn.addEventListener('click',closeSb);
+overlay.addEventListener('click',closeSb);
+sidebar.addEventListener('click',function(e){if(e.target.closest('a'))closeSb();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&sidebar.classList.contains('open')){closeSb();menuBtn.focus();}});
+
+/* ---- year ---- */
+var y=document.getElementById('year');if(y)y.textContent=new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

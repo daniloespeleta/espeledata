@@ -18,14 +18,14 @@ const outDir = process.argv[3] || '_deploy';
 
 // Pages that carry bilingual .pt/.en content
 const PAGES = [
-  'index.html', 'portfolio.html', 'contact.html', 'leea.html',
+  'index.html', 'portfolio.html', 'contact.html', 'leea.html', 'notas.html',
   'case-fenix.html', 'case-abrindo-caminhos.html', 'case-boa-leitura.html',
   'case-sql-01.html', 'case-sql-02.html', 'case-sql-03.html', 'case-sql-04.html', 'case-sql-05.html',
   '404.html', 'obrigado.html',
 ];
 // Pages included in the sitemap (indexable content only)
 const INDEXABLE = new Set([
-  'index.html', 'portfolio.html', 'contact.html', 'leea.html',
+  'index.html', 'portfolio.html', 'contact.html', 'leea.html', 'notas.html',
   'case-fenix.html', 'case-abrindo-caminhos.html', 'case-boa-leitura.html',
   'case-sql-01.html', 'case-sql-02.html', 'case-sql-03.html', 'case-sql-04.html', 'case-sql-05.html',
 ]);
@@ -99,6 +99,13 @@ const EN_META = {
     ["SQL 05 · Ticket Médio por Segmento · Danilo Espeleta", "SQL 05 · Average Ticket by Segment · Danilo Espeleta"],
     ["Case SQL 05: AVG() e GROUP BY para calcular o ticket médio por setor e direcionar o investimento de mídia paga ao segmento mais rentável.",
      "SQL case 05: AVG() and GROUP BY to compute the average ticket by sector and steer paid-media investment toward the most profitable segment."],
+  ],
+  'notas.html': [
+    ["Notas · Danilo Espeleta", "Notes · Danilo Espeleta"],
+    ["Notas de Danilo Espeleta sobre CRM, retenção, dados de jornada e leitura de linguagem. Texto curto, com data e palavras-chave.",
+     "Notes by Danilo Espeleta on CRM, retention, journey data and language reading. Short pieces, with a date and keywords."],
+    ["Notas sobre CRM, retenção e leitura de linguagem.",
+     "Notes on CRM, retention and language reading."],
   ],
   'obrigado.html': [
     ["Mensagem enviada · Danilo Espeleta", "Message sent · Danilo Espeleta"],
