@@ -18,14 +18,14 @@ const outDir = process.argv[3] || '_deploy';
 
 // Pages that carry bilingual .pt/.en content
 const PAGES = [
-  'index.html', 'portfolio.html', 'contact.html',
+  'index.html', 'portfolio.html', 'contact.html', 'leea.html',
   'case-fenix.html', 'case-abrindo-caminhos.html', 'case-boa-leitura.html',
   'case-sql-01.html', 'case-sql-02.html', 'case-sql-03.html', 'case-sql-04.html', 'case-sql-05.html',
   '404.html', 'obrigado.html',
 ];
 // Pages included in the sitemap (indexable content only)
 const INDEXABLE = new Set([
-  'index.html', 'portfolio.html', 'contact.html',
+  'index.html', 'portfolio.html', 'contact.html', 'leea.html',
   'case-fenix.html', 'case-abrindo-caminhos.html', 'case-boa-leitura.html',
   'case-sql-01.html', 'case-sql-02.html', 'case-sql-03.html', 'case-sql-04.html', 'case-sql-05.html',
 ]);
@@ -53,6 +53,13 @@ const EN_META = {
      "Get in touch with Danilo Espeleta, CRM &amp; Lifecycle Marketing in São Paulo. Email, WhatsApp, LinkedIn or a direct message."],
     ["Fale com Danilo Espeleta, CRM &amp; Lifecycle Marketing em São Paulo.",
      "Get in touch with Danilo Espeleta, CRM &amp; Lifecycle Marketing in São Paulo."],
+  ],
+  'leea.html': [
+    ["Agência Leea · Danilo Espeleta", "Leea Agency · Danilo Espeleta"],
+    ["Leea: agência de linguagem, jornada e retenção. Metodologia Sulco para ler trajetória de cliente e transformar sinal em intervenção de CRM testável.",
+     "Leea: a language, journey and retention agency. The Sulco method reads customer trajectory and turns signal into a testable CRM intervention."],
+    ["Linguagem, jornada e retenção. O sentido tem duração: metodologia Sulco para ler trajetória de cliente e transformar sinal em intervenção de CRM testável.",
+     "Language, journey and retention. Meaning has duration: the Sulco method reads customer trajectory and turns signal into a testable CRM intervention."],
   ],
   'case-fenix.html': [
     ["CRM turnaround na Fênix Educação: base de 50K+ leads limpa e segmentada do zero, elevando a abertura de ~2% para ~25%, com +35% de CTR e +20% em matrículas.",

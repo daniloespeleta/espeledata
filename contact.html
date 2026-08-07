@@ -191,14 +191,33 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
     <!-- LEFT: intro -->
     <div class="contact-intro">
       <p class="section-label"><span class="pt">Vamos conversar</span><span class="en" lang="en">Let's talk</span></p>
-      <h2 class="contact-heading">
-        <span class="pt">Entre em<br><span class="accent">Contato</span></span>
-        <span class="en" lang="en">Get in<br><span class="accent">Touch</span></span>
-      </h2>
-      <p class="contact-desc">
-        <span class="pt">Meu portfólio mostra parte do meu trabalho, mas não tudo. Entre em contato comigo e agende uma conversa para saber mais sobre minha experiência, minhas habilidades e, mais especificamente, como posso contribuir para a sua empresa.</span>
-        <span class="en" lang="en">My portfolio contains some of my work, but not all. Get in touch and schedule a conversation to learn more about my experience, skills, and, more specifically, what I can do for your company.</span>
-      </p>
+      <div class="contact-copy variant-default" id="contactVariantDefault">
+        <h2 class="contact-heading">
+          <span class="pt">Entre em<br><span class="accent">Contato</span></span>
+          <span class="en" lang="en">Get in<br><span class="accent">Touch</span></span>
+        </h2>
+        <p class="contact-desc">
+          <span class="pt">Meu portfólio mostra parte do meu trabalho, mas não tudo. Entre em contato comigo e agende uma conversa para saber mais sobre minha experiência, minhas habilidades e, mais especificamente, como posso contribuir para a sua empresa.</span>
+          <span class="en" lang="en">My portfolio contains some of my work, but not all. Get in touch and schedule a conversation to learn more about my experience, skills, and, more specifically, what I can do for your company.</span>
+        </p>
+      </div>
+      <div class="contact-copy variant-leea" id="contactVariantLeea" hidden>
+        <h2 class="contact-heading">
+          <span class="pt">Peça sua<br><span class="accent">Leitura</span></span>
+          <span class="en" lang="en">Request your<br><span class="accent">Reading</span></span>
+        </h2>
+        <p class="contact-desc">
+          <span class="pt">A Leea lê como sua marca perde e recupera cliente ao longo do tempo. Escreva com o contexto da transição que você quer entender e eu te respondo com os próximos passos.</span>
+          <span class="en" lang="en">Leea reads how your brand loses and recovers customers over time. Write with the context of the transition you want to understand and I will reply with next steps.</span>
+        </p>
+      </div>
+      <script>
+        if(location.search.indexOf('leea=1')!==-1){
+          var cd=document.getElementById('contactVariantDefault'),cl=document.getElementById('contactVariantLeea');
+          if(cd)cd.hidden=true;
+          if(cl)cl.hidden=false;
+        }
+      </script>
 
       <div class="contact-email-block">
         <div class="email-label">E-mail</div>

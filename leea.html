@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="pt-BR" id="top">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agência Leea · Danilo Espeleta</title>
+<meta name="description" content="Leea: agência de linguagem, jornada e retenção. Metodologia Sulco para ler trajetória de cliente e transformar sinal em intervenção de CRM testável.">
+<meta name="author" content="Danilo Espeleta">
+<link rel="canonical" href="https://espeledata.com/leea.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Agência Leea · Danilo Espeleta">
+<meta property="og:description" content="Linguagem, jornada e retenção. O sentido tem duração: metodologia Sulco para ler trajetória de cliente e transformar sinal em intervenção de CRM testável.">
+<meta property="og:url" content="https://espeledata.com/leea.html">
+<meta property="og:image" content="https://espeledata.com/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://espeledata.com/og-cover.png">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Barlow:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg:#0a0a0a; --bg2:#111113; --bg3:#17171a;
+  --cyan:#00d4ff; --coral:#ff5a47;
+  --white:#f0f0ee; --gray:#a3a39d; --gray2:#888882;
+  --border:rgba(255,255,255,0.08);
+  --sans:'Barlow',system-ui,sans-serif;
+  --cond:'Barlow Condensed',var(--sans);
+  --mono:'JetBrains Mono',Consolas,monospace;
+  --max:1100px;
+}
+/* helper rgb pairs, used for tinted/translucent fills only, tokens above stay unchanged */
+:root{ --cyan-rgb:0,212,255; --coral-rgb:255,90,71; }
+
+/* ============ BASE ============ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-padding-top:6.5rem}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{background:var(--bg);color:var(--white);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+a{color:var(--cyan)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:2px}
+.visually-hidden{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.skip-link{position:absolute;left:1rem;top:-4rem;z-index:300;background:var(--cyan);color:#00232b;font-weight:600;padding:.6rem 1rem;text-decoration:none;transition:top .15s}
+.skip-link:focus{top:1rem}
+.lang-pt .en{display:none!important}
+.lang-en .pt{display:none!important}
+code,.mono{font-family:var(--mono)}
+
+/* ============ PROGRESS BAR ============ */
+.progress-track{position:fixed;top:0;left:0;right:0;height:3px;background:var(--border);z-index:210}
+.progress-fill{height:100%;width:0%;background:var(--cyan);transform-origin:left}
+@media (prefers-reduced-motion:no-preference){.progress-fill{transition:width .08s linear}}
+
+/* ============ NAV ============ */
+.site-nav{position:fixed;top:3px;left:0;right:0;z-index:200;padding:.8rem 2rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;border-bottom:1px solid var(--border);background:rgba(10,10,10,0.92);backdrop-filter:blur(12px)}
+.brand{display:flex;flex-direction:column;gap:.1rem;text-decoration:none}
+.brand-name{font-family:var(--cond);font-weight:700;font-size:1.1rem;letter-spacing:.06em;color:var(--white);text-transform:uppercase}
+.brand-role{font-family:var(--mono);font-size:.6rem;color:var(--cyan);letter-spacing:.12em;text-transform:uppercase}
+.nav-right{display:flex;align-items:center;gap:1.4rem}
+.nav-links{display:flex;gap:1.4rem;align-items:center}
+.nav-links a{font-family:var(--mono);font-size:.68rem;color:var(--gray);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;padding:.3rem 0}
+.nav-links a:hover,.nav-links a[aria-current="page"]{color:var(--cyan)}
+.lang-switch{display:flex;border:1px solid var(--border)}
+.lang-switch button{background:none;border:none;color:var(--gray);cursor:pointer;font-family:var(--mono);font-size:.65rem;font-weight:500;letter-spacing:.1em;padding:.4rem .7rem}
+.lang-switch button+button{border-left:1px solid var(--border)}
+.lang-switch button[aria-pressed="true"]{background:var(--cyan);color:#00232b}
+.menu-btn{display:none;font-family:var(--mono);font-size:.68rem;color:var(--white);background:none;border:1px solid var(--border);padding:.45rem .9rem;cursor:pointer;letter-spacing:.12em;text-transform:uppercase;transition:all .2s}
+.menu-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:260;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.sidebar-overlay.open{opacity:1;visibility:visible}
+.sidebar{position:fixed;top:0;right:-290px;width:290px;height:100vh;background:var(--bg2);border-left:1px solid var(--border);z-index:270;transition:right .28s;padding:4.5rem 2rem 2rem;display:flex;flex-direction:column;overflow-y:auto}
+.sidebar.open{right:0}
+.sidebar-close{position:absolute;top:1.1rem;right:1.1rem;background:none;border:1px solid var(--border);color:var(--gray);font-size:1rem;line-height:1;cursor:pointer;font-family:var(--mono);padding:.4rem .6rem}
+.sidebar-close:hover{color:var(--cyan);border-color:var(--cyan)}
+.sidebar a{font-family:var(--mono);font-size:.78rem;color:var(--gray);text-decoration:none;letter-spacing:.12em;text-transform:uppercase;padding:1rem 0;border-bottom:1px solid var(--border);transition:color .2s;display:block}
+.sidebar a:hover,.sidebar a[aria-current="page"]{color:var(--cyan)}
+.sidebar .lang-switch{margin-top:1.5rem;align-self:flex-start}
+@media(max-width:900px){
+  .site-nav{padding:.75rem 1.25rem}
+  .brand-role{display:none}
+  .nav-right .nav-links,.nav-right .lang-switch{display:none}
+  .menu-btn{display:block}
+}
+
+/* ============ LAYOUT ============ */
+main section{max-width:var(--max);margin:0 auto;padding:clamp(3.5rem,8vw,6rem) 1.5rem}
+.divider{height:1px;background:var(--border);max-width:var(--max);margin:0 auto}
+.kicker{font-family:var(--mono);font-size:.68rem;color:var(--cyan);letter-spacing:.2em;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:.6rem}
+.kicker::before{content:'→'}
+.section-title{font-family:var(--cond);font-weight:800;font-size:clamp(2.2rem,5vw,3.4rem);line-height:.98;text-transform:uppercase}
+.section-title .accent{color:var(--cyan)}
+.section-sub{margin-top:1rem;color:var(--gray);max-width:640px}
+.section-sub p+p{margin-top:.8rem}
+
+/* ============ HERO ============ */
+.leea-hero{position:relative;overflow:hidden;padding-top:clamp(8rem,15vw,10.5rem)!important}
+.hero-grooves{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.7}
+.hero-inner{position:relative;z-index:1;max-width:720px}
+.leea-hero h1{font-family:var(--cond);font-weight:800;font-size:clamp(2.8rem,7vw,5rem);line-height:.96;text-transform:uppercase}
+.leea-hero h1 .accent{color:var(--cyan)}
+.hero-sub{margin-top:1.5rem;color:var(--gray);max-width:56ch;font-size:1.02rem}
+.hero-sub p+p{margin-top:.9rem}
+.hero-note{font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;color:var(--gray2);margin-top:1.6rem;max-width:52ch;line-height:1.6}
+.hero-note strong{color:var(--cyan);font-weight:500}
+.hero-cta{display:flex;gap:1rem;margin-top:2.2rem;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.7rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:.9rem 1.6rem;text-decoration:none;border:1px solid;transition:all .15s;cursor:pointer;background:none}
+.btn-solid{background:var(--cyan);border-color:var(--cyan);color:#00232b}
+.btn-solid:hover{background:#33ddff;border-color:#33ddff}
+.btn-outline{background:transparent;border-color:var(--border);color:var(--white)}
+.btn-outline:hover{border-color:var(--cyan);color:var(--cyan)}
+@media (prefers-reduced-motion:no-preference){
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+  .hero-inner{animation:fadeUp .6s ease both}
+}
+
+/* ============ STATS BAND ============ */
+.stats-band{padding-top:0!important}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border)}
+@media(max-width:760px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+.stat-cell{background:var(--bg2);padding:1.8rem 1.2rem;text-align:center}
+.stat-cell .num{font-family:var(--cond);font-weight:800;font-size:clamp(2rem,4vw,2.8rem);color:var(--cyan);line-height:1;display:block}
+.stat-cell .lbl{font-family:var(--mono);font-size:.6rem;color:var(--gray);letter-spacing:.1em;text-transform:uppercase;margin-top:.6rem;display:block}
+
+/* ============ STATE TOKENS (shared by map, timeline, comparator) ============ */
+[data-state]{--state-bg:var(--gray2);--state-fg:var(--bg);--state-border:var(--border)}
+[data-state="ativo"]{--state-bg:var(--cyan);--state-border:var(--cyan)}
+[data-state="risco"]{--state-bg:var(--coral);--state-border:var(--coral)}
+[data-state="dormente"]{--state-bg:var(--bg3);--state-fg:var(--gray);--state-border:var(--border)}
+[data-state="recuperado"]{--state-bg:rgba(var(--cyan-rgb),.16);--state-fg:var(--cyan);--state-border:var(--cyan)}
+
+.legend{list-style:none;display:flex;flex-wrap:wrap;gap:.5rem 1.4rem;margin-top:1.6rem}
+.legend li{display:flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.66rem;color:var(--gray);letter-spacing:.06em;text-transform:uppercase}
+.legend-dot{width:10px;height:10px;border-radius:3px;background:var(--state-bg);border:1px solid var(--state-border);flex:none}
+
+/* ============ COMPARATOR (before/after) ============ */
+.compare-wrap{margin-top:2.6rem}
+.compare-toggle{display:flex;gap:1px;background:var(--border);border:1px solid var(--border);max-width:520px}
+.compare-btn{flex:1 1 auto;background:var(--bg2);border:none;color:var(--gray);cursor:pointer;font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;padding:.9rem .8rem;transition:all .2s}
+.compare-btn:hover{color:var(--cyan)}
+.compare-btn[aria-selected="true"]{background:var(--bg3);color:var(--cyan);box-shadow:inset 0 -2px 0 var(--cyan)}
+.compare-panels{margin-top:1.4rem}
+.compare-panel{border:1px solid var(--border);background:var(--bg2);padding:1.8rem}
+.compare-panel+.compare-panel{margin-top:1.2rem}
+.compare-panel[hidden]{display:none}
+.compare-h{font-family:var(--cond);font-weight:700;font-size:1.2rem;text-transform:uppercase;letter-spacing:.02em;margin-bottom:1rem}
+.rate-tile{display:flex;align-items:baseline;gap:1rem;flex-wrap:wrap;margin-bottom:1.2rem}
+.rate-num{font-family:var(--cond);font-weight:800;font-size:clamp(2.6rem,6vw,3.8rem);color:var(--coral);line-height:1}
+.rate-cap{font-family:var(--mono);font-size:.62rem;color:var(--gray2);letter-spacing:.1em;text-transform:uppercase}
+.rate-flatline{width:100%;height:1px;background:var(--border);position:relative;margin:1.4rem 0}
+.rate-flatline::after{content:'';position:absolute;right:0;top:-4px;width:9px;height:9px;border-radius:50%;background:var(--coral)}
+.compare-panel p{color:var(--gray);font-size:.92rem}
+.compare-note{font-family:var(--mono);font-size:.6rem;color:var(--gray2);letter-spacing:.04em;margin-top:1.2rem;display:block}
+.seq-intro{color:var(--gray);font-size:.92rem;margin-bottom:1.4rem}
+.seq-rows{display:flex;flex-direction:column;gap:1.1rem}
+.seq-row{display:grid;grid-template-columns:1fr;gap:.5rem}
+.seq-label{font-family:var(--mono);font-size:.64rem;color:var(--white);letter-spacing:.06em;text-transform:uppercase}
+.seq-ticks{display:flex;gap:2px}
+.seq-ticks span{flex:1;height:16px;background:var(--state-bg);border:1px solid var(--state-border)}
+.seq-caption{font-size:.82rem;color:var(--gray)}
+
+/* ============ STATE MAP ============ */
+.state-map-wrap{margin-top:2.4rem;display:grid;grid-template-columns:340px 1fr;gap:2.4rem;align-items:start}
+@media(max-width:820px){.state-map-wrap{grid-template-columns:1fr}}
+.state-map{position:relative;width:100%;max-width:340px;aspect-ratio:1/1;margin:0 auto}
+.state-connectors{position:absolute;inset:0;width:100%;height:100%}
+.state-connectors path{fill:none;stroke:var(--border);stroke-width:1.4;marker-end:url(#leeaArrow)}
+.state-nodes{position:absolute;inset:0}
+.state-btn{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;gap:.5rem;background:var(--bg2);border:1px solid var(--state-border,var(--border));color:var(--white);font-family:var(--mono);font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;padding:.65rem 1rem;cursor:pointer;transition:all .2s;white-space:nowrap}
+.state-btn .dot{width:9px;height:9px;border-radius:50%;background:var(--state-bg,var(--gray2));flex:none}
+.state-btn:hover{border-color:var(--cyan)}
+.state-btn[aria-pressed="true"]{background:var(--state-bg);color:var(--state-fg);border-color:var(--state-border)}
+.state-btn[aria-pressed="true"] .dot{background:var(--state-fg)}
+.state-btn.pos-ativo{left:22%;top:20%}
+.state-btn.pos-risco{left:78%;top:20%}
+.state-btn.pos-dormente{left:78%;top:80%}
+.state-btn.pos-recuperado{left:22%;top:80%}
+@media(max-width:820px){
+  .state-map{max-width:none;aspect-ratio:auto}
+  .state-connectors{display:none}
+  .state-nodes{position:static;display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+  .state-btn{position:static;transform:none;width:100%;justify-content:center}
+}
+.state-details{display:flex;flex-direction:column;gap:1.6rem}
+.state-details.js-filter .state-detail{display:none}
+.state-details.js-filter .state-detail.current{display:block}
+.state-detail{border:1px solid var(--border);border-left:3px solid var(--state-border,var(--cyan));background:var(--bg2);padding:1.5rem 1.6rem}
+.state-detail-title{font-family:var(--cond);font-weight:700;font-size:1.4rem;text-transform:uppercase;color:var(--white);display:flex;align-items:center;gap:.6rem}
+.state-detail-title .dot{width:11px;height:11px;border-radius:50%;background:var(--state-bg)}
+.state-detail-def{color:var(--gray);font-size:.92rem;margin-top:.8rem}
+.state-detail-sub{font-family:var(--mono);font-size:.6rem;color:var(--cyan);letter-spacing:.14em;text-transform:uppercase;margin-top:1.2rem;margin-bottom:.6rem}
+.state-signals{list-style:none}
+.state-signals li{font-size:.85rem;color:var(--gray);padding-left:1.1rem;position:relative;margin-bottom:.4rem}
+.state-signals li::before{content:'→';position:absolute;left:0;color:var(--cyan)}
+.state-transitions{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.state-transitions li{font-size:.85rem;color:var(--gray)}
+.state-jump{background:var(--bg3);border:1px solid var(--border);color:var(--white);font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;padding:.35rem .7rem;cursor:pointer;margin-right:.5rem;transition:all .2s}
+.state-jump:hover{border-color:var(--cyan);color:var(--cyan)}
+
+/* ============ EPISODE SCRUBBER ============ */
+.ep-subhead{font-family:var(--cond);font-weight:700;font-size:1.3rem;text-transform:uppercase;margin-top:3rem;margin-bottom:.6rem}
+.ep-intro{color:var(--gray);font-size:.92rem;max-width:60ch;margin-bottom:1.6rem}
+.ep-scrubber{margin-top:.5rem}
+.ep-track{display:flex;gap:2px;position:relative;margin-bottom:1rem}
+.ep-tick{flex:1;height:22px;background:var(--state-bg);border:1px solid var(--state-border)}
+.ep-playhead{position:absolute;top:-6px;bottom:-6px;width:2px;background:var(--white);left:0%;pointer-events:none;display:none}
+@media (prefers-reduced-motion:no-preference){.ep-playhead{transition:left .1s linear}}
+.js-scrub .ep-playhead{display:block}
+.ep-range-label{display:block;font-family:var(--mono);font-size:.66rem;color:var(--gray);letter-spacing:.06em;margin-bottom:.5rem}
+.ep-scrubber input[type="range"]{width:100%;margin-bottom:1.4rem;accent-color:var(--cyan)}
+.ep-list{list-style:none}
+.ep-item{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem 1rem;border:1px solid var(--border);background:var(--bg2);padding:1rem 1.3rem;margin-bottom:.5rem}
+.js-scrub .ep-item{display:none}
+.js-scrub .ep-item.current{display:flex;border-color:rgba(var(--cyan-rgb),.4);padding:1.3rem 1.5rem}
+.ep-period{font-family:var(--mono);font-size:.62rem;color:var(--gray2);letter-spacing:.1em;text-transform:uppercase;min-width:7ch}
+.ep-badge{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .6rem;background:var(--state-bg);color:var(--state-fg);border:1px solid var(--state-border)}
+.ep-signal{color:var(--gray);font-size:.86rem;flex:1 1 200px}
+.ep-note{font-family:var(--mono);font-size:.6rem;color:var(--gray2);letter-spacing:.04em;margin-top:1rem;display:block}
+
+/* ============ GLOSSARY ============ */
+.method-seq{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin-top:1.6rem;font-family:var(--mono);font-size:.66rem;letter-spacing:.06em;color:var(--gray2);text-transform:uppercase}
+.method-seq span.step{color:var(--white)}
+.method-seq span.arrow{color:var(--cyan)}
+.glossary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-top:2rem}
+.glossary-card{background:var(--bg2);padding:1.5rem 1.4rem}
+.glossary-term{font-family:var(--cond);font-weight:700;font-size:1.1rem;text-transform:uppercase;color:var(--cyan);letter-spacing:.02em}
+.glossary-def{color:var(--gray);font-size:.86rem;margin-top:.5rem}
+.theory-note{font-family:var(--mono);font-size:.68rem;color:var(--gray2);letter-spacing:.02em;line-height:1.7;margin-top:2rem;max-width:70ch}
+
+/* ============ CICLO ============ */
+.ciclo-list{margin-top:2rem;display:flex;flex-direction:column;gap:.6rem}
+.ciclo-item{border:1px solid var(--border);background:var(--bg2)}
+.ciclo-item summary{list-style:none;cursor:pointer;padding:1.2rem 1.4rem;display:flex;align-items:center;gap:1rem;color:var(--white)}
+.ciclo-item summary::-webkit-details-marker{display:none}
+.ciclo-item summary:hover{color:var(--cyan)}
+.ciclo-letter{font-family:var(--cond);font-weight:800;font-size:1.8rem;color:var(--cyan);line-height:1;flex:none;width:2ch}
+.ciclo-name{font-family:var(--cond);font-weight:700;font-size:1.15rem;text-transform:uppercase;letter-spacing:.02em;flex:1}
+.ciclo-chev{font-family:var(--mono);font-size:.8rem;color:var(--gray2);transition:transform .2s;flex:none}
+.ciclo-item[open] .ciclo-chev{transform:rotate(180deg);color:var(--cyan)}
+.ciclo-body{padding:0 1.4rem 1.4rem 3.6rem}
+.ciclo-body p{color:var(--gray);font-size:.88rem;margin-bottom:1rem}
+.artifact-chips{list-style:none;display:flex;flex-wrap:wrap;gap:.6rem}
+.artifact-chips li{font-family:var(--mono);font-size:.68rem;color:var(--cyan);border:1px solid rgba(var(--cyan-rgb),.35);background:rgba(var(--cyan-rgb),.06);padding:.4rem .7rem}
+
+/* ============ CAMADAS / AGENTES ============ */
+.layers-stack{margin-top:2.4rem;display:flex;flex-direction:column;align-items:stretch;max-width:640px}
+.layer-card{border:1px solid var(--border);background:var(--bg2);padding:1.2rem 1.5rem}
+.layer-name{font-family:var(--mono);font-size:.64rem;color:var(--cyan);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.4rem}
+.layer-def{color:var(--gray);font-size:.88rem}
+.layer-arrow{text-align:center;color:var(--gray2);font-family:var(--mono);font-size:.8rem;padding:.3rem 0}
+.agents-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-top:2.8rem}
+.agent-card{background:var(--bg2);padding:1.4rem 1.4rem}
+.agent-name{font-family:var(--cond);font-weight:700;font-size:1.05rem;text-transform:uppercase;color:var(--white)}
+.agent-def{color:var(--gray);font-size:.84rem;margin-top:.5rem}
+.quote-block{border-left:2px solid var(--cyan);padding-left:1.4rem;margin-top:2.6rem;max-width:70ch}
+.quote-block p{font-family:var(--sans);font-weight:300;font-size:clamp(1.05rem,2vw,1.3rem);line-height:1.6;color:var(--white)}
+
+/* ============ OFERTA ============ */
+.tiers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:2.6rem;align-items:start}
+@media(max-width:900px){.tiers-grid{grid-template-columns:1fr}}
+.tier-card{border:1px solid var(--border);background:var(--bg2);padding:1.8rem 1.6rem;display:flex;flex-direction:column;gap:.9rem;position:relative}
+.tier-featured{border-color:rgba(var(--cyan-rgb),.5);background:var(--bg3)}
+@media(min-width:901px){.tier-featured{transform:translateY(-10px)}}
+.tier-badge{align-self:flex-start;font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:#00232b;background:var(--cyan);padding:.3rem .6rem}
+.tier-level{font-family:var(--mono);font-size:.62rem;color:var(--gray2);letter-spacing:.12em;text-transform:uppercase}
+.tier-name{font-family:var(--cond);font-weight:700;font-size:1.5rem;text-transform:uppercase;color:var(--white);line-height:1.05}
+.tier-desc{color:var(--gray);font-size:.88rem}
+.tier-list{list-style:none;font-size:.82rem;color:var(--gray)}
+.tier-list li{padding-left:1.1rem;position:relative;margin-bottom:.4rem}
+.tier-list li::before{content:'→';position:absolute;left:0;color:var(--cyan)}
+.tier-sub{font-family:var(--mono);font-size:.6rem;color:var(--cyan);letter-spacing:.12em;text-transform:uppercase;margin-top:.4rem}
+.tier-cta{margin-top:auto;align-self:flex-start}
+
+/* ============ LIMITES ============ */
+.limits-block{margin-top:2rem;max-width:74ch}
+.limits-block p{color:var(--gray);margin-bottom:1.1rem}
+.limits-block p:last-child{margin-bottom:0}
+.limits-rigor{border-left:2px solid var(--coral);padding-left:1.4rem;margin:1.8rem 0}
+.limits-not{margin-top:2rem}
+.limits-not-label{font-family:var(--mono);font-size:.66rem;color:var(--coral);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.8rem}
+.limits-not-list{list-style:none;display:flex;flex-direction:column;gap:.5rem;max-width:60ch}
+.limits-not-list li{font-size:.92rem;color:var(--white);padding-left:1.3rem;position:relative}
+.limits-not-list li::before{content:'✕';position:absolute;left:0;color:var(--coral);font-size:.8rem}
+
+/* ============ CTA ============ */
+.cta-actions{display:flex;gap:1rem;margin-top:2rem;flex-wrap:wrap;align-items:center}
+.back-link{font-family:var(--mono);font-size:.68rem;color:var(--gray);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:color .2s}
+.back-link:hover{color:var(--cyan)}
+
+/* ============ FOOTER ============ */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-name{font-family:var(--cond);font-weight:700;font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray)}
+.footer-info{font-family:var(--mono);font-size:.62rem;color:var(--gray2);letter-spacing:.06em;display:flex;flex-wrap:wrap;gap:.4rem 1rem;align-items:center}
+.footer-info a{color:var(--gray);text-decoration:none;transition:color .2s}
+.footer-info a:hover{color:var(--cyan)}
+@media(max-width:640px){footer{flex-direction:column;align-items:flex-start;padding:1.5rem}}
+
+/* ============ REVEAL ============ */
+@media (prefers-reduced-motion:no-preference){
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}
+  .reveal.in{opacity:1;transform:none}
+}
+
+/* ============ HERO GROOVES ANIMATION ============ */
+@media (prefers-reduced-motion:no-preference){
+  @keyframes flowGroove{to{stroke-dashoffset:-120}}
+  .hero-grooves .flow{animation:flowGroove 6s linear infinite}
+}
+</style>
+</head>
+<body class="lang-pt">
+
+<a class="skip-link" href="#main"><span class="pt">Pular para o conteúdo</span><span class="en" lang="en">Skip to content</span></a>
+
+<div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-labelledby="progressLabel">
+  <span id="progressLabel" class="visually-hidden"><span class="pt">Progresso de leitura</span><span class="en" lang="en">Reading progress</span></span>
+  <div class="progress-fill" id="progressFill"></div>
+</div>
+
+<!-- ============ NAV ============ -->
+<nav class="site-nav" aria-label="Principal">
+  <a class="brand" href="index.html">
+    <span class="brand-name">Danilo Espeleta</span>
+    <span class="brand-role">CRM &amp; Lifecycle Marketing</span>
+  </a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="index.html"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
+      <a href="index.html#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
+      <a href="portfolio.html"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
+      <a href="leea.html" aria-current="page"><span class="pt">Agência Leea</span><span class="en" lang="en">Leea Agency</span></a>
+      <a href="contact.html?leea=1"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
+    </div>
+    <div class="lang-switch" role="group" aria-label="Idioma / Language">
+      <button type="button" data-lang="pt" aria-pressed="true">PT</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <button class="menu-btn" aria-expanded="false" aria-controls="sidebar">Menu</button>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="sidebar" id="sidebar" aria-label="Menu">
+  <button class="sidebar-close" aria-label="Fechar menu">✕</button>
+  <a href="index.html"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
+  <a href="index.html#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
+  <a href="portfolio.html"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
+  <a href="leea.html" aria-current="page"><span class="pt">Agência Leea</span><span class="en" lang="en">Leea Agency</span></a>
+  <a href="contact.html?leea=1"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
+  <div class="lang-switch" role="group" aria-label="Idioma / Language">
+    <button type="button" data-lang="pt" aria-pressed="true">PT</button>
+    <button type="button" data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</div>
+
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section class="leea-hero" aria-labelledby="hero-title">
+    <svg class="hero-grooves" viewBox="0 0 600 320" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+      <path d="M-20,60 C150,40 300,80 620,50" stroke="var(--border)" stroke-width="1.5"/>
+      <path d="M-20,110 C150,90 300,130 620,100" stroke="var(--border)" stroke-width="1.5"/>
+      <path d="M-20,160 C150,140 300,180 620,150" class="flow" stroke="var(--cyan)" stroke-width="1.5" stroke-opacity=".55" stroke-dasharray="6 10"/>
+      <path d="M-20,210 C150,190 300,230 620,200" stroke="var(--border)" stroke-width="1.5"/>
+      <path d="M-20,260 C150,240 300,280 620,250" stroke="var(--border)" stroke-width="1.5"/>
+    </svg>
+    <div class="hero-inner">
+      <p class="kicker"><span class="pt">Agência Leea</span><span class="en" lang="en">Leea Agency</span></p>
+      <h1 id="hero-title">
+        <span class="pt">O sentido tem<br><span class="accent">duração.</span></span>
+        <span class="en" lang="en">Meaning has<br><span class="accent">duration.</span></span>
+      </h1>
+      <div class="hero-sub">
+        <p class="pt">A Leea é uma agência de linguagem, jornada e retenção. Ela cruza semiótica, comportamento de consumo e CRM para resolver problemas estruturais de fidelização. Não vende agente de IA. Vende a resolução de um problema de retenção, com método.</p>
+        <p class="en" lang="en">Leea is a language, journey and retention agency. It crosses semiotics, consumption behavior and CRM to solve structural loyalty problems. It does not sell an AI agent. It sells the resolution of a retention problem, with method.</p>
+      </div>
+      <p class="hero-note">
+        <span class="pt">Vocabulário do método: <strong>Sulco</strong>, leitura de sentido, de trajetória e de intervenção em CRM.</span>
+        <span class="en" lang="en">Method vocabulary: <strong>Sulco</strong>, a reading of meaning, of trajectory and of CRM intervention.</span>
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-solid" href="contact.html?leea=1"><span class="pt">Pedir a leitura de transição</span><span class="en" lang="en">Request the transition read</span></a>
+        <a class="btn btn-outline" href="#metodo"><span class="pt">Ver o método</span><span class="en" lang="en">See the method</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STATS ============ -->
+  <section class="stats-band" aria-label="Números do método">
+    <div class="stats-grid reveal">
+      <div class="stat-cell">
+        <span class="num" data-count="6">6</span>
+        <span class="lbl"><span class="pt">Agentes de IA especializados</span><span class="en" lang="en">Specialized AI agents</span></span>
+      </div>
+      <div class="stat-cell">
+        <span class="num" data-count="5">5</span>
+        <span class="lbl"><span class="pt">Etapas no CICLO</span><span class="en" lang="en">Steps in the CICLO</span></span>
+      </div>
+      <div class="stat-cell">
+        <span class="num" data-count="4">4</span>
+        <span class="lbl"><span class="pt">Camadas do método</span><span class="en" lang="en">Layers in the method</span></span>
+      </div>
+      <div class="stat-cell">
+        <span class="num" data-count="3">3</span>
+        <span class="lbl"><span class="pt">Níveis de oferta</span><span class="en" lang="en">Service tiers</span></span>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" role="presentation"></div>
+
+  <!-- ============ O PROBLEMA ============ -->
+  <section id="problema" aria-labelledby="problema-title">
+    <p class="kicker"><span class="pt">O problema</span><span class="en" lang="en">The problem</span></p>
+    <h2 class="section-title" id="problema-title">
+      <span class="pt">Retenção lida como <span class="accent">taxa estática</span></span>
+      <span class="en" lang="en">Retention read as a <span class="accent">static rate</span></span>
+    </h2>
+    <div class="section-sub">
+      <p class="pt">Todo mês, um número resume a saída de clientes. Churn de 3%, por exemplo. Esse número não diz quando dentro do mês a saída aconteceu, nem o que mudou antes dela.</p>
+      <p class="en" lang="en">Every month, one number summarizes customer loss. A 3% churn, for instance. That number does not say when inside the month the loss happened, or what changed before it.</p>
+    </div>
+
+    <div class="compare-wrap reveal">
+      <h3 id="compareLabel" class="visually-hidden"><span class="pt">Comparar formas de medir retenção</span><span class="en" lang="en">Compare ways to measure retention</span></h3>
+      <div class="compare-toggle" role="tablist" aria-labelledby="compareLabel">
+        <button type="button" role="tab" id="ctab-static" aria-controls="cpanel-static" aria-selected="true" class="compare-btn"><span class="pt">Taxa estática</span><span class="en" lang="en">Static rate</span></button>
+        <button type="button" role="tab" id="ctab-seq" aria-controls="cpanel-seq" aria-selected="false" class="compare-btn"><span class="pt">Sequência de estados</span><span class="en" lang="en">Sequence of states</span></button>
+      </div>
+      <div class="compare-panels">
+        <div class="compare-panel" role="tabpanel" id="cpanel-static" aria-labelledby="ctab-static">
+          <h4 class="compare-h"><span class="pt">Como a maioria mede</span><span class="en" lang="en">How most measure it</span></h4>
+          <div class="rate-tile">
+            <span class="rate-num">3%</span>
+            <span class="rate-cap"><span class="pt">Churn mensal, exemplo ilustrativo</span><span class="en" lang="en">Monthly churn, illustrative example</span></span>
+          </div>
+          <div class="rate-flatline" aria-hidden="true"></div>
+          <p class="pt">Um número por mês. Sem tempo dentro do mês, sem estado, sem linguagem. A mesma taxa pode esconder um cliente que cancelou ontem e outro que já estava sumido havia semanas.</p>
+          <p class="en" lang="en">One number per month. No time inside the month, no state, no language. The same rate can hide a customer who canceled yesterday and another who had already gone quiet weeks earlier.</p>
+          <span class="compare-note"><span class="pt">Dado ilustrativo de demonstração, não é resultado de cliente.</span><span class="en" lang="en">Illustrative demonstration data, not a client result.</span></span>
+        </div>
+        <div class="compare-panel" role="tabpanel" id="cpanel-seq" aria-labelledby="ctab-seq">
+          <h4 class="compare-h"><span class="pt">Como a Leea lê</span><span class="en" lang="en">How Leea reads it</span></h4>
+          <p class="seq-intro pt">A mesma taxa agregada pode nascer de trajetórias muito diferentes. Veja três clientes ilustrativos na mesma janela.</p>
+          <p class="seq-intro en" lang="en">The same aggregate rate can come from very different trajectories. See three illustrative clients in the same window.</p>
+          <div class="seq-rows">
+            <div class="seq-row">
+              <span class="seq-label"><span class="pt">Cliente ilustrativo A</span><span class="en" lang="en">Illustrative client A</span></span>
+              <div class="seq-ticks" aria-hidden="true">
+                <span data-state="ativo"></span><span data-state="ativo"></span><span data-state="ativo"></span><span data-state="ativo"></span><span data-state="ativo"></span><span data-state="ativo"></span><span data-state="risco"></span><span data-state="dormente"></span>
+              </div>
+              <span class="seq-caption pt">Queda no fim da janela. Ainda não é churn confirmado.</span>
+              <span class="seq-caption en" lang="en">Drop at the end of the window. Not confirmed churn yet.</span>
+            </div>
+            <div class="seq-row">
+              <span class="seq-label"><span class="pt">Cliente ilustrativo B</span><span class="en" lang="en">Illustrative client B</span></span>
+              <div class="seq-ticks" aria-hidden="true">
+                <span data-state="ativo"></span><span data-state="ativo"></span><span data-state="ativo"></span><span data-state="risco"></span><span data-state="risco"></span><span data-state="recuperado"></span><span data-state="recuperado"></span><span data-state="ativo"></span>
+              </div>
+              <span class="seq-caption pt">Risco revertido a tempo, dentro da mesma janela.</span>
+              <span class="seq-caption en" lang="en">Risk reversed in time, within the same window.</span>
+            </div>
+            <div class="seq-row">
+              <span class="seq-label"><span class="pt">Cliente ilustrativo C</span><span class="en" lang="en">Illustrative client C</span></span>
+              <div class="seq-ticks" aria-hidden="true">
+                <span data-state="ativo"></span><span data-state="ativo"></span><span data-state="risco"></span><span data-state="dormente"></span><span data-state="dormente"></span><span data-state="dormente"></span><span data-state="dormente"></span><span data-state="dormente"></span>
+              </div>
+              <span class="seq-caption pt">Sem reversão na janela. Consolidando como perda.</span>
+              <span class="seq-caption en" lang="en">No reversal in the window. Consolidating as a loss.</span>
+            </div>
+          </div>
+          <span class="compare-note"><span class="pt">Mesma taxa agregada. Trajetórias diferentes. Dados ilustrativos de demonstração, não resultado de cliente.</span><span class="en" lang="en">Same aggregate rate. Different trajectories. Illustrative demonstration data, not a client result.</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" role="presentation"></div>
+
+  <!-- ============ A VIRADA ============ -->
+  <section id="virada" aria-labelledby="virada-title">
+    <p class="kicker"><span class="pt">A virada</span><span class="en" lang="en">The turn</span></p>
+    <h2 class="section-title" id="virada-title">
+      <span class="pt">Retenção como <span class="accent">sequência de estados</span></span>
+      <span class="en" lang="en">Retention as a <span class="accent">sequence of states</span></span>
+    </h2>
+    <div class="section-sub">
+      <p class="pt">A Arquitetura de Trajetórias reconstrói a relação do cliente com a marca no tempo. O resultado é um Mapa de Estados: onde o cliente está agora, e para onde ele pode ir. Clique em cada estado.</p>
+      <p class="en" lang="en">The Trajectory Architecture reconstructs the customer's relationship with the brand over time. The result is a State Map: where the customer is now, and where it can go. Click each state.</p>
+    </div>
+
+    <ul class="legend">
+      <li data-state="ativo"><span class="legend-dot" aria-hidden="true"></span><span class="pt">Ativo</span><span class="en" lang="en">Active</span></li>
+      <li data-state="risco"><span class="legend-dot" aria-hidden="true"></span><span class="pt">Em risco</span><span class="en" lang="en">At risk</span></li>
+      <li data-state="dormente"><span class="legend-dot" aria-hidden="true"></span><span class="pt">Dormente</span><span class="en" lang="en">Dormant</span></li>
+      <li data-state="recuperado"><span class="legend-dot" aria-hidden="true"></span><span class="pt">Recuperado</span><span class="en" lang="en">Recovered</span></li>
+    </ul>
+
+    <!-- STATE MAP -->
+    <div class="state-map-wrap reveal">
+      <div class="state-map">
+        <span id="stateMapDesc" class="visually-hidden"><span class="pt">Diagrama circular com os quatro estados do cliente e a transição entre eles</span><span class="en" lang="en">Circular diagram with the four customer states and the transition between them</span></span>
+        <svg class="state-connectors" viewBox="0 0 100 100" role="img" aria-labelledby="stateMapDesc">
+          <defs>
+            <marker id="leeaArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="var(--border)"/>
+            </marker>
+          </defs>
+          <path d="M30,20 L70,20"/>
+          <path d="M80,30 L80,70"/>
+          <path d="M70,80 L30,80"/>
+          <path d="M20,70 L20,30"/>
+        </svg>
+        <h3 id="stateMapLabel" class="visually-hidden"><span class="pt">Selecionar estado</span><span class="en" lang="en">Select a state</span></h3>
+        <div class="state-nodes" role="group" aria-labelledby="stateMapLabel">
+          <button type="button" class="state-btn pos-ativo" data-state="ativo" aria-pressed="true" aria-controls="detail-ativo">
+            <span class="dot" aria-hidden="true"></span><span class="pt">Ativo</span><span class="en" lang="en">Active</span>
+          </button>
+          <button type="button" class="state-btn pos-risco" data-state="risco" aria-pressed="false" aria-controls="detail-risco">
+            <span class="dot" aria-hidden="true"></span><span class="pt">Em risco</span><span class="en" lang="en">At risk</span>
+          </button>
+          <button type="button" class="state-btn pos-dormente" data-state="dormente" aria-pressed="false" aria-controls="detail-dormente">
+            <span class="dot" aria-hidden="true"></span><span class="pt">Dormente</span><span class="en" lang="en">Dormant</span>
+          </button>
+          <button type="button" class="state-btn pos-recuperado" data-state="recuperado" aria-pressed="false" aria-controls="detail-recuperado">
+            <span class="dot" aria-hidden="true"></span><span class="pt">Recuperado</span><span class="en" lang="en">Recovered</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="state-details" id="stateDetails">
+        <article class="state-detail current" data-state="ativo" id="detail-ativo">
+          <h3 class="state-detail-title"><span class="dot" aria-hidden="true"></span><span class="pt">Ativo</span><span class="en" lang="en">Active</span></h3>
+          <p class="state-detail-def">
+            <span class="pt">Cliente com comportamento recente compatível com o padrão saudável da jornada: interações frequentes, resposta a estímulos, linguagem de continuidade.</span>
+            <span class="en" lang="en">Customer with recent behavior consistent with the journey's healthy pattern: frequent interactions, response to stimuli, language of continuity.</span>
+          </p>
+          <h4 class="state-detail-sub"><span class="pt">Sinais de linguagem</span><span class="en" lang="en">Language signals</span></h4>
+          <ul class="state-signals">
+            <li><span class="pt">Menções de continuidade, como "vou usar de novo" ou "na próxima vez".</span><span class="en" lang="en">Mentions of continuity, like "I will use it again" or "next time".</span></li>
+            <li><span class="pt">Resposta rápida a comunicações.</span><span class="en" lang="en">Fast response to communications.</span></li>
+            <li><span class="pt">Vocabulário de rotina, não de despedida.</span><span class="en" lang="en">Routine vocabulary, not farewell vocabulary.</span></li>
+          </ul>
+          <h4 class="state-detail-sub"><span class="pt">Transição possível</span><span class="en" lang="en">Possible transition</span></h4>
+          <ul class="state-transitions">
+            <li><button type="button" class="state-jump" data-target="risco"><span class="pt">→ Em risco</span><span class="en" lang="en">→ At risk</span></button><span class="pt">se a frequência cai e o tom muda.</span><span class="en" lang="en">if frequency drops and the tone changes.</span></li>
+          </ul>
+        </article>
+
+        <article class="state-detail" data-state="risco" id="detail-risco">
+          <h3 class="state-detail-title"><span class="dot" aria-hidden="true"></span><span class="pt">Em risco</span><span class="en" lang="en">At risk</span></h3>
+          <p class="state-detail-def">
+            <span class="pt">Sinais de queda comportamental e de linguagem aparecem antes do cancelamento formal: menos frequência, respostas mais curtas, ausência de menção a continuidade.</span>
+            <span class="en" lang="en">Signs of behavioral and language decline appear before formal cancellation: lower frequency, shorter responses, absence of continuity mentions.</span>
+          </p>
+          <h4 class="state-detail-sub"><span class="pt">Sinais de linguagem</span><span class="en" lang="en">Language signals</span></h4>
+          <ul class="state-signals">
+            <li><span class="pt">Queda na frequência de interação.</span><span class="en" lang="en">Drop in interaction frequency.</span></li>
+            <li><span class="pt">Respostas mais curtas e neutras.</span><span class="en" lang="en">Shorter, more neutral responses.</span></li>
+            <li><span class="pt">Sumiço de verbos de futuro, como "vou" ou "pretendo".</span><span class="en" lang="en">Disappearance of future tense verbs, like "will" or "plan to".</span></li>
+          </ul>
+          <h4 class="state-detail-sub"><span class="pt">Transições possíveis</span><span class="en" lang="en">Possible transitions</span></h4>
+          <ul class="state-transitions">
+            <li><button type="button" class="state-jump" data-target="recuperado"><span class="pt">→ Recuperado</span><span class="en" lang="en">→ Recovered</span></button><span class="pt">se a intervenção chega a tempo.</span><span class="en" lang="en">if the intervention arrives in time.</span></li>
+            <li><button type="button" class="state-jump" data-target="dormente"><span class="pt">→ Dormente</span><span class="en" lang="en">→ Dormant</span></button><span class="pt">se não houver resposta.</span><span class="en" lang="en">if there is no response.</span></li>
+          </ul>
+        </article>
+
+        <article class="state-detail" data-state="dormente" id="detail-dormente">
+          <h3 class="state-detail-title"><span class="dot" aria-hidden="true"></span><span class="pt">Dormente</span><span class="en" lang="en">Dormant</span></h3>
+          <p class="state-detail-def">
+            <span class="pt">Sem interação dentro da janela definida pelo contrato do problema. Ainda não é churn confirmado. É um estado que pode reverter ou se consolidar como perda.</span>
+            <span class="en" lang="en">No interaction within the window defined by the problem contract. Not confirmed churn yet. It is a state that can reverse or consolidate as a loss.</span>
+          </p>
+          <h4 class="state-detail-sub"><span class="pt">Sinais de linguagem</span><span class="en" lang="en">Language signals</span></h4>
+          <ul class="state-signals">
+            <li><span class="pt">Ausência de resposta a qualquer estímulo.</span><span class="en" lang="en">No response to any stimulus.</span></li>
+            <li><span class="pt">Nenhuma interação registrada na janela.</span><span class="en" lang="en">No interaction recorded in the window.</span></li>
+            <li><span class="pt">Indicador de censura ainda em aberto no fim da janela.</span><span class="en" lang="en">Censoring indicator still open at the end of the window.</span></li>
+          </ul>
+          <h4 class="state-detail-sub"><span class="pt">Transições possíveis</span><span class="en" lang="en">Possible transitions</span></h4>
+          <ul class="state-transitions">
+            <li><button type="button" class="state-jump" data-target="recuperado"><span class="pt">→ Recuperado</span><span class="en" lang="en">→ Recovered</span></button><span class="pt">com intervenção de reativação direcionada.</span><span class="en" lang="en">with a targeted reactivation intervention.</span></li>
+            <li><span class="pt">Sem reversão, se consolida como churn real ao fim da janela.</span><span class="en" lang="en">Without reversal, it consolidates as real churn at the end of the window.</span></li>
+          </ul>
+        </article>
+
+        <article class="state-detail" data-state="recuperado" id="detail-recuperado">
+          <h3 class="state-detail-title"><span class="dot" aria-hidden="true"></span><span class="pt">Recuperado</span><span class="en" lang="en">Recovered</span></h3>
+          <p class="state-detail-def">
+            <span class="pt">Cliente que retomou o padrão de comportamento saudável depois de um período de risco ou dormência. A recuperação também tem estado. Não é um ponto único.</span>
+            <span class="en" lang="en">Customer that resumed the healthy behavior pattern after a period of risk or dormancy. Recovery also has a state. It is not a single point.</span>
+          </p>
+          <h4 class="state-detail-sub"><span class="pt">Sinais de linguagem</span><span class="en" lang="en">Language signals</span></h4>
+          <ul class="state-signals">
+            <li><span class="pt">Retorno da frequência de interação.</span><span class="en" lang="en">Return of interaction frequency.</span></li>
+            <li><span class="pt">Linguagem de continuidade reaparece.</span><span class="en" lang="en">Continuity language reappears.</span></li>
+            <li><span class="pt">Resposta positiva à intervenção registrada.</span><span class="en" lang="en">Positive response to the recorded intervention.</span></li>
+          </ul>
+          <h4 class="state-detail-sub"><span class="pt">Transições possíveis</span><span class="en" lang="en">Possible transitions</span></h4>
+          <ul class="state-transitions">
+            <li><button type="button" class="state-jump" data-target="ativo"><span class="pt">→ Ativo</span><span class="en" lang="en">→ Active</span></button><span class="pt">quando o padrão se consolida.</span><span class="en" lang="en">when the pattern consolidates.</span></li>
+            <li><button type="button" class="state-jump" data-target="risco"><span class="pt">→ Em risco</span><span class="en" lang="en">→ At risk</span></button><span class="pt">em caso de recaída.</span><span class="en" lang="en">in case of relapse.</span></li>
+          </ul>
+        </article>
+      </div>
+    </div>
+
+    <!-- EPISODE SCRUBBER -->
+    <h3 class="ep-subhead"><span class="pt">Linha do tempo de episódios</span><span class="en" lang="en">Episode timeline</span></h3>
+    <p class="ep-intro">
+      <span class="pt">O sentido tem duração. Arraste o controle e veja um cliente ilustrativo mudar de estado ao longo de uma janela de doze semanas.</span>
+      <span class="en" lang="en">Meaning has duration. Drag the control and watch an illustrative client change state across a twelve week window.</span>
+    </p>
+    <div class="ep-scrubber reveal">
+      <div class="ep-track" aria-hidden="true">
+        <span class="ep-tick" data-state="ativo"></span><span class="ep-tick" data-state="ativo"></span><span class="ep-tick" data-state="ativo"></span><span class="ep-tick" data-state="ativo"></span><span class="ep-tick" data-state="risco"></span><span class="ep-tick" data-state="risco"></span><span class="ep-tick" data-state="dormente"></span><span class="ep-tick" data-state="dormente"></span><span class="ep-tick" data-state="recuperado"></span><span class="ep-tick" data-state="recuperado"></span><span class="ep-tick" data-state="ativo"></span><span class="ep-tick" data-state="ativo"></span>
+        <span class="ep-playhead" id="epPlayhead"></span>
+      </div>
+      <label for="epRange" class="ep-range-label"><span class="pt">Arraste para navegar pela janela de doze semanas</span><span class="en" lang="en">Drag to move through the twelve week window</span></label>
+      <input type="range" id="epRange" min="0" max="11" step="1" value="0">
+      <ol class="ep-list" id="epList">
+        <li class="ep-item current" data-state="ativo">
+          <span class="ep-period"><span class="pt">Semana 1</span><span class="en" lang="en">Week 1</span></span>
+          <span class="ep-badge"><span class="pt">Ativo</span><span class="en" lang="en">Active</span></span>
+          <span class="ep-signal"><span class="pt">Uso semanal, respostas rápidas.</span><span class="en" lang="en">Weekly use, fast responses.</span></span>
+        </li>
+        <li class="ep-item" data-state="ativo">
+          <span class="ep-period"><span class="pt">Semana 2</span><span class="en" lang="en">Week 2</span></span>
+          <span class="ep-badge"><span class="pt">Ativo</span><span class="en" lang="en">Active</span></span>
+          <span class="ep-signal"><span class="pt">Padrão de rotina mantido.</span><span class="en" lang="en">Routine pattern maintained.</span></span>
+        </li>
+        <li class="ep-item" data-state="ativo">
+          <span class="ep-period"><span class="pt">Semana 3</span><span class="en" lang="en">Week 3</span></span>
+          <span class="ep-badge"><span class="pt">Ativo</span><span class="en" lang="en">Active</span></span>
+          <span class="ep-signal"><span class="pt">Menção de continuidade em contato de rotina.</span><span class="en" lang="en">Continuity mention in a routine contact.</span></span>
+        </li>
+        <li class="ep-item" data-state="ativo">
+          <span class="ep-period"><span class="pt">Semana 4</span><span class="en" lang="en">Week 4</span></span>
+          <span class="ep-badge"><span class="pt">Ativo</span><span class="en" lang="en">Active</span></span>
+          <span class="ep-signal"><span class="pt">Ainda em padrão saudável.</span><span class="en" lang="en">Still in a healthy pattern.</span></span>
+        </li>
+        <li class="ep-item" data-state="risco">
+          <span class="ep-period"><span class="pt">Semana 5</span><span class="en" lang="en">Week 5</span></span>
+          <span class="ep-badge"><span class="pt">Em risco</span><span class="en" lang="en">At risk</span></span>
+          <span class="ep-signal"><span class="pt">Frequência cai, resposta mais curta.</span><span class="en" lang="en">Frequency drops, response gets shorter.</span></span>
+        </li>
+        <li class="ep-item" data-state="risco">
+          <span class="ep-period"><span class="pt">Semana 6</span><span class="en" lang="en">Week 6</span></span>
+          <span class="ep-badge"><span class="pt">Em risco</span><span class="en" lang="en">At risk</span></span>
+          <span class="ep-signal"><span class="pt">Sem menção a continuidade.</span><span class="en" lang="en">No mention of continuity.</span></span>
+        </li>
+        <li class="ep-item" data-state="dormente">
+          <span class="ep-period"><span class="pt">Semana 7</span><span class="en" lang="en">Week 7</span></span>
+          <span class="ep-badge"><span class="pt">Dormente</span><span class="en" lang="en">Dormant</span></span>
+          <span class="ep-signal"><span class="pt">Nenhuma interação na semana.</span><span class="en" lang="en">No interaction this week.</span></span>
+        </li>
+        <li class="ep-item" data-state="dormente">
+          <span class="ep-period"><span class="pt">Semana 8</span><span class="en" lang="en">Week 8</span></span>
+          <span class="ep-badge"><span class="pt">Dormente</span><span class="en" lang="en">Dormant</span></span>
+          <span class="ep-signal"><span class="pt">Segunda semana sem resposta a estímulo.</span><span class="en" lang="en">Second week without response to any stimulus.</span></span>
+        </li>
+        <li class="ep-item" data-state="recuperado">
+          <span class="ep-period"><span class="pt">Semana 9</span><span class="en" lang="en">Week 9</span></span>
+          <span class="ep-badge"><span class="pt">Recuperado</span><span class="en" lang="en">Recovered</span></span>
+          <span class="ep-signal"><span class="pt">Responde à intervenção de reativação.</span><span class="en" lang="en">Responds to the reactivation intervention.</span></span>
+        </li>
+        <li class="ep-item" data-state="recuperado">
+          <span class="ep-period"><span class="pt">Semana 10</span><span class="en" lang="en">Week 10</span></span>
+          <span class="ep-badge"><span class="pt">Recuperado</span><span class="en" lang="en">Recovered</span></span>
+          <span class="ep-signal"><span class="pt">Frequência volta a subir.</span><span class="en" lang="en">Frequency starts rising again.</span></span>
+        </li>
+        <li class="ep-item" data-state="ativo">
+          <span class="ep-period"><span class="pt">Semana 11</span><span class="en" lang="en">Week 11</span></span>
+          <span class="ep-badge"><span class="pt">Ativo</span><span class="en" lang="en">Active</span></span>
+          <span class="ep-signal"><span class="pt">Padrão consolidado.</span><span class="en" lang="en">Pattern consolidated.</span></span>
+        </li>
+        <li class="ep-item" data-state="ativo">
+          <span class="ep-period"><span class="pt">Semana 12</span><span class="en" lang="en">Week 12</span></span>
+          <span class="ep-badge"><span class="pt">Ativo</span><span class="en" lang="en">Active</span></span>
+          <span class="ep-signal"><span class="pt">Mantém rotina de uso ao fim da janela.</span><span class="en" lang="en">Keeps the usage routine at the end of the window.</span></span>
+        </li>
+      </ol>
+      <span class="ep-note"><span class="pt">Trajetória ilustrativa de demonstração, não é dado de cliente real.</span><span class="en" lang="en">Illustrative demonstration trajectory, not real client data.</span></span>
+    </div>
+  </section>
+
+  <div class="divider" role="presentation"></div>
+
+  <!-- ============ O MÉTODO ============ -->
+  <section id="metodo" aria-labelledby="metodo-title">
+    <p class="kicker"><span class="pt">O método</span><span class="en" lang="en">The method</span></p>
+    <h2 class="section-title" id="metodo-title">
+      <span class="pt">Sulco e seu <span class="accent">vocabulário</span></span>
+      <span class="en" lang="en">Sulco and its <span class="accent">vocabulary</span></span>
+    </h2>
+    <div class="section-sub">
+      <p class="pt">Sulco é a metodologia. Estes são os termos que ela usa para nomear cada parte do trabalho.</p>
+      <p class="en" lang="en">Sulco is the methodology. These are the terms it uses to name each part of the work.</p>
+    </div>
+
+    <p class="method-seq">
+      <span class="step pt">Leitura de Sentido</span><span class="step en" lang="en">Meaning Reading</span><span class="arrow">→</span>
+      <span class="step pt">Leitura Temporal da Jornada</span><span class="step en" lang="en">Journey Time Reading</span><span class="arrow">→</span>
+      <span class="step pt">Decisão de CRM</span><span class="step en" lang="en">CRM Decision</span><span class="arrow">→</span>
+      <span class="step pt">Intervenção</span><span class="step en" lang="en">Intervention</span><span class="arrow">→</span>
+      <span class="step pt">Medição</span><span class="step en" lang="en">Measurement</span>
+    </p>
+
+    <div class="glossary-grid reveal">
+      <div class="glossary-card">
+        <div class="glossary-term">Sulco</div>
+        <p class="glossary-def pt">Metodologia de leitura de sentido, trajetória e intervenção em CRM.</p>
+        <p class="glossary-def en" lang="en">Methodology for reading meaning, trajectory and CRM intervention.</p>
+      </div>
+      <div class="glossary-card">
+        <div class="glossary-term"><span class="pt">Sulco de Dados</span><span class="en" lang="en">Sulco de Dados</span></div>
+        <p class="glossary-def pt">Infraestrutura de dados: estados, eventos, exposições, transições.</p>
+        <p class="glossary-def en" lang="en">Data infrastructure: states, events, exposures, transitions.</p>
+      </div>
+      <div class="glossary-card">
+        <div class="glossary-term"><span class="pt">Arquitetura de Trajetórias</span><span class="en" lang="en">Trajectory Architecture</span></div>
+        <p class="glossary-def pt">Lógica de reconstrução temporal da relação do cliente com a marca.</p>
+        <p class="glossary-def en" lang="en">Logic for the time based reconstruction of the customer's relationship with the brand.</p>
+      </div>
+      <div class="glossary-card">
+        <div class="glossary-term"><span class="pt">Mapa de Estados</span><span class="en" lang="en">State Map</span></div>
+        <p class="glossary-def pt">Como o cliente navega pelas etapas da jornada.</p>
+        <p class="glossary-def en" lang="en">How the customer moves through the stages of the journey.</p>
+      </div>
+      <div class="glossary-card">
+        <div class="glossary-term"><span class="pt">Ponto de Virada</span><span class="en" lang="en">Turning Point</span></div>
+        <p class="glossary-def pt">Hipótese acionável sobre o momento em que uma mudança de linguagem antecede uma mudança de comportamento.</p>
+        <p class="glossary-def en" lang="en">Actionable hypothesis about the moment a change in language precedes a change in behavior.</p>
+      </div>
+      <div class="glossary-card">
+        <div class="glossary-term"><span class="pt">Calibração Viva</span><span class="en" lang="en">Live Calibration</span></div>
+        <p class="glossary-def pt">Ciclo recorrente de teste, medição, revisão de premissas e atualização do modelo.</p>
+        <p class="glossary-def en" lang="en">Recurring cycle of testing, measurement, assumption review and model updates.</p>
+      </div>
+    </div>
+
+    <p class="theory-note">
+      <span class="pt">A leitura de trajetória se apoia em teoria de jornada dinâmica e temporal. A leitura de linguagem se apoia em semiótica, com análise textual.</span>
+      <span class="en" lang="en">The trajectory reading draws on dynamic, time based journey theory. The language reading draws on semiotics, with textual analysis.</span>
+    </p>
+  </section>
+
+  <div class="divider" role="presentation"></div>
+
+  <!-- ============ O CICLO ============ -->
+  <section id="ciclo" aria-labelledby="ciclo-title">
+    <p class="kicker"><span class="pt">O framework operacional</span><span class="en" lang="en">The operating framework</span></p>
+    <h2 class="section-title" id="ciclo-title">
+      <span class="pt">O <span class="accent">CICLO</span> em cinco etapas</span>
+      <span class="en" lang="en">The <span class="accent">CICLO</span> in five steps</span>
+    </h2>
+    <div class="section-sub">
+      <p class="pt">Cada etapa produz um artefato verificável. Abra cada uma para ver o que sai dela.</p>
+      <p class="en" lang="en">Each step produces a verifiable artifact. Open each one to see what comes out of it.</p>
+    </div>
+
+    <div class="ciclo-list reveal">
+      <details class="ciclo-item" open>
+        <summary>
+          <span class="ciclo-letter">C</span>
+          <span class="ciclo-name"><span class="pt">Contexto e Contrato</span><span class="en" lang="en">Context and Contract</span></span>
+          <span class="ciclo-chev" aria-hidden="true">▾</span>
+        </summary>
+        <div class="ciclo-body">
+          <p class="pt">Define o problema exato de retenção: população, janela temporal, restrições, critério de sucesso.</p>
+          <p class="en" lang="en">Defines the exact retention problem: population, time window, constraints, success criteria.</p>
+          <ul class="artifact-chips">
+            <li>problem_contract</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="ciclo-item">
+        <summary>
+          <span class="ciclo-letter">I</span>
+          <span class="ciclo-name"><span class="pt">Identidade e Instrumentação</span><span class="en" lang="en">Identity and Instrumentation</span></span>
+          <span class="ciclo-chev" aria-hidden="true">▾</span>
+        </summary>
+        <div class="ciclo-body">
+          <p class="pt">Reúne o corpus da marca (campanhas, e-mails, pesquisas, suporte) e o contrato de dados. Mapeia regras de voz e limites de proteção de marca: o que a marca não permite que uma IA gere.</p>
+          <p class="en" lang="en">Gathers the brand corpus (campaigns, emails, surveys, support) and the data contract. Maps voice rules and brand protection limits: what the brand does not allow an AI to generate.</p>
+          <ul class="artifact-chips">
+            <li>brand_corpus</li><li>identity_map</li><li>protection_diagnosis</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="ciclo-item">
+        <summary>
+          <span class="ciclo-letter">C</span>
+          <span class="ciclo-name"><span class="pt">Coortes, Ciclos e Episódios</span><span class="en" lang="en">Cohorts, Cycles and Episodes</span></span>
+          <span class="ciclo-chev" aria-hidden="true">▾</span>
+        </summary>
+        <div class="ciclo-body">
+          <p class="pt">Reconstrução temporal dos dados do cliente. Estrutura o comportamento em episódios contínuos, com data de início, fim e indicador de censura: o que separa cliente ainda ativo no fim da janela de churn real.</p>
+          <p class="en" lang="en">Time based reconstruction of customer data. Structures behavior into continuous episodes, with start date, end date and a censoring indicator: what separates a customer still active at the end of the window from real churn.</p>
+          <ul class="artifact-chips">
+            <li>episode_fact</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="ciclo-item">
+        <summary>
+          <span class="ciclo-letter">L</span>
+          <span class="ciclo-name"><span class="pt">Leitura e Decisão</span><span class="en" lang="en">Reading and Decision</span></span>
+          <span class="ciclo-chev" aria-hidden="true">▾</span>
+        </summary>
+        <div class="ciclo-body">
+          <p class="pt">Cruza variação comportamental com alteração de linguagem. Formula os Pontos de Virada.</p>
+          <p class="en" lang="en">Crosses behavioral variation with language change. Formulates the Turning Points.</p>
+          <ul class="artifact-chips">
+            <li>decision_record</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="ciclo-item">
+        <summary>
+          <span class="ciclo-letter">O</span>
+          <span class="ciclo-name"><span class="pt">Orquestração e Otimização</span><span class="en" lang="en">Orchestration and Optimization</span></span>
+          <span class="ciclo-chev" aria-hidden="true">▾</span>
+        </summary>
+        <div class="ciclo-body">
+          <p class="pt">Especifica a intervenção de CRM: tratamento contra grupo de controle, regras de elegibilidade, canais, mensagem. Aprovação humana e execução controlada.</p>
+          <p class="en" lang="en">Specifies the CRM intervention: treatment versus control group, eligibility rules, channels, message. Human approval and controlled execution.</p>
+          <ul class="artifact-chips">
+            <li>intervention_spec</li><li>measurement_record</li>
+          </ul>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <div class="divider" role="presentation"></div>
+
+  <!-- ============ CAMADAS E AGENTES ============ -->
+  <section id="camadas" aria-labelledby="camadas-title">
+    <p class="kicker"><span class="pt">Como o trabalho é feito</span><span class="en" lang="en">How the work gets done</span></p>
+    <h2 class="section-title" id="camadas-title">
+      <span class="pt">Quatro camadas, <span class="accent">seis agentes</span></span>
+      <span class="en" lang="en">Four layers, <span class="accent">six agents</span></span>
+    </h2>
+    <div class="section-sub">
+      <p class="pt">A Leea não vende agente de IA. Vende a resolução de um problema de marketing e retenção, com o método Sulco operacionalizado por agentes especializados já construídos.</p>
+      <p class="en" lang="en">Leea does not sell an AI agent. It sells the resolution of a marketing and retention problem, with the Sulco method operationalized by specialized agents already built.</p>
+    </div>
+
+    <div class="layers-stack reveal">
+      <div class="layer-card">
+        <div class="layer-name"><span class="pt">O método, Sulco</span><span class="en" lang="en">The method, Sulco</span></div>
+        <p class="layer-def pt">Define inteligência analítica, interpretação de sentido e leitura de trajetórias.</p>
+        <p class="layer-def en" lang="en">Defines analytical intelligence, interpretation of meaning and trajectory reading.</p>
+      </div>
+      <div class="layer-arrow" aria-hidden="true">↓</div>
+      <div class="layer-card">
+        <div class="layer-name"><span class="pt">Camada de Agentes</span><span class="en" lang="en">Agent Layer</span></div>
+        <p class="layer-def pt">Executa o workflow, organiza evidências e prepara especificações.</p>
+        <p class="layer-def en" lang="en">Executes the workflow, organizes evidence and prepares specifications.</p>
+      </div>
+      <div class="layer-arrow" aria-hidden="true">↓</div>
+      <div class="layer-card">
+        <div class="layer-name"><span class="pt">Camada Determinística, código e dados</span><span class="en" lang="en">Deterministic Layer, code and data</span></div>
+        <p class="layer-def pt">Faz os cálculos, consolida histórico e processa métricas.</p>
+        <p class="layer-def en" lang="en">Runs the calculations, consolidates history and processes metrics.</p>
+      </div>
+      <div class="layer-arrow" aria-hidden="true">↓</div>
+      <div class="layer-card">
+        <div class="layer-name"><span class="pt">Decisão Humana</span><span class="en" lang="en">Human Decision</span></div>
+        <p class="layer-def pt">Define o que a marca pode testar, proteger e publicar no ar.</p>
+        <p class="layer-def en" lang="en">Defines what the brand can test, protect and put live.</p>
+      </div>
+    </div>
+
+    <div class="agents-grid reveal">
+      <div class="agent-card">
+        <div class="agent-name">Leea Intake</div>
+        <p class="agent-def pt">Transforma um brief vago em contrato formal de problema.</p>
+        <p class="agent-def en" lang="en">Turns a vague brief into a formal problem contract.</p>
+      </div>
+      <div class="agent-card">
+        <div class="agent-name">Leea Evidence</div>
+        <p class="agent-def pt">Inventaria e qualifica evidências e bases, separando fato de inferência.</p>
+        <p class="agent-def en" lang="en">Inventories and qualifies evidence and data sources, separating fact from inference.</p>
+      </div>
+      <div class="agent-card">
+        <div class="agent-name"><span class="pt">Leea Trajetória</span><span class="en" lang="en">Leea Trajectory</span></div>
+        <p class="agent-def pt">Coordena episódios, coortes e transições via SQL e Python determinístico.</p>
+        <p class="agent-def en" lang="en">Coordinates episodes, cohorts and transitions via SQL and deterministic Python.</p>
+      </div>
+      <div class="agent-card">
+        <div class="agent-name">Leea Retention</div>
+        <p class="agent-def pt">Analisa dinâmica de retenção, tempo até valor, recorrência, padrão de risco.</p>
+        <p class="agent-def en" lang="en">Analyzes retention dynamics, time to value, recurrence, risk pattern.</p>
+      </div>
+      <div class="agent-card">
+        <div class="agent-name">Leea Intervention</div>
+        <p class="agent-def pt">Elabora hipótese de comunicação e especificação de jornada.</p>
+        <p class="agent-def en" lang="en">Drafts the communication hypothesis and journey specification.</p>
+      </div>
+      <div class="agent-card">
+        <div class="agent-name">Leea QA &amp; Learning</div>
+        <p class="agent-def pt">Valida regras de elegibilidade, limite de frequência, grava aprendizado do ciclo.</p>
+        <p class="agent-def en" lang="en">Validates eligibility rules, frequency caps, records the cycle's learning.</p>
+      </div>
+    </div>
+
+    <div class="quote-block reveal">
+      <p class="pt">O LLM interpreta e coordena. O código calcula. O conector prepara. O humano decide e aprova ação irreversível.</p>
+      <p class="en" lang="en">The LLM interprets and coordinates. The code calculates. The connector prepares. The human decides and approves irreversible action.</p>
+    </div>
+  </section>
+
+  <div class="divider" role="presentation"></div>
+
+  <!-- ============ OFERTA ============ -->
+  <section id="oferta" aria-labelledby="oferta-title">
+    <p class="kicker"><span class="pt">A oferta</span><span class="en" lang="en">The offer</span></p>
+    <h2 class="section-title" id="oferta-title">
+      <span class="pt">Três níveis, <span class="accent">um piloto de entrada</span></span>
+      <span class="en" lang="en">Three tiers, <span class="accent">one entry pilot</span></span>
+    </h2>
+    <div class="section-sub">
+      <p class="pt">Cada nível aprofunda o anterior. O piloto é onde a maioria das marcas começa.</p>
+      <p class="en" lang="en">Each tier deepens the previous one. The pilot is where most brands start.</p>
+    </div>
+
+    <div class="tiers-grid reveal">
+      <div class="tier-card">
+        <span class="tier-level">Nível 1</span>
+        <span class="tier-name"><span class="pt">Sulco de Sentido</span><span class="en" lang="en">Sulco de Sentido</span></span>
+        <p class="tier-desc pt">Diagnóstico manual de linguagem e jornada, sem instrumentação de dados.</p>
+        <p class="tier-desc en" lang="en">Manual diagnosis of language and journey, without data instrumentation.</p>
+      </div>
+
+      <div class="tier-card tier-featured">
+        <span class="tier-badge"><span class="pt">Produto de entrada</span><span class="en" lang="en">Entry product</span></span>
+        <span class="tier-level">Nível 2</span>
+        <span class="tier-name"><span class="pt">Sulco no Tempo</span><span class="en" lang="en">Sulco no Tempo</span></span>
+        <p class="tier-desc pt">Piloto de retenção com escopo delimitado.</p>
+        <p class="tier-desc en" lang="en">Retention pilot with a delimited scope.</p>
+        <div class="tier-sub"><span class="pt">Escopo</span><span class="en" lang="en">Scope</span></div>
+        <ul class="tier-list">
+          <li><span class="pt">1 jornada, 1 população, 1 transição prioritária</span><span class="en" lang="en">1 journey, 1 population, 1 priority transition</span></li>
+          <li><span class="pt">1 canal principal, 1 intervenção com grupo de controle</span><span class="en" lang="en">1 main channel, 1 intervention with a control group</span></li>
+          <li><span class="pt">1 janela de medição</span><span class="en" lang="en">1 measurement window</span></li>
+        </ul>
+        <div class="tier-sub"><span class="pt">Entregáveis</span><span class="en" lang="en">Deliverables</span></div>
+        <ul class="tier-list">
+          <li><span class="pt">Contrato do problema e mapa de identidade e proteção</span><span class="en" lang="en">Problem contract and identity and protection map</span></li>
+          <li><span class="pt">Sulco de dados inicial e mapa de estados</span><span class="en" lang="en">Initial data sulco and state map</span></li>
+          <li><span class="pt">Pontos de virada priorizados e especificação de CRM</span><span class="en" lang="en">Prioritized turning points and CRM specification</span></li>
+          <li><span class="pt">Registro de aprendizado</span><span class="en" lang="en">Learning record</span></li>
+        </ul>
+        <a class="btn btn-solid tier-cta" href="contact.html?leea=1"><span class="pt">Pedir o piloto</span><span class="en" lang="en">Request the pilot</span></a>
+      </div>
+
+      <div class="tier-card">
+        <span class="tier-level">Nível 3</span>
+        <span class="tier-name"><span class="pt">Calibração Viva</span><span class="en" lang="en">Calibração Viva</span></span>
+        <p class="tier-desc pt">Retainer recorrente: ciclo contínuo de teste, medição, revisão de premissas e atualização do modelo.</p>
+        <p class="tier-desc en" lang="en">Recurring retainer: a continuous cycle of testing, measurement, assumption review and model updates.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" role="presentation"></div>
+
+  <!-- ============ LIMITES ============ -->
+  <section id="limites" aria-labelledby="limites-title">
+    <p class="kicker"><span class="pt">Os limites</span><span class="en" lang="en">The limits</span></p>
+    <h2 class="section-title" id="limites-title">
+      <span class="pt">Honestidade como <span class="accent">diferencial</span></span>
+      <span class="en" lang="en">Honesty as a <span class="accent">differentiator</span></span>
+    </h2>
+
+    <div class="limits-block reveal">
+      <p class="pt">A consultoria semiótica tradicional produz diagnóstico cultural profundo, mas para no relatório, sem execução em canal de receita. A agência de automação e IA gera volume de cópia e fluxo operacional, mas ignora identidade, coerência de marca e contexto. A Leea fica no meio: leitura que vira execução medida.</p>
+      <p class="en" lang="en">Traditional semiotic consulting produces deep cultural diagnosis, but stops at the report, with no execution in a revenue channel. The automation and AI agency generates volume of copy and operational flow, but ignores identity, brand coherence and context. Leea sits in between: a reading that becomes measured execution.</p>
+
+      <div class="limits-rigor">
+        <p class="pt">A Leea distingue correlação de causalidade. Sinal de linguagem e comportamento gera hipótese de intervenção. Essa hipótese precisa ser validada em teste no CRM. Não existe promessa determinística.</p>
+        <p class="en" lang="en">Leea distinguishes correlation from causation. Language and behavior signal generates an intervention hypothesis. That hypothesis needs to be validated in a CRM test. There is no deterministic promise.</p>
+      </div>
+
+      <div class="limits-not">
+        <div class="limits-not-label"><span class="pt">O piloto não promete</span><span class="en" lang="en">The pilot does not promise</span></div>
+        <ul class="limits-not-list">
+          <li><span class="pt">Scoring preditivo automatizado.</span><span class="en" lang="en">Automated predictive scoring.</span></li>
+          <li><span class="pt">Motor completo de agentes.</span><span class="en" lang="en">A full agent engine.</span></li>
+          <li><span class="pt">Disparo automático desacompanhado.</span><span class="en" lang="en">Unsupervised automatic trigger.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" role="presentation"></div>
+
+  <!-- ============ CTA FINAL ============ -->
+  <section id="cta-final" aria-labelledby="cta-title">
+    <p class="kicker"><span class="pt">Próximo passo</span><span class="en" lang="en">Next step</span></p>
+    <h2 class="section-title" id="cta-title">
+      <span class="pt">Peça a <span class="accent">leitura de transição</span></span>
+      <span class="en" lang="en">Request the <span class="accent">transition read</span></span>
+    </h2>
+    <div class="section-sub">
+      <p class="pt">O piloto Sulco no Tempo é o ponto de entrada. Ele testa o método no seu problema real de retenção, com escopo definido e prazo curto.</p>
+      <p class="en" lang="en">The Sulco no Tempo pilot is the entry point. It tests the method on your real retention problem, with a defined scope and a short timeline.</p>
+    </div>
+    <div class="cta-actions">
+      <a class="btn btn-solid" href="contact.html?leea=1"><span class="pt">Pedir a leitura</span><span class="en" lang="en">Request the read</span></a>
+      <a class="back-link" href="index.html"><span class="pt">← Voltar ao início</span><span class="en" lang="en">← Back to home</span></a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-name">Danilo Campos Espeleta</div>
+  <div class="footer-info">
+    <span>São Paulo / SP</span>
+    <a href="mailto:daniloespeleta@gmail.com">daniloespeleta@gmail.com</a>
+    <a href="https://www.linkedin.com/in/daniloespeleta" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/daniloespeleta" target="_blank" rel="noopener">GitHub</a>
+    <span>© <span id="year">2026</span></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+/* ---- language ---- */
+var langButtons=document.querySelectorAll('.lang-switch button');
+function setLang(lang){
+  document.body.classList.remove('lang-pt','lang-en');
+  document.body.classList.add('lang-'+lang);
+  document.documentElement.lang=(lang==='en')?'en':'pt-BR';
+  langButtons.forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.lang===lang));});
+  try{localStorage.setItem('lang',lang);}catch(e){}
+}
+langButtons.forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.lang);});});
+var saved=null;try{saved=localStorage.getItem('lang');}catch(e){}
+if(saved==='en'||saved==='pt')setLang(saved);
+
+/* ---- mobile sidebar ---- */
+var menuBtn=document.querySelector('.menu-btn'),sidebar=document.getElementById('sidebar'),
+    overlay=document.getElementById('sidebarOverlay'),closeBtn=document.querySelector('.sidebar-close');
+function openSb(){sidebar.classList.add('open');overlay.classList.add('open');menuBtn.setAttribute('aria-expanded','true');}
+function closeSb(){sidebar.classList.remove('open');overlay.classList.remove('open');menuBtn.setAttribute('aria-expanded','false');}
+menuBtn.addEventListener('click',openSb);
+closeBtn.addEventListener('click',closeSb);
+overlay.addEventListener('click',closeSb);
+sidebar.addEventListener('click',function(e){if(e.target.closest('a'))closeSb();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&sidebar.classList.contains('open')){closeSb();menuBtn.focus();}});
+
+/* ---- reduced motion flag ---- */
+var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---- scroll reveal ---- */
+var revealEls=document.querySelectorAll('.reveal');
+if('IntersectionObserver' in window&&!reduce&&revealEls.length){
+  var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});},{threshold:.12});
+  revealEls.forEach(function(el){io.observe(el);});
+}else{revealEls.forEach(function(el){el.classList.add('in');});}
+
+/* ---- counters ---- */
+var counters=document.querySelectorAll('[data-count]');
+function animateCount(el){
+  var target=parseFloat(el.dataset.count),start=null,dur=900;
+  if(reduce){el.textContent=String(Math.round(target));return;}
+  function step(ts){if(!start)start=ts;var p=Math.min((ts-start)/dur,1),e=1-Math.pow(1-p,3);
+    el.textContent=String(Math.round(target*e));if(p<1)requestAnimationFrame(step);}
+  requestAnimationFrame(step);
+}
+if('IntersectionObserver' in window&&counters.length){
+  var cio=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){animateCount(en.target);cio.unobserve(en.target);}});},{threshold:.4});
+  counters.forEach(function(el){cio.observe(el);});
+}else{counters.forEach(animateCount);}
+
+/* ---- scroll progress bar ---- */
+var progressFill=document.getElementById('progressFill'),progressTrack=document.querySelector('.progress-track');
+function updateProgress(){
+  var h=document.documentElement,max=h.scrollHeight-h.clientHeight,pct=max>0?Math.min(100,Math.max(0,(h.scrollTop||document.body.scrollTop)/max*100)):0;
+  if(progressFill)progressFill.style.width=pct+'%';
+  if(progressTrack)progressTrack.setAttribute('aria-valuenow',String(Math.round(pct)));
+}
+window.addEventListener('scroll',updateProgress,{passive:true});
+window.addEventListener('resize',updateProgress);
+updateProgress();
+
+/* ---- state map: click a state, see its detail panel ---- */
+(function(){
+  var wrap=document.getElementById('stateDetails');
+  var btns=document.querySelectorAll('.state-btn');
+  var jumps=document.querySelectorAll('.state-jump');
+  if(!wrap||!btns.length)return;
+  wrap.classList.add('js-filter');
+  function selectState(id){
+    btns.forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.state===id));});
+    wrap.querySelectorAll('.state-detail').forEach(function(d){d.classList.toggle('current',d.dataset.state===id);});
+  }
+  btns.forEach(function(b){b.addEventListener('click',function(){selectState(b.dataset.state);});});
+  jumps.forEach(function(j){j.addEventListener('click',function(){selectState(j.dataset.target);});});
+})();
+
+/* ---- episode scrubber: drag to move through the window ---- */
+(function(){
+  var scrubber=document.querySelector('.ep-scrubber');
+  var range=document.getElementById('epRange');
+  var items=document.querySelectorAll('.ep-item');
+  var playhead=document.getElementById('epPlayhead');
+  if(!scrubber||!range||!items.length)return;
+  scrubber.classList.add('js-scrub');
+  function update(i){
+    items.forEach(function(li,idx){li.classList.toggle('current',idx===i);});
+    if(playhead)playhead.style.left=(i/(items.length-1)*100)+'%';
+  }
+  range.addEventListener('input',function(){update(parseInt(range.value,10));});
+  update(0);
+})();
+
+/* ---- comparator: static rate vs sequence of states ---- */
+(function(){
+  var tabs=document.querySelectorAll('.compare-btn');
+  var panels=document.querySelectorAll('.compare-panel');
+  if(!tabs.length||!panels.length)return;
+  panels.forEach(function(p,i){if(i>0)p.hidden=true;});
+  tabs.forEach(function(t){
+    t.addEventListener('click',function(){
+      tabs.forEach(function(o){o.setAttribute('aria-selected',String(o===t));});
+      panels.forEach(function(p){p.hidden=(p.id!==t.getAttribute('aria-controls'));});
+    });
+  });
+})();
+
+/* ---- year ---- */
+var y=document.getElementById('year');if(y)y.textContent=new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

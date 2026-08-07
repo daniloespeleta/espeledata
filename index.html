@@ -76,13 +76,16 @@ a{color:var(--cyan)}
 
 /* ============ NAV ============ */
 .site-nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.8rem 2rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;border-bottom:1px solid var(--border);background:rgba(10,10,10,0.92);backdrop-filter:blur(12px)}
-.brand{display:flex;flex-direction:column;gap:.1rem;text-decoration:none}
-.brand-name{font-family:var(--cond);font-weight:700;font-size:1.1rem;letter-spacing:.06em;color:var(--white);text-transform:uppercase}
+.brand{display:flex;flex-direction:column;gap:.1rem}
+.brand-name{font-family:var(--cond);font-weight:700;font-size:1.1rem;letter-spacing:.06em;color:var(--white);text-transform:uppercase;text-decoration:none}
 .brand-role{font-family:var(--mono);font-size:.6rem;color:var(--cyan);letter-spacing:.12em;text-transform:uppercase}
+.eco-badge{margin-left:.4rem;color:var(--white);text-decoration:underline;text-decoration-color:var(--cyan);text-underline-offset:.2em;transition:color .2s}
+.eco-badge:hover{color:var(--cyan)}
 .nav-right{display:flex;align-items:center;gap:1.4rem}
 .nav-links{display:flex;gap:1.4rem;align-items:center}
 .nav-links a{font-family:var(--mono);font-size:.68rem;color:var(--gray);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;padding:.3rem 0}
 .nav-links a:hover,.nav-links a[aria-current="page"]{color:var(--cyan)}
+.nav-links a.nav-leea,.sidebar a.nav-leea{color:var(--cyan)}
 .lang-switch{display:flex;border:1px solid var(--border)}
 .lang-switch button{background:none;border:none;color:var(--gray);cursor:pointer;font-family:var(--mono);font-size:.65rem;font-weight:500;letter-spacing:.1em;padding:.4rem .7rem}
 .lang-switch button+button{border-left:1px solid var(--border)}
@@ -110,6 +113,13 @@ main section{max-width:var(--max);margin:0 auto;padding:clamp(3.5rem,8vw,6rem) 1
 .divider{height:1px;background:var(--border);max-width:var(--max);margin:0 auto}
 .kicker{font-family:var(--mono);font-size:.68rem;color:var(--cyan);letter-spacing:.2em;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:.6rem}
 .kicker::before{content:'→'}
+.kicker-leea{text-transform:none;font-family:var(--sans);font-weight:400;font-size:1.05rem;color:var(--white);letter-spacing:normal}
+.kicker-leea::before{content:'→';font-family:var(--mono);color:var(--cyan)}
+.type-mark{position:relative;display:inline-block;background:var(--cyan);color:#0a0a0a;font-weight:700;text-transform:uppercase;font-family:var(--cond);letter-spacing:.04em;padding:.02em .3em}
+.type-mark .tm-char{display:inline-block;opacity:0;transform:translateY(3px)}
+.type-mark.tm-run .tm-char{animation:tmChar .28s ease-out forwards}
+@keyframes tmChar{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.type-mark .tm-char{opacity:1!important;transform:none!important;animation:none!important}}
 .section-title{font-family:var(--cond);font-weight:800;font-size:clamp(2.2rem,5vw,3.4rem);line-height:.98;text-transform:uppercase}
 .section-title .accent{color:var(--cyan)}
 .section-sub{margin-top:1rem;color:var(--gray);max-width:580px}
@@ -279,13 +289,14 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
 
 <!-- ============ NAV ============ -->
 <nav class="site-nav" aria-label="Principal">
-  <a class="brand" href="#top">
-    <span class="brand-name">Danilo Espeleta</span>
-    <span class="brand-role">CRM &amp; Lifecycle Marketing</span>
-  </a>
+  <div class="brand">
+    <a class="brand-name" href="#top">Danilo Espeleta</a>
+    <span class="brand-role">CRM &amp; Lifecycle Marketing <a href="leea.html" class="eco-badge"><span class="pt">Em novo ecossistema</span><span class="en" lang="en">In a new ecosystem</span></a></span>
+  </div>
   <div class="nav-right">
     <div class="nav-links">
       <a href="#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
+      <a href="leea.html" class="nav-leea"><span class="pt">Agência Leea</span><span class="en" lang="en">Leea Agency</span></a>
       <a href="#trajetoria"><span class="pt">Trajetória</span><span class="en" lang="en">Journey</span></a>
       <a href="portfolio.html"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
       <a href="contact.html"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
@@ -303,6 +314,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
 <div class="sidebar" id="sidebar" aria-label="Menu">
   <button class="sidebar-close" aria-label="Fechar menu">✕</button>
   <a href="#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
+  <a href="leea.html" class="nav-leea"><span class="pt">Agência Leea</span><span class="en" lang="en">Leea Agency</span></a>
   <a href="#trajetoria"><span class="pt">Trajetória</span><span class="en" lang="en">Journey</span></a>
   <a href="#cases">Cases</a>
   <a href="portfolio.html"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
@@ -321,22 +333,24 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
     <canvas id="net" aria-hidden="true"></canvas>
     <div class="hero-grid">
       <div>
-        <p class="kicker">CRM &amp; Lifecycle Marketing</p>
+        <p class="kicker kicker-leea">
+          <span class="pt">O sentido tem <span class="type-mark" data-chars="DURAÇÃO">duração</span>.</span>
+          <span class="en" lang="en">Meaning has <span class="type-mark" data-chars="DURATION">duration</span>.</span>
+        </p>
         <h1 id="hero-title">
           <span class="pt">Leio linguagem antes de dado.<br><span class="accent">A jornada nasce daí.</span></span>
           <span class="en" lang="en">I read language before data.<br><span class="accent">The journey starts there.</span></span>
         </h1>
         <p class="hero-sub">
-          <span class="pt">Estratégia de CRM, automação multicanal e desenho de ciclo de vida que transformam dados em relacionamento, e relacionamento em receita.</span>
-          <span class="en" lang="en">CRM strategy, multichannel automation and lifecycle design that turn data into relationships, and relationships into revenue.</span>
+          <span class="pt">A Leea conecta semiótica, comportamento de consumo e CRM para resolver problemas estruturais de lifecycle. A retenção deixa de ser uma taxa mensal e passa a ser uma sequência de estados, episódios e transições no tempo.</span>
+          <span class="en" lang="en">Leea connects semiotics, consumer behavior and CRM to solve structural lifecycle problems. Retention stops being a monthly rate and becomes a sequence of states, episodes and transitions over time.</span>
         </p>
         <p class="hero-line" aria-hidden="true">
           <span>dado →</span><span class="rot" id="rotWord">segmento</span>
         </p>
         <div class="hero-cta">
-          <a class="btn btn-solid" href="portfolio.html"><span class="pt">Ver portfólio</span><span class="en" lang="en">View portfolio</span></a>
-          <a class="btn btn-outline cv-link" href="CV/DE-Curriculo.pdf" download><span class="pt">Baixar currículo</span><span class="en" lang="en">Download resume</span></a>
-          <a class="btn btn-outline" href="contact.html"><span class="pt">Fale comigo</span><span class="en" lang="en">Get in touch</span></a>
+          <a class="btn btn-solid" href="leea.html"><span class="pt">Pedir leitura</span><span class="en" lang="en">Request a reading</span></a>
+          <a class="btn btn-outline" href="portfolio.html"><span class="pt">Ver portfólio</span><span class="en" lang="en">View portfolio</span></a>
         </div>
       </div>
       <div class="hero-visual">
@@ -450,10 +464,18 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
           </div>
           <div class="tabpanel" role="tabpanel" id="panel-4" aria-labelledby="tab-4" hidden>
             <ul class="skill-chips">
-              <li class="hot"><span class="pt">Claude: análise de segmentos</span><span class="en" lang="en">Claude: segment analysis</span></li>
-              <li><span class="pt">Perplexity: benchmarks</span><span class="en" lang="en">Perplexity: benchmarks</span></li>
-              <li><span class="pt">IA nos fluxos de automação</span><span class="en" lang="en">AI in automation flows</span></li>
-              <li><span class="pt">Síntese de insights</span><span class="en" lang="en">Insight synthesis</span></li>
+              <li class="hot">LLM Benchmarking</li>
+              <li class="hot">Prompt Engineering</li>
+              <li class="hot">Coding Agents</li>
+              <li>Vibe Coding</li>
+              <li>Security</li>
+              <li><span class="pt">Fluência em IA</span><span class="en" lang="en">AI Literacy</span></li>
+              <li>Loops</li>
+              <li><span class="pt">IA Generativa</span><span class="en" lang="en">Generative AI</span></li>
+              <li><span class="pt">Ética em IA</span><span class="en" lang="en">AI Ethics</span></li>
+              <li><span class="pt">Busca assistida por IA</span><span class="en" lang="en">AI Assisted Search</span></li>
+              <li><span class="pt">Digest semanal de IA</span><span class="en" lang="en">Weekly AI Digest</span></li>
+              <li>CLI</li>
             </ul>
           </div>
         </div>
@@ -777,6 +799,21 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'&&sidebar.cla
 
 /* ---- reduced motion flag ---- */
 var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---- typewriter mark (hero kicker "DURAÇÃO") ---- */
+document.querySelectorAll('.type-mark[data-chars]').forEach(function(mark){
+  var chars=mark.dataset.chars.split('');
+  mark.textContent='';
+  chars.forEach(function(ch,i){
+    var s=document.createElement('span');
+    s.className='tm-char';
+    s.style.animationDelay=(i*0.045)+'s';
+    s.textContent=ch;
+    mark.appendChild(s);
+  });
+  if(reduce){mark.classList.add('tm-run');}
+  else{requestAnimationFrame(function(){mark.classList.add('tm-run');});}
+});
 
 /* ---- scroll reveal ---- */
 var revealEls=document.querySelectorAll('.reveal');
