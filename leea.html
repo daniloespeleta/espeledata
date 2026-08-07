@@ -112,6 +112,39 @@ main section{max-width:var(--max);margin:0 auto;padding:clamp(3.5rem,8vw,6rem) 1
 .btn-solid:hover{background:#33ddff;border-color:#33ddff}
 .btn-outline{background:transparent;border-color:var(--border);color:var(--white)}
 .btn-outline:hover{border-color:var(--cyan);color:var(--cyan)}
+
+/* ============ FLUXO DA AUTOMAÇÃO ============ */
+.flow-steps{list-style:none;margin-top:2.2rem;display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border)}
+.flow-step{display:flex;gap:1.3rem;background:var(--bg2);padding:1.5rem 1.6rem;position:relative}
+.fs-num{font-family:var(--mono);font-size:.8rem;color:var(--gray2);flex:none;padding-top:.2rem;letter-spacing:.08em}
+.fs-body{flex:1;min-width:0}
+.fs-tool{display:inline-block;font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(0,212,255,0.28);padding:.2rem .55rem;margin-bottom:.7rem}
+.fs-title{font-family:var(--cond);font-weight:700;font-size:1.35rem;line-height:1.15;text-transform:uppercase;color:var(--white);margin-bottom:.6rem}
+.fs-desc{color:var(--gray);font-size:.98rem;line-height:1.7;max-width:68ch}
+.fs-io{margin-top:.9rem;font-family:var(--mono);font-size:.75rem;color:var(--gray2);letter-spacing:.03em;overflow-wrap:anywhere}
+.io-k{color:var(--cyan);text-transform:uppercase;letter-spacing:.1em}
+.io-arrow{color:var(--gray2);padding:0 .3rem}
+.flow-step.is-agent{background:rgba(0,212,255,0.045)}
+.flow-step.is-agent .fs-tool{background:var(--cyan);color:#00232b;border-color:var(--cyan)}
+.flow-step.is-human{background:rgba(255,90,71,0.05)}
+.flow-step.is-human .fs-tool{color:var(--coral);border-color:rgba(255,90,71,0.35)}
+.flow-foot{margin-top:1.8rem;color:var(--gray);font-size:1rem;line-height:1.75;max-width:68ch}
+@media(max-width:600px){
+  .flow-step{flex-direction:column;gap:.5rem;padding:1.3rem 1.1rem}
+  .fs-title{font-size:1.2rem}
+}
+
+/* ============ TABELA DE DADO ============ */
+.table-wrap{margin-top:2rem;overflow-x:auto;border:1px solid var(--border);background:var(--bg2)}
+.spell-table{border-collapse:collapse;width:100%;min-width:520px;font-family:var(--mono);font-size:.82rem}
+.spell-table th{text-align:left;padding:.85rem 1.1rem;color:var(--cyan);font-weight:500;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;border-bottom:1px solid var(--border);white-space:nowrap}
+.spell-table td{padding:.8rem 1.1rem;color:var(--gray);border-bottom:1px solid var(--border);white-space:nowrap}
+.spell-table tbody tr:last-child td{border-bottom:none}
+.spell-table tbody tr:hover td{background:var(--bg3);color:var(--white)}
+.spell-table .row-flag td{color:var(--coral)}
+.table-read{margin-top:1.5rem;color:var(--gray);max-width:66ch;font-size:1rem;line-height:1.75}
+.table-read strong{color:var(--white);font-weight:600}
+.synth-note{margin-top:1.5rem;font-family:var(--mono);font-size:.72rem;color:var(--gray2);letter-spacing:.04em}
 @media (prefers-reduced-motion:no-preference){
   @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
   .hero-inner{animation:fadeUp .6s ease both}
@@ -153,14 +186,14 @@ main section{max-width:var(--max);margin:0 auto;padding:clamp(3.5rem,8vw,6rem) 1
 .rate-flatline{width:100%;height:1px;background:var(--border);position:relative;margin:1.4rem 0}
 .rate-flatline::after{content:'';position:absolute;right:0;top:-4px;width:9px;height:9px;border-radius:50%;background:var(--coral)}
 .compare-panel p{color:var(--gray);font-size:.92rem}
-.compare-note{font-family:var(--mono);font-size:.6rem;color:var(--gray2);letter-spacing:.04em;margin-top:1.2rem;display:block}
+.compare-note{font-family:var(--mono);font-size:.72rem;color:var(--gray2);letter-spacing:.04em;margin-top:1.2rem;display:block}
 .seq-intro{color:var(--gray);font-size:.92rem;margin-bottom:1.4rem}
 .seq-rows{display:flex;flex-direction:column;gap:1.1rem}
 .seq-row{display:grid;grid-template-columns:1fr;gap:.5rem}
 .seq-label{font-family:var(--mono);font-size:.64rem;color:var(--white);letter-spacing:.06em;text-transform:uppercase}
 .seq-ticks{display:flex;gap:2px}
 .seq-ticks span{flex:1;height:16px;background:var(--state-bg);border:1px solid var(--state-border)}
-.seq-caption{font-size:.82rem;color:var(--gray)}
+.seq-caption{font-size:.95rem;color:var(--gray)}
 
 /* ============ STATE MAP ============ */
 .state-map-wrap{margin-top:2.4rem;display:grid;grid-template-columns:340px 1fr;gap:2.4rem;align-items:start}
@@ -218,7 +251,48 @@ main section{max-width:var(--max);margin:0 auto;padding:clamp(3.5rem,8vw,6rem) 1
 .ep-period{font-family:var(--mono);font-size:.62rem;color:var(--gray2);letter-spacing:.1em;text-transform:uppercase;min-width:7ch}
 .ep-badge{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .6rem;background:var(--state-bg);color:var(--state-fg);border:1px solid var(--state-border)}
 .ep-signal{color:var(--gray);font-size:.86rem;flex:1 1 200px}
-.ep-note{font-family:var(--mono);font-size:.6rem;color:var(--gray2);letter-spacing:.04em;margin-top:1rem;display:block}
+.ep-note{font-family:var(--mono);font-size:.72rem;color:var(--gray2);letter-spacing:.04em;margin-top:1rem;display:block}
+
+/* ---- painel da regra do agente ---- */
+.rule-panel{margin-top:2rem;border:1px solid var(--border);background:var(--bg2);padding:1.4rem 1.5rem}
+.rule-head{display:flex;align-items:center;gap:.7rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;padding-bottom:.9rem;border-bottom:1px solid var(--border)}
+.rule-tag{text-transform:uppercase;color:#00232b;background:var(--cyan);padding:.15rem .5rem}
+.rule-name{color:var(--white)}
+.rule-week{margin-left:auto;color:var(--gray2)}
+.rule-week::before{content:'semana '}
+.lang-en .rule-week::before{content:'week '}
+.rule-caption{margin-top:1rem;color:var(--gray);font-size:.95rem;line-height:1.7;max-width:60ch}
+.rule-criteria{list-style:none;margin-top:1.1rem;display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border)}
+.rule-criteria li{display:flex;justify-content:space-between;align-items:center;gap:1rem;background:var(--bg2);padding:.8rem 1rem;font-family:var(--mono);font-size:.8rem;flex-wrap:wrap}
+.crit-label{color:var(--gray)}
+.crit-value{color:var(--gray2);white-space:nowrap}
+.crit-value b{color:var(--white);font-weight:500;font-size:1.05rem}
+.crit-target{opacity:.65}
+.rule-criteria li.met{background:rgba(255,90,71,0.07)}
+.rule-criteria li.met .crit-label{color:var(--white)}
+.rule-criteria li.met .crit-value b{color:var(--coral)}
+.rule-verdict{display:flex;align-items:flex-start;gap:.7rem;margin-top:1.2rem;padding:.9rem 1rem;border-left:3px solid var(--gray2);background:var(--bg3);font-size:.95rem;color:var(--gray);line-height:1.65}
+.verdict-dot{width:9px;height:9px;border-radius:50%;background:var(--gray2);flex:none;margin-top:.45rem}
+.rule-verdict .v{display:none}
+.rule-verdict[data-verdict="monitorando"] .v-monitorando,
+.rule-verdict[data-verdict="atencao"] .v-atencao,
+.rule-verdict[data-verdict="dispara"] .v-dispara,
+.rule-verdict[data-verdict="curso"] .v-curso,
+.rule-verdict[data-verdict="respondeu"] .v-respondeu{display:inline}
+.rule-verdict[data-verdict="atencao"]{border-left-color:var(--coral);color:var(--white)}
+.rule-verdict[data-verdict="atencao"] .verdict-dot{background:var(--coral)}
+.rule-verdict[data-verdict="dispara"]{border-left-color:var(--cyan);color:var(--white);background:rgba(0,212,255,0.08)}
+.rule-verdict[data-verdict="dispara"] .verdict-dot{background:var(--cyan)}
+.rule-verdict[data-verdict="curso"]{border-left-color:var(--cyan)}
+.rule-verdict[data-verdict="curso"] .verdict-dot{background:var(--cyan)}
+.rule-verdict[data-verdict="respondeu"]{border-left-color:var(--cyan);color:var(--white)}
+.rule-verdict[data-verdict="respondeu"] .verdict-dot{background:var(--cyan)}
+.rule-code{margin-top:1.2rem;background:var(--bg);border:1px solid var(--border);padding:1rem 1.1rem;overflow-x:auto;font-family:var(--mono);font-size:.8rem;line-height:1.8;color:var(--gray);white-space:pre}
+.rule-foot{margin-top:1.2rem;color:var(--gray);font-size:.95rem;line-height:1.7;max-width:64ch}
+@media(max-width:600px){
+  .rule-panel{padding:1.1rem 1rem}
+  .rule-criteria li{flex-direction:column;align-items:flex-start;gap:.35rem}
+}
 
 /* ============ GLOSSARY ============ */
 .method-seq{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin-top:1.6rem;font-family:var(--mono);font-size:.66rem;letter-spacing:.06em;color:var(--gray2);text-transform:uppercase}
@@ -227,7 +301,7 @@ main section{max-width:var(--max);margin:0 auto;padding:clamp(3.5rem,8vw,6rem) 1
 .glossary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-top:2rem}
 .glossary-card{background:var(--bg2);padding:1.5rem 1.4rem}
 .glossary-term{font-family:var(--cond);font-weight:700;font-size:1.1rem;text-transform:uppercase;color:var(--cyan);letter-spacing:.02em}
-.glossary-def{color:var(--gray);font-size:.86rem;margin-top:.5rem}
+.glossary-def{color:var(--gray);font-size:.98rem;margin-top:.5rem}
 .theory-note{font-family:var(--mono);font-size:.68rem;color:var(--gray2);letter-spacing:.02em;line-height:1.7;margin-top:2rem;max-width:70ch}
 
 /* ============ CICLO ============ */
@@ -249,12 +323,12 @@ main section{max-width:var(--max);margin:0 auto;padding:clamp(3.5rem,8vw,6rem) 1
 .layers-stack{margin-top:2.4rem;display:flex;flex-direction:column;align-items:stretch;max-width:640px}
 .layer-card{border:1px solid var(--border);background:var(--bg2);padding:1.2rem 1.5rem}
 .layer-name{font-family:var(--mono);font-size:.64rem;color:var(--cyan);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.4rem}
-.layer-def{color:var(--gray);font-size:.88rem}
+.layer-def{color:var(--gray);font-size:.98rem}
 .layer-arrow{text-align:center;color:var(--gray2);font-family:var(--mono);font-size:.8rem;padding:.3rem 0}
 .agents-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-top:2.8rem}
 .agent-card{background:var(--bg2);padding:1.4rem 1.4rem}
 .agent-name{font-family:var(--cond);font-weight:700;font-size:1.05rem;text-transform:uppercase;color:var(--white)}
-.agent-def{color:var(--gray);font-size:.84rem;margin-top:.5rem}
+.agent-def{color:var(--gray);font-size:.98rem;margin-top:.5rem}
 .quote-block{border-left:2px solid var(--cyan);padding-left:1.4rem;margin-top:2.6rem;max-width:70ch}
 .quote-block p{font-family:var(--sans);font-weight:300;font-size:clamp(1.05rem,2vw,1.3rem);line-height:1.6;color:var(--white)}
 
@@ -264,10 +338,10 @@ main section{max-width:var(--max);margin:0 auto;padding:clamp(3.5rem,8vw,6rem) 1
 .tier-card{border:1px solid var(--border);background:var(--bg2);padding:1.8rem 1.6rem;display:flex;flex-direction:column;gap:.9rem;position:relative}
 .tier-featured{border-color:rgba(var(--cyan-rgb),.5);background:var(--bg3)}
 @media(min-width:901px){.tier-featured{transform:translateY(-10px)}}
-.tier-badge{align-self:flex-start;font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:#00232b;background:var(--cyan);padding:.3rem .6rem}
+.tier-badge{align-self:flex-start;font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:#00232b;background:var(--cyan);padding:.3rem .6rem}
 .tier-level{font-family:var(--mono);font-size:.62rem;color:var(--gray2);letter-spacing:.12em;text-transform:uppercase}
 .tier-name{font-family:var(--cond);font-weight:700;font-size:1.5rem;text-transform:uppercase;color:var(--white);line-height:1.05}
-.tier-desc{color:var(--gray);font-size:.88rem}
+.tier-desc{color:var(--gray);font-size:.98rem}
 .tier-list{list-style:none;font-size:.82rem;color:var(--gray)}
 .tier-list li{padding-left:1.1rem;position:relative;margin-bottom:.4rem}
 .tier-list li::before{content:'→';position:absolute;left:0;color:var(--cyan)}
@@ -293,7 +367,7 @@ main section{max-width:var(--max);margin:0 auto;padding:clamp(3.5rem,8vw,6rem) 1
 /* ============ FOOTER ============ */
 footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
 .footer-name{font-family:var(--cond);font-weight:700;font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray)}
-.footer-info{font-family:var(--mono);font-size:.62rem;color:var(--gray2);letter-spacing:.06em;display:flex;flex-wrap:wrap;gap:.4rem 1rem;align-items:center}
+.footer-info{font-family:var(--mono);font-size:.72rem;color:var(--gray2);letter-spacing:.06em;display:flex;flex-wrap:wrap;gap:.4rem 1rem;align-items:center}
 .footer-info a{color:var(--gray);text-decoration:none;transition:color .2s}
 .footer-info a:hover{color:var(--cyan)}
 @media(max-width:640px){footer{flex-direction:column;align-items:flex-start;padding:1.5rem}}
@@ -370,44 +444,57 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
     <div class="hero-inner">
       <p class="kicker"><span class="pt">Agência Leea</span><span class="en" lang="en">Leea Agency</span></p>
       <h1 id="hero-title">
-        <span class="pt">O sentido tem<br><span class="accent">duração.</span></span>
-        <span class="en" lang="en">Meaning has<br><span class="accent">duration.</span></span>
+        <span class="pt">O churn diz quantos.<br><span class="accent">Não diz quando.</span></span>
+        <span class="en" lang="en">Churn tells you how many.<br><span class="accent">Not when.</span></span>
       </h1>
       <div class="hero-sub">
-        <p class="pt">A Leea é uma agência de linguagem, jornada e retenção. Ela cruza semiótica, comportamento de consumo e CRM para resolver problemas estruturais de fidelização. Não vende agente de IA. Vende a resolução de um problema de retenção, com método.</p>
-        <p class="en" lang="en">Leea is a language, journey and retention agency. It crosses semiotics, consumption behavior and CRM to solve structural loyalty problems. It does not sell an AI agent. It sells the resolution of a retention problem, with method.</p>
+        <p class="pt">Toda empresa com receita recorrente sabe quantos clientes cancelaram no mês passado. Quase nenhuma sabe em que semana cada um decidiu. O número mensal junta quem saiu no dia 2 com quem saiu no dia 29, e junta quem reclamou no suporte com quem sumiu sem falar nada. A Leea reconstrói essa linha do tempo, cliente por cliente, e entrega a regra que dispara a recuperação antes do cancelamento.</p>
+        <p class="en" lang="en">Every company with recurring revenue knows how many customers cancelled last month. Almost none knows in which week each one decided. The monthly number lumps together someone who left on the 2nd with someone who left on the 29th, and someone who complained to support with someone who just went quiet. Leea rebuilds that timeline, customer by customer, and delivers the rule that triggers recovery before the cancellation.</p>
       </div>
       <p class="hero-note">
-        <span class="pt">Vocabulário do método: <strong>Sulco</strong>, leitura de sentido, de trajetória e de intervenção em CRM.</span>
-        <span class="en" lang="en">Method vocabulary: <strong>Sulco</strong>, a reading of meaning, of trajectory and of CRM intervention.</span>
+        <span class="pt">Feito com SQL sobre o histórico do CRM, agentes de IA orquestrados em <strong>n8n</strong>, e a intervenção disparada no <strong>RD Station</strong>. O método se chama <strong>Sulco</strong>.</span>
+        <span class="en" lang="en">Built with SQL over CRM history, AI agents orchestrated in <strong>n8n</strong>, and the intervention triggered in <strong>RD Station</strong>. The method is called <strong>Sulco</strong>.</span>
       </p>
       <div class="hero-cta">
         <a class="btn btn-solid" href="contact.html?leea=1"><span class="pt">Pedir a leitura de transição</span><span class="en" lang="en">Request the transition read</span></a>
-        <a class="btn btn-outline" href="#metodo"><span class="pt">Ver o método</span><span class="en" lang="en">See the method</span></a>
+        <a class="btn btn-outline" href="#automacao"><span class="pt">Ver como funciona</span><span class="en" lang="en">See how it works</span></a>
       </div>
     </div>
   </section>
 
-  <!-- ============ STATS ============ -->
-  <section class="stats-band" aria-label="Números do método">
-    <div class="stats-grid reveal">
-      <div class="stat-cell">
-        <span class="num" data-count="6">6</span>
-        <span class="lbl"><span class="pt">Agentes de IA especializados</span><span class="en" lang="en">Specialized AI agents</span></span>
-      </div>
-      <div class="stat-cell">
-        <span class="num" data-count="5">5</span>
-        <span class="lbl"><span class="pt">Etapas no CICLO</span><span class="en" lang="en">Steps in the CICLO</span></span>
-      </div>
-      <div class="stat-cell">
-        <span class="num" data-count="4">4</span>
-        <span class="lbl"><span class="pt">Camadas do método</span><span class="en" lang="en">Layers in the method</span></span>
-      </div>
-      <div class="stat-cell">
-        <span class="num" data-count="3">3</span>
-        <span class="lbl"><span class="pt">Níveis de oferta</span><span class="en" lang="en">Service tiers</span></span>
-      </div>
+  <!-- ============ A TABELA (a definição) ============ -->
+  <section id="tabela" aria-labelledby="tabela-title">
+    <p class="kicker"><span class="pt">O formato</span><span class="en" lang="en">The format</span></p>
+    <h2 class="section-title" id="tabela-title">
+      <span class="pt">Um cliente, <span class="accent">quatro linhas</span></span>
+      <span class="en" lang="en">One customer, <span class="accent">four rows</span></span>
+    </h2>
+    <div class="section-sub reveal">
+      <p class="pt">É assim que a Leea guarda a história de um cliente. Cada linha é um período com começo e fim, e o estado em que ele estava. Não tem teoria aqui, tem data.</p>
+      <p class="en" lang="en">This is how Leea stores a customer's history. Each row is a period with a start and an end, plus the state the customer was in. There is no theory here, there are dates.</p>
     </div>
+    <div class="table-wrap reveal">
+      <table class="spell-table">
+        <caption class="visually-hidden"><span class="pt">Histórico de um cliente em formato de episódios</span><span class="en" lang="en">One customer's history in episode format</span></caption>
+        <thead>
+          <tr><th>cliente_id</th><th>estado</th><th>inicio</th><th>fim</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1001</td><td>trial</td><td>2024-01-05</td><td>2024-02-04</td></tr>
+          <tr><td>1001</td><td>ativo_basic</td><td>2024-02-05</td><td>2024-07-31</td></tr>
+          <tr><td>1001</td><td>ativo_pro</td><td>2024-08-01</td><td>2024-11-15</td></tr>
+          <tr class="row-flag"><td>1001</td><td>churned</td><td>2024-11-16</td><td>2024-12-31</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-read reveal">
+      <span class="pt">Lendo em voz alta: o cliente 1001 testou por um mês, virou pagante no plano básico, subiu para o pro em agosto, e cancelou em 16 de novembro. O relatório mensal dele diz só uma coisa: <strong>churn em novembro</strong>. A tabela diz que ele subiu de plano <strong>107 dias</strong> antes de sair, e é aí que mora a pergunta.</span>
+      <span class="en" lang="en">Read out loud: customer 1001 trialled for a month, became a paying basic user, upgraded to pro in August, and cancelled on November 16. The monthly report says one thing: <strong>churn in November</strong>. The table says the customer upgraded <strong>107 days</strong> before leaving, and that is where the question lives.</span>
+    </p>
+    <p class="synth-note reveal">
+      <span class="pt">Todos os dados de exemplo desta página são sintéticos, criados para demonstração.</span>
+      <span class="en" lang="en">All example data on this page is synthetic, created for demonstration.</span>
+    </p>
   </section>
 
   <div class="divider" role="presentation"></div>
@@ -612,8 +699,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
     <!-- EPISODE SCRUBBER -->
     <h3 class="ep-subhead"><span class="pt">Linha do tempo de episódios</span><span class="en" lang="en">Episode timeline</span></h3>
     <p class="ep-intro">
-      <span class="pt">O sentido tem duração. Arraste o controle e veja um cliente ilustrativo mudar de estado ao longo de uma janela de doze semanas.</span>
-      <span class="en" lang="en">Meaning has duration. Drag the control and watch an illustrative client change state across a twelve week window.</span>
+      <span class="pt">Arraste o controle. Em cima, o cliente muda de estado ao longo de doze semanas. Embaixo, a regra do agente recalcula a cada semana e mostra quando ela dispara a recuperação. Na semana 7 os três critérios batem, e a recuperação sai três semanas antes do cancelamento que estava vindo.</span>
+      <span class="en" lang="en">Drag the control. Above, the customer changes state across twelve weeks. Below, the agent's rule recalculates every week and shows when it triggers recovery. In week 7 all three criteria are met, and recovery goes out three weeks before the cancellation that was coming.</span>
     </p>
     <div class="ep-scrubber reveal">
       <div class="ep-track" aria-hidden="true">
@@ -684,7 +771,55 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
           <span class="ep-signal"><span class="pt">Mantém rotina de uso ao fim da janela.</span><span class="en" lang="en">Keeps the usage routine at the end of the window.</span></span>
         </li>
       </ol>
-      <span class="ep-note"><span class="pt">Trajetória ilustrativa de demonstração, não é dado de cliente real.</span><span class="en" lang="en">Illustrative demonstration trajectory, not real client data.</span></span>
+      <!-- REGRA DO AGENTE, acompanha o arraste -->
+      <div class="rule-panel" id="rulePanel" aria-live="polite">
+        <div class="rule-head">
+          <span class="rule-tag"><span class="pt">agente</span><span class="en" lang="en">agent</span></span>
+          <span class="rule-name">leea_retention</span>
+          <span class="rule-week" id="ruleWeek">01</span>
+        </div>
+
+        <p class="rule-caption">
+          <span class="pt">A regra roda toda segunda-feira sobre o histórico do CRM. Três critérios, todos precisam bater.</span>
+          <span class="en" lang="en">The rule runs every Monday over the CRM history. Three criteria, all of them must be met.</span>
+        </p>
+
+        <ul class="rule-criteria">
+          <li data-crit="uso">
+            <span class="crit-label"><span class="pt">dias sem uso</span><span class="en" lang="en">days without use</span></span>
+            <span class="crit-value"><b id="critUso">0</b> <span class="crit-target">/ 14</span></span>
+          </li>
+          <li data-crit="mencao">
+            <span class="crit-label"><span class="pt">menções de continuidade, 30d</span><span class="en" lang="en">continuity mentions, 30d</span></span>
+            <span class="crit-value"><b id="critMencao">2</b> <span class="crit-target">/ 0</span></span>
+          </li>
+          <li data-crit="queda">
+            <span class="crit-label"><span class="pt">queda de frequência vs. base</span><span class="en" lang="en">frequency drop vs. baseline</span></span>
+            <span class="crit-value"><b id="critQueda">0</b>% <span class="crit-target">/ 40%</span></span>
+          </li>
+        </ul>
+
+        <div class="rule-verdict" id="ruleVerdict" data-verdict="monitorando">
+          <span class="verdict-dot" aria-hidden="true"></span>
+          <span class="v v-monitorando"><span class="pt">Monitorando. Nenhum critério batido.</span><span class="en" lang="en">Monitoring. No criteria met.</span></span>
+          <span class="v v-atencao"><span class="pt">Em atenção. Parte dos critérios batida, ainda não dispara.</span><span class="en" lang="en">Watching. Some criteria met, does not fire yet.</span></span>
+          <span class="v v-dispara"><span class="pt">Dispara. Três de três. Jornada de recuperação enviada ao RD Station.</span><span class="en" lang="en">Fires. Three of three. Recovery journey pushed to RD Station.</span></span>
+          <span class="v v-curso"><span class="pt">Jornada em curso. Aguardando resposta, sem novo disparo.</span><span class="en" lang="en">Journey running. Waiting for a response, no new trigger.</span></span>
+          <span class="v v-respondeu"><span class="pt">Respondeu. Cliente voltou a usar, contagem reiniciada.</span><span class="en" lang="en">Responded. The customer is using it again, counter reset.</span></span>
+        </div>
+
+        <pre class="rule-code" aria-label="Regra em pseudocódigo"><code>SE  dias_sem_uso            &gt;= 14
+E   mencoes_continuidade_30d =  0
+E   queda_frequencia         &gt;= 40%
+ENTAO  disparar('recuperacao_pre_churn')</code></pre>
+
+        <p class="rule-foot">
+          <span class="pt">O corte de 14 dias não é chute nem padrão de mercado. Sai do próprio histórico: é o ponto onde, nessa base, a chance de voltar sozinho cai pela metade. Cada cliente calibra o seu.</span>
+          <span class="en" lang="en">The 14 day cutoff is not a guess or an industry default. It comes out of the history itself: it is the point where, in this base, the odds of coming back unprompted fall by half. Each client calibrates their own.</span>
+        </p>
+      </div>
+
+      <span class="ep-note"><span class="pt">Trajetória e números ilustrativos, gerados para demonstração.</span><span class="en" lang="en">Illustrative trajectory and numbers, generated for demonstration.</span></span>
     </div>
   </section>
 
@@ -843,6 +978,89 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
 
   <div class="divider" role="presentation"></div>
 
+  <!-- ============ A AUTOMAÇÃO NA PRÁTICA ============ -->
+  <section id="automacao" aria-labelledby="automacao-title">
+    <p class="kicker"><span class="pt">Na prática</span><span class="en" lang="en">In practice</span></p>
+    <h2 class="section-title" id="automacao-title">
+      <span class="pt">Como essa automação <span class="accent">é montada</span></span>
+      <span class="en" lang="en">How that automation <span class="accent">gets built</span></span>
+    </h2>
+    <div class="section-sub reveal">
+      <p class="pt">Cinco blocos, rodando toda segunda de manhã. O agente de IA não dispara e-mail. Ele lê, classifica e escreve a especificação. Quem dispara é o CRM, e quem aprova antes de subir é uma pessoa.</p>
+      <p class="en" lang="en">Five blocks, running every Monday morning. The AI agent does not send email. It reads, classifies and writes the specification. The CRM sends, and a person approves before anything goes live.</p>
+    </div>
+
+    <ol class="flow-steps reveal">
+      <li class="flow-step">
+        <span class="fs-num">01</span>
+        <div class="fs-body">
+          <span class="fs-tool">SQL</span>
+          <h3 class="fs-title"><span class="pt">Montar os episódios</span><span class="en" lang="en">Build the episodes</span></h3>
+          <p class="fs-desc">
+            <span class="pt">Uma query varre o histórico do CRM e transforma evento solto em linha de episódio, com início, fim e estado. É a tabela das quatro linhas lá de cima, só que para a base inteira.</span>
+            <span class="en" lang="en">One query sweeps the CRM history and turns loose events into episode rows, with a start, an end and a state. It is the four row table from above, run over the whole base.</span>
+          </p>
+          <p class="fs-io"><span class="io-k">in</span> eventos_crm <span class="io-arrow" aria-hidden="true">→</span> <span class="io-k">out</span> episodios.csv</p>
+        </div>
+      </li>
+      <li class="flow-step">
+        <span class="fs-num">02</span>
+        <div class="fs-body">
+          <span class="fs-tool">n8n</span>
+          <h3 class="fs-title"><span class="pt">Agendar e buscar</span><span class="en" lang="en">Schedule and fetch</span></h3>
+          <p class="fs-desc">
+            <span class="pt">Um gatilho de horário roda toda segunda às 7h, executa a query, e entrega o resultado para o agente. Nenhuma inteligência aqui, só encanamento.</span>
+            <span class="en" lang="en">A time trigger runs every Monday at 7am, executes the query, and hands the result to the agent. No intelligence here, just plumbing.</span>
+          </p>
+          <p class="fs-io"><span class="io-k">in</span> cron 0 7 * * 1 <span class="io-arrow" aria-hidden="true">→</span> <span class="io-k">out</span> payload json</p>
+        </div>
+      </li>
+      <li class="flow-step is-agent">
+        <span class="fs-num">03</span>
+        <div class="fs-body">
+          <span class="fs-tool">leea_retention</span>
+          <h3 class="fs-title"><span class="pt">Aplicar a regra e ler a linguagem</span><span class="en" lang="en">Apply the rule and read the language</span></h3>
+          <p class="fs-desc">
+            <span class="pt">Aqui entra o agente. A parte numérica dos três critérios é conta simples, e conta simples fica no código, não no modelo. O agente faz o que código não faz bem: lê o texto do último contato do cliente e decide se ali tem menção de continuidade ou não. Depois escreve a especificação da intervenção.</span>
+            <span class="en" lang="en">This is where the agent comes in. The numeric part of the three criteria is simple arithmetic, and simple arithmetic stays in code, not in the model. The agent does what code does not do well: it reads the text of the customer's last contact and decides whether there is a continuity mention in it. Then it writes the intervention specification.</span>
+          </p>
+          <p class="fs-io"><span class="io-k">in</span> episodios + texto <span class="io-arrow" aria-hidden="true">→</span> <span class="io-k">out</span> intervention_spec.json</p>
+        </div>
+      </li>
+      <li class="flow-step is-human">
+        <span class="fs-num">04</span>
+        <div class="fs-body">
+          <span class="fs-tool"><span class="pt">pessoa</span><span class="en" lang="en">human</span></span>
+          <h3 class="fs-title"><span class="pt">Aprovar antes de ir para o ar</span><span class="en" lang="en">Approve before it goes live</span></h3>
+          <p class="fs-desc">
+            <span class="pt">A especificação chega para revisão com a lista de quem vai receber, o texto proposto e o grupo de controle já separado. Sem esse aceite, nada sai. É o único bloco que não é automático, e é de propósito.</span>
+            <span class="en" lang="en">The specification arrives for review with the recipient list, the proposed copy and the control group already separated. Without that approval, nothing goes out. It is the only block that is not automatic, and that is on purpose.</span>
+          </p>
+          <p class="fs-io"><span class="io-k">in</span> intervention_spec <span class="io-arrow" aria-hidden="true">→</span> <span class="io-k">out</span> <span class="pt">aprovado ou devolvido</span><span class="en" lang="en">approved or returned</span></p>
+        </div>
+      </li>
+      <li class="flow-step">
+        <span class="fs-num">05</span>
+        <div class="fs-body">
+          <span class="fs-tool">RD Station</span>
+          <h3 class="fs-title"><span class="pt">Disparar e medir</span><span class="en" lang="en">Send and measure</span></h3>
+          <p class="fs-desc">
+            <span class="pt">A jornada sobe no CRM com o grupo de controle preservado. Quatro semanas depois, a mesma query roda de novo e compara quem recebeu com quem não recebeu. Se não deu diferença, a regra estava errada e o corte muda.</span>
+            <span class="en" lang="en">The journey goes live in the CRM with the control group preserved. Four weeks later the same query runs again and compares those who got it with those who did not. If there was no difference, the rule was wrong and the cutoff changes.</span>
+          </p>
+          <p class="fs-io"><span class="io-k">in</span> <span class="pt">jornada aprovada</span><span class="en" lang="en">approved journey</span> <span class="io-arrow" aria-hidden="true">→</span> <span class="io-k">out</span> measurement_record</p>
+        </div>
+      </li>
+    </ol>
+
+    <p class="flow-foot reveal">
+      <span class="pt">Repare onde o agente entra e onde ele não entra. Ele não decide o corte de 14 dias, isso vem do histórico. Ele não dispara e-mail, isso é o CRM. Ele não aprova nada sozinho. Ele lê texto e escreve especificação, que é onde um modelo de linguagem realmente ganha da planilha.</span>
+      <span class="en" lang="en">Notice where the agent belongs and where it does not. It does not decide the 14 day cutoff, that comes from the history. It does not send email, that is the CRM. It does not approve anything on its own. It reads text and writes specifications, which is where a language model actually beats a spreadsheet.</span>
+    </p>
+  </section>
+
+  <div class="divider" role="presentation"></div>
+
   <!-- ============ CAMADAS E AGENTES ============ -->
   <section id="camadas" aria-labelledby="camadas-title">
     <p class="kicker"><span class="pt">Como o trabalho é feito</span><span class="en" lang="en">How the work gets done</span></p>
@@ -940,6 +1158,15 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
         <span class="tier-name"><span class="pt">Sulco de Sentido</span><span class="en" lang="en">Sulco de Sentido</span></span>
         <p class="tier-desc pt">Diagnóstico manual de linguagem e jornada, sem instrumentação de dados.</p>
         <p class="tier-desc en" lang="en">Manual diagnosis of language and journey, without data instrumentation.</p>
+        <div class="tier-sub"><span class="pt">Você precisa ter</span><span class="en" lang="en">You need to have</span></div>
+        <ul class="tier-list">
+          <li><span class="pt">Campanhas, e-mails e tickets de suporte dos últimos meses</span><span class="en" lang="en">Campaigns, emails and support tickets from recent months</span></li>
+          <li><span class="pt">Nenhum acesso a banco de dados é necessário</span><span class="en" lang="en">No database access required</span></li>
+        </ul>
+        <div class="tier-sub"><span class="pt">No fim você tem</span><span class="en" lang="en">At the end you have</span></div>
+        <ul class="tier-list">
+          <li><span class="pt">Mapa de identidade e o que a marca não deixa uma IA escrever</span><span class="en" lang="en">Identity map and what the brand will not let an AI write</span></li>
+        </ul>
       </div>
 
       <div class="tier-card tier-featured">
@@ -954,12 +1181,18 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
           <li><span class="pt">1 canal principal, 1 intervenção com grupo de controle</span><span class="en" lang="en">1 main channel, 1 intervention with a control group</span></li>
           <li><span class="pt">1 janela de medição</span><span class="en" lang="en">1 measurement window</span></li>
         </ul>
-        <div class="tier-sub"><span class="pt">Entregáveis</span><span class="en" lang="en">Deliverables</span></div>
+        <div class="tier-sub"><span class="pt">Você precisa ter</span><span class="en" lang="en">You need to have</span></div>
         <ul class="tier-list">
-          <li><span class="pt">Contrato do problema e mapa de identidade e proteção</span><span class="en" lang="en">Problem contract and identity and protection map</span></li>
-          <li><span class="pt">Sulco de dados inicial e mapa de estados</span><span class="en" lang="en">Initial data sulco and state map</span></li>
-          <li><span class="pt">Pontos de virada priorizados e especificação de CRM</span><span class="en" lang="en">Prioritized turning points and CRM specification</span></li>
-          <li><span class="pt">Registro de aprendizado</span><span class="en" lang="en">Learning record</span></li>
+          <li><span class="pt">Acesso de leitura ao histórico do CRM, com data em cada evento</span><span class="en" lang="en">Read access to CRM history, with a date on every event</span></li>
+          <li><span class="pt">Uma jornada escolhida e uma transição que incomoda</span><span class="en" lang="en">One chosen journey and one transition that hurts</span></li>
+          <li><span class="pt">Uma pessoa com autoridade para aprovar o que vai ao ar</span><span class="en" lang="en">One person with authority to approve what goes live</span></li>
+        </ul>
+        <div class="tier-sub"><span class="pt">No fim você tem</span><span class="en" lang="en">At the end you have</span></div>
+        <ul class="tier-list">
+          <li><span class="pt">A regra calibrada na sua base, com o corte numérico definido</span><span class="en" lang="en">The rule calibrated on your base, with the numeric cutoff set</span></li>
+          <li><span class="pt">A intervenção rodada de verdade, com grupo de controle separado</span><span class="en" lang="en">The intervention actually run, with a separated control group</span></li>
+          <li><span class="pt">A medição comparando quem recebeu e quem não recebeu</span><span class="en" lang="en">The measurement comparing those who got it and those who did not</span></li>
+          <li><span class="pt">O registro do que funcionou e do que foi descartado</span><span class="en" lang="en">The record of what worked and what was discarded</span></li>
         </ul>
         <a class="btn btn-solid tier-cta" href="contact.html?leea=1"><span class="pt">Pedir o piloto</span><span class="en" lang="en">Request the pilot</span></a>
       </div>
@@ -969,6 +1202,15 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
         <span class="tier-name"><span class="pt">Calibração Viva</span><span class="en" lang="en">Calibração Viva</span></span>
         <p class="tier-desc pt">Retainer recorrente: ciclo contínuo de teste, medição, revisão de premissas e atualização do modelo.</p>
         <p class="tier-desc en" lang="en">Recurring retainer: a continuous cycle of testing, measurement, assumption review and model updates.</p>
+        <div class="tier-sub"><span class="pt">Você precisa ter</span><span class="en" lang="en">You need to have</span></div>
+        <ul class="tier-list">
+          <li><span class="pt">Um piloto já concluído e medido</span><span class="en" lang="en">A pilot already completed and measured</span></li>
+        </ul>
+        <div class="tier-sub"><span class="pt">No fim de cada ciclo você tem</span><span class="en" lang="en">At the end of each cycle you have</span></div>
+        <ul class="tier-list">
+          <li><span class="pt">O corte recalibrado quando a base muda de comportamento</span><span class="en" lang="en">The cutoff recalibrated when the base changes behavior</span></li>
+          <li><span class="pt">Novas transições entrando no escopo, uma por vez</span><span class="en" lang="en">New transitions entering scope, one at a time</span></li>
+        </ul>
       </div>
     </div>
   </section>
@@ -1120,9 +1362,39 @@ updateProgress();
   var playhead=document.getElementById('epPlayhead');
   if(!scrubber||!range||!items.length)return;
   scrubber.classList.add('js-scrub');
+
+  /* Valores da regra por semana. Números são neutros de idioma, então vivem
+     aqui; todo texto do veredito já está no DOM nas duas línguas e só troca
+     de visibilidade via data-verdict. [dias sem uso, menções 30d, queda %] */
+  var WEEKS=[
+    [0,2,0,'monitorando'],  [1,1,3,'monitorando'],
+    [2,2,0,'monitorando'],  [3,1,8,'monitorando'],
+    [6,0,26,'atencao'],     [9,0,38,'atencao'],
+    [14,0,52,'dispara'],    [3,0,44,'curso'],
+    [1,1,21,'respondeu'],   [2,2,9,'respondeu'],
+    [1,2,2,'monitorando'],  [2,3,0,'monitorando']
+  ];
+  var elUso=document.getElementById('critUso'),
+      elMen=document.getElementById('critMencao'),
+      elQue=document.getElementById('critQueda'),
+      elWeek=document.getElementById('ruleWeek'),
+      verdict=document.getElementById('ruleVerdict'),
+      crits=document.querySelectorAll('.rule-criteria li');
+
+  function paintRule(i){
+    var w=WEEKS[i]; if(!w||!elUso)return;
+    elUso.textContent=w[0]; elMen.textContent=w[1]; elQue.textContent=w[2];
+    if(elWeek)elWeek.textContent=(i+1<10?'0':'')+(i+1);
+    // um critério "bate" quando cruza o corte: 14 dias, zero menção, 40% de queda
+    var met=[w[0]>=14, w[1]===0, w[2]>=40];
+    crits.forEach(function(li,idx){li.classList.toggle('met',!!met[idx]);});
+    if(verdict)verdict.setAttribute('data-verdict',w[3]);
+  }
+
   function update(i){
     items.forEach(function(li,idx){li.classList.toggle('current',idx===i);});
     if(playhead)playhead.style.left=(i/(items.length-1)*100)+'%';
+    paintRule(i);
   }
   range.addEventListener('input',function(){update(parseInt(range.value,10));});
   update(0);

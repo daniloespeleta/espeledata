@@ -105,21 +105,53 @@ const EN_META = {
   ],
 };
 
-/* ---- balanced removal of every element whose class is EXACTLY `lang` ---- */
+/* ---- shared accessibility strings, applied to every EN output ----
+   aria-label/alt/placeholder cannot hold .pt/.en spans, so they stay Portuguese
+   in the source and get translated here, in one place, for all pages. Matched
+   as whole attribute values so body copy is never touched. */
+const EN_ATTRS = [
+  ['aria-label="Principal"', 'aria-label="Main"'],
+  ['aria-label="Menu"', 'aria-label="Menu"'],
+  ['aria-label="Fechar menu"', 'aria-label="Close menu"'],
+  ['aria-label="Números"', 'aria-label="Numbers"'],
+  ['aria-label="Números do método"', 'aria-label="Method numbers"'],
+  ['aria-label="Competências"', 'aria-label="Skills"'],
+  ['aria-label="Navegação entre cases"', 'aria-label="Case navigation"'],
+  ['aria-label="Fechamento"', 'aria-label="Closing"'],
+  ['aria-label="Rodapé"', 'aria-label="Footer"'],
+  ['placeholder="Não preencha este campo:"', 'placeholder="Do not fill this field:"'],
+  ['Não preencha este campo:', 'Do not fill this field:'],
+  ['alt="Retrato de Danilo Espeleta, especialista em CRM e Lifecycle Marketing"',
+   'alt="Portrait of Danilo Espeleta, CRM and Lifecycle Marketing specialist"'],
+];
+
+/* ---- balanced removal of every element carrying `lang` as a class TOKEN ----
+   Matches class="en", class="step en", class="a en b". Does NOT match
+   class="lang-en" (single token "lang-en"), so <body class="lang-pt"> and the
+   language CSS are left alone. Token matching, not exact-string matching: a
+   compound class like class="step en" used to slip through and leak the whole
+   opposite language into the output. */
 function removeLangElements(html, lang) {
-  const needle = `class="${lang}"`;
+  const attrRe = /class="([^"]*)"/g;
+  const hasToken = (v) => v.split(/\s+/).includes(lang);
   let s = html;
   let idx = 0;
   while (true) {
-    const pos = s.indexOf(needle, idx);
+    // find the next class attribute (at or after idx) whose token list has `lang`
+    attrRe.lastIndex = idx;
+    let m, pos = -1;
+    while ((m = attrRe.exec(s)) !== null) {
+      if (hasToken(m[1])) { pos = m.index; break; }
+    }
     if (pos === -1) break;
+    const needleLen = m[0].length;
     const tagStart = s.lastIndexOf('<', pos);
-    if (tagStart === -1) { idx = pos + needle.length; continue; }
+    if (tagStart === -1) { idx = pos + needleLen; continue; }
     const nameM = /^<([a-zA-Z][\w-]*)/.exec(s.slice(tagStart));
-    if (!nameM) { idx = pos + needle.length; continue; }
+    if (!nameM) { idx = pos + needleLen; continue; }
     const tag = nameM[1];
     const openEnd = s.indexOf('>', tagStart);
-    if (openEnd === -1 || pos > openEnd) { idx = pos + needle.length; continue; }
+    if (openEnd === -1 || pos > openEnd) { idx = pos + needleLen; continue; }
     const closeTag = `</${tag}>`;
     const openRe = new RegExp('<' + tag + '(\\s|>|/)', 'g');
     let depth = 1, scan = openEnd + 1, end = -1;
@@ -133,7 +165,7 @@ function removeLangElements(html, lang) {
       if (depth === 0) { end = nc + closeTag.length; break; }
       scan = nc + closeTag.length;
     }
-    if (end === -1) { idx = pos + needle.length; continue; } // unbalanced: skip
+    if (end === -1) { idx = pos + needleLen; continue; } // unbalanced: skip
     s = s.slice(0, tagStart) + s.slice(end);
     idx = tagStart;
   }
@@ -225,6 +257,8 @@ function build(file, src, lang) {
     // translate <title> + meta/og/twitter descriptions (exact-string, head only)
     const meta = EN_META[file];
     if (meta) for (const [pt, en] of meta) h = h.split(pt).join(en);
+    // translate shared accessibility strings (aria-label/alt/placeholder)
+    for (const [pt, en] of EN_ATTRS) h = h.split(pt).join(en);
     // nav/sidebar résumé link -> EN PDF (the CV section keeps both cards)
     h = h.replace(/class="cv-link" href="\/CV\/DE-Curriculo\.pdf"/g, 'class="cv-link" href="/CV/DE-Resume.pdf"');
     // contact form success page -> EN

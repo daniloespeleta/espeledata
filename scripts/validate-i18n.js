@@ -49,11 +49,18 @@ for (const file of PAGES) {
     const ptPath = file === 'index.html' ? '' : file;
     const selfUrl = SITE + '/' + (lang === 'en' ? 'en/' : '') + ptPath;
 
-    // one language in the DOM
-    const enSpans = (h.match(/class="en"/g) || []).length;
-    const ptSpans = (h.match(/class="pt"/g) || []).length;
-    if (lang === 'pt') ok(enSpans === 0, `${tag} ${enSpans} leftover class="en" elements`);
-    if (lang === 'en') ok(ptSpans === 0, `${tag} ${ptSpans} leftover class="pt" elements`);
+    // one language in the DOM. Token-aware: catches class="en" AND compound
+    // values like class="step en", which used to slip past an exact-string
+    // check and leak the whole opposite language into the page.
+    const langTokens = (html, token) => {
+      let n = 0, m, re = /class="([^"]*)"/g;
+      while ((m = re.exec(html)) !== null) if (m[1].split(/\s+/).includes(token)) n++;
+      return n;
+    };
+    const enSpans = langTokens(h, 'en');
+    const ptSpans = langTokens(h, 'pt');
+    if (lang === 'pt') ok(enSpans === 0, `${tag} ${enSpans} leftover .en elements (incl. compound classes)`);
+    if (lang === 'en') ok(ptSpans === 0, `${tag} ${ptSpans} leftover .pt elements (incl. compound classes)`);
 
     // no opposite-language text leak
     (lang === 'pt' ? EN_ONLY : PT_ONLY).forEach(s => ok(!h.includes(s), `${tag} leaked ${lang === 'pt' ? 'EN' : 'PT'} phrase: "${s}"`));
