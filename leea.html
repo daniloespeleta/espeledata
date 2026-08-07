@@ -113,6 +113,35 @@ main section{max-width:var(--max);margin:0 auto;padding:clamp(3.5rem,8vw,6rem) 1
 .btn-outline{background:transparent;border-color:var(--border);color:var(--white)}
 .btn-outline:hover{border-color:var(--cyan);color:var(--cyan)}
 
+/* ============ ORQUESTRAÇÃO ============ */
+.orch{margin-top:2.6rem;position:relative}
+.orch-maestro{border:1px solid rgba(var(--cyan-rgb),.45);background:rgba(var(--cyan-rgb),.06);padding:1.5rem 1.6rem}
+.om-head{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap}
+.om-tag{font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;background:var(--cyan);color:#00232b;padding:.2rem .55rem}
+.om-name{font-family:var(--mono);font-size:1rem;color:var(--white)}
+.om-def{margin-top:.9rem;color:var(--gray);font-size:.98rem;line-height:1.7;max-width:70ch}
+.om-conf{display:block;margin-top:.9rem;font-family:var(--mono);font-size:.74rem;color:var(--gray2);letter-spacing:.03em;line-height:1.65}
+.om-conf b{color:var(--cyan);font-weight:400}
+.orch-rail{width:1px;height:2rem;background:var(--border);margin:0 auto}
+.orch-phases{list-style:none;display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border)}
+.oph{background:var(--bg2);padding:1.4rem 1.5rem;display:grid;grid-template-columns:150px 1fr;gap:1.4rem;align-items:start}
+@media(max-width:820px){.oph{grid-template-columns:1fr;gap:.9rem}}
+.oph-head{display:flex;align-items:baseline;gap:.6rem}
+.oph-num{font-family:var(--mono);font-size:.75rem;color:var(--gray2);letter-spacing:.08em}
+.oph-name{font-family:var(--cond);font-weight:800;font-size:1.3rem;text-transform:uppercase;color:var(--white);line-height:1}
+.oph.is-core .oph-name{color:var(--cyan)}
+.oph-agents{display:flex;flex-direction:column;gap:1.2rem;min-width:0}
+.oag{border-left:2px solid var(--border);padding-left:1.1rem}
+.oph.is-core .oag{border-left-color:rgba(var(--cyan-rgb),.45)}
+.oag-name{font-family:var(--mono);font-size:.9rem;color:var(--white);font-weight:500;margin-bottom:.5rem}
+.oag-role{color:var(--gray);font-size:.98rem;line-height:1.7;max-width:70ch}
+.oag-conf{margin-top:.6rem;font-family:var(--mono);font-size:.74rem;color:var(--gray2);letter-spacing:.03em;line-height:1.7;max-width:70ch}
+.oag-conf b{color:var(--cyan);font-weight:400}
+.orch-loop{display:flex;align-items:flex-start;gap:.9rem;margin-top:1.6rem;border:1px dashed var(--border);padding:1.1rem 1.3rem;color:var(--gray);font-size:.95rem;line-height:1.7}
+.orch-loop b{color:var(--white);font-weight:500;font-family:var(--mono);font-size:.9rem}
+.ol-arrow{color:var(--cyan);font-size:1.3rem;line-height:1.2;flex:none}
+.orch-foot{margin-top:1.8rem;color:var(--gray);font-size:1rem;line-height:1.75;max-width:70ch}
+
 /* ============ FLUXO DA AUTOMAÇÃO ============ */
 .flow-steps{list-style:none;margin-top:2.2rem;display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border)}
 .flow-step{display:flex;gap:1.3rem;background:var(--bg2);padding:1.5rem 1.6rem;position:relative}
@@ -986,8 +1015,8 @@ ENTAO  disparar('recuperacao_pre_churn')</code></pre>
       <span class="en" lang="en">How that automation <span class="accent">gets built</span></span>
     </h2>
     <div class="section-sub reveal">
-      <p class="pt">Cinco blocos, rodando toda segunda de manhã. O agente de IA não dispara e-mail. Ele lê, classifica e escreve a especificação. Quem dispara é o CRM, e quem aprova antes de subir é uma pessoa.</p>
-      <p class="en" lang="en">Five blocks, running every Monday morning. The AI agent does not send email. It reads, classifies and writes the specification. The CRM sends, and a person approves before anything goes live.</p>
+      <p class="pt">Um recorte da cadeia, rodando toda segunda de manhã. Os agentes de IA não disparam e-mail. Eles leem, classificam e escrevem a especificação. Quem dispara é o CRM, e quem aprova antes de subir é uma pessoa.</p>
+      <p class="en" lang="en">One slice of the chain, running every Monday morning. The AI agents do not send email. They read, classify and write the specification. The CRM sends, and a person approves before anything goes live.</p>
     </div>
 
     <ol class="flow-steps reveal">
@@ -1018,11 +1047,11 @@ ENTAO  disparar('recuperacao_pre_churn')</code></pre>
       <li class="flow-step is-agent">
         <span class="fs-num">03</span>
         <div class="fs-body">
-          <span class="fs-tool">leea_retention</span>
-          <h3 class="fs-title"><span class="pt">Aplicar a regra e ler a linguagem</span><span class="en" lang="en">Apply the rule and read the language</span></h3>
+          <span class="fs-tool">leea_sentido + leea_retem</span>
+          <h3 class="fs-title"><span class="pt">Ler a linguagem e aplicar a regra</span><span class="en" lang="en">Read the language and apply the rule</span></h3>
           <p class="fs-desc">
-            <span class="pt">Aqui entra o agente. A parte numérica dos três critérios é conta simples, e conta simples fica no código, não no modelo. O agente faz o que código não faz bem: lê o texto do último contato do cliente e decide se ali tem menção de continuidade ou não. Depois escreve a especificação da intervenção.</span>
-            <span class="en" lang="en">This is where the agent comes in. The numeric part of the three criteria is simple arithmetic, and simple arithmetic stays in code, not in the model. The agent does what code does not do well: it reads the text of the customer's last contact and decides whether there is a continuity mention in it. Then it writes the intervention specification.</span>
+            <span class="pt">Aqui entram os agentes, e são dois. O <b>leea_sentido</b> lê o texto do último contato do cliente e decide se ali tem menção de continuidade, que é o que código não faz bem. O <b>leea_retem</b> pega essa classificação, junta com os números e aplica o corte. A conta em si fica no código, não no modelo. Quem chama os dois na ordem certa é o <b>leea_maestro</b>.</span>
+            <span class="en" lang="en">This is where the agents come in, and there are two. <b>leea_sentido</b> reads the text of the customer's last contact and decides whether there is a continuity mention, which is what code does not do well. <b>leea_retem</b> takes that classification, joins it with the numbers and applies the cutoff. The arithmetic itself stays in code, not in the model. The one calling both in the right order is <b>leea_maestro</b>.</span>
           </p>
           <p class="fs-io"><span class="io-k">in</span> episodios + texto <span class="io-arrow" aria-hidden="true">→</span> <span class="io-k">out</span> intervention_spec.json</p>
         </div>
@@ -1054,8 +1083,8 @@ ENTAO  disparar('recuperacao_pre_churn')</code></pre>
     </ol>
 
     <p class="flow-foot reveal">
-      <span class="pt">Repare onde o agente entra e onde ele não entra. Ele não decide o corte de 14 dias, isso vem do histórico. Ele não dispara e-mail, isso é o CRM. Ele não aprova nada sozinho. Ele lê texto e escreve especificação, que é onde um modelo de linguagem realmente ganha da planilha.</span>
-      <span class="en" lang="en">Notice where the agent belongs and where it does not. It does not decide the 14 day cutoff, that comes from the history. It does not send email, that is the CRM. It does not approve anything on its own. It reads text and writes specifications, which is where a language model actually beats a spreadsheet.</span>
+      <span class="pt">Repare onde os agentes entram e onde não entram. Eles não decidem o corte de 14 dias, isso vem do histórico. Não disparam e-mail, isso é o CRM. Não aprovam nada sozinhos. Eles leem texto e escrevem especificação, que é onde um modelo de linguagem realmente ganha da planilha. Essa é a fatia de "Agir" da cadeia. A cadeia inteira está logo abaixo.</span>
+      <span class="en" lang="en">Notice where the agents belong and where they do not. They do not decide the 14 day cutoff, that comes from the history. They do not send email, that is the CRM. They do not approve anything on their own. They read text and write specifications, which is where a language model actually beats a spreadsheet. This is the "Act" slice of the chain. The full chain is right below.</span>
     </p>
   </section>
 
@@ -1065,9 +1094,13 @@ ENTAO  disparar('recuperacao_pre_churn')</code></pre>
   <section id="camadas" aria-labelledby="camadas-title">
     <p class="kicker"><span class="pt">Como o trabalho é feito</span><span class="en" lang="en">How the work gets done</span></p>
     <h2 class="section-title" id="camadas-title">
-      <span class="pt">Quatro camadas, <span class="accent">seis agentes</span></span>
-      <span class="en" lang="en">Four layers, <span class="accent">six agents</span></span>
+      <span class="pt">Da orquestração <span class="accent">à retenção</span></span>
+      <span class="en" lang="en">From orchestration <span class="accent">to retention</span></span>
     </h2>
+    <div class="section-sub reveal">
+      <p class="pt">Não é um agente fazendo tudo. São oito agentes com função estreita, mais um orquestrador que decide a ordem e segura o portão humano. Cada um tem um diferencial na configuração, e é a configuração que faz a leitura de linguagem valer alguma coisa na operação.</p>
+      <p class="en" lang="en">It is not one agent doing everything. It is eight narrow agents, plus an orchestrator that decides the order and holds the human gate. Each one has a differentiator in its configuration, and it is the configuration that makes the language reading worth something in operation.</p>
+    </div>
     <div class="section-sub">
       <p class="pt">A Leea não vende agente de IA. Vende a resolução de um problema de marketing e retenção, com o método Sulco operacionalizado por agentes especializados já construídos.</p>
       <p class="en" lang="en">Leea does not sell an AI agent. It sells the resolution of a marketing and retention problem, with the Sulco method operationalized by specialized agents already built.</p>
@@ -1099,38 +1132,109 @@ ENTAO  disparar('recuperacao_pre_churn')</code></pre>
       </div>
     </div>
 
-    <div class="agents-grid reveal">
-      <div class="agent-card">
-        <div class="agent-name">Leea Intake</div>
-        <p class="agent-def pt">Transforma um brief vago em contrato formal de problema.</p>
-        <p class="agent-def en" lang="en">Turns a vague brief into a formal problem contract.</p>
+    <!-- ORQUESTRAÇÃO -->
+    <div class="orch reveal">
+
+      <div class="orch-maestro">
+        <div class="om-head">
+          <span class="om-tag"><span class="pt">orquestrador</span><span class="en" lang="en">orchestrator</span></span>
+          <span class="om-name">leea_maestro</span>
+        </div>
+        <p class="om-def">
+          <span class="pt">Decide qual agente roda, em que ordem, e com que dado. Guarda o estado do ciclo, não deixa dois agentes escreverem no mesmo artefato, e segura tudo no portão humano antes de qualquer coisa ir ao ar.</span>
+          <span class="en" lang="en">Decides which agent runs, in what order, and on what data. It holds the cycle state, stops two agents from writing to the same artifact, and halts everything at the human gate before anything goes live.</span>
+        </p>
+        <span class="om-conf"><span class="pt">configura</span><span class="en" lang="en">configures</span>: <b><span class="pt">ordem de execução, portões de aprovação e limite de reprocessamento</span><span class="en" lang="en">execution order, approval gates and reprocessing limits</span></b></span>
       </div>
-      <div class="agent-card">
-        <div class="agent-name">Leea Evidence</div>
-        <p class="agent-def pt">Inventaria e qualifica evidências e bases, separando fato de inferência.</p>
-        <p class="agent-def en" lang="en">Inventories and qualifies evidence and data sources, separating fact from inference.</p>
-      </div>
-      <div class="agent-card">
-        <div class="agent-name"><span class="pt">Leea Trajetória</span><span class="en" lang="en">Leea Trajectory</span></div>
-        <p class="agent-def pt">Coordena episódios, coortes e transições via SQL e Python determinístico.</p>
-        <p class="agent-def en" lang="en">Coordinates episodes, cohorts and transitions via SQL and deterministic Python.</p>
-      </div>
-      <div class="agent-card">
-        <div class="agent-name">Leea Retention</div>
-        <p class="agent-def pt">Analisa dinâmica de retenção, tempo até valor, recorrência, padrão de risco.</p>
-        <p class="agent-def en" lang="en">Analyzes retention dynamics, time to value, recurrence, risk pattern.</p>
-      </div>
-      <div class="agent-card">
-        <div class="agent-name">Leea Intervention</div>
-        <p class="agent-def pt">Elabora hipótese de comunicação e especificação de jornada.</p>
-        <p class="agent-def en" lang="en">Drafts the communication hypothesis and journey specification.</p>
-      </div>
-      <div class="agent-card">
-        <div class="agent-name">Leea QA &amp; Learning</div>
-        <p class="agent-def pt">Valida regras de elegibilidade, limite de frequência, grava aprendizado do ciclo.</p>
-        <p class="agent-def en" lang="en">Validates eligibility rules, frequency caps, records the cycle's learning.</p>
+
+      <div class="orch-rail" aria-hidden="true"></div>
+
+      <ol class="orch-phases">
+
+        <li class="oph">
+          <div class="oph-head"><span class="oph-num">01</span><span class="oph-name"><span class="pt">Planejar</span><span class="en" lang="en">Plan</span></span></div>
+          <div class="oph-agents">
+            <article class="oag">
+              <h4 class="oag-name">leea_plano</h4>
+              <p class="oag-role"><span class="pt">O planejador. Pega um pedido vago e devolve um problema com recorte: qual população, qual transição, qual janela, e o que conta como sucesso.</span><span class="en" lang="en">The planner. Takes a vague request and returns a scoped problem: which population, which transition, which window, and what counts as success.</span></p>
+              <p class="oag-conf"><span class="pt">Diferencial</span><span class="en" lang="en">Differentiator</span>: <b><span class="pt">define o critério de sucesso antes de ver o dado, para não escolher a métrica que ficou bonita depois</span><span class="en" lang="en">sets the success criterion before seeing the data, so the metric that looks good afterwards is not the one chosen</span></b></p>
+            </article>
+          </div>
+        </li>
+
+        <li class="oph">
+          <div class="oph-head"><span class="oph-num">02</span><span class="oph-name"><span class="pt">Construir</span><span class="en" lang="en">Build</span></span></div>
+          <div class="oph-agents">
+            <article class="oag">
+              <h4 class="oag-name">leea_base</h4>
+              <p class="oag-role"><span class="pt">O que limpa. Tira duplicata, corrige data furada, marca contato inválido e separa quem ainda estava ativo no fim da janela de quem realmente saiu.</span><span class="en" lang="en">The one that cleans. Removes duplicates, fixes broken dates, flags invalid contacts and separates who was still active at the end of the window from who actually left.</span></p>
+              <p class="oag-conf"><span class="pt">Diferencial</span><span class="en" lang="en">Differentiator</span>: <b><span class="pt">regra de censura, que é o que impede contar como cancelamento quem só não tinha vencido ainda</span><span class="en" lang="en">censoring rule, which is what stops counting as churn someone whose term simply had not ended yet</span></b></p>
+            </article>
+            <article class="oag">
+              <h4 class="oag-name">leea_constroi</h4>
+              <p class="oag-role"><span class="pt">O construtor. Transforma evento solto em episódio com começo, fim e estado. É quem monta a tabela que você viu lá em cima, para a base inteira.</span><span class="en" lang="en">The builder. Turns loose events into episodes with a start, an end and a state. It builds the table you saw above, for the whole base.</span></p>
+              <p class="oag-conf"><span class="pt">Diferencial</span><span class="en" lang="en">Differentiator</span>: <b><span class="pt">gramática de estados própria de cada marca, porque "ativo" não quer dizer a mesma coisa em assinatura e em educação</span><span class="en" lang="en">a state grammar specific to each brand, because "active" does not mean the same thing in subscription and in education</span></b></p>
+            </article>
+          </div>
+        </li>
+
+        <li class="oph is-core">
+          <div class="oph-head"><span class="oph-num">03</span><span class="oph-name"><span class="pt">Ler</span><span class="en" lang="en">Read</span></span></div>
+          <div class="oph-agents">
+            <article class="oag">
+              <h4 class="oag-name">leea_sentido</h4>
+              <p class="oag-role"><span class="pt">A leitura de linguagem e semiótica. Lê o que o cliente escreveu no suporte, na pesquisa e na resposta de campanha, e classifica o que ali é sinal de continuidade e o que é sinal de saída.</span><span class="en" lang="en">The language and semiotics reading. It reads what the customer wrote in support, in surveys and in campaign replies, and classifies what is a continuity signal and what is an exit signal.</span></p>
+              <p class="oag-conf"><span class="pt">Diferencial</span><span class="en" lang="en">Differentiator</span>: <b><span class="pt">léxico da marca e limite de proteção, o que a marca não deixa uma IA escrever no lugar dela</span><span class="en" lang="en">brand lexicon and protection limits, what the brand will not let an AI write in its name</span></b></p>
+            </article>
+            <article class="oag">
+              <h4 class="oag-name">leea_padrao</h4>
+              <p class="oag-role"><span class="pt">O que capta padrão. Olha a base inteira e acha as trajetórias que se repetem, os grupos que se comportam igual e o ponto do tempo onde o comportamento vira.</span><span class="en" lang="en">The pattern catcher. Looks at the whole base and finds repeating trajectories, groups that behave alike and the point in time where behavior turns.</span></p>
+              <p class="oag-conf"><span class="pt">Diferencial</span><span class="en" lang="en">Differentiator</span>: <b><span class="pt">captação de padrão cruzando comportamento com linguagem, não só com número de uso</span><span class="en" lang="en">pattern capture crossing behavior with language, not just with usage counts</span></b></p>
+            </article>
+          </div>
+        </li>
+
+        <li class="oph">
+          <div class="oph-head"><span class="oph-num">04</span><span class="oph-name"><span class="pt">Agir</span><span class="en" lang="en">Act</span></span></div>
+          <div class="oph-agents">
+            <article class="oag">
+              <h4 class="oag-name">leea_retem</h4>
+              <p class="oag-role"><span class="pt">A retenção. É o agente do painel que você arrastou. Avalia os critérios toda semana e decide quando a recuperação sai, antes do cancelamento e não depois.</span><span class="en" lang="en">Retention. It is the agent from the panel you dragged. It evaluates the criteria every week and decides when recovery goes out, before the cancellation and not after.</span></p>
+              <p class="oag-conf"><span class="pt">Diferencial</span><span class="en" lang="en">Differentiator</span>: <b><span class="pt">definição de threshold a partir do histórico da própria base, não de referência de mercado</span><span class="en" lang="en">threshold set from the base's own history, not from an industry benchmark</span></b></p>
+            </article>
+            <article class="oag">
+              <h4 class="oag-name">leea_cresce</h4>
+              <p class="oag-role"><span class="pt">O que cresce. Trabalha o outro lado da mesma leitura: onde o cliente está pronto para subir de plano, comprar de novo ou indicar, e quando falar sem atrapalhar.</span><span class="en" lang="en">The one that grows. It works the other side of the same reading: where the customer is ready to upgrade, buy again or refer, and when to speak without getting in the way.</span></p>
+              <p class="oag-conf"><span class="pt">Diferencial</span><span class="en" lang="en">Differentiator</span>: <b><span class="pt">janela de oportunidade com trava de frequência, para crescimento não canibalizar a retenção</span><span class="en" lang="en">opportunity window with a frequency cap, so growth does not cannibalize retention</span></b></p>
+            </article>
+          </div>
+        </li>
+
+        <li class="oph">
+          <div class="oph-head"><span class="oph-num">05</span><span class="oph-name"><span class="pt">Melhorar</span><span class="en" lang="en">Improve</span></span></div>
+          <div class="oph-agents">
+            <article class="oag">
+              <h4 class="oag-name">leea_melhora</h4>
+              <p class="oag-role"><span class="pt">O que melhora. Compara quem recebeu com o grupo de controle, diz se a regra valeu, e devolve o corte corrigido para os agentes anteriores. É o que fecha o ciclo.</span><span class="en" lang="en">The one that improves. Compares who received it against the control group, says whether the rule held up, and returns the corrected cutoff to the earlier agents. It is what closes the loop.</span></p>
+              <p class="oag-conf"><span class="pt">Diferencial</span><span class="en" lang="en">Differentiator</span>: <b><span class="pt">recalibra contra grupo de controle e registra também o que foi descartado, não só o que deu certo</span><span class="en" lang="en">recalibrates against a control group and also records what was discarded, not only what worked</span></b></p>
+            </article>
+          </div>
+        </li>
+      </ol>
+
+      <div class="orch-loop">
+        <span class="ol-arrow" aria-hidden="true">↺</span>
+        <p>
+          <span class="pt">O que o <b>leea_melhora</b> aprende volta para o <b>leea_plano</b> e para o <b>leea_retem</b>. Por isso é ciclo e não entrega única: o corte de hoje envelhece, e a base muda de comportamento sozinha.</span>
+          <span class="en" lang="en">What <b>leea_melhora</b> learns goes back into <b>leea_plano</b> and <b>leea_retem</b>. That is why it is a cycle and not a one off delivery: today's cutoff ages, and the base changes behavior on its own.</span>
+        </p>
       </div>
     </div>
+
+    <p class="orch-foot reveal">
+      <span class="pt">Da orquestração à retenção, é uma cadeia só, e é isso que a Leea garante de ponta a ponta. Um agente sozinho resolve um pedaço e entrega relatório. A cadeia inteira é o que faz a entrega chegar no ar e continuar de pé depois.</span>
+      <span class="en" lang="en">From orchestration to retention, it is a single chain, and that is what Leea guarantees end to end. A single agent solves one piece and hands over a report. The full chain is what gets the delivery live and keeps it standing afterwards.</span>
+    </p>
 
     <div class="quote-block reveal">
       <p class="pt">O LLM interpreta e coordena. O código calcula. O conector prepara. O humano decide e aprova ação irreversível.</p>
