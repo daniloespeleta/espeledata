@@ -483,8 +483,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
         <p class="en" lang="en">Every company with recurring revenue knows how many customers cancelled last month. Almost none knows in which week each one decided. The monthly number lumps together someone who left on the 2nd with someone who left on the 29th, and someone who complained to support with someone who just went quiet. Leea rebuilds that timeline, customer by customer, and delivers the rule that triggers recovery before the cancellation.</p>
       </div>
       <p class="hero-note">
-        <span class="pt">Feito com SQL sobre o histórico do CRM, agentes de IA orquestrados em <strong>n8n</strong>, e a intervenção disparada no <strong>RD Station</strong>. O método se chama <strong>Sulco</strong>.</span>
-        <span class="en" lang="en">Built with SQL over CRM history, AI agents orchestrated in <strong>n8n</strong>, and the intervention triggered in <strong>RD Station</strong>. The method is called <strong>Sulco</strong>.</span>
+        <span class="pt">Feito com SQL sobre o histórico do cliente, agentes de IA orquestrados em <strong>n8n</strong>, e a intervenção disparada no <strong>seu CRM</strong>. O método se chama <strong>Sulco</strong>.</span>
+        <span class="en" lang="en">Built with SQL over customer history, AI agents orchestrated in <strong>n8n</strong>, and the intervention triggered in <strong>your CRM</strong>. The method is called <strong>Sulco</strong>.</span>
       </p>
       <div class="hero-cta">
         <a class="btn btn-solid" href="contact.html?leea=1"><span class="pt">Pedir a leitura de transição</span><span class="en" lang="en">Request the transition read</span></a>
@@ -834,7 +834,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
           <span class="verdict-dot" aria-hidden="true"></span>
           <span class="v v-monitorando"><span class="pt">Monitorando. Nenhum critério batido.</span><span class="en" lang="en">Monitoring. No criteria met.</span></span>
           <span class="v v-atencao"><span class="pt">Em atenção. Parte dos critérios batida, ainda não dispara.</span><span class="en" lang="en">Watching. Some criteria met, does not fire yet.</span></span>
-          <span class="v v-dispara"><span class="pt">Dispara. Três de três. Jornada de recuperação enviada ao RD Station.</span><span class="en" lang="en">Fires. Three of three. Recovery journey pushed to RD Station.</span></span>
+          <span class="v v-dispara"><span class="pt">Dispara. Três de três. Jornada de recuperação enviada ao CRM.</span><span class="en" lang="en">Fires. Three of three. Recovery journey pushed to the CRM.</span></span>
           <span class="v v-curso"><span class="pt">Jornada em curso. Aguardando resposta, sem novo disparo.</span><span class="en" lang="en">Journey running. Waiting for a response, no new trigger.</span></span>
           <span class="v v-respondeu"><span class="pt">Respondeu. Cliente voltou a usar, contagem reiniciada.</span><span class="en" lang="en">Responded. The customer is using it again, counter reset.</span></span>
         </div>
@@ -1073,7 +1073,7 @@ ENTAO  disparar('recuperacao_pre_churn')</code></pre>
       <li class="flow-step">
         <span class="fs-num">05</span>
         <div class="fs-body">
-          <span class="fs-tool">RD Station</span>
+          <span class="fs-tool">CRM</span>
           <h3 class="fs-title"><span class="pt">Disparar e medir</span><span class="en" lang="en">Send and measure</span></h3>
           <p class="fs-desc">
             <span class="pt">A jornada sobe no CRM com o grupo de controle preservado. Quatro semanas depois, a mesma query roda de novo e compara quem recebeu com quem não recebeu. Se não deu diferença, a regra estava errada e o corte muda.</span>
