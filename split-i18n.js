@@ -19,14 +19,14 @@ const outDir = process.argv[3] || '_deploy';
 // Pages that carry bilingual .pt/.en content
 const PAGES = [
   'index.html', 'portfolio.html', 'contact.html', 'leea.html', 'notas.html',
-  'case-fenix.html', 'case-abrindo-caminhos.html', 'case-boa-leitura.html',
+  'case-fenix.html', 'case-espeledata.html', 'case-abrindo-caminhos.html', 'case-boa-leitura.html',
   'case-sql-01.html', 'case-sql-02.html', 'case-sql-03.html', 'case-sql-04.html', 'case-sql-05.html',
   '404.html', 'obrigado.html',
 ];
 // Pages included in the sitemap (indexable content only)
 const INDEXABLE = new Set([
   'index.html', 'portfolio.html', 'contact.html', 'leea.html', 'notas.html',
-  'case-fenix.html', 'case-abrindo-caminhos.html', 'case-boa-leitura.html',
+  'case-fenix.html', 'case-espeledata.html', 'case-abrindo-caminhos.html', 'case-boa-leitura.html',
   'case-sql-01.html', 'case-sql-02.html', 'case-sql-03.html', 'case-sql-04.html', 'case-sql-05.html',
 ]);
 
@@ -64,6 +64,13 @@ const EN_META = {
   'case-fenix.html': [
     ["CRM turnaround na Fênix Educação: base de 50K+ leads limpa e segmentada do zero, elevando a abertura de ~2% para ~25%, com +35% de CTR e +20% em matrículas.",
      "CRM turnaround at Fênix Educação: a 50K+ lead base cleaned and segmented from scratch, lifting open rate from ~2% to ~25%, with +35% CTR and +20% enrollment."],
+  ],
+  'case-espeledata.html': [
+    ["Case espeledata.com · Danilo Espeleta", "espeledata.com case · Danilo Espeleta"],
+    ["Case do espeledata.com: site bilíngue sem framework, com separação de idioma em tempo de build e um validador de CI que reprova o deploy, inclusive por regra de escrita.",
+     "The espeledata.com case: a bilingual site with no framework, build time language splitting and a CI validator that fails the deploy, writing rules included."],
+    ["Site bilíngue sem framework nem dependência, onde a regra editorial é asserção de CI.",
+     "A bilingual site with no framework and no dependencies, where the editorial rule is a CI assertion."],
   ],
   'case-abrindo-caminhos.html': [
     ["Case de CRM &amp; Lifecycle Marketing: segmentação por condição, jornada do apoiador em cinco estágios e framework de KPIs para captação no terceiro setor.",

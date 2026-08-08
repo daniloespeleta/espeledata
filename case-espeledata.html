@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9NB09LQ1PT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9NB09LQ1PT');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case espeledata.com · Danilo Espeleta</title>
+<meta name="description" content="Case do espeledata.com: site bilíngue sem framework, com separação de idioma em tempo de build e um validador de CI que reprova o deploy, inclusive por regra de escrita.">
+<meta name="author" content="Danilo Espeleta">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Case espeledata.com · Danilo Espeleta">
+<meta property="og:description" content="Site bilíngue sem framework nem dependência, onde a regra editorial é asserção de CI.">
+<meta property="og:url" content="https://espeledata.com/case-espeledata.html">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg:#0a0a0a; --bg2:#111113; --bg3:#17171a;
+  --cyan:#00d4ff;
+  --accent:#00d4ff;        /* case accent: #00d4ff (primary) | #ff5a47 (support) */
+  --accent-2:#00d4ff;    /* kicker/secondary: #00d4ff (primary) | #ff5a47 (support)    */
+  --white:#f0f0ee; --gray:#a3a39d; --gray2:#888882;
+  --border:rgba(255,255,255,0.08);
+  --sans:'Barlow',system-ui,sans-serif;
+  --cond:'Barlow Condensed',var(--sans);
+  --mono:'JetBrains Mono',Consolas,monospace;
+  --max:960px;
+}
+/* ============ BASE ============ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-padding-top:5.5rem}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{background:var(--bg);color:var(--white);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--cyan)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:2px}
+.visually-hidden{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.skip-link{position:absolute;left:1rem;top:-4rem;z-index:300;background:var(--cyan);color:#00232b;font-weight:600;padding:.6rem 1rem;text-decoration:none;transition:top .15s}
+.skip-link:focus{top:1rem}
+.lang-pt .en{display:none!important}
+.lang-en .pt{display:none!important}
+
+/* ============ READING PROGRESS ============ */
+.progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--accent);z-index:250;pointer-events:none;transition:width .1s linear}
+
+/* ============ NAV ============ */
+.site-nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.8rem 2rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;border-bottom:1px solid var(--border);background:rgba(10,10,10,0.92);backdrop-filter:blur(12px)}
+.brand{display:flex;flex-direction:column;gap:.1rem;text-decoration:none}
+.brand-name{font-family:var(--cond);font-weight:700;font-size:1.1rem;letter-spacing:.06em;color:var(--white);text-transform:uppercase}
+.brand-role{font-family:var(--mono);font-size:.6rem;color:var(--cyan);letter-spacing:.12em;text-transform:uppercase}
+.nav-right{display:flex;align-items:center;gap:1.4rem}
+.nav-links{display:flex;gap:1.4rem;align-items:center}
+.nav-links a{font-family:var(--mono);font-size:.68rem;color:var(--gray);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;padding:.3rem 0}
+.nav-links a:hover,.nav-links a[aria-current="page"]{color:var(--cyan)}
+.lang-switch{display:flex;border:1px solid var(--border)}
+.lang-switch button{background:none;border:none;color:var(--gray);cursor:pointer;font-family:var(--mono);font-size:.65rem;font-weight:500;letter-spacing:.1em;padding:.4rem .7rem}
+.lang-switch button+button{border-left:1px solid var(--border)}
+.lang-switch button[aria-pressed="true"]{background:var(--cyan);color:#00232b}
+.menu-btn{display:none;font-family:var(--mono);font-size:.68rem;color:var(--white);background:none;border:1px solid var(--border);padding:.45rem .9rem;cursor:pointer;letter-spacing:.12em;text-transform:uppercase;transition:all .2s}
+.menu-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:260;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.sidebar-overlay.open{opacity:1;visibility:visible}
+.sidebar{position:fixed;top:0;right:-290px;width:290px;height:100vh;background:var(--bg2);border-left:1px solid var(--border);z-index:270;transition:right .28s;padding:4.5rem 2rem 2rem;display:flex;flex-direction:column}
+.sidebar.open{right:0}
+.sidebar-close{position:absolute;top:1.1rem;right:1.1rem;background:none;border:1px solid var(--border);color:var(--gray);font-size:1rem;line-height:1;cursor:pointer;font-family:var(--mono);padding:.4rem .6rem}
+.sidebar-close:hover{color:var(--cyan);border-color:var(--cyan)}
+.sidebar a{font-family:var(--mono);font-size:.78rem;color:var(--gray);text-decoration:none;letter-spacing:.12em;text-transform:uppercase;padding:1rem 0;border-bottom:1px solid var(--border);transition:color .2s;display:block}
+.sidebar a:hover,.sidebar a[aria-current="page"]{color:var(--cyan)}
+.sidebar .lang-switch{margin-top:1.5rem;align-self:flex-start}
+@media(max-width:820px){
+  .site-nav{padding:.75rem 1.25rem}
+  .brand-role{display:none}
+  .nav-right .nav-links,.nav-right .lang-switch{display:none}
+  .menu-btn{display:block}
+}
+
+/* ============ LAYOUT ============ */
+.case-wrap{max-width:var(--max);margin:0 auto;padding:7.5rem 1.5rem 3rem}
+.breadcrumb{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray2);display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:2.2rem}
+.breadcrumb a{color:var(--gray);text-decoration:none;transition:color .2s}
+.breadcrumb a:hover{color:var(--cyan)}
+.breadcrumb .sep{color:var(--gray2)}
+
+/* ============ HERO ============ */
+.case-hero{border-top:4px solid var(--accent);padding-top:2.2rem;margin-bottom:3rem}
+.case-tag{font-family:var(--mono);font-size:.68rem;color:var(--accent-2);letter-spacing:.18em;text-transform:uppercase;display:block;margin-bottom:1rem}
+.case-title{font-family:var(--cond);font-weight:800;font-size:clamp(2.6rem,6.5vw,4.2rem);line-height:.95;text-transform:uppercase;color:var(--white)}
+.case-title .accent{color:var(--accent)}
+.case-sub{margin-top:1.3rem;font-size:1rem;color:var(--gray);max-width:60ch;line-height:1.8}
+.meta-pills{list-style:none;display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.6rem}
+.meta-pills li{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);border:1px solid var(--border);padding:.35rem .8rem}
+
+/* ============ METRICS ============ */
+.metrics-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin:2.5rem 0}
+.metric{background:var(--bg2);padding:1.6rem 1.2rem;text-align:center}
+.metric-num{font-family:var(--cond);font-weight:800;font-size:2.2rem;color:var(--accent);line-height:1;display:block}
+.metric-label{font-family:var(--mono);font-size:.7rem;color:var(--gray);letter-spacing:.08em;text-transform:uppercase;margin-top:.55rem;display:block}
+
+/* ============ BLOCKS ============ */
+.block{margin:3.2rem 0}
+.block-label{font-family:var(--mono);font-size:.65rem;color:var(--accent-2);letter-spacing:.18em;text-transform:uppercase;margin-bottom:1.3rem;padding-bottom:.7rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.6rem}
+.block-label::before{content:'→';color:var(--accent)}
+.block h2{font-family:var(--cond);font-weight:700;font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.1;text-transform:uppercase;margin-bottom:1.1rem}
+.block h2 .accent{color:var(--accent)}
+.prose p{color:var(--gray);margin-bottom:1.05rem;max-width:70ch}
+.prose p:last-child{margin-bottom:0}
+.prose strong{color:var(--white);font-weight:500}
+
+/* ============ CARD GRIDS ============ */
+.grid-2,.grid-3,.grid-4{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);margin-top:1.4rem}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.grid-4{grid-template-columns:repeat(2,1fr)}
+@media(min-width:760px){.grid-4{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:640px){.grid-2,.grid-3{grid-template-columns:1fr}}
+.mini-card{background:var(--bg2);padding:1.5rem 1.3rem}
+.mini-num{font-family:var(--mono);font-size:.62rem;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:.6rem}
+.mini-title{font-family:var(--cond);font-weight:700;font-size:1.05rem;text-transform:uppercase;letter-spacing:.03em;color:var(--white);margin-bottom:.5rem}
+.mini-card p{font-size:.98rem;color:var(--gray);line-height:1.65}
+
+/* ============ MAP LIST (de → para) ============ */
+.map-list{list-style:none;border:1px solid var(--border);margin-top:1.4rem}
+.map-list li{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;align-items:center;padding:1rem 1.3rem;border-bottom:1px solid var(--border)}
+.map-list li:last-child{border-bottom:none}
+.map-from{color:var(--gray);font-size:.9rem}
+.map-arrow{color:var(--accent);font-family:var(--mono)}
+.map-to{color:var(--white);font-size:.9rem;font-weight:400}
+@media(max-width:640px){
+  .map-list li{grid-template-columns:1fr;gap:.3rem}
+  .map-arrow{display:none}
+  .map-to::before{content:'→ ';color:var(--accent)}
+}
+
+/* ============ STAGES (numbered journey) ============ */
+.stages{list-style:none;counter-reset:stage;margin-top:1.4rem;border:1px solid var(--border)}
+.stages li{counter-increment:stage;padding:1.4rem 1.3rem 1.4rem 4.3rem;border-bottom:1px solid var(--border);position:relative;background:var(--bg2)}
+.stages li:last-child{border-bottom:none}
+.stages li::before{content:counter(stage,decimal-leading-zero);position:absolute;left:1.3rem;top:1.45rem;font-family:var(--cond);font-weight:800;font-size:1.5rem;color:var(--accent);line-height:1}
+.stage-title{font-family:var(--cond);font-weight:700;font-size:1.1rem;text-transform:uppercase;letter-spacing:.03em;margin-bottom:.35rem}
+.stages p{font-size:.98rem;color:var(--gray);max-width:62ch}
+.kpi-pill{display:inline-block;font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);padding:.3rem .7rem;margin-top:.7rem;opacity:.9}
+
+/* ============ CODE ============ */
+.code-wrap{border:1px solid var(--border);border-left:3px solid var(--accent);background:var(--bg2);margin-top:1.4rem;overflow:hidden}
+.code-head{font-family:var(--mono);font-size:.62rem;color:var(--gray);letter-spacing:.15em;text-transform:uppercase;padding:.7rem 1.2rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between}
+.code-wrap pre{padding:1.3rem 1.2rem;overflow-x:auto}
+.code-wrap code{font-family:var(--mono);font-size:.82rem;line-height:1.8;color:var(--white)}
+.kw{color:var(--cyan)} .fn{color:#a78bfa} .str{color:#86efac} .num{color:#fca5a5} .cm{color:var(--gray2);font-style:italic}
+
+/* ============ SVG / FIGURE ============ */
+.svg-wrap{border:1px solid var(--border);background:var(--bg2);padding:1.5rem;margin-top:1.4rem;overflow-x:auto}
+.svg-wrap svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.svg-caption{font-family:var(--mono);font-size:.72rem;color:var(--gray2);letter-spacing:.1em;text-transform:uppercase;margin-top:1rem;text-align:center}
+
+/* ============ CALLOUTS ============ */
+.insight-box{background:color-mix(in srgb,var(--accent) 6%,transparent);border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);border-left:3px solid var(--accent);padding:1.6rem 1.8rem;margin-top:1.4rem}
+.insight-box p{font-style:italic;color:var(--white);font-size:.98rem;line-height:1.8;max-width:70ch}
+.note-bar{border:1px solid var(--border);border-left:3px solid var(--accent);background:var(--bg2);padding:1.1rem 1.4rem;margin-top:1.4rem}
+.note-bar p{font-size:.98rem;color:var(--gray)}
+.note-bar strong{color:var(--white);font-weight:500}
+
+/* ============ DATES ============ */
+.dates-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-top:1.4rem}
+.date-card{background:var(--bg2);padding:1.2rem 1.1rem}
+.date-day{font-family:var(--cond);font-weight:800;font-size:1.3rem;color:var(--accent);display:block;line-height:1.1}
+.date-name{font-size:.8rem;color:var(--gray);margin-top:.3rem;display:block}
+
+/* ============ STATS ROW ============ */
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-top:1.4rem}
+.stat{background:var(--bg2);padding:1.8rem 1.4rem;text-align:center}
+.stat-num{font-family:var(--cond);font-weight:800;font-size:2.4rem;color:var(--accent);line-height:1;display:block}
+.stat-label{font-size:.82rem;color:var(--gray);margin-top:.6rem;display:block}
+.stat-src{font-family:var(--mono);font-size:.72rem;color:var(--gray2);margin-top:.5rem;display:block}
+
+/* ============ TAKEAWAYS ============ */
+.takeaways{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:1.4rem}
+@media(max-width:640px){.takeaways{grid-template-columns:1fr}}
+.takeaway{background:var(--bg2);padding:1.5rem 1.3rem}
+.takeaway h3{font-family:var(--cond);font-weight:700;font-size:1rem;text-transform:uppercase;letter-spacing:.04em;color:var(--accent);margin-bottom:.5rem}
+.takeaway p{font-size:.98rem;color:var(--gray)}
+
+/* ============ BUTTONS / CASE NAV ============ */
+.btn{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.7rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:.85rem 1.5rem;text-decoration:none;border:1px solid;transition:all .15s}
+.btn-solid{background:var(--cyan);border-color:var(--cyan);color:#00232b}
+.btn-solid:hover{background:#33ddff;border-color:#33ddff}
+.btn-outline{background:transparent;border-color:var(--border);color:var(--white)}
+.btn-outline:hover{border-color:var(--cyan);color:var(--cyan)}
+.case-nav{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin:3.5rem 0 0}
+@media(max-width:640px){.case-nav{grid-template-columns:1fr}}
+.case-nav-link{background:var(--bg2);padding:1.4rem 1.5rem;text-decoration:none;display:flex;flex-direction:column;gap:.35rem;transition:background .2s}
+.case-nav-link:hover{background:var(--bg3)}
+.case-nav-link.next{text-align:right;align-items:flex-end}
+.case-nav-link.all{grid-column:1/-1;align-items:center;text-align:center}
+.case-nav-dir{font-family:var(--mono);font-size:.6rem;color:var(--gray2);letter-spacing:.15em;text-transform:uppercase}
+.case-nav-title{font-family:var(--cond);font-weight:700;font-size:1.05rem;text-transform:uppercase;color:var(--white);transition:color .2s}
+.case-nav-link:hover .case-nav-title{color:var(--cyan)}
+
+/* ============ FOOTER ============ */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-top:4rem}
+.footer-name{font-family:var(--cond);font-weight:700;font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray)}
+.footer-info{font-family:var(--mono);font-size:.72rem;color:var(--gray2);letter-spacing:.06em;display:flex;flex-wrap:wrap;gap:.4rem 1rem;align-items:center}
+.footer-info a{color:var(--gray);text-decoration:none;transition:color .2s}
+.footer-info a:hover{color:var(--cyan)}
+@media(max-width:640px){footer{flex-direction:column;align-items:flex-start;padding:1.5rem}}
+
+/* ============ REVEAL ============ */
+@media (prefers-reduced-motion:no-preference){
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}
+  .reveal.in{opacity:1;transform:none}
+}
+
+/* ============ PAGE-SPECIFIC (case-fenix) ============ */
+.mini-card p strong{color:var(--white);font-weight:500}
+</style>
+</head>
+<body class="lang-pt">
+
+<a class="skip-link" href="#main"><span class="pt">Pular para o conteúdo</span><span class="en" lang="en">Skip to content</span></a>
+<div class="progress" aria-hidden="true"></div>
+
+<!-- ============ NAV (identical on every case page) ============ -->
+<nav class="site-nav" aria-label="Principal">
+  <a class="brand" href="index.html">
+    <span class="brand-name">Danilo Espeleta</span>
+    <span class="brand-role"><span class="pt">CRM &amp; Lifecycle Marketing</span><span class="en" lang="en">CRM &amp; Lifecycle Marketing</span></span>
+  </a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="index.html"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
+      <a href="index.html#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
+      <a href="portfolio.html" aria-current="page"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
+      <a href="notas.html"><span class="pt">Notas</span><span class="en" lang="en">Notes</span></a>
+      <a href="contact.html"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
+      <a class="cv-link" href="CV/DE-Curriculo.pdf" download><span class="pt">Currículo ↓</span><span class="en" lang="en">Resume ↓</span></a>
+    </div>
+    <div class="lang-switch" role="group" aria-label="Idioma / Language">
+      <button type="button" data-lang="pt" aria-pressed="true">PT</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <button class="menu-btn" aria-expanded="false" aria-controls="sidebar">Menu</button>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="sidebar" id="sidebar" aria-label="Menu">
+  <button class="sidebar-close" aria-label="Fechar menu">✕</button>
+  <a href="index.html"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
+  <a href="index.html#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
+  <a href="portfolio.html" aria-current="page"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
+  <a href="notas.html"><span class="pt">Notas</span><span class="en" lang="en">Notes</span></a>
+  <a href="contact.html"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
+  <a class="cv-link" href="CV/DE-Curriculo.pdf" download><span class="pt">Currículo ↓</span><span class="en" lang="en">Resume ↓</span></a>
+  <div class="lang-switch" role="group" aria-label="Idioma / Language">
+    <button type="button" data-lang="pt" aria-pressed="true">PT</button>
+    <button type="button" data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</div>
+
+<main id="main" class="case-wrap">
+
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="portfolio.html">Portfólio</a><span class="sep" aria-hidden="true">/</span>
+    <span><span class="pt">Projetos</span><span class="en" lang="en">Projects</span></span><span class="sep" aria-hidden="true">/</span>
+    <span aria-current="page">espeledata.com</span>
+  </nav>
+
+  <header class="case-hero">
+    <span class="case-tag"><span class="pt">Projeto 02 · espeledata.com</span><span class="en" lang="en">Project 02 · espeledata.com</span></span>
+    <h1 class="case-title">
+      <span class="pt">Regra de escrita<br><span class="accent">virou teste.</span></span>
+      <span class="en" lang="en">A writing rule<br><span class="accent">became a test.</span></span>
+    </h1>
+    <p class="case-sub">
+      <span class="pt">Site bilíngue, sem framework e sem dependência, onde o padrão editorial não é recomendação em documento. É asserção que quebra o build.</span>
+      <span class="en" lang="en">A bilingual site, no framework and no dependencies, where the editorial standard is not a recommendation in a doc. It is an assertion that breaks the build.</span>
+    </p>
+    <ul class="meta-pills">
+      <li><span class="pt">Projeto próprio</span><span class="en" lang="en">Own project</span></li>
+      <li><span class="pt">Web e conteúdo</span><span class="en" lang="en">Web and content</span></li>
+      <li><span class="pt">Em operação</span><span class="en" lang="en">In operation</span></li>
+    </ul>
+  </header>
+
+  <!-- ============ METRICS ============ -->
+  <section class="metrics-strip reveal" aria-label="Números do projeto">
+    <div class="metric">
+      <span class="metric-num" data-count="32">32</span>
+      <span class="metric-label"><span class="pt">páginas publicadas, 16 em dois idiomas</span><span class="en" lang="en">published pages, 16 in two languages</span></span>
+    </div>
+    <div class="metric">
+      <span class="metric-num" data-count="28">28</span>
+      <span class="metric-label"><span class="pt">asserções de CI por build</span><span class="en" lang="en">CI assertions per build</span></span>
+    </div>
+    <div class="metric">
+      <span class="metric-num" data-count="0">0</span>
+      <span class="metric-label"><span class="pt">dependências de terceiros</span><span class="en" lang="en">third party dependencies</span></span>
+    </div>
+    <div class="metric">
+      <span class="metric-num" data-count="1">1</span>
+      <span class="metric-label"><span class="pt">arquivo-fonte por página, nos dois idiomas</span><span class="en" lang="en">source file per page, in both languages</span></span>
+    </div>
+  </section>
+
+  <!-- ============ METODOLOGIA ============ -->
+  <div class="note-bar reveal">
+    <p>
+      <span class="pt"><strong>Como esses números são contados:</strong> 32 saídas é o que o validador reporta a cada build, 16 páginas listadas no pipeline vezes dois idiomas. 28 asserções é a contagem de checagens no script de validação, incluindo idioma, SEO por URL, estrutura e regra de escrita. Zero dependência é literal: não existe <code>package.json</code> no repositório, o build roda só com os módulos nativos do Node. Um arquivo por página é o desenho do sistema, PT e EN convivem no mesmo fonte e se separam no deploy.</span>
+      <span class="en" lang="en"><strong>How these numbers are counted:</strong> 32 outputs is what the validator reports on every build, 16 pages listed in the pipeline times two languages. 28 assertions is the count of checks in the validation script, covering language, per URL SEO, structure and writing rules. Zero dependencies is literal: there is no <code>package.json</code> in the repository, the build runs on Node built-ins alone. One file per page is the design of the system, PT and EN live in the same source and split at deploy time.</span>
+    </p>
+  </div>
+
+  <!-- ============ NARRATIVA ============ -->
+  <section class="block reveal">
+    <div class="block-label"><span class="pt">Narrativa</span><span class="en" lang="en">Narrative</span></div>
+    <div class="grid-2">
+      <div class="mini-card">
+        <span class="mini-num">01</span>
+        <div class="mini-title"><span class="pt">Problema</span><span class="en" lang="en">Problem</span></div>
+        <p class="pt">Eu tinha um portfólio para manter em português e inglês. As duas opções óbvias eram ruins. Manter dois arquivos por página significa que uma correção feita num lado esquece o outro, e a divergência aparece meses depois. Adotar um framework de i18n significa carregar build, dependência e atualização de segurança para um site de dez páginas.</p>
+        <p class="en" lang="en">I had a portfolio to maintain in Portuguese and English. The two obvious options were bad. Keeping two files per page means a fix on one side forgets the other, and the drift shows up months later. Adopting an i18n framework means carrying a build, dependencies and security updates for a ten page site.</p>
+      </div>
+      <div class="mini-card">
+        <span class="mini-num">02</span>
+        <div class="mini-title"><span class="pt">Decisão</span><span class="en" lang="en">Decision</span></div>
+        <p class="pt">Um arquivo por página, com os dois idiomas dentro, marcados por classe. No deploy, um script apaga o idioma oposto e escreve duas versões, PT na raiz e EN em <code>/en/</code>, com canonical e hreflang corretos e sitemap bilíngue. Editar é editar um arquivo só, e é impossível corrigir um idioma e esquecer o outro, porque eles estão na mesma linha.</p>
+        <p class="en" lang="en">One file per page, both languages inside, marked by class. At deploy time a script strips the opposite language and writes two versions, PT at the root and EN under <code>/en/</code>, with correct canonical and hreflang and a bilingual sitemap. Editing means editing a single file, and it is impossible to fix one language and forget the other, because they sit on the same line.</p>
+      </div>
+      <div class="mini-card">
+        <span class="mini-num">03</span>
+        <div class="mini-title"><span class="pt">Execução</span><span class="en" lang="en">Execution</span></div>
+        <p class="pt">Junto do separador veio um validador que roda depois do build e reprova o deploy. Ele confere um idioma por URL, canonical, hreflang e og:locale por página, um único <code>h1</code>, ativo compartilhado em caminho absoluto, formulário e currículo na língua certa, sitemap bilíngue. E confere também uma regra minha de escrita: travessão é proibido no site inteiro. Se aparecer um, o build falha.</p>
+        <p class="en" lang="en">Alongside the splitter came a validator that runs after the build and fails the deploy. It checks one language per URL, canonical, hreflang and og:locale per page, a single <code>h1</code>, shared assets on absolute paths, the form and the résumé in the right language, a bilingual sitemap. It also checks a writing rule of mine: em dashes are banned across the site. If one shows up, the build fails.</p>
+      </div>
+      <div class="mini-card">
+        <span class="mini-num">04</span>
+        <div class="mini-title"><span class="pt">Aprendizado</span><span class="en" lang="en">Learning</span></div>
+        <p class="pt">O sistema me pegou. Uma página nova entrou com classe composta, o separador procurava a string exata e não removeu nada, e a versão em português passou a exibir o inglês inteiro. O validador não acusou, porque ele procurava a mesma string exata. Consertei os dois para tratar classe como lista de palavras, que é o que ela sempre foi.</p>
+        <p class="en" lang="en">The system caught me out. A new page came in with a compound class, the splitter was matching an exact string and removed nothing, and the Portuguese version started showing the whole English text. The validator said nothing, because it was matching the same exact string. I fixed both to treat the class as a list of words, which is what it always was.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ INSIGHT ============ -->
+  <div class="insight-box reveal">
+    <p>
+      <span class="pt">Se o teste e o alvo compartilham o mesmo ponto cego, o teste passa e o erro vai ao ar.</span>
+      <span class="en" lang="en">If the test and its target share the same blind spot, the test passes and the bug ships.</span>
+    </p>
+  </div>
+
+  <!-- ============ TIPOGRAFIA ============ -->
+  <section class="block reveal">
+    <div class="block-label"><span class="pt">Auditoria de leitura</span><span class="en" lang="en">Reading audit</span></div>
+    <div class="prose">
+      <p class="pt">A queixa era subjetiva: o texto parecia pequeno. Em vez de aumentar no olho, medi o site inteiro e montei a tabela de tamanhos por papel de texto. O diagnóstico ficou objetivo: o corpo de leitura puro estava correto em 16px, mas o texto argumentativo dos cases, que é onde mora o raciocínio, rodava entre 13,6px e 14,1px. Ele estava tipograficamente tratado como legenda, sendo o conteúdo principal da página.</p>
+      <p class="pt">A correção subiu o texto de leitura para cerca de 15,7px e tirou as notas de fonte e rodapé da faixa de 9,6px, onde estavam, para cerca de 11,5px. O rótulo de campo do formulário, que é instrução funcional e não decoração, saiu de 9,28px.</p>
+      <p class="en" lang="en">The complaint was subjective: the text felt small. Instead of bumping sizes by eye, I measured the whole site and built a table of sizes by text role. The diagnosis became objective: pure reading copy was correct at 16px, but the argumentative text inside the cases, where the reasoning actually lives, was running between 13.6px and 14.1px. It was typographically treated as a caption while being the main content of the page.</p>
+      <p class="en" lang="en">The fix raised reading text to roughly 15.7px and pulled source notes and footers out of the 9.6px range they were in, up to roughly 11.5px. The form field label, which is functional instruction and not decoration, came off 9.28px.</p>
+    </div>
+  </section>
+
+  <!-- ============ COMO FOI FEITO ============ -->
+  <section class="block reveal">
+    <div class="block-label"><span class="pt">Como foi feito</span><span class="en" lang="en">How it was built</span></div>
+    <div class="prose">
+      <p class="pt">HTML, CSS e JavaScript escritos à mão, sem framework, com o CSS e o JS embutidos em cada página. O pipeline é um script de separação de idioma, um de build e um validador, todos em Node puro. Versionamento em Git, publicação automática no Netlify a cada push na branch principal.</p>
+      <p class="pt">A construção foi feita em par com um agente de codificação, o Claude Code, e vale dizer isso com clareza porque é parte do método e não um detalhe. A divisão que funcionou é a mesma que eu defendo em CRM: o modelo lê, propõe e escreve; o código calcula e verifica; a decisão de o que vai ao ar é minha. O validador existe justamente para que essa última parte não dependa de confiança, e sim de checagem.</p>
+      <p class="en" lang="en">HTML, CSS and JavaScript written by hand, no framework, with CSS and JS inlined per page. The pipeline is a language splitter, a build script and a validator, all in plain Node. Version control in Git, automatic publishing on Netlify on every push to the main branch.</p>
+      <p class="en" lang="en">It was built in pair with a coding agent, Claude Code, and that is worth stating plainly because it is part of the method and not a footnote. The division that worked is the one I argue for in CRM: the model reads, proposes and writes; code calculates and verifies; the call on what goes live is mine. The validator exists precisely so that last part does not rest on trust, but on a check.</p>
+    </div>
+  </section>
+
+  <!-- ============ STACK ============ -->
+  <section class="block reveal">
+    <div class="block-label">Stack</div>
+    <ul class="meta-pills">
+      <li>HTML · CSS · JavaScript</li>
+      <li>Node.js</li>
+      <li>Git · GitHub</li>
+      <li>Netlify</li>
+      <li>Claude Code</li>
+      <li><span class="pt">i18n em tempo de build</span><span class="en" lang="en">build time i18n</span></li>
+      <li><span class="pt">CI de conteúdo</span><span class="en" lang="en">content CI</span></li>
+    </ul>
+  </section>
+
+  <nav class="case-nav" aria-label="Navegação entre cases">
+    <a href="case-fenix.html">
+      <span class="case-nav-dir"><span class="pt">Anterior</span><span class="en" lang="en">Previous</span></span>
+      <span class="case-nav-title">CRM Turnaround</span>
+    </a>
+    <a href="portfolio.html">
+      <span class="case-nav-dir"><span class="pt">Todos</span><span class="en" lang="en">All</span></span>
+      <span class="case-nav-title">Portfólio</span>
+    </a>
+  </nav>
+
+</main>
+
+<footer>
+  <div class="footer-name">Danilo Campos Espeleta</div>
+  <div class="footer-info">
+    <span>São Paulo / SP</span>
+    <a href="mailto:daniloespeleta@gmail.com">daniloespeleta@gmail.com</a>
+    <a href="https://www.linkedin.com/in/daniloespeleta" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/daniloespeleta" target="_blank" rel="noopener">GitHub</a>
+    <span>© <span id="year">2026</span></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+/* ---- language (persisted; syncs <html lang>, buttons, CV links) ---- */
+var CV={pt:'CV/DE-Curriculo.pdf',en:'CV/DE-Resume.pdf'};
+var langButtons=document.querySelectorAll('.lang-switch button');
+function setLang(lang){
+  document.body.classList.remove('lang-pt','lang-en');
+  document.body.classList.add('lang-'+lang);
+  document.documentElement.lang=(lang==='en')?'en':'pt-BR';
+  langButtons.forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.lang===lang));});
+  document.querySelectorAll('a.cv-link').forEach(function(a){a.setAttribute('href',CV[lang]);});
+  try{localStorage.setItem('lang',lang);}catch(e){}
+}
+langButtons.forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.lang);});});
+var saved=null;try{saved=localStorage.getItem('lang');}catch(e){}
+if(saved==='en'||saved==='pt')setLang(saved);
+
+/* ---- mobile sidebar ---- */
+var menuBtn=document.querySelector('.menu-btn'),sidebar=document.getElementById('sidebar'),
+    overlay=document.getElementById('sidebarOverlay'),closeBtn=document.querySelector('.sidebar-close');
+function openSb(){sidebar.classList.add('open');overlay.classList.add('open');menuBtn.setAttribute('aria-expanded','true');}
+function closeSb(){sidebar.classList.remove('open');overlay.classList.remove('open');menuBtn.setAttribute('aria-expanded','false');}
+if(menuBtn){
+  menuBtn.addEventListener('click',openSb);
+  closeBtn.addEventListener('click',closeSb);
+  overlay.addEventListener('click',closeSb);
+  sidebar.addEventListener('click',function(e){if(e.target.closest('a'))closeSb();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&sidebar.classList.contains('open')){closeSb();menuBtn.focus();}});
+}
+
+/* ---- reading progress ---- */
+var bar=document.querySelector('.progress');
+if(bar){
+  var onScroll=function(){
+    var h=document.documentElement,max=h.scrollHeight-h.clientHeight;
+    bar.style.width=(max>0?(h.scrollTop/max)*100:0)+'%';
+  };
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+}
+
+/* ---- scroll reveal ---- */
+var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var revealEls=document.querySelectorAll('.reveal');
+if('IntersectionObserver' in window&&!reduce&&revealEls.length){
+  var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});},{threshold:.12});
+  revealEls.forEach(function(el){io.observe(el);});
+}else{revealEls.forEach(function(el){el.classList.add('in');});}
+
+/* ---- animated counters ([data-count]) ---- */
+var counters=document.querySelectorAll('[data-count]');
+function animate(el){
+  var target=parseFloat(el.dataset.count),pre=el.dataset.prefix||'',suf=el.dataset.suffix||'',
+      dec=(el.dataset.count.indexOf('.')>-1)?1:0,start=null,dur=1100;
+  function fmt(v){return pre+v.toFixed(dec).replace('.',document.documentElement.lang==='en'?'.':',')+suf;}
+  if(reduce){el.textContent=fmt(target);return;}
+  function step(ts){if(!start)start=ts;var p=Math.min((ts-start)/dur,1),e=1-Math.pow(1-p,3);
+    el.textContent=fmt(target*e);if(p<1)requestAnimationFrame(step);}
+  requestAnimationFrame(step);
+}
+if('IntersectionObserver' in window&&counters.length){
+  var cio=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){animate(en.target);cio.unobserve(en.target);}});},{threshold:.4});
+  counters.forEach(function(el){cio.observe(el);});
+}else{counters.forEach(animate);}
+
+/* ---- year ---- */
+var y=document.getElementById('year');if(y)y.textContent=new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

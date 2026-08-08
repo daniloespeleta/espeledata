@@ -20,7 +20,7 @@ const out = path.join(root, '_deploy');
 
 const PAGES = [
   'index.html', 'portfolio.html', 'contact.html', 'leea.html', 'notas.html',
-  'case-fenix.html', 'case-abrindo-caminhos.html', 'case-boa-leitura.html',
+  'case-fenix.html', 'case-espeledata.html', 'case-abrindo-caminhos.html', 'case-boa-leitura.html',
   'case-sql-01.html', 'case-sql-02.html', 'case-sql-03.html', 'case-sql-04.html', 'case-sql-05.html',
   '404.html', 'obrigado.html',
 ];
