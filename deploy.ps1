@@ -21,7 +21,7 @@ $out  = Join-Path $root '_deploy'
 if (Test-Path $out) { Remove-Item $out -Recurse -Force }
 New-Item -ItemType Directory $out | Out-Null
 # assets estaticos de raiz (o HTML e o sitemap sao gerados pelo split, nao copiados)
-foreach ($f in 'favicon.svg','robots.txt','og-cover.png','_redirects') {
+foreach ($f in 'favicon.svg','robots.txt','og-cover.png','_redirects','case-leea.html') {
   $p = Join-Path $root $f
   if (Test-Path $p) { Copy-Item $p $out }
 }
