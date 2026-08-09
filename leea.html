@@ -85,7 +85,6 @@ code,.mono{font-family:var(--mono)}
   .nav-right .nav-links,.nav-right .lang-switch{display:none}
   .menu-btn{display:block}
 }
-
 /* ============ LAYOUT ============ */
 main section{max-width:var(--max);margin:0 auto;padding:clamp(3.5rem,8vw,6rem) 1.5rem}
 .divider{height:1px;background:var(--border);max-width:var(--max);margin:0 auto}
@@ -97,9 +96,28 @@ main section{max-width:var(--max);margin:0 auto;padding:clamp(3.5rem,8vw,6rem) 1
 .section-sub p+p{margin-top:.8rem}
 
 /* ============ HERO ============ */
-.leea-hero{position:relative;overflow:hidden;padding-top:clamp(8rem,15vw,10.5rem)!important}
-.hero-grooves{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.7}
-.hero-inner{position:relative;z-index:1;max-width:720px}
+.leea-hero{position:relative;overflow:hidden;padding-top:clamp(8rem,15vw,10.5rem)!important;padding-bottom:clamp(5rem,9vw,8rem)!important}
+.hero-grooves{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.82}
+.hero-grooves .flow{stroke-width:3;stroke-opacity:.9}
+.hero-inner{position:relative;z-index:2;max-width:560px}
+.hero-identity{position:absolute;z-index:1;right:.25rem;top:clamp(8rem,12vw,9rem);width:112px;height:440px;pointer-events:none}
+.hero-identity::before{content:'';position:absolute;top:0;bottom:0;left:50%;width:1px;background:var(--cyan);opacity:.32}
+.hero-logo,.hero-wordmark{position:absolute;display:block;object-fit:contain;filter:invert(72%) sepia(78%) saturate(1280%) hue-rotate(153deg) brightness(103%) contrast(104%)}
+.hero-logo{width:330px;height:210px;left:-109px;top:77px;transform:rotate(90deg)}
+.hero-wordmark{width:104px;height:38px;left:4px;bottom:20px}
+@media(max-width:900px){
+  .leea-hero{padding-top:7rem!important;padding-bottom:4rem!important}
+  .hero-inner{max-width:680px}
+  .hero-identity{position:relative;right:auto;top:auto;width:min(100%,560px);height:340px;margin:3rem auto 0}
+  .hero-identity::before{top:50%;bottom:auto;left:8%;width:84%;height:1px}
+  .hero-logo{width:72%;height:72%;left:5%;top:0;transform:none}
+  .hero-wordmark{width:84%;height:25%;left:9%;bottom:0}
+}
+@media(max-width:520px){
+  .hero-identity{height:285px;margin-top:2rem}
+  .hero-logo{width:78%;height:78%;left:-2%;top:0}
+  .hero-wordmark{width:90%;height:24%;left:5%}
+}
 .leea-hero h1{font-family:var(--cond);font-weight:800;font-size:clamp(2.8rem,7vw,5rem);line-height:.96;text-transform:uppercase}
 .leea-hero h1 .accent{color:var(--cyan)}
 .hero-sub{margin-top:1.5rem;color:var(--gray);max-width:56ch;font-size:1.02rem}
@@ -396,6 +414,7 @@ main section{max-width:var(--max);margin:0 auto;padding:clamp(3.5rem,8vw,6rem) 1
 /* ============ FOOTER ============ */
 footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
 .footer-name{font-family:var(--cond);font-weight:700;font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray)}
+.footer-brand{display:flex;align-items:center;gap:.8rem;color:var(--cyan);font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase}.footer-brand img{display:block;object-fit:contain;filter:invert(72%) sepia(78%) saturate(1280%) hue-rotate(153deg) brightness(103%) contrast(104%)}.footer-brand .footer-logo{width:52px;height:44px}.footer-brand .footer-wordmark{width:112px;height:38px}
 .footer-info{font-family:var(--mono);font-size:.72rem;color:var(--gray2);letter-spacing:.06em;display:flex;flex-wrap:wrap;gap:.4rem 1rem;align-items:center}
 .footer-info a{color:var(--gray);text-decoration:none;transition:color .2s}
 .footer-info a:hover{color:var(--cyan)}
@@ -472,6 +491,10 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
       <path d="M-20,210 C150,190 300,230 620,200" stroke="var(--border)" stroke-width="1.5"/>
       <path d="M-20,260 C150,240 300,280 620,250" stroke="var(--border)" stroke-width="1.5"/>
     </svg>
+    <div class="hero-identity" aria-hidden="true">
+      <img class="hero-logo" src="assets/leea/leea-logo-transparent.png" alt="">
+      <img class="hero-wordmark" src="assets/leea/leea-wordmark-transparent.png" alt="">
+    </div>
     <div class="hero-inner">
       <p class="kicker"><span class="pt">Agência Leea</span><span class="en" lang="en">Leea Agency</span></p>
       <h1 id="hero-title">
@@ -483,8 +506,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
         <p class="en" lang="en">Every company with recurring revenue knows how many customers cancelled last month. Almost none knows in which week each one decided. The monthly number lumps together someone who left on the 2nd with someone who left on the 29th, and someone who complained to support with someone who just went quiet. Leea rebuilds that timeline, customer by customer, and delivers the rule that triggers recovery before the cancellation.</p>
       </div>
       <p class="hero-note">
-        <span class="pt">Feito com SQL sobre o histórico do cliente, agentes de IA orquestrados em <strong>n8n</strong>, e a intervenção disparada no <strong>seu CRM</strong>. O método se chama <strong>Sulco</strong>.</span>
-        <span class="en" lang="en">Built with SQL over customer history, AI agents orchestrated in <strong>n8n</strong>, and the intervention triggered in <strong>your CRM</strong>. The method is called <strong>Sulco</strong>.</span>
+        <span class="pt">Feito com SQL sobre o histórico do cliente, agentes de IA orquestrados em <strong>Make</strong>, e a intervenção disparada no <strong>seu CRM</strong>. O método se chama <strong>Sulco</strong>.</span>
+        <span class="en" lang="en">Built with SQL over customer history, AI agents orchestrated in <strong>Make</strong>, and the intervention triggered in <strong>your CRM</strong>. The method is called <strong>Sulco</strong>.</span>
       </p>
       <div class="hero-cta">
         <a class="btn btn-solid" href="contact.html?leea=1"><span class="pt">Pedir a leitura de transição</span><span class="en" lang="en">Request the transition read</span></a>
@@ -1037,7 +1060,7 @@ ENTAO  disparar('recuperacao_pre_churn')</code></pre>
       <li class="flow-step">
         <span class="fs-num">02</span>
         <div class="fs-body">
-          <span class="fs-tool">n8n</span>
+          <span class="fs-tool">Make</span>
           <h3 class="fs-title"><span class="pt">Agendar e buscar</span><span class="en" lang="en">Schedule and fetch</span></h3>
           <p class="fs-desc">
             <span class="pt">Um gatilho de horário roda toda segunda às 7h, executa a query, e entrega o resultado para o agente. Nenhuma inteligência aqui, só encanamento.</span>
@@ -1373,7 +1396,7 @@ ENTAO  disparar('recuperacao_pre_churn')</code></pre>
 </main>
 
 <footer>
-  <div class="footer-name">Danilo Campos Espeleta</div>
+  <div class="footer-brand"><img class="footer-logo" src="assets/leea/leea-logo-transparent.png" alt=""><img class="footer-wordmark" src="assets/leea/leea-wordmark-transparent.png" alt="Leea"><span>Agência Leea</span></div>
   <div class="footer-info">
     <span>São Paulo / SP</span>
     <a href="mailto:daniloespeleta@gmail.com">daniloespeleta@gmail.com</a>

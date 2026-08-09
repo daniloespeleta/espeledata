@@ -111,6 +111,10 @@ a.card:hover::after{opacity:1;transform:translateX(0)}
 .card-title{font-family:var(--cond);font-weight:700;font-size:1.35rem;text-transform:uppercase;color:var(--white);line-height:1.08;padding-right:1.6rem}
 .card-desc{font-size:.95rem;color:var(--gray);line-height:1.65;flex:1}
 .card-tags{display:flex;flex-wrap:wrap;gap:4px;padding-top:.4rem}
+.leea-card-brand{display:flex;align-items:center;gap:1rem;min-height:72px;padding-bottom:.7rem;border-bottom:1px solid rgba(0,212,255,.18)}
+.leea-card-brand img,.footer-brand img{display:block;object-fit:contain;filter:invert(72%) sepia(78%) saturate(1280%) hue-rotate(153deg) brightness(103%) contrast(104%)}
+.leea-card-logo{width:82px;height:72px}
+.leea-card-wordmark{width:132px;height:48px}
 .card-tag{font-family:var(--mono);font-size:.66rem;color:var(--cyan);border:1px solid rgba(0,212,255,0.22);padding:3px 8px;letter-spacing:.08em;text-transform:uppercase}
 .card-featured{grid-column:1/-1;border-left:3px solid var(--cyan)}
 .card-featured .card-title{font-size:1.8rem}
@@ -120,6 +124,8 @@ a.card:hover::after{opacity:1;transform:translateX(0)}
 
 /* ============ FOOTER ============ */
 footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-brand{display:flex;align-items:center;gap:.7rem;color:var(--cyan);font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase}
+.footer-brand .footer-logo{width:45px;height:40px}.footer-brand .footer-wordmark{width:92px;height:34px}
 .footer-name{font-family:var(--cond);font-weight:700;font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray)}
 .footer-info{font-family:var(--mono);font-size:.72rem;color:var(--gray2);letter-spacing:.06em;display:flex;flex-wrap:wrap;gap:.4rem 1rem;align-items:center}
 .footer-info a{color:var(--gray);text-decoration:none;transition:color .2s}
@@ -191,8 +197,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
 
   <!-- FILTERS -->
   <div class="filters" role="group" aria-label="Filtrar por categoria">
-    <button class="filter-btn" data-filter="all" aria-pressed="true"><span class="pt">Todos</span><span class="en" lang="en">All</span> <span class="count">8</span></button>
-    <button class="filter-btn" data-filter="projeto" aria-pressed="false"><span class="pt">Projetos</span><span class="en" lang="en">Projects</span> <span class="count">1</span></button>
+    <button class="filter-btn" data-filter="all" aria-pressed="true"><span class="pt">Todos</span><span class="en" lang="en">All</span> <span class="count">9</span></button>
+    <button class="filter-btn" data-filter="projeto" aria-pressed="false"><span class="pt">Projetos</span><span class="en" lang="en">Projects</span> <span class="count">2</span></button>
     <button class="filter-btn" data-filter="estrategia" aria-pressed="false"><span class="pt">Estratégia</span><span class="en" lang="en">Strategy</span> <span class="count">2</span></button>
     <button class="filter-btn" data-filter="sql" aria-pressed="false">SQL <span class="count">5</span></button>
   </div>
@@ -227,6 +233,18 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
           <span class="card-tag">Claude Code</span>
           <span class="card-tag">i18n</span>
         </span>
+      </a>
+
+      <!-- PROJETO · LEEA -->
+      <a href="case-leea.html" class="card" data-cat="projeto">
+        <span class="leea-card-brand" aria-label="Identidade visual Leea">
+          <img class="leea-card-logo" src="assets/leea/leea-logo-transparent.png" alt="">
+          <img class="leea-card-wordmark" src="assets/leea/leea-wordmark-transparent.png" alt="Leea">
+        </span>
+        <span class="card-num"><span class="pt">Projeto 03 · Leea</span><span class="en" lang="en">Project 03 · Leea</span></span>
+        <span class="card-title"><span class="pt">Arquitetura agêntica para retenção</span><span class="en" lang="en">Agentic architecture for retention</span></span>
+        <span class="card-desc"><span class="pt">Projeto autoral que cruza IA generativa, CRM, lifecycle, codificação e construção agêntica para transformar eventos, linguagem e comportamento em decisões de retenção calibradas.</span><span class="en" lang="en">An authorial project combining generative AI, CRM, lifecycle, coding and agentic construction to turn events, language and behavior into calibrated retention decisions.</span></span>
+        <span class="card-tags"><span class="card-tag">IA generativa</span><span class="card-tag">Agentes</span><span class="card-tag">Make</span><span class="card-tag">CRM / Lifecycle</span></span>
       </a>
 
       <!-- ESTRATÉGIA -->
@@ -294,7 +312,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
 </main>
 
 <footer>
-  <div class="footer-name">Danilo Campos Espeleta</div>
+  <div class="footer-brand"><img class="footer-logo" src="assets/leea/leea-logo-transparent.png" alt=""><img class="footer-wordmark" src="assets/leea/leea-wordmark-transparent.png" alt="Leea"><span>Projeto autoral</span></div>
   <div class="footer-info">
     <span>São Paulo / SP</span>
     <a href="mailto:daniloespeleta@gmail.com">daniloespeleta@gmail.com</a>
