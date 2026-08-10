@@ -2,31 +2,30 @@ $ErrorActionPreference = 'Stop'
 
 $siteRoot = Split-Path -Parent $PSScriptRoot
 
-$expected = @{
+$expected= @{
   'index.html' = @{
-    desktop = @('#sobre', 'leea.html', '#trajetoria', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
-    mobile  = @('#sobre', 'leea.html', '#trajetoria', '#cases', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+    desktop = @('#sobre', 'leea', '#trajetoria', 'portfolio', 'notas', 'contact', 'CV/DE-Curriculo.pdf')
+    mobile  = @('#sobre', 'leea', '#trajetoria', '#cases', 'portfolio', 'notas', 'contact', 'CV/DE-Curriculo.pdf')
   }
   'portfolio.html' = @{
-    desktop = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
-    mobile  = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+    desktop = @('/', '/#sobre', 'portfolio', 'notas', 'contact', 'CV/DE-Curriculo.pdf')
+    mobile  = @('/', '/#sobre', 'portfolio', 'notas', 'contact', 'CV/DE-Curriculo.pdf')
   }
   'leea.html' = @{
-    desktop = @('index.html', 'index.html#sobre', 'portfolio.html', 'leea.html', 'notas.html', 'contact.html?leea=1')
-    mobile  = @('index.html', 'index.html#sobre', 'portfolio.html', 'leea.html', 'notas.html', 'contact.html?leea=1')
+    desktop = @('/', '/#sobre', 'portfolio', 'leea', 'notas', 'contact?leea=1')
+    mobile  = @('/', '/#sobre', 'portfolio', 'leea', 'notas', 'contact?leea=1')
   }
   'notas.html' = @{
-    desktop = @('index.html', 'index.html#sobre', 'leea.html', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
-    mobile  = @('index.html', 'index.html#sobre', 'leea.html', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+    desktop = @('/', '/#sobre', 'leea', 'portfolio', 'notas', 'contact', 'CV/DE-Curriculo.pdf')
+    mobile  = @('/', '/#sobre', 'leea', 'portfolio', 'notas', 'contact', 'CV/DE-Curriculo.pdf')
   }
   'contact.html' = @{
-    desktop = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
-    mobile  = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+    desktop = @('/', '/#sobre', 'portfolio', 'notas', 'contact', 'CV/DE-Curriculo.pdf')
+    mobile  = @('/', '/#sobre', 'portfolio', 'notas', 'contact', 'CV/DE-Curriculo.pdf')
   }
   'case-leea.html' = @{
-    desktop = @('index.html', 'portfolio.html', 'leea.html', 'contact.html')
-    mobile  = $null
-  }
+    desktop = @('/', 'portfolio', 'leea', 'contact')
+    mobile  =   }
 }
 
 function Compare-LinkSequence {
