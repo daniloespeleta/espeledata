@@ -255,7 +255,7 @@ function appendToggleSupport(h) {
 
 /* ---- build one language output for one page ---- */
 function build(file, src, lang) {
-  const ptPath = file === 'index.html' ? '' : file;
+  const ptPath = file === 'index.html' ? '' : file.replace(/.html$/, '').replace(/.html$/, '');
   const ptUrl = '/' + ptPath;                 // '/', '/portfolio.html', ...
   const enUrl = '/en/' + ptPath;              // '/en/', '/en/portfolio.html', ...
 
@@ -276,13 +276,13 @@ function build(file, src, lang) {
     // nav/sidebar résumé link -> EN PDF (the CV section keeps both cards)
     h = h.replace(/class="cv-link" href="\/CV\/DE-Curriculo\.pdf"/g, 'class="cv-link" href="/CV/DE-Resume.pdf"');
     // contact form success page -> EN
-    h = h.replace(/action="\/obrigado\.html"/g, 'action="/en/obrigado.html"');
+    h = h.split('action="/obrigado"').join('action="/en/obrigado"');
     // index JSON-LD url -> EN
     if (file === 'index.html') h = h.replace(/"url": "https:\/\/espeledata\.com\/"/, '"url": "https://espeledata.com/en/"');
     // 404 / obrigado use absolute internal links -> keep them inside /en/
     if (file === '404.html' || file === 'obrigado.html') {
       h = h.replace(/href="\/"/g, 'href="/en/"');
-      h = h.replace(/href="\/([a-z0-9-]+\.html)"/g, 'href="/en/$1"');
+      h = h.replace(/href="\/([a-z0-9-]+)"/g, 'href="/en/$1"');
     }
   }
 
@@ -295,7 +295,7 @@ function buildSitemap(lastmod) {
   const rows = [];
   for (const file of PAGES) {
     if (!INDEXABLE.has(file)) continue;
-    const ptPath = file === 'index.html' ? '' : file;
+    const ptPath = file === 'index.html' ? '' : file.replace(/.html$/, '').replace(/.html$/, '');
     const ptUrl = SITE + '/' + ptPath;
     const enUrl = SITE + '/en/' + ptPath;
     for (const loc of [ptUrl, enUrl]) {

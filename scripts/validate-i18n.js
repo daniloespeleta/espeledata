@@ -46,7 +46,7 @@ for (const file of PAGES) {
     const h = fs.readFileSync(p, 'utf8');
     checked++;
 
-    const ptPath = file === 'index.html' ? '' : file;
+    const ptPath = file === 'index.html' ? '' : file.replace(/.html$/, '');
     const selfUrl = SITE + '/' + (lang === 'en' ? 'en/' : '') + ptPath;
 
     // one language in the DOM. Token-aware: catches class="en" AND compound
@@ -97,8 +97,8 @@ for (const file of PAGES) {
     }
 
     // per-language details
-    if (lang === 'en' && file === 'contact.html') ok(h.includes('action="/en/obrigado.html"'), `${tag} contact form action not EN`);
-    if (lang === 'pt' && file === 'contact.html') ok(h.includes('action="/obrigado.html"'), `${tag} contact form action not PT`);
+    if (lang === 'en' && file === 'contact.html') ok(h.includes('action="/en/obrigado"'), `${tag} contact form action not EN`);
+    if (lang === 'pt' && file === 'contact.html') ok(h.includes('action="/obrigado"'), `${tag} contact form action not PT`);
 
     // nested-span integrity (balanced remover) on the hero
     if (file === 'index.html' && lang === 'pt') ok(h.includes('<span class="accent">A jornada nasce daí.</span>'), `${tag} PT hero accent span corrupted`);

@@ -10,7 +10,7 @@
 # (O restante cai no /404.html PT, 404 global padrao.)
 [[redirects]]
   from = "/en/*"
-  to = "/en/404.html"
+  to = "/en/404"
   status = 404
 
 [[headers]]
