@@ -35,8 +35,8 @@ const INDEXABLE = new Set([
    string, so SVG <title> elements and body copy are never touched. Dash-free. */
 const EN_META = {
   'index.html': [
-    ["Danilo Espeleta, CRM &amp; Lifecycle Marketing em São Paulo. 8+ anos transformando dados em relacionamento e relacionamento em receita: jornadas, automação multicanal, segmentação e análise.",
-     "Danilo Espeleta, CRM &amp; Lifecycle Marketing in São Paulo. 8+ years turning data into relationships and relationships into revenue: journeys, multichannel automation, segmentation and analysis."],
+    ["Danilo Espeleta, CRM &amp; Lifecycle Marketing em São Paulo. 8+ anos transformando dados em relacionamento e relacionamento em receita: jornadas, automação multicanal, segmentação e an[...]
+     "Danilo Espeleta, CRM &amp; Lifecycle Marketing in São Paulo. 8+ years turning data into relationships and relationships into revenue: journeys, multichannel automation, segmentation and ana[...]
     ["Estratégia de CRM, automação e ciclo de vida: cases reais e conceituais de segmentação, jornada e captação.",
      "CRM strategy, automation and lifecycle: real and conceptual cases of segmentation, journey and fundraising."],
   ],
@@ -261,20 +261,20 @@ function absolutizeAssets(h) {
 function appendToggleSupport(h) {
   if (!/class="lang-alt"/.test(h)) return h;
   const css =
-    '\n.lang-switch a{background:none;color:var(--gray);cursor:pointer;font-family:var(--mono);font-size:.65rem;font-weight:500;letter-spacing:.1em;padding:.4rem .7rem;text-decoration:none;display:inline-block}' +
+    '\n.lang-switch a{background:none;color:var(--gray);cursor:pointer;font-family:var(--mono);font-size:.65rem;font-weight:500;letter-spacing:.1em;padding:.4rem .7rem;text-decoration:none;displa[...]
     '\n.lang-switch a+a{border-left:1px solid var(--border)}' +
     '\n.lang-switch a[aria-current="true"]{background:var(--cyan);color:#00232b}\n';
   h = h.replace(/<\/style>/, css + '</style>');
-  const js = '\n<script>document.querySelectorAll("a.lang-alt").forEach(function(a){a.addEventListener("click",function(){if(location.hash)a.setAttribute("href",a.getAttribute("data-base")+location.hash)})});<\/script>';
+  const js = '\n<script>document.querySelectorAll("a.lang-alt").forEach(function(a){a.addEventListener("click",function(){if(location.hash)a.setAttribute("href",a.getAttribute("data-base")+locati[...]
   h = h.replace(/<\/body>/, js + '</body>');
   return h;
 }
 
 /* ---- build one language output for one page ---- */
 function build(file, src, lang) {
-  const ptPath = file === 'index.html' ? '' : file;
-  const ptUrl = '/' + ptPath;                 // '/', '/portfolio.html', ...
-  const enUrl = '/en/' + ptPath;              // '/en/', '/en/portfolio.html', ...
+  const ptPath = file === 'index.html' ? '' : file.replace(/\.html$/, '');
+  const ptUrl = '/' + ptPath;                 // '/', '/portfolio', ...
+  const enUrl = '/en/' + ptPath;              // '/en/', '/en/portfolio', ...
 
   let h = removeLangElements(src, lang === 'pt' ? 'en' : 'pt');
   h = h.replace(/<html lang="[^"]*"/, `<html lang="${lang === 'pt' ? 'pt-BR' : 'en'}"`);
@@ -293,7 +293,7 @@ function build(file, src, lang) {
     // nav/sidebar résumé link -> EN PDF (the CV section keeps both cards)
     h = h.replace(/class="cv-link" href="\/CV\/DE-Curriculo\.pdf"/g, 'class="cv-link" href="/CV/DE-Resume.pdf"');
     // contact form success page -> EN
-    h = h.replace(/action="\/obrigado\.html"/g, 'action="/en/obrigado.html"');
+    h = h.replace(/action="\/obrigado\.html"/g, 'action="/en/obrigado"');
     // index JSON-LD url -> EN
     if (file === 'index.html') h = h.replace(/"url": "https:\/\/espeledata\.com\/"/, '"url": "https://espeledata.com/en/"');
     // 404 / obrigado use absolute internal links -> keep them inside /en/
@@ -312,7 +312,7 @@ function buildSitemap(lastmod) {
   const rows = [];
   for (const file of PAGES) {
     if (!INDEXABLE.has(file)) continue;
-    const ptPath = file === 'index.html' ? '' : file;
+    const ptPath = file === 'index.html' ? '' : file.replace(/\.html$/, '');
     const ptUrl = SITE + '/' + ptPath;
     const enUrl = SITE + '/en/' + ptPath;
     for (const loc of [ptUrl, enUrl]) {
