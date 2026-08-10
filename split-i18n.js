@@ -36,7 +36,7 @@ const INDEXABLE = new Set([
 const EN_META = {
   'index.html': [
     ["Danilo Espeleta, CRM &amp; Lifecycle Marketing em São Paulo. 8+ anos transformando dados em relacionamento e relacionamento em receita: jornadas, automação multicanal, segmentação e análise.",
-     "Danilo Espeleta, CRM &amp; Lifecycle Marketing in São Paulo. 8+ years turning data into relationships and relationships into revenue: journeys, multichannel automation, segmentation and analytics."],
+     "Danilo Espeleta, CRM &amp; Lifecycle Marketing in São Paulo. 8+ years turning data into relationships and relationships into revenue: journeys, multichannel automation, segmentation and analysis."],
     ["Estratégia de CRM, automação e ciclo de vida: cases reais e conceituais de segmentação, jornada e captação.",
      "CRM strategy, automation and lifecycle: real and conceptual cases of segmentation, journey and fundraising."],
   ],
@@ -209,7 +209,15 @@ function normalizeHead(h, { lang, ptUrl, enUrl }) {
     `<link rel="alternate" hreflang="x-default" href="${SITE}${ptUrl}">\n` +
     `<meta property="og:url" content="${selfUrl}">\n` +
     `<meta property="og:locale" content="${lang === 'pt' ? 'pt_BR' : 'en_US'}">`;
-  h = h.replace(/(<meta name="theme-color"[^>]*>)/, `$1\n${block}`);
+  
+  // Try to insert after theme-color meta tag first
+  if (/(<meta name="theme-color"[^>]*>)/.test(h)) {
+    h = h.replace(/(<meta name="theme-color"[^>]*>)/, `$1\n${block}`);
+  } else {
+    // Fallback: insert before </head> if theme-color doesn't exist
+    h = h.replace(/(<\/head>)/, `${block}\n$1`);
+  }
+  
   if (!/property="og:image"/.test(h)) {
     const img =
       `<meta property="og:image" content="${SITE}/og-cover.png">\n` +
@@ -253,11 +261,11 @@ function absolutizeAssets(h) {
 function appendToggleSupport(h) {
   if (!/class="lang-alt"/.test(h)) return h;
   const css =
-    '\n.lang-switch a{background:none;color:var(--gray);cursor:pointer;font-family:var(--mono);font-size:.65rem;font-weight:500;letter-spacing:.1em;padding:.4rem .7rem;text-decoration:none;display:flex;align-items:center}' +
+    '\n.lang-switch a{background:none;color:var(--gray);cursor:pointer;font-family:var(--mono);font-size:.65rem;font-weight:500;letter-spacing:.1em;padding:.4rem .7rem;text-decoration:none;display:inline-block}' +
     '\n.lang-switch a+a{border-left:1px solid var(--border)}' +
     '\n.lang-switch a[aria-current="true"]{background:var(--cyan);color:#00232b}\n';
   h = h.replace(/<\/style>/, css + '</style>');
-  const js = '\n<script>document.querySelectorAll("a.lang-alt").forEach(function(a){a.addEventListener("click",function(){if(location.hash)a.setAttribute("href",a.getAttribute("data-base")+location.hash);});});</script>\n';
+  const js = '\n<script>document.querySelectorAll("a.lang-alt").forEach(function(a){a.addEventListener("click",function(){if(location.hash)a.setAttribute("href",a.getAttribute("data-base")+location.hash)})});<\/script>';
   h = h.replace(/<\/body>/, js + '</body>');
   return h;
 }
