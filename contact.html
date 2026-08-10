@@ -66,8 +66,8 @@ a{color:var(--cyan)}
 .menu-btn:hover{border-color:var(--cyan);color:var(--cyan)}
 .sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:260;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
 .sidebar-overlay.open{opacity:1;visibility:visible}
-.sidebar{position:fixed;top:0;right:-290px;width:290px;height:100vh;background:var(--bg2);border-left:1px solid var(--border);z-index:270;transition:right .28s;padding:4.5rem 2rem 2rem;display:flex;flex-direction:column;overflow-y:auto}
-.sidebar.open{right:0}
+.sidebar{position:fixed;top:0;right:-290px;width:290px;height:100vh;background:var(--bg2);border-left:1px solid var(--border);z-index:270;visibility:hidden;transition:right .28s,visibility 0s linear .28s;padding:4.5rem 2rem 2rem;display:flex;flex-direction:column;overflow-y:auto}
+.sidebar.open{right:0;visibility:visible;transition-delay:0s}
 .sidebar-close{position:absolute;top:1.1rem;right:1.1rem;background:none;border:1px solid var(--border);color:var(--gray);font-size:1rem;line-height:1;cursor:pointer;font-family:var(--mono);padding:.4rem .6rem}
 .sidebar-close:hover{color:var(--cyan);border-color:var(--cyan)}
 .sidebar a{font-family:var(--mono);font-size:.78rem;color:var(--gray);text-decoration:none;letter-spacing:.12em;text-transform:uppercase;padding:1rem 0;border-bottom:1px solid var(--border);transition:color .2s;display:block}
@@ -111,13 +111,17 @@ a{color:var(--cyan)}
 .contact-form{display:flex;flex-direction:column}
 .field-group{margin-bottom:1px}
 .field-group label{font-family:var(--mono);font-size:.72rem;color:var(--cyan);letter-spacing:.12em;text-transform:uppercase;display:block;padding:.7rem 1.25rem 0;background:var(--bg2);border:1px solid var(--border);border-bottom:none}
-.field-group input,.field-group textarea{width:100%;background:var(--bg2);border:1px solid var(--border);border-top:none;color:var(--white);font-family:var(--sans);font-size:.92rem;font-weight:300;padding:.7rem 1.25rem 1rem;outline:none;resize:vertical;transition:border-color .2s,background .2s}
-.field-group input:focus,.field-group textarea:focus{border-color:var(--cyan);background:var(--bg3)}
+.field-group input,.field-group textarea,.field-group select{width:100%;background:var(--bg2);border:1px solid var(--border);border-top:none;color:var(--white);font-family:var(--sans);font-size:.92rem;font-weight:300;padding:.7rem 1.25rem 1rem;outline:none;resize:vertical;transition:border-color .2s,background .2s}
+.field-group input:focus,.field-group textarea:focus,.field-group select:focus{border-color:var(--cyan);background:var(--bg3)}
 .field-group textarea{min-height:150px;line-height:1.7}
 .submit-btn{width:100%;margin-top:1.5rem;background:var(--cyan);color:#00232b;font-family:var(--cond);font-weight:700;font-size:1rem;letter-spacing:.2em;text-transform:uppercase;border:1px solid var(--cyan);padding:1.05rem 2rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.6rem}
 .submit-btn::after{content:'→';font-size:1.05rem}
 .submit-btn:hover{background:#33ddff;border-color:#33ddff}
 .form-note{font-family:var(--mono);font-size:.6rem;color:var(--gray2);letter-spacing:.06em;margin-top:.9rem}
+.leea-fields[hidden]{display:none}.leea-fields{display:flex;flex-direction:column;gap:1.4rem}
+.form-status{margin-top:1rem;padding:1rem 1.1rem;border:1px solid var(--border);color:var(--gray);font-size:.92rem}
+.form-status:empty{display:none}.form-status.is-error{display:block;border-color:rgba(255,90,71,.55);color:var(--white);background:rgba(255,90,71,.06)}
+.submit-btn[disabled]{opacity:.55;cursor:wait}
 .hp-field{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden}
 
 /* ============ FOOTER ============ */
@@ -135,17 +139,17 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
 
 <!-- ============ NAV ============ -->
 <nav class="site-nav" aria-label="Principal">
-  <a class="brand" href="/">
+  <a class="brand" href="index.html">
     <span class="brand-name">Danilo Espeleta</span>
     <span class="brand-role">CRM &amp; Lifecycle Marketing</span>
   </a>
   <div class="nav-right">
     <div class="nav-links">
-      <a href="/"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
-      <a href="/#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
-      <a href="portfolio"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
-      <a href="notas"><span class="pt">Notas</span><span class="en" lang="en">Notes</span></a>
-      <a href="contact" aria-current="page"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
+      <a href="index.html"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
+      <a href="index.html#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
+      <a href="portfolio.html"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
+      <a href="notas.html"><span class="pt">Notas</span><span class="en" lang="en">Notes</span></a>
+      <a href="contact.html" aria-current="page"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
       <a class="cv-link" href="CV/DE-Curriculo.pdf" download><span class="pt">Currículo ↓</span><span class="en" lang="en">Resume ↓</span></a>
     </div>
     <div class="lang-switch" role="group" aria-label="Idioma / Language">
@@ -159,11 +163,11 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 <div class="sidebar" id="sidebar" aria-label="Menu">
   <button class="sidebar-close" aria-label="Fechar menu">✕</button>
-  <a href="/"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
-  <a href="/#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
-  <a href="portfolio"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
-  <a href="notas"><span class="pt">Notas</span><span class="en" lang="en">Notes</span></a>
-  <a href="contact" aria-current="page"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
+  <a href="index.html"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
+  <a href="index.html#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
+  <a href="portfolio.html"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
+  <a href="notas.html"><span class="pt">Notas</span><span class="en" lang="en">Notes</span></a>
+  <a href="contact.html" aria-current="page"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
   <a class="cv-link" href="CV/DE-Curriculo.pdf" download><span class="pt">Currículo ↓</span><span class="en" lang="en">Resume ↓</span></a>
   <div class="lang-switch" role="group" aria-label="Idioma / Language">
     <button type="button" data-lang="pt" aria-pressed="true">PT</button>
@@ -205,16 +209,18 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
       </div>
       <div class="contact-copy variant-leea" id="contactVariantLeea" hidden>
         <h2 class="contact-heading">
-          <span class="pt">Peça sua<br><span class="accent">Leitura</span></span>
-          <span class="en" lang="en">Request your<br><span class="accent">Reading</span></span>
+          <span class="pt">Mapeie uma<br><span class="accent">Transição</span></span>
+          <span class="en" lang="en">Map a<br><span class="accent">Transition</span></span>
         </h2>
         <p class="contact-desc">
-          <span class="pt">A Leea lê como sua marca perde e recupera cliente ao longo do tempo. Escreva com o contexto da transição que você quer entender e eu te respondo com os próximos passos.</span>
-          <span class="en" lang="en">Leea reads how your brand loses and recovers customers over time. Write with the context of the transition you want to understand and I will reply with next steps.</span>
+          <span class="pt">Conte qual jornada está em jogo, o que mudou e quais dados já existem. Danilo responde se o Diagnóstico de Transição de Lifecycle cabe no escopo.</span>
+          <span class="en" lang="en">Describe the journey at stake, what changed and which data already exists. Danilo will respond if the Lifecycle Transition Diagnostic fits the scope.</span>
         </p>
       </div>
       <script>
-        if(location.search.indexOf('leea=1')!==-1){
+        window.LEEA_CONTACT=location.search.indexOf('leea=1')!==-1;
+        if(window.LEEA_CONTACT){
+          document.body.classList.add('is-leea-contact');
           var cd=document.getElementById('contactVariantDefault'),cl=document.getElementById('contactVariantLeea');
           if(cd)cd.hidden=true;
           if(cl)cl.hidden=false;
@@ -246,8 +252,16 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
     <div class="contact-form-wrap">
       <p class="section-label"><span class="pt">Ou me escreva aqui</span><span class="en" lang="en">Or message me here</span></p>
 
-      <form class="contact-form" id="contactForm" name="contato" method="POST" action="/obrigado" data-netlify="true" netlify-honeypot="bot-field">
+      <form class="contact-form" id="contactForm" name="contato" method="POST" action="/obrigado.html" data-netlify="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="contato">
+        <input type="hidden" name="intent" id="leea-intent" value="leea_diagnostic" disabled>
+        <input type="hidden" name="offer_id" id="leea-offer-id" value="lifecycle_transition_diagnostic" disabled>
+        <input type="hidden" name="form_version" id="leea-form-version" value="leea_contact_v1" disabled>
+        <input type="hidden" name="source_page" id="leea-source-page" value="leea" disabled>
+        <input type="hidden" name="page_version" id="leea-page-version" value="leea_v1_veredito" disabled>
+        <input type="hidden" name="utm_source" id="leea-utm-source" disabled>
+        <input type="hidden" name="utm_medium" id="leea-utm-medium" disabled>
+        <input type="hidden" name="utm_campaign" id="leea-utm-campaign" disabled>
         <p class="hp-field" aria-hidden="true">
           <label>Não preencha este campo: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
         </p>
@@ -264,16 +278,46 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
           <input type="text" id="field-company" name="company" autocomplete="organization">
         </div>
         <div class="field-group">
-          <label for="field-message"><span class="pt">Mensagem *</span><span class="en" lang="en">Message *</span></label>
+          <label for="field-message">
+            <span class="variant-default"><span class="pt">Mensagem *</span><span class="en" lang="en">Message *</span></span>
+            <span class="variant-leea" hidden><span class="pt">Qual jornada está em jogo, o que mudou e quando vocês perceberam? *</span><span class="en" lang="en">Which journey is at stake, what changed and when did you notice it? *</span></span>
+          </label>
           <textarea id="field-message" name="message" required></textarea>
+        </div>
+        <div class="leea-fields" id="leeaFields" hidden>
+          <div class="field-group">
+            <label for="field-data-readiness"><span class="pt">Prontidão dos dados *</span><span class="en" lang="en">Data readiness *</span></label>
+            <select id="field-data-readiness" name="data_readiness" disabled>
+              <option value="">Selecione</option>
+              <option value="crm_history_timestamps">CRM ativo com histórico e timestamps</option>
+              <option value="crm_incomplete_timestamps">CRM ativo com timestamps incompletos</option>
+              <option value="unknown">Ainda não sei</option>
+              <option value="no_usable_history">Sem CRM ou histórico utilizável</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="field-decision-role"><span class="pt">Seu papel na decisão *</span><span class="en" lang="en">Your role in the decision *</span></label>
+            <select id="field-decision-role" name="decision_role" disabled>
+              <option value="">Selecione</option>
+              <option value="decision_owner">Sou responsável ou sponsor</option>
+              <option value="crm_operator">Opero o CRM</option>
+              <option value="data_owner">Sou owner de dados</option>
+              <option value="other">Outro papel</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="field-timestamp-context"><span class="pt">Como o tempo aparece nos dados? (opcional)</span><span class="en" lang="en">How does time appear in the data? (optional)</span></label>
+            <input type="text" id="field-timestamp-context" name="timestamp_context" disabled>
+          </div>
         </div>
         <button type="submit" class="submit-btn">
           <span class="pt">Enviar</span><span class="en" lang="en">Send</span>
         </button>
         <p class="form-note">
-          <span class="pt">Sua mensagem chega direto para mim, sem precisar abrir o e-mail.</span>
-          <span class="en" lang="en">Your message reaches me directly, no email app needed.</span>
+          <span class="variant-default"><span class="pt">Sua mensagem chega direto para mim, sem precisar abrir o e-mail.</span><span class="en" lang="en">Your message reaches me directly, no email app needed.</span></span>
+          <span class="variant-leea" hidden><span class="pt">Envie apenas o contexto da jornada. Não inclua PII, base de clientes, credenciais ou dados sensíveis. Este contato verifica aderência, não confirma contratação, prazo ou disponibilidade.</span><span class="en" lang="en">Send only the journey context. Do not include PII, customer data, credentials or sensitive data. This contact checks fit and does not confirm hiring, timing or availability.</span></span>
         </p>
+        <div class="form-status" id="formStatus" role="status" aria-live="polite" tabindex="-1"></div>
       </form>
     </div>
 
@@ -303,11 +347,53 @@ function setLang(lang){
   document.documentElement.lang=(lang==='en')?'en':'pt-BR';
   langButtons.forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.lang===lang));});
   document.querySelectorAll('a.cv-link').forEach(function(a){a.setAttribute('href',CV[lang]);});
+  if(window.LEEA_CONTACT)updateLeeaAction();
   try{localStorage.setItem('lang',lang);}catch(e){}
 }
 langButtons.forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.lang);});});
 var saved=null;try{saved=localStorage.getItem('lang');}catch(e){}
 if(saved==='en'||saved==='pt')setLang(saved);
+
+/* ---- Leea contact variant and measurement ---- */
+function leeaLang(){return document.body.classList.contains('lang-en')?'en':'pt-BR';}
+function track(name,params){if(typeof window.gtag==='function')window.gtag('event',name,params||{});}
+function updateLeeaAction(){
+  var form=document.getElementById('contactForm');if(!form)return;
+  form.action=(leeaLang()==='en'?'/en/obrigado.html':'/obrigado.html')+'?leea=1';
+}
+if(window.LEEA_CONTACT){
+  var form=document.getElementById('contactForm'),fields=document.getElementById('leeaFields'),status=document.getElementById('formStatus'),submit=form.querySelector('.submit-btn');
+  document.querySelectorAll('.variant-default').forEach(function(el){el.hidden=true;});
+  document.querySelectorAll('.variant-leea').forEach(function(el){el.hidden=false;});
+  fields.hidden=false;
+  fields.querySelectorAll('input,select').forEach(function(el){el.disabled=false;});
+  document.getElementById('field-data-readiness').required=true;
+  document.getElementById('field-decision-role').required=true;
+  ['leea-intent','leea-offer-id','leea-form-version','leea-source-page','leea-page-version','leea-utm-source','leea-utm-medium','leea-utm-campaign'].forEach(function(id){var el=document.getElementById(id);if(el)el.disabled=false;});
+  try{
+    var attribution=JSON.parse(sessionStorage.getItem('leea_attribution')||'{}');
+    var contactQuery=new URLSearchParams(location.search);
+    ['utm_source','utm_medium','utm_campaign'].forEach(function(key){var current=contactQuery.get(key);if(current)attribution[key]=String(current).slice(0,80).replace(/[^a-zA-Z0-9._-]/g,'_');});
+    ['utm_source','utm_medium','utm_campaign'].forEach(function(key){var el=document.getElementById('leea-'+key.replace('_','-'));if(el&&attribution[key])el.value=String(attribution[key]).slice(0,80);});
+  }catch(e){}
+  updateLeeaAction();
+  var started=false;
+  form.addEventListener('input',function(event){if(started||event.target.name==='bot-field')return;started=true;track('start_leea_contact',{source_page:'leea',offer_id:'lifecycle_transition_diagnostic',form_version:'leea_contact_v1',language:leeaLang()});});
+  document.querySelectorAll('a[href*="linkedin.com"]').forEach(function(link){link.addEventListener('click',function(){track('click_leea_linkedin',{source_page:'contact',source_component:'contact_links',language:leeaLang()});});});
+  form.addEventListener('submit',function(event){
+    if(!form.checkValidity()||!window.fetch||!window.FormData||!window.URLSearchParams)return;
+    event.preventDefault();
+    status.classList.remove('is-error');status.setAttribute('role','status');status.setAttribute('aria-live','polite');status.textContent='';
+    submit.disabled=true;
+    track('submit_leea_contact',{source_page:'leea',offer_id:'lifecycle_transition_diagnostic',form_version:'leea_contact_v1',language:leeaLang()});
+    var controller='AbortController' in window?new AbortController():null;
+    var timer=controller?setTimeout(function(){controller.abort();},12000):null;
+    fetch(form.action,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(form)).toString(),signal:controller?controller.signal:undefined})
+      .then(function(response){if(!response.ok)throw new Error('http_'+response.status);try{sessionStorage.setItem('leea_contact_success','1');}catch(e){}location.assign(form.action);})
+      .catch(function(error){var type=error&&error.name==='AbortError'?'timeout':String(error&&error.message||'network_error').slice(0,32);track('error_leea_contact',{error_type:type,offer_id:'lifecycle_transition_diagnostic',form_version:'leea_contact_v1',language:leeaLang()});status.classList.add('is-error');status.setAttribute('role','alert');status.setAttribute('aria-live','assertive');status.innerHTML=leeaLang()==='en'?'Your message could not be sent. Your data is still in the form. Try again or email <a href="mailto:daniloespeleta@gmail.com">daniloespeleta@gmail.com</a>.':'Não foi possível enviar agora. Seus dados continuam no formulário. Tente novamente ou escreva para <a href="mailto:daniloespeleta@gmail.com">daniloespeleta@gmail.com</a>.';submit.disabled=false;status.focus();})
+      .finally(function(){if(timer)clearTimeout(timer);});
+  });
+}
 
 /* ---- mobile sidebar ---- */
 var menuBtn=document.querySelector('.menu-btn'),sidebar=document.getElementById('sidebar'),
@@ -324,8 +410,5 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'&&sidebar.cla
 var y=document.getElementById('year');if(y)y.textContent=new Date().getFullYear();
 })();
 </script>
-<!-- Start of HubSpot Embed Code -->
-  <script type="text/javascript" id="hs-script-loader" async defer src="//js-na1.hs-scripts.com/51843147.js"></script>
-<!-- End of HubSpot Embed Code -->
 </body>
 </html>

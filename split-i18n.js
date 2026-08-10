@@ -55,11 +55,10 @@ const EN_META = {
      "Get in touch with Danilo Espeleta, CRM &amp; Lifecycle Marketing in São Paulo."],
   ],
   'leea.html': [
-    ["Agência Leea · Danilo Espeleta", "Leea Agency · Danilo Espeleta"],
-    ["Leea: agência de linguagem, jornada e retenção. Metodologia Sulco para ler trajetória de cliente e transformar sinal em intervenção de CRM testável.",
-     "Leea: a language, journey and retention agency. The Sulco method reads customer trajectory and turns signal into a testable CRM intervention."],
-    ["Linguagem, jornada e retenção. O sentido tem duração: metodologia Sulco para ler trajetória de cliente e transformar sinal em intervenção de CRM testável.",
-     "Language, journey and retention. Meaning has duration: the Sulco method reads customer trajectory and turns signal into a testable CRM intervention."],
+    ["Leea · IA aplicada a CRM e Lifecycle | Danilo Espeleta", "Leea · AI applied to CRM and Lifecycle | Danilo Espeleta"],
+    ["Prática autoral de Danilo Espeleta para diagnosticar uma transição de CRM e Lifecycle, organizar evidências e especificar como medir a próxima decisão.",
+     "Danilo Espeleta's author-led practice for diagnosing a CRM and Lifecycle transition, organizing evidence and specifying how to measure the next decision."],
+    ["Leea · Prática de IA aplicada a CRM e Lifecycle", "Leea · Author-led applied AI practice for CRM and Lifecycle"],
   ],
   'case-fenix.html': [
     ["CRM turnaround na Fênix Educação: base de 50K+ leads limpa e segmentada do zero, elevando a abertura de ~2% para ~25%, com +35% de CTR e +20% em matrículas.",
@@ -133,8 +132,18 @@ const EN_ATTRS = [
   ['aria-label="Navegação entre cases"', 'aria-label="Case navigation"'],
   ['aria-label="Fechamento"', 'aria-label="Closing"'],
   ['aria-label="Rodapé"', 'aria-label="Footer"'],
+  ['aria-label="Escopo da oferta"', 'aria-label="Offer scope"'],
   ['placeholder="Não preencha este campo:"', 'placeholder="Do not fill this field:"'],
   ['Não preencha este campo:', 'Do not fill this field:'],
+  ['>Selecione</option>', '>Select</option>'],
+  ['>CRM ativo com histórico e timestamps</option>', '>Active CRM with history and timestamps</option>'],
+  ['>CRM ativo com timestamps incompletos</option>', '>Active CRM with incomplete timestamps</option>'],
+  ['>Ainda não sei</option>', '>I do not know yet</option>'],
+  ['>Sem CRM ou histórico utilizável</option>', '>No CRM or usable history</option>'],
+  ['>Sou responsável ou sponsor</option>', '>I am the owner or sponsor</option>'],
+  ['>Opero o CRM</option>', '>I operate the CRM</option>'],
+  ['>Sou owner de dados</option>', '>I am the data owner</option>'],
+  ['>Outro papel</option>', '>Another role</option>'],
   ['alt="Retrato de Danilo Espeleta, especialista em CRM e Lifecycle Marketing"',
    'alt="Portrait of Danilo Espeleta, CRM and Lifecycle Marketing specialist"'],
 ];
@@ -223,8 +232,8 @@ function rewriteToggle(h, { lang, ptUrl, enUrl }) {
 
 /* ---- strip the language JS + language CSS hiding rules ---- */
 function stripLangMechanics(h) {
-  // full-page language block (between its comment and the next mobile-sidebar comment)
-  h = h.replace(/\/\* ---- language[\s\S]*?(?=\/\* ---- mobile sidebar)/, '');
+  // full-page language block. Leea measurement may sit before mobile sidebar and must survive.
+  h = h.replace(/\/\* ---- language[\s\S]*?(?=\/\* ---- (?:Leea|mobile sidebar))/, '');
   // tiny 404/obrigado language IIFE
   h = h.replace(/<script>\(function\(\)\{var s=null;[\s\S]*?\}\)\(\);<\/script>/, '');
   // CSS rules that hide the opposite language (no longer needed; opposite lang is gone)
@@ -255,7 +264,7 @@ function appendToggleSupport(h) {
 
 /* ---- build one language output for one page ---- */
 function build(file, src, lang) {
-  const ptPath = file === 'index.html' ? '' : file.replace(/.html$/, '').replace(/.html$/, '');
+  const ptPath = file === 'index.html' ? '' : file;
   const ptUrl = '/' + ptPath;                 // '/', '/portfolio.html', ...
   const enUrl = '/en/' + ptPath;              // '/en/', '/en/portfolio.html', ...
 
@@ -276,13 +285,13 @@ function build(file, src, lang) {
     // nav/sidebar résumé link -> EN PDF (the CV section keeps both cards)
     h = h.replace(/class="cv-link" href="\/CV\/DE-Curriculo\.pdf"/g, 'class="cv-link" href="/CV/DE-Resume.pdf"');
     // contact form success page -> EN
-    h = h.split('action="/obrigado"').join('action="/en/obrigado"');
+    h = h.replace(/action="\/obrigado\.html"/g, 'action="/en/obrigado.html"');
     // index JSON-LD url -> EN
     if (file === 'index.html') h = h.replace(/"url": "https:\/\/espeledata\.com\/"/, '"url": "https://espeledata.com/en/"');
     // 404 / obrigado use absolute internal links -> keep them inside /en/
     if (file === '404.html' || file === 'obrigado.html') {
       h = h.replace(/href="\/"/g, 'href="/en/"');
-      h = h.replace(/href="\/([a-z0-9-]+)"/g, 'href="/en/$1"');
+      h = h.replace(/href="\/([a-z0-9-]+\.html)"/g, 'href="/en/$1"');
     }
   }
 
@@ -295,7 +304,7 @@ function buildSitemap(lastmod) {
   const rows = [];
   for (const file of PAGES) {
     if (!INDEXABLE.has(file)) continue;
-    const ptPath = file === 'index.html' ? '' : file.replace(/.html$/, '').replace(/.html$/, '');
+    const ptPath = file === 'index.html' ? '' : file;
     const ptUrl = SITE + '/' + ptPath;
     const enUrl = SITE + '/en/' + ptPath;
     for (const loc of [ptUrl, enUrl]) {

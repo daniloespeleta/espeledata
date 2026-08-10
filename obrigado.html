@@ -50,26 +50,24 @@ p{color:var(--gray);max-width:46ch;margin-top:.9rem;font-size:.98rem}
 </head>
 <body class="lang-pt">
 <div class="check" aria-hidden="true">✓</div>
-<p class="kicker"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></p>
-<h1>
-  <span class="pt">Mensagem <span class="accent">enviada</span></span>
-  <span class="en" lang="en">Message <span class="accent">sent</span></span>
-</h1>
-<p>
-  <span class="pt">Obrigado pelo contato! Recebi sua mensagem e retorno em breve, normalmente em até 1 dia útil.</span>
-  <span class="en" lang="en">Thanks for reaching out! I've received your message and will get back to you soon, usually within 1 business day.</span>
-</p>
-<div class="actions">
-  <a class="btn btn-solid" href="/"><span class="pt">Voltar ao início</span><span class="en" lang="en">Back to home</span></a>
-  <a class="btn btn-outline" href="/portfolio"><span class="pt">Ver portfólio</span><span class="en" lang="en">View portfolio</span></a>
+<p class="kicker"><span id="defaultKicker"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></span><span id="leeaKicker" hidden>Leea</span></p>
+<h1><span id="defaultTitle"><span class="pt">Mensagem <span class="accent">enviada</span></span><span class="en" lang="en">Message <span class="accent">sent</span></span></span><span id="leeaTitle" hidden><span class="pt">Contexto <span class="accent">recebido</span></span><span class="en" lang="en">Context <span class="accent">received</span></span></span></h1>
+<div id="defaultThanks">
+  <p><span class="pt">Obrigado pelo contato. Recebi sua mensagem e vou responder assim que possível.</span><span class="en" lang="en">Thanks for reaching out. I received your message and will respond as soon as possible.</span></p>
+  <div class="actions"><a class="btn btn-solid" href="/"><span class="pt">Voltar ao início</span><span class="en" lang="en">Back to home</span></a><a class="btn btn-outline" href="/portfolio.html"><span class="pt">Ver portfólio</span><span class="en" lang="en">View portfolio</span></a></div>
+</div>
+<div id="leeaThanks" hidden>
+  <p><span class="pt">Danilo vai verificar se a jornada, os dados e a decisão cabem no Diagnóstico de Transição de Lifecycle. A resposta não confirma contratação nem disponibilidade.</span><span class="en" lang="en">Danilo will check whether the journey, data and decision fit the Lifecycle Transition Diagnostic. This response does not confirm hiring or availability.</span></p>
+  <div class="actions"><a class="btn btn-solid" href="/leea.html"><span class="pt">Voltar para a Leea</span><span class="en" lang="en">Back to Leea</span></a><a class="btn btn-outline" href="/portfolio.html"><span class="pt">Ver portfólio</span><span class="en" lang="en">View portfolio</span></a></div>
 </div>
 <div class="brand">Danilo Espeleta · CRM &amp; Lifecycle Marketing</div>
 <script>
 (function(){var s=null;try{s=localStorage.getItem('lang');}catch(e){}
 if(s==='en'){document.body.className='lang-en';document.documentElement.lang='en';}})();
 </script>
-<!-- Start of HubSpot Embed Code -->
-  <script type="text/javascript" id="hs-script-loader" async defer src="//js-na1.hs-scripts.com/51843147.js"></script>
-<!-- End of HubSpot Embed Code -->
+<script>
+(function(){var isLeea=location.search.indexOf('leea=1')!==-1;
+if(isLeea){document.getElementById('defaultKicker').hidden=true;document.getElementById('leeaKicker').hidden=false;document.getElementById('defaultTitle').hidden=true;document.getElementById('leeaTitle').hidden=false;document.getElementById('defaultThanks').hidden=true;document.getElementById('leeaThanks').hidden=false;var confirmed=false;try{confirmed=sessionStorage.getItem('leea_contact_success')==='1';sessionStorage.removeItem('leea_contact_success');}catch(e){}if(confirmed&&typeof window.gtag==='function')window.gtag('event','success_leea_contact',{source_page:'leea',offer_id:'lifecycle_transition_diagnostic',form_version:'leea_contact_v1',language:document.body.classList.contains('lang-en')?'en':'pt-BR'});}})();
+</script>
 </body>
 </html>

@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html lang="pt-BR" id="top">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9NB09LQ1PT"></script>
+<script>
+window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());
+gtag('config','G-9NB09LQ1PT');
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agência Leea · Danilo Espeleta</title>
-<meta name="description" content="Leea: agência de linguagem, jornada e retenção. Metodologia Sulco para ler trajetória de cliente e transformar sinal em intervenção de CRM testável.">
+<title>Leea · IA aplicada a CRM e Lifecycle | Danilo Espeleta</title>
+<meta name="description" content="Prática autoral de Danilo Espeleta para diagnosticar uma transição de CRM e Lifecycle, organizar evidências e especificar como medir a próxima decisão.">
 <meta name="author" content="Danilo Espeleta">
-<link rel="canonical" href="https://espeledata.com/leea">
+<link rel="canonical" href="https://espeledata.com/leea.html">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Agência Leea · Danilo Espeleta">
-<meta property="og:description" content="Linguagem, jornada e retenção. O sentido tem duração: metodologia Sulco para ler trajetória de cliente e transformar sinal em intervenção de CRM testável.">
+<meta property="og:title" content="Leea · Prática de IA aplicada a CRM e Lifecycle">
+<meta property="og:description" content="Prática autoral de Danilo Espeleta para diagnosticar uma transição de CRM e Lifecycle, organizar evidências e especificar como medir a próxima decisão.">
 <meta property="og:url" content="https://espeledata.com/leea.html">
 <meta property="og:image" content="https://espeledata.com/og-cover.png">
 <meta property="og:image:width" content="1200">
@@ -72,8 +80,8 @@ code,.mono{font-family:var(--mono)}
 .menu-btn:hover{border-color:var(--cyan);color:var(--cyan)}
 .sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:260;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
 .sidebar-overlay.open{opacity:1;visibility:visible}
-.sidebar{position:fixed;top:0;right:-290px;width:290px;height:100vh;background:var(--bg2);border-left:1px solid var(--border);z-index:270;transition:right .28s;padding:4.5rem 2rem 2rem;display:flex;flex-direction:column;overflow-y:auto}
-.sidebar.open{right:0}
+.sidebar{position:fixed;top:0;right:-290px;width:290px;height:100vh;background:var(--bg2);border-left:1px solid var(--border);z-index:270;visibility:hidden;transition:right .28s,visibility 0s linear .28s;padding:4.5rem 2rem 2rem;display:flex;flex-direction:column;overflow-y:auto}
+.sidebar.open{right:0;visibility:visible;transition-delay:0s}
 .sidebar-close{position:absolute;top:1.1rem;right:1.1rem;background:none;border:1px solid var(--border);color:var(--gray);font-size:1rem;line-height:1;cursor:pointer;font-family:var(--mono);padding:.4rem .6rem}
 .sidebar-close:hover{color:var(--cyan);border-color:var(--cyan)}
 .sidebar a{font-family:var(--mono);font-size:.78rem;color:var(--gray);text-decoration:none;letter-spacing:.12em;text-transform:uppercase;padding:1rem 0;border-bottom:1px solid var(--border);transition:color .2s;display:block}
@@ -94,6 +102,15 @@ main section{max-width:var(--max);margin:0 auto;padding:clamp(3.5rem,8vw,6rem) 1
 .section-title .accent{color:var(--cyan)}
 .section-sub{margin-top:1rem;color:var(--gray);max-width:640px}
 .section-sub p+p{margin-top:.8rem}
+.content-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-top:2rem}
+.content-card{background:var(--bg2);padding:1.5rem}.content-card h3{font-family:var(--cond);font-size:1.35rem;text-transform:uppercase;margin-bottom:.7rem}.content-card p,.content-card li{color:var(--gray)}.content-card ul{padding-left:1.2rem}.content-card li+li{margin-top:.45rem}
+.offer-card{margin-top:2rem;border:1px solid rgba(var(--cyan-rgb),.45);background:rgba(var(--cyan-rgb),.045);padding:clamp(1.4rem,4vw,2.2rem)}
+.offer-meta{display:flex;flex-wrap:wrap;gap:.6rem;margin:1.2rem 0}.offer-meta span,.proof-status{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--border);padding:.35rem .65rem;color:var(--gray)}
+.decision-list{margin:1rem 0 0 1.2rem;color:var(--gray)}.decision-list li+li{margin-top:.35rem}
+.deliverables-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-top:2rem}.deliverable{background:var(--bg2);padding:1.4rem}.deliverable:last-child{grid-column:1/-1}.deliverable h3{font-family:var(--cond);font-size:1.2rem;text-transform:uppercase;margin-bottom:.5rem}.deliverable p{color:var(--gray)}
+.proof-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-top:2rem}.proof-card{background:var(--bg2);padding:1.5rem;display:flex;flex-direction:column;align-items:flex-start}.proof-card h3{font-family:var(--cond);font-size:1.3rem;text-transform:uppercase;margin:.8rem 0 .5rem}.proof-card p{color:var(--gray);flex:1}.proof-card a{margin-top:1rem}
+.demo-disclosure{border:1px solid rgba(var(--coral-rgb),.4);border-left:3px solid var(--coral);background:rgba(var(--coral-rgb),.05);padding:1.2rem 1.4rem;margin-top:2rem;color:var(--gray)}.demo-disclosure strong{color:var(--white)}
+@media(max-width:720px){.content-grid,.deliverables-grid,.proof-grid{grid-template-columns:1fr}.deliverable:last-child{grid-column:auto}}
 
 /* ============ HERO ============ */
 .leea-hero{position:relative;overflow:hidden;padding-top:clamp(8rem,15vw,10.5rem)!important;padding-bottom:clamp(5rem,9vw,8rem)!important}
@@ -323,13 +340,13 @@ main section{max-width:var(--max);margin:0 auto;padding:clamp(3.5rem,8vw,6rem) 1
 .rule-verdict .v{display:none}
 .rule-verdict[data-verdict="monitorando"] .v-monitorando,
 .rule-verdict[data-verdict="atencao"] .v-atencao,
-.rule-verdict[data-verdict="dispara"] .v-dispara,
+.rule-verdict[data-verdict="revisar"] .v-revisar,
 .rule-verdict[data-verdict="curso"] .v-curso,
 .rule-verdict[data-verdict="respondeu"] .v-respondeu{display:inline}
 .rule-verdict[data-verdict="atencao"]{border-left-color:var(--coral);color:var(--white)}
 .rule-verdict[data-verdict="atencao"] .verdict-dot{background:var(--coral)}
-.rule-verdict[data-verdict="dispara"]{border-left-color:var(--cyan);color:var(--white);background:rgba(0,212,255,0.08)}
-.rule-verdict[data-verdict="dispara"] .verdict-dot{background:var(--cyan)}
+.rule-verdict[data-verdict="revisar"]{border-left-color:var(--cyan);color:var(--white);background:rgba(0,212,255,0.08)}
+.rule-verdict[data-verdict="revisar"] .verdict-dot{background:var(--cyan)}
 .rule-verdict[data-verdict="curso"]{border-left-color:var(--cyan)}
 .rule-verdict[data-verdict="curso"] .verdict-dot{background:var(--cyan)}
 .rule-verdict[data-verdict="respondeu"]{border-left-color:var(--cyan);color:var(--white)}
@@ -444,18 +461,18 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
 
 <!-- ============ NAV ============ -->
 <nav class="site-nav" aria-label="Principal">
-  <a class="brand" href="/">
+  <a class="brand" href="index.html">
     <span class="brand-name">Danilo Espeleta</span>
     <span class="brand-role">CRM &amp; Lifecycle Marketing</span>
   </a>
   <div class="nav-right">
     <div class="nav-links">
-      <a href="/"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
-      <a href="/#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
-      <a href="portfolio"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
-      <a href="leea" aria-current="page"><span class="pt">Agência Leea</span><span class="en" lang="en">Leea Agency</span></a>
-      <a href="notas"><span class="pt">Notas</span><span class="en" lang="en">Notes</span></a>
-      <a href="contact?leea=1"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
+      <a href="index.html"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
+      <a href="index.html#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
+      <a href="portfolio.html"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
+      <a href="leea.html" aria-current="page"><span class="pt">Leea</span><span class="en" lang="en">Leea</span></a>
+      <a href="notas.html"><span class="pt">Notas</span><span class="en" lang="en">Notes</span></a>
+      <a href="contact.html?leea=1"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
     </div>
     <div class="lang-switch" role="group" aria-label="Idioma / Language">
       <button type="button" data-lang="pt" aria-pressed="true">PT</button>
@@ -468,12 +485,12 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 <div class="sidebar" id="sidebar" aria-label="Menu">
   <button class="sidebar-close" aria-label="Fechar menu">✕</button>
-  <a href="/"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
-  <a href="/#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
-  <a href="portfolio"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
-  <a href="leea" aria-current="page"><span class="pt">Agência Leea</span><span class="en" lang="en">Leea Agency</span></a>
-  <a href="notas"><span class="pt">Notas</span><span class="en" lang="en">Notes</span></a>
-  <a href="contact?leea=1"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
+  <a href="index.html"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
+  <a href="index.html#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
+  <a href="portfolio.html"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
+  <a href="leea.html" aria-current="page"><span class="pt">Leea</span><span class="en" lang="en">Leea</span></a>
+  <a href="notas.html"><span class="pt">Notas</span><span class="en" lang="en">Notes</span></a>
+  <a href="contact.html?leea=1"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
   <div class="lang-switch" role="group" aria-label="Idioma / Language">
     <button type="button" data-lang="pt" aria-pressed="true">PT</button>
     <button type="button" data-lang="en" aria-pressed="false">EN</button>
@@ -491,41 +508,159 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
       <path d="M-20,210 C150,190 300,230 620,200" stroke="var(--border)" stroke-width="1.5"/>
       <path d="M-20,260 C150,240 300,280 620,250" stroke="var(--border)" stroke-width="1.5"/>
     </svg>
+    <div class="hero-inner">
+      <p class="kicker"><span class="pt">Leea, uma prática de Danilo Espeleta.</span><span class="en" lang="en">Leea, a practice by Danilo Espeleta.</span></p>
+      <h1 id="hero-title">
+        <span class="pt">O churn aparece no fim.<br><span class="accent">A ruptura começa antes.</span></span>
+        <span class="en" lang="en">Churn shows up at the end.<br><span class="accent">The rupture starts earlier.</span></span>
+      </h1>
+      <div class="hero-sub">
+        <p class="pt">A Leea ajuda times de CRM e Lifecycle a localizar uma transição crítica da jornada, organizar a evidência e sair com uma intervenção mensurável. IA entra na leitura e na documentação. A decisão continua humana.</p>
+        <p class="en" lang="en">Leea helps CRM and Lifecycle teams identify a critical journey transition, organize the available evidence and leave with a measurable intervention. AI supports the reading and documentation. The decision remains human.</p>
+      </div>
+      <p class="hero-note">
+        <span class="pt"><strong>Prática autoral de IA aplicada a CRM e Lifecycle.</strong> IA organiza evidência e documentação. Não cria causalidade nem recebe autoridade operacional.</span>
+        <span class="en" lang="en"><strong>Author-led practice applying AI to CRM and Lifecycle.</strong> AI organizes evidence and documentation. It does not create causality or receive operational authority.</span>
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-solid" href="contact.html?leea=1" data-leea-primary data-cta-position="hero"><span class="pt">Quero mapear uma transição</span><span class="en" lang="en">I want to map a transition</span></a>
+        <a class="btn btn-outline" href="#evidencias-limites" data-leea-secondary data-cta-position="hero"><span class="pt">Ver evidências e limites</span><span class="en" lang="en">See evidence and limits</span></a>
+      </div>
+    </div>
     <div class="hero-identity" aria-hidden="true">
       <img class="hero-logo" src="assets/leea/leea-logo-transparent.png" alt="">
       <img class="hero-wordmark" src="assets/leea/leea-wordmark-transparent.png" alt="">
     </div>
-    <div class="hero-inner">
-      <p class="kicker"><span class="pt">Agência Leea</span><span class="en" lang="en">Leea Agency</span></p>
-      <h1 id="hero-title">
-        <span class="pt">O churn diz quantos.<br><span class="accent">Não diz quando.</span></span>
-        <span class="en" lang="en">Churn tells you how many.<br><span class="accent">Not when.</span></span>
-      </h1>
-      <div class="hero-sub">
-        <p class="pt">Toda empresa com receita recorrente sabe quantos clientes cancelaram no mês passado. Quase nenhuma sabe em que semana cada um decidiu. O número mensal junta quem saiu no dia 2 com quem saiu no dia 29, e junta quem reclamou no suporte com quem sumiu sem falar nada. A Leea reconstrói essa linha do tempo, cliente por cliente, e entrega a regra que dispara a recuperação antes do cancelamento.</p>
-        <p class="en" lang="en">Every company with recurring revenue knows how many customers cancelled last month. Almost none knows in which week each one decided. The monthly number lumps together someone who left on the 2nd with someone who left on the 29th, and someone who complained to support with someone who just went quiet. Leea rebuilds that timeline, customer by customer, and delivers the rule that triggers recovery before the cancellation.</p>
+  </section>
+
+  <div class="divider" role="presentation"></div>
+
+  <!-- ============ FIT ============ -->
+  <section id="fit" aria-labelledby="fit-title">
+    <p class="kicker"><span class="pt">Aderência</span><span class="en" lang="en">Fit</span></p>
+    <h2 class="section-title" id="fit-title">
+      <span class="pt">Antes do método, <span class="accent">existe uma decisão</span></span>
+      <span class="en" lang="en">Before the method, <span class="accent">there is a decision</span></span>
+    </h2>
+    <div class="section-sub">
+      <p class="pt">A equipe enxerga ativação, risco, retenção, reativação ou expansão quando o KPI já mudou. O diagnóstico localiza qual transição merece intervenção, quais sinais sustentam a hipótese e como medir o próximo teste sem confundir correlação com causa.</p>
+      <p class="en" lang="en">The team sees activation, risk, retention, reactivation or expansion after the KPI has already changed. The diagnostic identifies which transition deserves intervention, which signals support the hypothesis and how to measure the next test without confusing correlation with causality.</p>
+    </div>
+    <div class="content-grid reveal">
+      <article class="content-card">
+        <h3><span class="pt">Para quem é</span><span class="en" lang="en">Who it is for</span></h3>
+        <ul>
+          <li><span class="pt">Liderança de CRM, Lifecycle, Retenção ou Marketing Operations.</span><span class="en" lang="en">CRM, Lifecycle, Retention or Marketing Operations leaders.</span></li>
+          <li><span class="pt">CRM ativo, canal próprio e jornada identificável.</span><span class="en" lang="en">An active CRM, an owned channel and an identifiable journey.</span></li>
+          <li><span class="pt">Histórico com timestamps e um responsável pelos dados.</span><span class="en" lang="en">Historical data with timestamps and a data owner.</span></li>
+          <li><span class="pt">Uma pessoa com autoridade para decidir o próximo passo.</span><span class="en" lang="en">A person with authority to decide the next step.</span></li>
+        </ul>
+      </article>
+      <article class="content-card">
+        <h3><span class="pt">Para quem não é</span><span class="en" lang="en">Who it is not for</span></h3>
+        <ul>
+          <li><span class="pt">Curiosidade genérica sobre IA, sem decisão de lifecycle.</span><span class="en" lang="en">Generic AI curiosity without a lifecycle decision.</span></li>
+          <li><span class="pt">Ausência de jornada, histórico ou condição mínima de leitura.</span><span class="en" lang="en">No journey, history or minimum reading conditions.</span></li>
+          <li><span class="pt">Demanda de implantação full stack ou campanha completa.</span><span class="en" lang="en">A request for full-stack implementation or a complete campaign.</span></li>
+          <li><span class="pt">Expectativa de garantia de resultado ou suporte permanente.</span><span class="en" lang="en">An expectation of guaranteed results or permanent support.</span></li>
+        </ul>
+      </article>
+    </div>
+    <p class="hero-note"><span class="pt"><strong>Se existe uma decisão real de lifecycle, o diagnóstico começa por uma transição.</strong></span><span class="en" lang="en"><strong>If there is a real lifecycle decision, the diagnostic starts with one transition.</strong></span></p>
+  </section>
+
+  <div class="divider" role="presentation"></div>
+
+  <!-- ============ OFERTA ============ -->
+
+  <div class="divider" role="presentation"></div>
+
+  <!-- ============ OFERTA ============ -->
+  <section id="oferta" aria-labelledby="oferta-title">
+    <p class="kicker"><span class="pt">Uma oferta</span><span class="en" lang="en">One offer</span></p>
+    <h2 class="section-title" id="oferta-title">
+      <span class="pt">Diagnóstico de Transição de Lifecycle, <span class="accent">pela Leea</span></span>
+      <span class="en" lang="en">Lifecycle Transition Diagnostic, <span class="accent">by Leea</span></span>
+    </h2>
+    <div class="offer-card reveal">
+      <p class="pt">Uma sprint de diagnóstico em dez dias úteis, contados após o recebimento dos insumos completos. O escopo cobre uma jornada, uma população ou coorte, uma transição, até três fontes de evidência, um canal principal e uma janela histórica acordada.</p>
+      <p class="en" lang="en">A ten-business-day diagnostic sprint, starting after all required inputs have been received. The scope covers one journey, one population or cohort, one transition, up to three evidence sources, one primary channel and one agreed historical window.</p>
+      <div class="offer-meta" aria-label="Escopo da oferta">
+        <span>10 <span class="pt">dias úteis</span><span class="en" lang="en">business days</span></span>
+        <span>1 <span class="pt">jornada</span><span class="en" lang="en">journey</span></span>
+        <span>1 <span class="pt">transição</span><span class="en" lang="en">transition</span></span>
+        <span><span class="pt">até</span><span class="en" lang="en">up to</span> 3 <span class="pt">fontes</span><span class="en" lang="en">sources</span></span>
+        <span>1 <span class="pt">canal principal</span><span class="en" lang="en">primary channel</span></span>
       </div>
-      <p class="hero-note">
-        <span class="pt">Feito com SQL sobre o histórico do cliente, agentes de IA orquestrados em <strong>Make</strong>, e a intervenção disparada no <strong>seu CRM</strong>. O método se chama <strong>Sulco</strong>.</span>
-        <span class="en" lang="en">Built with SQL over customer history, AI agents orchestrated in <strong>Make</strong>, and the intervention triggered in <strong>your CRM</strong>. The method is called <strong>Sulco</strong>.</span>
-      </p>
-      <div class="hero-cta">
-        <a class="btn btn-solid" href="contact?leea=1"><span class="pt">Pedir a leitura de transição</span><span class="en" lang="en">Request the transition read</span></a>
-        <a class="btn btn-outline" href="#automacao"><span class="pt">Ver como funciona</span><span class="en" lang="en">See how it works</span></a>
-      </div>
+      <p class="pt">O diagnóstico termina com uma decisão documentada:</p>
+      <p class="en" lang="en">The diagnostic ends with one documented decision:</p>
+      <ul class="decision-list">
+        <li><span class="pt">testar uma intervenção;</span><span class="en" lang="en">test an intervention;</span></li>
+        <li><span class="pt">corrigir a instrumentação;</span><span class="en" lang="en">fix the instrumentation;</span></li>
+        <li><span class="pt">coletar mais evidência;</span><span class="en" lang="en">collect more evidence;</span></li>
+        <li><span class="pt">encerrar a hipótese.</span><span class="en" lang="en">close the hypothesis.</span></li>
+      </ul>
+      <p class="hero-note"><span class="pt"><strong>Não promete uplift.</strong> Preço e disponibilidade não estão publicados.</span><span class="en" lang="en"><strong>It does not promise uplift.</strong> Price and availability are not published.</span></p>
+    </div>
+
+    <div id="entregaveis" class="deliverables-grid reveal">
+      <article class="deliverable"><h3><span class="pt">1. Contrato do problema e mapa da transição</span><span class="en" lang="en">1. Problem contract and transition map</span></h3><p><span class="pt">Jornada, população, estados, mudança observável, decisão em jogo, inclusões, exclusões e limitações.</span><span class="en" lang="en">Journey, population, states, observable change, decision at stake, inclusions, exclusions and limitations.</span></p></article>
+      <article class="deliverable"><h3><span class="pt">2. Inventário e qualidade dos sinais</span><span class="en" lang="en">2. Signal inventory and quality</span></h3><p><span class="pt">Eventos, timestamps, mensagens, regras atuais, fontes, lacunas e limites da leitura.</span><span class="en" lang="en">Events, timestamps, messages, current rules, sources, gaps and reading limits.</span></p></article>
+      <article class="deliverable"><h3><span class="pt">3. Hipótese priorizada de intervenção</span><span class="en" lang="en">3. Prioritized intervention hypothesis</span></h3><p><span class="pt">Público, canal, condição de entrada, regra proposta, controle humano, riscos e aceite.</span><span class="en" lang="en">Audience, channel, entry condition, proposed rule, human control, risks and acceptance.</span></p></article>
+      <article class="deliverable"><h3><span class="pt">4. Plano de tracking e medição</span><span class="en" lang="en">4. Tracking and measurement plan</span></h3><p><span class="pt">Eventos, propriedades, baseline, denominadores, população, janela, comparação, limites causais, sucesso e guardrails.</span><span class="en" lang="en">Events, properties, baseline, denominators, population, window, comparison, causal limits, success and guardrails.</span></p></article>
+      <article class="deliverable"><h3><span class="pt">5. Backlog e playback executivo</span><span class="en" lang="en">5. Backlog and executive playback</span></h3><p><span class="pt">O que testar, instrumentar ou não automatizar, com dependências, responsáveis, pendências e priorização.</span><span class="en" lang="en">What to test, instrument or leave unautomated, with dependencies, owners, open issues and prioritization.</span></p></article>
     </div>
   </section>
 
+  <div class="divider" role="presentation"></div>
+
+  <!-- ============ EVIDÊNCIAS E LIMITES ============ -->
+  <section id="evidencias-limites" aria-labelledby="evidencias-title">
+    <p class="kicker"><span class="pt">Evidências e limites</span><span class="en" lang="en">Evidence and limits</span></p>
+    <h2 class="section-title" id="evidencias-title">
+      <span class="pt">Cada prova precisa de <span class="accent">estado</span></span>
+      <span class="en" lang="en">Every proof needs a <span class="accent">status</span></span>
+    </h2>
+    <div class="proof-grid reveal">
+      <article class="proof-card" data-proof-id="danilo_trajectory" data-proof-status="real_experience"><span class="proof-status"><span class="pt">Experiência profissional real</span><span class="en" lang="en">Real professional experience</span></span><h3><span class="pt">Trajetória de Danilo</span><span class="en" lang="en">Danilo's track record</span></h3><p><span class="pt">Repertório comprovado em CRM, Lifecycle, automação, governança e mensuração.</span><span class="en" lang="en">Demonstrated experience in CRM, Lifecycle, automation, governance and measurement.</span></p><a class="btn btn-outline" href="index.html#trajetoria"><span class="pt">Ver trajetória</span><span class="en" lang="en">View track record</span></a></article>
+      <article class="proof-card" data-proof-id="fenix" data-proof-status="real_experience"><span class="proof-status"><span class="pt">Case profissional real</span><span class="en" lang="en">Real professional case</span></span><h3>Fênix</h3><p><span class="pt">Experiência anterior de Danilo em uma operação de CRM. Não é entrega da Leea.</span><span class="en" lang="en">Danilo's previous experience in a CRM operation. It is not a Leea delivery.</span></p><a class="btn btn-outline" href="case-fenix.html" data-portfolio-case="fenix"><span class="pt">Ver case Fênix</span><span class="en" lang="en">View Fênix case</span></a></article>
+      <article class="proof-card" data-proof-id="sulco_demo" data-proof-status="synthetic_demo"><span class="proof-status"><span class="pt">Demonstração sintética</span><span class="en" lang="en">Synthetic demonstration</span></span><h3>Sulco</h3><p><span class="pt">Tabelas, mapa e regras ilustram a hipótese com dados sintéticos. Não são resultado de cliente.</span><span class="en" lang="en">Tables, maps and rules illustrate the hypothesis with synthetic data. They are not client results.</span></p><a class="btn btn-outline" href="#tabela"><span class="pt">Ver demonstração</span><span class="en" lang="en">View demonstration</span></a></article>
+      <article class="proof-card" data-proof-id="leea_case" data-proof-status="in_validation"><span class="proof-status"><span class="pt">Projeto autoral em validação</span><span class="en" lang="en">Author-led project in validation</span></span><h3>Leea</h3><p><span class="pt">Arquitetura e protótipos documentados. Ainda não existe case pago da Leea.</span><span class="en" lang="en">Documented architecture and prototypes. Leea does not have a paid case yet.</span></p><a class="btn btn-outline pt" href="case-leea.html" data-portfolio-case="leea">Ver case autoral</a><span class="hero-note en" lang="en">The complete authorial case is currently available in Portuguese only.</span></article>
+    </div>
+
+    <div class="content-grid reveal">
+      <article class="content-card"><h3><span class="pt">Processo em quatro passos</span><span class="en" lang="en">Four-step process</span></h3><ol class="decision-list"><li><span class="pt">Fechar o problema e a transição.</span><span class="en" lang="en">Frame the problem and transition.</span></li><li><span class="pt">Organizar a evidência e seus limites.</span><span class="en" lang="en">Organize the evidence and its limits.</span></li><li><span class="pt">Desenhar a intervenção e a medição.</span><span class="en" lang="en">Design the intervention and measurement.</span></li><li><span class="pt">Decidir o próximo passo.</span><span class="en" lang="en">Decide the next step.</span></li></ol></article>
+      <article class="content-card"><h3><span class="pt">Acesso mínimo</span><span class="en" lang="en">Minimum access</span></h3><p><span class="pt">Prefira CSV anonimizado, query executada pelo cliente, exemplos sem PII, dicionário de campos e leitura somente quando indispensável e aprovada.</span><span class="en" lang="en">Prefer anonymized CSV files, client-run queries, examples without PII, a data dictionary and read-only access only when essential and approved.</span></p></article>
+    </div>
+
+    <div class="limits-block reveal">
+      <div class="limits-not">
+        <div class="limits-not-label"><span class="pt">O diagnóstico não inclui</span><span class="en" lang="en">The diagnostic does not include</span></div>
+        <ul class="limits-not-list">
+          <li><span class="pt">implantação em produção, disparo de campanha ou migração de CRM;</span><span class="en" lang="en">production implementation, campaign sending or CRM migration;</span></li>
+          <li><span class="pt">data lake, engenharia extensa, scoring preditivo ou automação autônoma;</span><span class="en" lang="en">a data lake, extensive engineering, predictive scoring or autonomous automation;</span></li>
+          <li><span class="pt">operação de agentes em produção, campanha multicanal completa ou mídia paga;</span><span class="en" lang="en">production agent operations, a full multichannel campaign or paid media;</span></li>
+          <li><span class="pt">suporte mensal, plantão, recorrência ou garantia de resultado.</span><span class="en" lang="en">monthly support, on-call support, recurring service or result guarantees.</span></li>
+        </ul>
+      </div>
+      <div class="limits-rigor"><p class="pt">A Leea distingue correlação de causalidade. Linguagem e comportamento geram hipótese. O cliente valida o significado de negócio e mantém a decisão operacional.</p><p class="en" lang="en">Leea distinguishes correlation from causality. Language and behavior generate hypotheses. The client validates the business meaning and retains operational authority.</p></div>
+    </div>
+
+    <div class="demo-disclosure"><strong><span class="pt">Demonstração com dados sintéticos.</span><span class="en" lang="en">Demonstration with synthetic data.</span></strong> <span class="pt">Não é resultado de cliente, método validado ou automação em produção.</span><span class="en" lang="en">It is not a client result, a validated method or production automation.</span></div>
+  </section>
+
+  <div class="divider" role="presentation"></div>
+
   <!-- ============ A TABELA (a definição) ============ -->
   <section id="tabela" aria-labelledby="tabela-title">
-    <p class="kicker"><span class="pt">O formato</span><span class="en" lang="en">The format</span></p>
+    <p class="kicker"><span class="pt">Demonstração sintética</span><span class="en" lang="en">Synthetic demonstration</span></p>
     <h2 class="section-title" id="tabela-title">
       <span class="pt">Um cliente, <span class="accent">quatro linhas</span></span>
       <span class="en" lang="en">One customer, <span class="accent">four rows</span></span>
     </h2>
     <div class="section-sub reveal">
-      <p class="pt">É assim que a Leea guarda a história de um cliente. Cada linha é um período com começo e fim, e o estado em que ele estava. Não tem teoria aqui, tem data.</p>
-      <p class="en" lang="en">This is how Leea stores a customer's history. Each row is a period with a start and an end, plus the state the customer was in. There is no theory here, there are dates.</p>
+      <p class="pt">Esta demonstração mostra como a Leea propõe organizar uma trajetória. Cada linha é um período com começo, fim e estado. Os dados são sintéticos.</p>
+      <p class="en" lang="en">This demonstration shows how Leea proposes organizing a trajectory. Each row is a period with a start, an end and a state. The data is synthetic.</p>
     </div>
     <div class="table-wrap reveal">
       <table class="spell-table">
@@ -753,8 +888,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
     <!-- EPISODE SCRUBBER -->
     <h3 class="ep-subhead"><span class="pt">Linha do tempo de episódios</span><span class="en" lang="en">Episode timeline</span></h3>
     <p class="ep-intro">
-      <span class="pt">Arraste o controle. Em cima, o cliente muda de estado ao longo de doze semanas. Embaixo, a regra do agente recalcula a cada semana e mostra quando ela dispara a recuperação. Na semana 7 os três critérios batem, e a recuperação sai três semanas antes do cancelamento que estava vindo.</span>
-      <span class="en" lang="en">Drag the control. Above, the customer changes state across twelve weeks. Below, the agent's rule recalculates every week and shows when it triggers recovery. In week 7 all three criteria are met, and recovery goes out three weeks before the cancellation that was coming.</span>
+      <span class="pt">Arraste o controle. Em cima, a trajetória sintética muda de estado ao longo de doze semanas. Embaixo, a regra ilustrativa recalcula os critérios e mostra quando uma hipótese deveria seguir para revisão humana.</span>
+      <span class="en" lang="en">Drag the control. Above, the synthetic trajectory changes state across twelve weeks. Below, the illustrative rule recalculates the criteria and shows when a hypothesis should move to human review.</span>
     </p>
     <div class="ep-scrubber reveal">
       <div class="ep-track" aria-hidden="true">
@@ -834,8 +969,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
         </div>
 
         <p class="rule-caption">
-          <span class="pt">A regra roda toda segunda-feira sobre o histórico do CRM. Três critérios, todos precisam bater.</span>
-          <span class="en" lang="en">The rule runs every Monday over the CRM history. Three criteria, all of them must be met.</span>
+          <span class="pt">Nesta simulação, a regra é avaliada por semana. Três critérios, todos precisam bater.</span>
+          <span class="en" lang="en">In this simulation, the rule is evaluated weekly. Three criteria, all of them must be met.</span>
         </p>
 
         <ul class="rule-criteria">
@@ -856,20 +991,20 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
         <div class="rule-verdict" id="ruleVerdict" data-verdict="monitorando">
           <span class="verdict-dot" aria-hidden="true"></span>
           <span class="v v-monitorando"><span class="pt">Monitorando. Nenhum critério batido.</span><span class="en" lang="en">Monitoring. No criteria met.</span></span>
-          <span class="v v-atencao"><span class="pt">Em atenção. Parte dos critérios batida, ainda não dispara.</span><span class="en" lang="en">Watching. Some criteria met, does not fire yet.</span></span>
-          <span class="v v-dispara"><span class="pt">Dispara. Três de três. Jornada de recuperação enviada ao CRM.</span><span class="en" lang="en">Fires. Three of three. Recovery journey pushed to the CRM.</span></span>
-          <span class="v v-curso"><span class="pt">Jornada em curso. Aguardando resposta, sem novo disparo.</span><span class="en" lang="en">Journey running. Waiting for a response, no new trigger.</span></span>
-          <span class="v v-respondeu"><span class="pt">Respondeu. Cliente voltou a usar, contagem reiniciada.</span><span class="en" lang="en">Responded. The customer is using it again, counter reset.</span></span>
+          <span class="v v-atencao"><span class="pt">Em atenção. Parte dos critérios foi atendida.</span><span class="en" lang="en">Watching. Some criteria have been met.</span></span>
+          <span class="v v-revisar"><span class="pt">Revisar. Três de três. Hipótese pronta para decisão humana.</span><span class="en" lang="en">Review. Three of three. The hypothesis is ready for human decision.</span></span>
+          <span class="v v-curso"><span class="pt">Teste hipotético em curso. Sem nova recomendação.</span><span class="en" lang="en">Hypothetical test in progress. No new recommendation.</span></span>
+          <span class="v v-respondeu"><span class="pt">Resposta ilustrativa observada. Contagem reiniciada.</span><span class="en" lang="en">Illustrative response observed. Counter reset.</span></span>
         </div>
 
         <pre class="rule-code" aria-label="Regra em pseudocódigo"><code>SE  dias_sem_uso            &gt;= 14
 E   mencoes_continuidade_30d =  0
 E   queda_frequencia         &gt;= 40%
-ENTAO  disparar('recuperacao_pre_churn')</code></pre>
+ENTAO  especificar('hipotese_recuperacao')</code></pre>
 
         <p class="rule-foot">
-          <span class="pt">O corte de 14 dias não é chute nem padrão de mercado. Sai do próprio histórico: é o ponto onde, nessa base, a chance de voltar sozinho cai pela metade. Cada cliente calibra o seu.</span>
-          <span class="en" lang="en">The 14 day cutoff is not a guess or an industry default. It comes out of the history itself: it is the point where, in this base, the odds of coming back unprompted fall by half. Each client calibrates their own.</span>
+          <span class="pt">O corte de 14 dias é ilustrativo. Em um diagnóstico real, qualquer threshold precisaria sair do histórico disponível, ser documentado e passar por validação humana.</span>
+          <span class="en" lang="en">The 14-day cutoff is illustrative. In a real diagnostic, any threshold would need to come from the available history, be documented and pass human validation.</span>
         </p>
       </div>
 
@@ -1034,14 +1169,14 @@ ENTAO  disparar('recuperacao_pre_churn')</code></pre>
 
   <!-- ============ A AUTOMAÇÃO NA PRÁTICA ============ -->
   <section id="automacao" aria-labelledby="automacao-title">
-    <p class="kicker"><span class="pt">Na prática</span><span class="en" lang="en">In practice</span></p>
+    <p class="kicker"><span class="pt">Arquitetura de demonstração</span><span class="en" lang="en">Demonstration architecture</span></p>
     <h2 class="section-title" id="automacao-title">
-      <span class="pt">Como essa automação <span class="accent">é montada</span></span>
-      <span class="en" lang="en">How that automation <span class="accent">gets built</span></span>
+      <span class="pt">Como a automação <span class="accent">poderia ser especificada</span></span>
+      <span class="en" lang="en">How automation <span class="accent">could be specified</span></span>
     </h2>
     <div class="section-sub reveal">
-      <p class="pt">Um recorte da cadeia, rodando toda segunda de manhã. Os agentes de IA não disparam e-mail. Eles leem, classificam e escrevem a especificação. Quem dispara é o CRM, e quem aprova antes de subir é uma pessoa.</p>
-      <p class="en" lang="en">One slice of the chain, running every Monday morning. The AI agents do not send email. They read, classify and write the specification. The CRM sends, and a person approves before anything goes live.</p>
+      <p class="pt">Este recorte documenta uma arquitetura possível. Não está em produção. Agentes de IA leriam, classificariam e escreveriam uma especificação; qualquer implementação ou envio dependeria do cliente e de aprovação humana.</p>
+      <p class="en" lang="en">This excerpt documents one possible architecture. It is not in production. AI agents would read, classify and write a specification; any implementation or send would depend on the client and human approval.</p>
     </div>
 
     <ol class="flow-steps reveal">
@@ -1063,8 +1198,8 @@ ENTAO  disparar('recuperacao_pre_churn')</code></pre>
           <span class="fs-tool">Make</span>
           <h3 class="fs-title"><span class="pt">Agendar e buscar</span><span class="en" lang="en">Schedule and fetch</span></h3>
           <p class="fs-desc">
-            <span class="pt">Um gatilho de horário roda toda segunda às 7h, executa a query, e entrega o resultado para o agente. Nenhuma inteligência aqui, só encanamento.</span>
-            <span class="en" lang="en">A time trigger runs every Monday at 7am, executes the query, and hands the result to the agent. No intelligence here, just plumbing.</span>
+            <span class="pt">Na arquitetura proposta, um gatilho agendaria a query e entregaria o resultado ao agente. Este fluxo é especificação, não integração executada.</span>
+            <span class="en" lang="en">In the proposed architecture, a trigger would schedule the query and deliver the result to the agent. This flow is a specification, not an executed integration.</span>
           </p>
           <p class="fs-io"><span class="io-k">in</span> cron 0 7 * * 1 <span class="io-arrow" aria-hidden="true">→</span> <span class="io-k">out</span> payload json</p>
         </div>
@@ -1085,10 +1220,10 @@ ENTAO  disparar('recuperacao_pre_churn')</code></pre>
         <span class="fs-num">04</span>
         <div class="fs-body">
           <span class="fs-tool"><span class="pt">pessoa</span><span class="en" lang="en">human</span></span>
-          <h3 class="fs-title"><span class="pt">Aprovar antes de ir para o ar</span><span class="en" lang="en">Approve before it goes live</span></h3>
+          <h3 class="fs-title"><span class="pt">Revisar antes de qualquer implementação</span><span class="en" lang="en">Review before any implementation</span></h3>
           <p class="fs-desc">
-            <span class="pt">A especificação chega para revisão com a lista de quem vai receber, o texto proposto e o grupo de controle já separado. Sem esse aceite, nada sai. É o único bloco que não é automático, e é de propósito.</span>
-            <span class="en" lang="en">The specification arrives for review with the recipient list, the proposed copy and the control group already separated. Without that approval, nothing goes out. It is the only block that is not automatic, and that is on purpose.</span>
+            <span class="pt">A especificação proposta inclui público, texto, controle, riscos e critérios de aceite. Sem revisão humana, nenhuma recomendação segue para implementação.</span>
+            <span class="en" lang="en">The proposed specification includes audience, copy, control, risks and acceptance criteria. Without human review, no recommendation moves to implementation.</span>
           </p>
           <p class="fs-io"><span class="io-k">in</span> intervention_spec <span class="io-arrow" aria-hidden="true">→</span> <span class="io-k">out</span> <span class="pt">aprovado ou devolvido</span><span class="en" lang="en">approved or returned</span></p>
         </div>
@@ -1097,10 +1232,10 @@ ENTAO  disparar('recuperacao_pre_churn')</code></pre>
         <span class="fs-num">05</span>
         <div class="fs-body">
           <span class="fs-tool">CRM</span>
-          <h3 class="fs-title"><span class="pt">Disparar e medir</span><span class="en" lang="en">Send and measure</span></h3>
+          <h3 class="fs-title"><span class="pt">Especificar envio e medição</span><span class="en" lang="en">Specify sending and measurement</span></h3>
           <p class="fs-desc">
-            <span class="pt">A jornada sobe no CRM com o grupo de controle preservado. Quatro semanas depois, a mesma query roda de novo e compara quem recebeu com quem não recebeu. Se não deu diferença, a regra estava errada e o corte muda.</span>
-            <span class="en" lang="en">The journey goes live in the CRM with the control group preserved. Four weeks later the same query runs again and compares those who got it with those who did not. If there was no difference, the rule was wrong and the cutoff changes.</span>
+            <span class="pt">O diagnóstico define como preservar o controle, registrar exposição e comparar populações. A implantação e o envio não fazem parte da oferta.</span>
+            <span class="en" lang="en">The diagnostic defines how to preserve control, record exposure and compare populations. Implementation and sending are outside the offer.</span>
           </p>
           <p class="fs-io"><span class="io-k">in</span> <span class="pt">jornada aprovada</span><span class="en" lang="en">approved journey</span> <span class="io-arrow" aria-hidden="true">→</span> <span class="io-k">out</span> measurement_record</p>
         </div>
@@ -1108,8 +1243,8 @@ ENTAO  disparar('recuperacao_pre_churn')</code></pre>
     </ol>
 
     <p class="flow-foot reveal">
-      <span class="pt">Repare onde os agentes entram e onde não entram. Eles não decidem o corte de 14 dias, isso vem do histórico. Não disparam e-mail, isso é o CRM. Não aprovam nada sozinhos. Eles leem texto e escrevem especificação, que é onde um modelo de linguagem realmente ganha da planilha. Essa é a fatia de "Agir" da cadeia. A cadeia inteira está logo abaixo.</span>
-      <span class="en" lang="en">Notice where the agents belong and where they do not. They do not decide the 14 day cutoff, that comes from the history. They do not send email, that is the CRM. They do not approve anything on their own. They read text and write specifications, which is where a language model actually beats a spreadsheet. This is the "Act" slice of the chain. The full chain is right below.</span>
+      <span class="pt">Na hipótese, agentes entram na leitura e na documentação. Não definem threshold, não enviam campanha e não aprovam ação. Código calcula; pessoas decidem.</span>
+      <span class="en" lang="en">In the hypothesis, agents support reading and documentation. They do not set thresholds, send campaigns or approve actions. Code calculates; people decide.</span>
     </p>
   </section>
 
@@ -1123,12 +1258,12 @@ ENTAO  disparar('recuperacao_pre_churn')</code></pre>
       <span class="en" lang="en">From orchestration <span class="accent">to retention</span></span>
     </h2>
     <div class="section-sub reveal">
-      <p class="pt">Não é um agente fazendo tudo. São oito agentes com função estreita, mais um orquestrador que decide a ordem e segura o portão humano. Cada um tem um diferencial na configuração, e é a configuração que faz a leitura de linguagem valer alguma coisa na operação.</p>
-      <p class="en" lang="en">It is not one agent doing everything. It is eight narrow agents, plus an orchestrator that decides the order and holds the human gate. Each one has a differentiator in its configuration, and it is the configuration that makes the language reading worth something in operation.</p>
+      <p class="pt">A arquitetura de demonstração separa oito papéis estreitos e um orquestrador. Eles documentam como a leitura poderia ser dividida, com portão humano e limites explícitos.</p>
+      <p class="en" lang="en">The demonstration architecture separates eight narrow roles and one orchestrator. They document how the reading could be divided, with a human gate and explicit limits.</p>
     </div>
     <div class="section-sub">
-      <p class="pt">A Leea não vende agente de IA. Vende a resolução de um problema de marketing e retenção, com o método Sulco operacionalizado por agentes especializados já construídos.</p>
-      <p class="en" lang="en">Leea does not sell an AI agent. It sells the resolution of a marketing and retention problem, with the Sulco method operationalized by specialized agents already built.</p>
+      <p class="pt">A Leea não vende agentes de IA nem operação em produção. Estes papéis são protótipos documentados para explicar uma hipótese de arquitetura.</p>
+      <p class="en" lang="en">Leea does not sell AI agents or production operations. These roles are documented prototypes used to explain an architectural hypothesis.</p>
     </div>
 
     <div class="layers-stack reveal">
@@ -1140,8 +1275,8 @@ ENTAO  disparar('recuperacao_pre_churn')</code></pre>
       <div class="layer-arrow" aria-hidden="true">↓</div>
       <div class="layer-card">
         <div class="layer-name"><span class="pt">Camada de Agentes</span><span class="en" lang="en">Agent Layer</span></div>
-        <p class="layer-def pt">Executa o workflow, organiza evidências e prepara especificações.</p>
-        <p class="layer-def en" lang="en">Executes the workflow, organizes evidence and prepares specifications.</p>
+        <p class="layer-def pt">Representa como um workflow poderia organizar evidências e preparar especificações.</p>
+        <p class="layer-def en" lang="en">Represents how a workflow could organize evidence and prepare specifications.</p>
       </div>
       <div class="layer-arrow" aria-hidden="true">↓</div>
       <div class="layer-card">
@@ -1166,8 +1301,8 @@ ENTAO  disparar('recuperacao_pre_churn')</code></pre>
           <span class="om-name">leea_maestro</span>
         </div>
         <p class="om-def">
-          <span class="pt">Decide qual agente roda, em que ordem, e com que dado. Guarda o estado do ciclo, não deixa dois agentes escreverem no mesmo artefato, e segura tudo no portão humano antes de qualquer coisa ir ao ar.</span>
-          <span class="en" lang="en">Decides which agent runs, in what order, and on what data. It holds the cycle state, stops two agents from writing to the same artifact, and halts everything at the human gate before anything goes live.</span>
+          <span class="pt">Descreve qual papel seria acionado, em que ordem e com qual dado. A especificação mantém estado, evita conflito de escrita e prevê portão humano.</span>
+          <span class="en" lang="en">Describes which role would be called, in what order and with which data. The specification maintains state, avoids write conflicts and includes a human gate.</span>
         </p>
         <span class="om-conf"><span class="pt">configura</span><span class="en" lang="en">configures</span>: <b><span class="pt">ordem de execução, portões de aprovação e limite de reprocessamento</span><span class="en" lang="en">execution order, approval gates and reprocessing limits</span></b></span>
       </div>
@@ -1224,7 +1359,7 @@ ENTAO  disparar('recuperacao_pre_churn')</code></pre>
           <div class="oph-agents">
             <article class="oag">
               <h4 class="oag-name">leea_retem</h4>
-              <p class="oag-role"><span class="pt">A retenção. É o agente do painel que você arrastou. Avalia os critérios toda semana e decide quando a recuperação sai, antes do cancelamento e não depois.</span><span class="en" lang="en">Retention. It is the agent from the panel you dragged. It evaluates the criteria every week and decides when recovery goes out, before the cancellation and not after.</span></p>
+              <p class="oag-role"><span class="pt">A retenção. É o papel ilustrado no painel. Avaliaria critérios e recomendaria quando uma hipótese deve seguir para revisão humana.</span><span class="en" lang="en">Retention. This is the role illustrated in the panel. It would evaluate criteria and recommend when a hypothesis should move to human review.</span></p>
               <p class="oag-conf"><span class="pt">Diferencial</span><span class="en" lang="en">Differentiator</span>: <b><span class="pt">definição de threshold a partir do histórico da própria base, não de referência de mercado</span><span class="en" lang="en">threshold set from the base's own history, not from an industry benchmark</span></b></p>
             </article>
             <article class="oag">
@@ -1250,15 +1385,15 @@ ENTAO  disparar('recuperacao_pre_churn')</code></pre>
       <div class="orch-loop">
         <span class="ol-arrow" aria-hidden="true">↺</span>
         <p>
-          <span class="pt">O que o <b>leea_melhora</b> aprende volta para o <b>leea_plano</b> e para o <b>leea_retem</b>. Por isso é ciclo e não entrega única: o corte de hoje envelhece, e a base muda de comportamento sozinha.</span>
-          <span class="en" lang="en">What <b>leea_melhora</b> learns goes back into <b>leea_plano</b> and <b>leea_retem</b>. That is why it is a cycle and not a one off delivery: today's cutoff ages, and the base changes behavior on its own.</span>
+          <span class="pt">Na arquitetura proposta, o aprendizado voltaria ao planejamento e à hipótese de retenção. Isso ilustra a necessidade de recalibração, não uma oferta recorrente da Leea.</span>
+          <span class="en" lang="en">In the proposed architecture, learning would return to planning and the retention hypothesis. This illustrates the need for recalibration, not a recurring Leea offer.</span>
         </p>
       </div>
     </div>
 
     <p class="orch-foot reveal">
-      <span class="pt">Da orquestração à retenção, é uma cadeia só, e é isso que a Leea garante de ponta a ponta. Um agente sozinho resolve um pedaço e entrega relatório. A cadeia inteira é o que faz a entrega chegar no ar e continuar de pé depois.</span>
-      <span class="en" lang="en">From orchestration to retention, it is a single chain, and that is what Leea guarantees end to end. A single agent solves one piece and hands over a report. The full chain is what gets the delivery live and keeps it standing afterwards.</span>
+      <span class="pt">A demonstração torna dependências e controles visíveis. Ela não prova uma cadeia implantada, nem operação de ponta a ponta.</span>
+      <span class="en" lang="en">The demonstration makes dependencies and controls visible. It does not prove an implemented chain or end-to-end operation.</span>
     </p>
 
     <div class="quote-block reveal">
@@ -1269,134 +1404,27 @@ ENTAO  disparar('recuperacao_pre_churn')</code></pre>
 
   <div class="divider" role="presentation"></div>
 
-  <!-- ============ OFERTA ============ -->
-  <section id="oferta" aria-labelledby="oferta-title">
-    <p class="kicker"><span class="pt">A oferta</span><span class="en" lang="en">The offer</span></p>
-    <h2 class="section-title" id="oferta-title">
-      <span class="pt">Três níveis, <span class="accent">um piloto de entrada</span></span>
-      <span class="en" lang="en">Three tiers, <span class="accent">one entry pilot</span></span>
-    </h2>
-    <div class="section-sub">
-      <p class="pt">Cada nível aprofunda o anterior. O piloto é onde a maioria das marcas começa.</p>
-      <p class="en" lang="en">Each tier deepens the previous one. The pilot is where most brands start.</p>
-    </div>
-
-    <div class="tiers-grid reveal">
-      <div class="tier-card">
-        <span class="tier-level">Nível 1</span>
-        <span class="tier-name"><span class="pt">Sulco de Sentido</span><span class="en" lang="en">Sulco de Sentido</span></span>
-        <p class="tier-desc pt">Diagnóstico manual de linguagem e jornada, sem instrumentação de dados.</p>
-        <p class="tier-desc en" lang="en">Manual diagnosis of language and journey, without data instrumentation.</p>
-        <div class="tier-sub"><span class="pt">Você precisa ter</span><span class="en" lang="en">You need to have</span></div>
-        <ul class="tier-list">
-          <li><span class="pt">Campanhas, e-mails e tickets de suporte dos últimos meses</span><span class="en" lang="en">Campaigns, emails and support tickets from recent months</span></li>
-          <li><span class="pt">Nenhum acesso a banco de dados é necessário</span><span class="en" lang="en">No database access required</span></li>
-        </ul>
-        <div class="tier-sub"><span class="pt">No fim você tem</span><span class="en" lang="en">At the end you have</span></div>
-        <ul class="tier-list">
-          <li><span class="pt">Mapa de identidade e o que a marca não deixa uma IA escrever</span><span class="en" lang="en">Identity map and what the brand will not let an AI write</span></li>
-        </ul>
-      </div>
-
-      <div class="tier-card tier-featured">
-        <span class="tier-badge"><span class="pt">Produto de entrada</span><span class="en" lang="en">Entry product</span></span>
-        <span class="tier-level">Nível 2</span>
-        <span class="tier-name"><span class="pt">Sulco no Tempo</span><span class="en" lang="en">Sulco no Tempo</span></span>
-        <p class="tier-desc pt">Piloto de retenção com escopo delimitado.</p>
-        <p class="tier-desc en" lang="en">Retention pilot with a delimited scope.</p>
-        <div class="tier-sub"><span class="pt">Escopo</span><span class="en" lang="en">Scope</span></div>
-        <ul class="tier-list">
-          <li><span class="pt">1 jornada, 1 população, 1 transição prioritária</span><span class="en" lang="en">1 journey, 1 population, 1 priority transition</span></li>
-          <li><span class="pt">1 canal principal, 1 intervenção com grupo de controle</span><span class="en" lang="en">1 main channel, 1 intervention with a control group</span></li>
-          <li><span class="pt">1 janela de medição</span><span class="en" lang="en">1 measurement window</span></li>
-        </ul>
-        <div class="tier-sub"><span class="pt">Você precisa ter</span><span class="en" lang="en">You need to have</span></div>
-        <ul class="tier-list">
-          <li><span class="pt">Acesso de leitura ao histórico do CRM, com data em cada evento</span><span class="en" lang="en">Read access to CRM history, with a date on every event</span></li>
-          <li><span class="pt">Uma jornada escolhida e uma transição que incomoda</span><span class="en" lang="en">One chosen journey and one transition that hurts</span></li>
-          <li><span class="pt">Uma pessoa com autoridade para aprovar o que vai ao ar</span><span class="en" lang="en">One person with authority to approve what goes live</span></li>
-        </ul>
-        <div class="tier-sub"><span class="pt">No fim você tem</span><span class="en" lang="en">At the end you have</span></div>
-        <ul class="tier-list">
-          <li><span class="pt">A regra calibrada na sua base, com o corte numérico definido</span><span class="en" lang="en">The rule calibrated on your base, with the numeric cutoff set</span></li>
-          <li><span class="pt">A intervenção rodada de verdade, com grupo de controle separado</span><span class="en" lang="en">The intervention actually run, with a separated control group</span></li>
-          <li><span class="pt">A medição comparando quem recebeu e quem não recebeu</span><span class="en" lang="en">The measurement comparing those who got it and those who did not</span></li>
-          <li><span class="pt">O registro do que funcionou e do que foi descartado</span><span class="en" lang="en">The record of what worked and what was discarded</span></li>
-        </ul>
-        <a class="btn btn-solid tier-cta" href="contact?leea=1"><span class="pt">Pedir o piloto</span><span class="en" lang="en">Request the pilot</span></a>
-      </div>
-
-      <div class="tier-card">
-        <span class="tier-level">Nível 3</span>
-        <span class="tier-name"><span class="pt">Calibração Viva</span><span class="en" lang="en">Calibração Viva</span></span>
-        <p class="tier-desc pt">Retainer recorrente: ciclo contínuo de teste, medição, revisão de premissas e atualização do modelo.</p>
-        <p class="tier-desc en" lang="en">Recurring retainer: a continuous cycle of testing, measurement, assumption review and model updates.</p>
-        <div class="tier-sub"><span class="pt">Você precisa ter</span><span class="en" lang="en">You need to have</span></div>
-        <ul class="tier-list">
-          <li><span class="pt">Um piloto já concluído e medido</span><span class="en" lang="en">A pilot already completed and measured</span></li>
-        </ul>
-        <div class="tier-sub"><span class="pt">No fim de cada ciclo você tem</span><span class="en" lang="en">At the end of each cycle you have</span></div>
-        <ul class="tier-list">
-          <li><span class="pt">O corte recalibrado quando a base muda de comportamento</span><span class="en" lang="en">The cutoff recalibrated when the base changes behavior</span></li>
-          <li><span class="pt">Novas transições entrando no escopo, uma por vez</span><span class="en" lang="en">New transitions entering scope, one at a time</span></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider" role="presentation"></div>
-
-  <!-- ============ LIMITES ============ -->
-  <section id="limites" aria-labelledby="limites-title">
-    <p class="kicker"><span class="pt">Os limites</span><span class="en" lang="en">The limits</span></p>
-    <h2 class="section-title" id="limites-title">
-      <span class="pt">Honestidade como <span class="accent">diferencial</span></span>
-      <span class="en" lang="en">Honesty as a <span class="accent">differentiator</span></span>
-    </h2>
-
-    <div class="limits-block reveal">
-      <p class="pt">A consultoria semiótica tradicional produz diagnóstico cultural profundo, mas para no relatório, sem execução em canal de receita. A agência de automação e IA gera volume de cópia e fluxo operacional, mas ignora identidade, coerência de marca e contexto. A Leea fica no meio: leitura que vira execução medida.</p>
-      <p class="en" lang="en">Traditional semiotic consulting produces deep cultural diagnosis, but stops at the report, with no execution in a revenue channel. The automation and AI agency generates volume of copy and operational flow, but ignores identity, brand coherence and context. Leea sits in between: a reading that becomes measured execution.</p>
-
-      <div class="limits-rigor">
-        <p class="pt">A Leea distingue correlação de causalidade. Sinal de linguagem e comportamento gera hipótese de intervenção. Essa hipótese precisa ser validada em teste no CRM. Não existe promessa determinística.</p>
-        <p class="en" lang="en">Leea distinguishes correlation from causation. Language and behavior signal generates an intervention hypothesis. That hypothesis needs to be validated in a CRM test. There is no deterministic promise.</p>
-      </div>
-
-      <div class="limits-not">
-        <div class="limits-not-label"><span class="pt">O piloto não promete</span><span class="en" lang="en">The pilot does not promise</span></div>
-        <ul class="limits-not-list">
-          <li><span class="pt">Scoring preditivo automatizado.</span><span class="en" lang="en">Automated predictive scoring.</span></li>
-          <li><span class="pt">Motor completo de agentes.</span><span class="en" lang="en">A full agent engine.</span></li>
-          <li><span class="pt">Disparo automático desacompanhado.</span><span class="en" lang="en">Unsupervised automatic trigger.</span></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider" role="presentation"></div>
-
   <!-- ============ CTA FINAL ============ -->
   <section id="cta-final" aria-labelledby="cta-title">
     <p class="kicker"><span class="pt">Próximo passo</span><span class="en" lang="en">Next step</span></p>
     <h2 class="section-title" id="cta-title">
-      <span class="pt">Peça a <span class="accent">leitura de transição</span></span>
-      <span class="en" lang="en">Request the <span class="accent">transition read</span></span>
+      <span class="pt">Mapeie uma <span class="accent">transição real</span></span>
+      <span class="en" lang="en">Map a <span class="accent">real transition</span></span>
     </h2>
     <div class="section-sub">
-      <p class="pt">O piloto Sulco no Tempo é o ponto de entrada. Ele testa o método no seu problema real de retenção, com escopo definido e prazo curto.</p>
-      <p class="en" lang="en">The Sulco no Tempo pilot is the entry point. It tests the method on your real retention problem, with a defined scope and a short timeline.</p>
+      <p class="pt">Conte qual jornada está em jogo, o que mudou e quais dados já existem. Danilo responde se o diagnóstico cabe no escopo.</p>
+      <p class="en" lang="en">Describe the journey at stake, what changed and which data already exists. Danilo will respond if the diagnostic fits the scope.</p>
     </div>
     <div class="cta-actions">
-      <a class="btn btn-solid" href="contact?leea=1"><span class="pt">Pedir a leitura</span><span class="en" lang="en">Request the read</span></a>
-      <a class="back-link" href="/"><span class="pt">← Voltar ao início</span><span class="en" lang="en">← Back to home</span></a>
+      <a class="btn btn-solid" href="contact.html?leea=1" data-leea-primary data-cta-position="final"><span class="pt">Quero mapear uma transição</span><span class="en" lang="en">I want to map a transition</span></a>
+      <a class="back-link" href="index.html"><span class="pt">← Voltar ao início</span><span class="en" lang="en">← Back to home</span></a>
     </div>
   </section>
 
 </main>
 
 <footer>
-  <div class="footer-brand"><img class="footer-logo" src="assets/leea/leea-logo-transparent.png" alt=""><img class="footer-wordmark" src="assets/leea/leea-wordmark-transparent.png" alt="Leea"><span>Agência Leea</span></div>
+  <div class="footer-brand"><img class="footer-logo" src="assets/leea/leea-logo-transparent.png" alt=""><img class="footer-wordmark" src="assets/leea/leea-wordmark-transparent.png" alt="Leea"><span>Prática autoral de Danilo Espeleta</span></div>
   <div class="footer-info">
     <span>São Paulo / SP</span>
     <a href="mailto:daniloespeleta@gmail.com">daniloespeleta@gmail.com</a>
@@ -1421,6 +1449,47 @@ function setLang(lang){
 langButtons.forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.lang);});});
 var saved=null;try{saved=localStorage.getItem('lang');}catch(e){}
 if(saved==='en'||saved==='pt')setLang(saved);
+
+/* ---- Leea measurement, context only and no PII ---- */
+function leeaLang(){return document.body.classList.contains('lang-en')?'en':'pt-BR';}
+function track(name,params){if(typeof window.gtag==='function')window.gtag('event',name,params||{});}
+function safeToken(value){return String(value||'').slice(0,80).replace(/[^a-zA-Z0-9._-]/g,'_');}
+function deviceCategory(){if(window.matchMedia&&matchMedia('(max-width: 760px)').matches)return 'mobile';if(window.matchMedia&&matchMedia('(max-width: 1024px)').matches)return 'tablet';return 'desktop';}
+function referrerGroup(){
+  if(!document.referrer)return 'direct';
+  try{
+    var url=new URL(document.referrer),host=url.hostname.toLowerCase();
+    if(host===location.hostname)return url.pathname.indexOf('portfolio')!==-1?'portfolio':'internal_other';
+    if(host.indexOf('linkedin.')!==-1)return 'linkedin';
+    if(/google\.|bing\.|duckduckgo\.|yahoo\./.test(host))return 'search';
+  }catch(e){}
+  return 'external_other';
+}
+var attribution={referrer_group:referrerGroup()};
+try{
+  var query=new URLSearchParams(location.search);
+  ['utm_source','utm_medium','utm_campaign'].forEach(function(key){var value=safeToken(query.get(key));if(value)attribution[key]=value;});
+  sessionStorage.setItem('leea_attribution',JSON.stringify(attribution));
+}catch(e){}
+track('view_leea_page',Object.assign({language:leeaLang(),page_version:'leea_v1_veredito',device_category:deviceCategory()},attribution));
+document.querySelectorAll('[data-leea-primary]').forEach(function(link){link.addEventListener('click',function(){track('click_leea_primary_cta',{cta_position:link.dataset.ctaPosition,cta_copy_id:'map_transition',offer_id:'lifecycle_transition_diagnostic',page_version:'leea_v1_veredito',language:leeaLang()});});});
+document.querySelectorAll('[data-leea-secondary]').forEach(function(link){link.addEventListener('click',function(){track('click_leea_secondary_cta',{cta_position:link.dataset.ctaPosition,target_anchor:'evidencias-limites',page_version:'leea_v1_veredito',language:leeaLang()});});});
+document.querySelectorAll('a[href*="linkedin.com"]').forEach(function(link){link.addEventListener('click',function(){track('click_leea_linkedin',{source_page:'leea',source_component:'footer',language:leeaLang()});});});
+document.querySelectorAll('[data-portfolio-case]').forEach(function(link){link.addEventListener('click',function(){var id=link.dataset.portfolioCase;track('view_portfolio_case',{case_id:id,case_type:id==='fenix'?'professional':'authorial_project',proof_status:id==='fenix'?'real_experience':'in_validation',source_page:'leea',language:leeaLang()});});});
+if('IntersectionObserver' in window){
+  var measured=new Set();
+  var measureObserver=new IntersectionObserver(function(entries){entries.forEach(function(entry){
+    if(!entry.isIntersecting||entry.intersectionRatio<.5||measured.has(entry.target))return;
+    var target=entry.target;
+    setTimeout(function(){var rect=target.getBoundingClientRect(),visible=Math.min(rect.bottom,innerHeight)-Math.max(rect.top,0);if(visible>0&&visible>=Math.min(rect.height,innerHeight)*.5&&!measured.has(target)){
+      measured.add(target);measureObserver.unobserve(target);
+      if(target.id==='oferta')track('view_leea_offer',{offer_id:'lifecycle_transition_diagnostic',page_version:'leea_v1_veredito',language:leeaLang()});
+      else track('view_leea_proof',{proof_id:target.dataset.proofId,proof_status:target.dataset.proofStatus,source_page:'leea',page_version:'leea_v1_veredito',language:leeaLang()});
+    }},1000);
+  });},{threshold:[.5]});
+  var offer=document.getElementById('oferta');if(offer)measureObserver.observe(offer);
+  document.querySelectorAll('[data-proof-id]').forEach(function(card){measureObserver.observe(card);});
+}
 
 /* ---- mobile sidebar ---- */
 var menuBtn=document.querySelector('.menu-btn'),sidebar=document.getElementById('sidebar'),
@@ -1499,7 +1568,7 @@ updateProgress();
     [0,2,0,'monitorando'],  [1,1,3,'monitorando'],
     [2,2,0,'monitorando'],  [3,1,8,'monitorando'],
     [6,0,26,'atencao'],     [9,0,38,'atencao'],
-    [14,0,52,'dispara'],    [3,0,44,'curso'],
+    [14,0,52,'revisar'],    [3,0,44,'curso'],
     [1,1,21,'respondeu'],   [2,2,9,'respondeu'],
     [1,2,2,'monitorando'],  [2,3,0,'monitorando']
   ];
@@ -1547,8 +1616,5 @@ updateProgress();
 var y=document.getElementById('year');if(y)y.textContent=new Date().getFullYear();
 })();
 </script>
-<!-- Start of HubSpot Embed Code -->
-  <script type="text/javascript" id="hs-script-loader" async defer src="//js-na1.hs-scripts.com/51843147.js"></script>
-<!-- End of HubSpot Embed Code -->
 </body>
 </html>

@@ -26,7 +26,7 @@ O agente só pode reportar a alteração como concluída se o comando retornar `
 ## Proteções mínimas
 
 - links de navegação e sua ordem por tipo de página;
-- presença de `Notas`, `Contato`, `Portfólio` e `Agência Leea` quando previstos;
+- presença de `Notas`, `Contato`, `Portfólio` e `Leea` quando previstos;
 - menu desktop e menu mobile;
 - links relativos dos assets da Leea;
 - integridade de whitespace com `git diff --check`;
@@ -39,6 +39,9 @@ Se uma alteração visual exigir remover, reordenar, renomear ou esconder um ite
 
 ## Escopo da identidade Leea
 
+- fonte canônica obrigatória: `C:\Users\espel\OneDrive\Documentos\Claude\Projects\Agência Leea\Leea_logo.png`;
+- quando o logo aparecer pontualmente, usar a própria fonte canônica, sem redesenhar ou reinterpretar seus traços;
+- quando houver extensão gráfica, preservar o padrão do original: uma única linha tracejada, cruzamento no fechamento do balão, volta em torno do círculo e continuidade para fora;
 - `leea.html`: identidade pode ser explorada como elemento gráfico do hero;
 - `case-leea.html`: símbolo discreto, sem repetição desnecessária de wordmark;
 - `portfolio.html`: identificação visual no card do projeto;
