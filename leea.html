@@ -102,7 +102,7 @@ main section{max-width:var(--max);margin:0 auto;padding:clamp(3.5rem,8vw,6rem) 1
 .section-title .accent{color:var(--cyan)}
 .section-sub{margin-top:1rem;color:var(--gray);max-width:640px}
 .section-sub p+p{margin-top:.8rem}
-.content-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-top:2rem}
+.content-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-top:2rem}.content-grid.one-up{grid-template-columns:1fr}
 .content-card{background:var(--bg2);padding:1.5rem}.content-card h3{font-family:var(--cond);font-size:1.35rem;text-transform:uppercase;margin-bottom:.7rem}.content-card p,.content-card li{color:var(--gray)}.content-card ul{padding-left:1.2rem}.content-card li+li{margin-top:.45rem}
 .offer-card{margin-top:2rem;border:1px solid rgba(var(--cyan-rgb),.45);background:rgba(var(--cyan-rgb),.045);padding:clamp(1.4rem,4vw,2.2rem)}
 .offer-meta{display:flex;flex-wrap:wrap;gap:.6rem;margin:1.2rem 0}.offer-meta span,.proof-status{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--border);padding:.35rem .65rem;color:var(--gray)}
@@ -546,7 +546,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
       <p class="pt">A equipe enxerga ativação, risco, retenção, reativação ou expansão quando o KPI já mudou. O diagnóstico localiza qual transição merece intervenção, quais sinais sustentam a hipótese e como medir o próximo teste sem confundir correlação com causa.</p>
       <p class="en" lang="en">The team sees activation, risk, retention, reactivation or expansion after the KPI has already changed. The diagnostic identifies which transition deserves intervention, which signals support the hypothesis and how to measure the next test without confusing correlation with causality.</p>
     </div>
-    <div class="content-grid reveal">
+    <div class="content-grid one-up reveal">
       <article class="content-card">
         <h3><span class="pt">Para quem é</span><span class="en" lang="en">Who it is for</span></h3>
         <ul>
@@ -554,15 +554,6 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
           <li><span class="pt">CRM ativo, canal próprio e jornada identificável.</span><span class="en" lang="en">An active CRM, an owned channel and an identifiable journey.</span></li>
           <li><span class="pt">Histórico com timestamps e um responsável pelos dados.</span><span class="en" lang="en">Historical data with timestamps and a data owner.</span></li>
           <li><span class="pt">Uma pessoa com autoridade para decidir o próximo passo.</span><span class="en" lang="en">A person with authority to decide the next step.</span></li>
-        </ul>
-      </article>
-      <article class="content-card">
-        <h3><span class="pt">Para quem não é</span><span class="en" lang="en">Who it is not for</span></h3>
-        <ul>
-          <li><span class="pt">Curiosidade genérica sobre IA, sem decisão de lifecycle.</span><span class="en" lang="en">Generic AI curiosity without a lifecycle decision.</span></li>
-          <li><span class="pt">Ausência de jornada, histórico ou condição mínima de leitura.</span><span class="en" lang="en">No journey, history or minimum reading conditions.</span></li>
-          <li><span class="pt">Demanda de implantação full stack ou campanha completa.</span><span class="en" lang="en">A request for full-stack implementation or a complete campaign.</span></li>
-          <li><span class="pt">Expectativa de garantia de resultado ou suporte permanente.</span><span class="en" lang="en">An expectation of guaranteed results or permanent support.</span></li>
         </ul>
       </article>
     </div>
@@ -600,7 +591,6 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
         <li><span class="pt">coletar mais evidência;</span><span class="en" lang="en">collect more evidence;</span></li>
         <li><span class="pt">encerrar a hipótese.</span><span class="en" lang="en">close the hypothesis.</span></li>
       </ul>
-      <p class="hero-note"><span class="pt"><strong>Não promete uplift.</strong> Preço e disponibilidade não estão publicados.</span><span class="en" lang="en"><strong>It does not promise uplift.</strong> Price and availability are not published.</span></p>
     </div>
 
     <div id="entregaveis" class="deliverables-grid reveal">
@@ -622,8 +612,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
       <span class="en" lang="en">Every proof needs a <span class="accent">status</span></span>
     </h2>
     <div class="proof-grid reveal">
-      <article class="proof-card" data-proof-id="danilo_trajectory" data-proof-status="real_experience"><span class="proof-status"><span class="pt">Experiência profissional real</span><span class="en" lang="en">Real professional experience</span></span><h3><span class="pt">Trajetória de Danilo</span><span class="en" lang="en">Danilo's track record</span></h3><p><span class="pt">Repertório comprovado em CRM, Lifecycle, automação, governança e mensuração.</span><span class="en" lang="en">Demonstrated experience in CRM, Lifecycle, automation, governance and measurement.</span></p><a class="btn btn-outline" href="index.html#trajetoria"><span class="pt">Ver trajetória</span><span class="en" lang="en">View track record</span></a></article>
-      <article class="proof-card" data-proof-id="fenix" data-proof-status="real_experience"><span class="proof-status"><span class="pt">Case profissional real</span><span class="en" lang="en">Real professional case</span></span><h3>Fênix</h3><p><span class="pt">Experiência anterior de Danilo em uma operação de CRM. Não é entrega da Leea.</span><span class="en" lang="en">Danilo's previous experience in a CRM operation. It is not a Leea delivery.</span></p><a class="btn btn-outline" href="case-fenix.html" data-portfolio-case="fenix"><span class="pt">Ver case Fênix</span><span class="en" lang="en">View Fênix case</span></a></article>
+      <article class="proof-card" data-proof-id="danilo_trajectory" data-proof-status="real_experience"><span class="proof-status"><span class="pt">Experiência profissional real</span><span class="en" lang="en">Real professional experience</span></span><h3><span class="pt">Minha trajetória</span><span class="en" lang="en">My track record</span></h3><p><span class="pt">Meu repertório comprovado em CRM, Lifecycle, automação, governança e mensuração.</span><span class="en" lang="en">My demonstrated experience in CRM, Lifecycle, automation, governance and measurement.</span></p><a class="btn btn-outline" href="index.html#trajetoria"><span class="pt">Ver trajetória</span><span class="en" lang="en">View track record</span></a></article>
+      <article class="proof-card" data-proof-id="fenix" data-proof-status="real_experience"><span class="proof-status"><span class="pt">Case profissional real</span><span class="en" lang="en">Real professional case</span></span><h3>Fênix</h3><p><span class="pt">Minha experiência anterior em uma operação de CRM. Não é entrega da Leea.</span><span class="en" lang="en">My previous experience in a CRM operation. It is not a Leea delivery.</span></p><a class="btn btn-outline" href="case-fenix.html" data-portfolio-case="fenix"><span class="pt">Ver case Fênix</span><span class="en" lang="en">View Fênix case</span></a></article>
       <article class="proof-card" data-proof-id="sulco_demo" data-proof-status="synthetic_demo"><span class="proof-status"><span class="pt">Demonstração sintética</span><span class="en" lang="en">Synthetic demonstration</span></span><h3>Sulco</h3><p><span class="pt">Tabelas, mapa e regras ilustram a hipótese com dados sintéticos. Não são resultado de cliente.</span><span class="en" lang="en">Tables, maps and rules illustrate the hypothesis with synthetic data. They are not client results.</span></p><a class="btn btn-outline" href="#tabela"><span class="pt">Ver demonstração</span><span class="en" lang="en">View demonstration</span></a></article>
       <article class="proof-card" data-proof-id="leea_case" data-proof-status="in_validation"><span class="proof-status"><span class="pt">Projeto autoral em validação</span><span class="en" lang="en">Author-led project in validation</span></span><h3>Leea</h3><p><span class="pt">Arquitetura e protótipos documentados. Ainda não existe case pago da Leea.</span><span class="en" lang="en">Documented architecture and prototypes. Leea does not have a paid case yet.</span></p><a class="btn btn-outline pt" href="case-leea.html" data-portfolio-case="leea">Ver case autoral</a><span class="hero-note en" lang="en">The complete authorial case is currently available in Portuguese only.</span></article>
     </div>
@@ -633,20 +623,6 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
       <article class="content-card"><h3><span class="pt">Acesso mínimo</span><span class="en" lang="en">Minimum access</span></h3><p><span class="pt">Prefira CSV anonimizado, query executada pelo cliente, exemplos sem PII, dicionário de campos e leitura somente quando indispensável e aprovada.</span><span class="en" lang="en">Prefer anonymized CSV files, client-run queries, examples without PII, a data dictionary and read-only access only when essential and approved.</span></p></article>
     </div>
 
-    <div class="limits-block reveal">
-      <div class="limits-not">
-        <div class="limits-not-label"><span class="pt">O diagnóstico não inclui</span><span class="en" lang="en">The diagnostic does not include</span></div>
-        <ul class="limits-not-list">
-          <li><span class="pt">implantação em produção, disparo de campanha ou migração de CRM;</span><span class="en" lang="en">production implementation, campaign sending or CRM migration;</span></li>
-          <li><span class="pt">data lake, engenharia extensa, scoring preditivo ou automação autônoma;</span><span class="en" lang="en">a data lake, extensive engineering, predictive scoring or autonomous automation;</span></li>
-          <li><span class="pt">operação de agentes em produção, campanha multicanal completa ou mídia paga;</span><span class="en" lang="en">production agent operations, a full multichannel campaign or paid media;</span></li>
-          <li><span class="pt">suporte mensal, plantão, recorrência ou garantia de resultado.</span><span class="en" lang="en">monthly support, on-call support, recurring service or result guarantees.</span></li>
-        </ul>
-      </div>
-      <div class="limits-rigor"><p class="pt">A Leea distingue correlação de causalidade. Linguagem e comportamento geram hipótese. O cliente valida o significado de negócio e mantém a decisão operacional.</p><p class="en" lang="en">Leea distinguishes correlation from causality. Language and behavior generate hypotheses. The client validates the business meaning and retains operational authority.</p></div>
-    </div>
-
-    <div class="demo-disclosure"><strong><span class="pt">Demonstração com dados sintéticos.</span><span class="en" lang="en">Demonstration with synthetic data.</span></strong> <span class="pt">Não é resultado de cliente, método validado ou automação em produção.</span><span class="en" lang="en">It is not a client result, a validated method or production automation.</span></div>
   </section>
 
   <div class="divider" role="presentation"></div>
@@ -716,7 +692,6 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
           <div class="rate-flatline" aria-hidden="true"></div>
           <p class="pt">Um número por mês. Sem tempo dentro do mês, sem estado, sem linguagem. A mesma taxa pode esconder um cliente que cancelou ontem e outro que já estava sumido havia semanas.</p>
           <p class="en" lang="en">One number per month. No time inside the month, no state, no language. The same rate can hide a customer who canceled yesterday and another who had already gone quiet weeks earlier.</p>
-          <span class="compare-note"><span class="pt">Dado ilustrativo de demonstração, não é resultado de cliente.</span><span class="en" lang="en">Illustrative demonstration data, not a client result.</span></span>
         </div>
         <div class="compare-panel" role="tabpanel" id="cpanel-seq" aria-labelledby="ctab-seq">
           <h4 class="compare-h"><span class="pt">Como a Leea lê</span><span class="en" lang="en">How Leea reads it</span></h4>
@@ -1066,11 +1041,6 @@ ENTAO  especificar('hipotese_recuperacao')</code></pre>
         <p class="glossary-def en" lang="en">Recurring cycle of testing, measurement, assumption review and model updates.</p>
       </div>
     </div>
-
-    <p class="theory-note">
-      <span class="pt">A leitura de trajetória se apoia em teoria de jornada dinâmica e temporal. A leitura de linguagem se apoia em semiótica, com análise textual.</span>
-      <span class="en" lang="en">The trajectory reading draws on dynamic, time based journey theory. The language reading draws on semiotics, with textual analysis.</span>
-    </p>
   </section>
 
   <div class="divider" role="presentation"></div>
@@ -1412,8 +1382,8 @@ ENTAO  especificar('hipotese_recuperacao')</code></pre>
       <span class="en" lang="en">Map a <span class="accent">real transition</span></span>
     </h2>
     <div class="section-sub">
-      <p class="pt">Conte qual jornada está em jogo, o que mudou e quais dados já existem. Danilo responde se o diagnóstico cabe no escopo.</p>
-      <p class="en" lang="en">Describe the journey at stake, what changed and which data already exists. Danilo will respond if the diagnostic fits the scope.</p>
+      <p class="pt">Conte qual jornada está em jogo, o que mudou e quais dados já existem. Eu respondo se o diagnóstico cabe no escopo.</p>
+      <p class="en" lang="en">Describe the journey at stake, what changed and which data already exists. I will respond if the diagnostic fits the scope.</p>
     </div>
     <div class="cta-actions">
       <a class="btn btn-solid" href="contact.html?leea=1" data-leea-primary data-cta-position="final"><span class="pt">Quero mapear uma transição</span><span class="en" lang="en">I want to map a transition</span></a>
