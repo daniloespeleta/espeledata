@@ -23,9 +23,45 @@ $expected = @{
     desktop = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
     mobile  = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
   }
+  'case-abrindo-caminhos.html' = @{
+    desktop = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+    mobile  = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+  }
+  'case-boa-leitura.html' = @{
+    desktop = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+    mobile  = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+  }
+  'case-espeledata.html' = @{
+    desktop = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+    mobile  = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+  }
+  'case-fenix.html' = @{
+    desktop = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+    mobile  = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+  }
   'case-leea.html' = @{
     desktop = @('index.html', 'portfolio.html', 'leea.html', 'contact.html')
     mobile  = @('index.html', 'portfolio.html', 'leea.html', 'contact.html')
+  }
+  'case-sql-01.html' = @{
+    desktop = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+    mobile  = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+  }
+  'case-sql-02.html' = @{
+    desktop = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+    mobile  = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+  }
+  'case-sql-03.html' = @{
+    desktop = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+    mobile  = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+  }
+  'case-sql-04.html' = @{
+    desktop = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+    mobile  = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+  }
+  'case-sql-05.html' = @{
+    desktop = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+    mobile  = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
   }
 }
 
