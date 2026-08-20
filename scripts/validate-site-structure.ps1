@@ -2,30 +2,67 @@ $ErrorActionPreference = 'Stop'
 
 $siteRoot = Split-Path -Parent $PSScriptRoot
 
-$expected= @{
+$expected = @{
   'index.html' = @{
-    desktop = @('#sobre', 'leea', '#trajetoria', 'portfolio', 'notas', 'contact', 'CV/DE-Curriculo.pdf')
-    mobile  = @('#sobre', 'leea', '#trajetoria', '#cases', 'portfolio', 'notas', 'contact', 'CV/DE-Curriculo.pdf')
+    desktop = @('#sobre', 'leea.html', '#trajetoria', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+    mobile  = @('#sobre', 'leea.html', '#trajetoria', '#cases', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
   }
   'portfolio.html' = @{
-    desktop = @('/', '/#sobre', 'portfolio', 'notas', 'contact', 'CV/DE-Curriculo.pdf')
-    mobile  = @('/', '/#sobre', 'portfolio', 'notas', 'contact', 'CV/DE-Curriculo.pdf')
+    desktop = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+    mobile  = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
   }
   'leea.html' = @{
-    desktop = @('/', '/#sobre', 'portfolio', 'leea', 'notas', 'contact?leea=1')
-    mobile  = @('/', '/#sobre', 'portfolio', 'leea', 'notas', 'contact?leea=1')
+    desktop = @('index.html', 'index.html#sobre', 'portfolio.html', 'leea.html', 'notas.html', 'contact.html?leea=1')
+    mobile  = @('index.html', 'index.html#sobre', 'portfolio.html', 'leea.html', 'notas.html', 'contact.html?leea=1')
   }
   'notas.html' = @{
-    desktop = @('/', '/#sobre', 'leea', 'portfolio', 'notas', 'contact', 'CV/DE-Curriculo.pdf')
-    mobile  = @('/', '/#sobre', 'leea', 'portfolio', 'notas', 'contact', 'CV/DE-Curriculo.pdf')
+    desktop = @('index.html', 'index.html#sobre', 'leea.html', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+    mobile  = @('index.html', 'index.html#sobre', 'leea.html', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
   }
   'contact.html' = @{
-    desktop = @('/', '/#sobre', 'portfolio', 'notas', 'contact', 'CV/DE-Curriculo.pdf')
-    mobile  = @('/', '/#sobre', 'portfolio', 'notas', 'contact', 'CV/DE-Curriculo.pdf')
+    desktop = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+    mobile  = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+  }
+  'case-abrindo-caminhos.html' = @{
+    desktop = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+    mobile  = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+  }
+  'case-boa-leitura.html' = @{
+    desktop = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+    mobile  = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+  }
+  'case-espeledata.html' = @{
+    desktop = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+    mobile  = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+  }
+  'case-fenix.html' = @{
+    desktop = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+    mobile  = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
   }
   'case-leea.html' = @{
-    desktop = @('/', 'portfolio', 'leea', 'contact')
-    mobile  =   }
+    desktop = @('index.html', 'portfolio.html', 'leea.html', 'contact.html')
+    mobile  = @('index.html', 'portfolio.html', 'leea.html', 'contact.html')
+  }
+  'case-sql-01.html' = @{
+    desktop = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+    mobile  = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+  }
+  'case-sql-02.html' = @{
+    desktop = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+    mobile  = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+  }
+  'case-sql-03.html' = @{
+    desktop = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+    mobile  = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+  }
+  'case-sql-04.html' = @{
+    desktop = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+    mobile  = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+  }
+  'case-sql-05.html' = @{
+    desktop = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+    mobile  = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+  }
 }
 
 function Compare-LinkSequence {
