@@ -1186,7 +1186,7 @@ ENTAO  especificar('hipotese_recuperacao')</code></pre>
           <div class="oph-head"><span class="oph-num">01</span><span class="oph-name"><span class="pt">Planejar</span><span class="en" lang="en">Plan</span></span></div>
           <div class="oph-agents">
             <article class="oag">
-              <h4 class="oag-name">leea_plano</h4>
+              <h3 class="oag-name">leea_plano</h3>
               <p class="oag-role"><span class="pt">O planejador. Pega um pedido vago e devolve um problema com recorte: qual população, qual transição, qual janela, e o que conta como sucesso.</span><span class="en" lang="en">The planner. Takes a vague request and returns a scoped problem: which population, which transition, which window, and what counts as success.</span></p>
               <p class="oag-conf"><span class="pt">Diferencial</span><span class="en" lang="en">Differentiator</span>: <b><span class="pt">define o critério de sucesso antes de ver o dado, para não escolher a métrica que ficou bonita depois</span><span class="en" lang="en">sets the success criterion before seeing the data, so the metric that looks good afterwards is not the one chosen</span></b></p>
             </article>
@@ -1197,12 +1197,12 @@ ENTAO  especificar('hipotese_recuperacao')</code></pre>
           <div class="oph-head"><span class="oph-num">02</span><span class="oph-name"><span class="pt">Construir</span><span class="en" lang="en">Build</span></span></div>
           <div class="oph-agents">
             <article class="oag">
-              <h4 class="oag-name">leea_base</h4>
+              <h3 class="oag-name">leea_base</h3>
               <p class="oag-role"><span class="pt">O que limpa. Tira duplicata, corrige data furada, marca contato inválido e separa quem ainda estava ativo no fim da janela de quem realmente saiu.</span><span class="en" lang="en">The one that cleans. Removes duplicates, fixes broken dates, flags invalid contacts and separates who was still active at the end of the window from who actually left.</span></p>
               <p class="oag-conf"><span class="pt">Diferencial</span><span class="en" lang="en">Differentiator</span>: <b><span class="pt">regra de censura, que é o que impede contar como cancelamento quem só não tinha vencido ainda</span><span class="en" lang="en">censoring rule, which is what stops counting as churn someone whose term simply had not ended yet</span></b></p>
             </article>
             <article class="oag">
-              <h4 class="oag-name">leea_constroi</h4>
+              <h3 class="oag-name">leea_constroi</h3>
               <p class="oag-role"><span class="pt">O construtor. Transforma evento solto em episódio com começo, fim e estado. É quem monta a tabela que você viu lá em cima, para a base inteira.</span><span class="en" lang="en">The builder. Turns loose events into episodes with a start, an end and a state. It builds the table you saw above, for the whole base.</span></p>
               <p class="oag-conf"><span class="pt">Diferencial</span><span class="en" lang="en">Differentiator</span>: <b><span class="pt">gramática de estados própria de cada marca, porque "ativo" não quer dizer a mesma coisa em assinatura e em educação</span><span class="en" lang="en">a state grammar specific to each brand, because "active" does not mean the same thing in subscription and in education</span></b></p>
             </article>
@@ -1213,12 +1213,12 @@ ENTAO  especificar('hipotese_recuperacao')</code></pre>
           <div class="oph-head"><span class="oph-num">03</span><span class="oph-name"><span class="pt">Ler</span><span class="en" lang="en">Read</span></span></div>
           <div class="oph-agents">
             <article class="oag">
-              <h4 class="oag-name">leea_sentido</h4>
+              <h3 class="oag-name">leea_sentido</h3>
               <p class="oag-role"><span class="pt">A leitura de linguagem e semiótica. Lê o que o cliente escreveu no suporte, na pesquisa e na resposta de campanha, e classifica o que ali é sinal de continuidade e o que é sinal de saída.</span><span class="en" lang="en">The language and semiotics reading. It reads what the customer wrote in support, in surveys and in campaign replies, and classifies what is a continuity signal and what is an exit signal.</span></p>
               <p class="oag-conf"><span class="pt">Diferencial</span><span class="en" lang="en">Differentiator</span>: <b><span class="pt">léxico da marca e limite de proteção, o que a marca não deixa uma IA escrever no lugar dela</span><span class="en" lang="en">brand lexicon and protection limits, what the brand will not let an AI write in its name</span></b></p>
             </article>
             <article class="oag">
-              <h4 class="oag-name">leea_padrao</h4>
+              <h3 class="oag-name">leea_padrao</h3>
               <p class="oag-role"><span class="pt">O que capta padrão. Olha a base inteira e acha as trajetórias que se repetem, os grupos que se comportam igual e o ponto do tempo onde o comportamento vira.</span><span class="en" lang="en">The pattern catcher. Looks at the whole base and finds repeating trajectories, groups that behave alike and the point in time where behavior turns.</span></p>
               <p class="oag-conf"><span class="pt">Diferencial</span><span class="en" lang="en">Differentiator</span>: <b><span class="pt">captação de padrão cruzando comportamento com linguagem, não só com número de uso</span><span class="en" lang="en">pattern capture crossing behavior with language, not just with usage counts</span></b></p>
             </article>
@@ -1229,12 +1229,12 @@ ENTAO  especificar('hipotese_recuperacao')</code></pre>
           <div class="oph-head"><span class="oph-num">04</span><span class="oph-name"><span class="pt">Agir</span><span class="en" lang="en">Act</span></span></div>
           <div class="oph-agents">
             <article class="oag">
-              <h4 class="oag-name">leea_retem</h4>
+              <h3 class="oag-name">leea_retem</h3>
               <p class="oag-role"><span class="pt">A retenção. É o papel ilustrado no painel. Avaliaria critérios e recomendaria quando uma hipótese deve seguir para revisão humana.</span><span class="en" lang="en">Retention. This is the role illustrated in the panel. It would evaluate criteria and recommend when a hypothesis should move to human review.</span></p>
               <p class="oag-conf"><span class="pt">Diferencial</span><span class="en" lang="en">Differentiator</span>: <b><span class="pt">definição de threshold a partir do histórico da própria base, não de referência de mercado</span><span class="en" lang="en">threshold set from the base's own history, not from an industry benchmark</span></b></p>
             </article>
             <article class="oag">
-              <h4 class="oag-name">leea_cresce</h4>
+              <h3 class="oag-name">leea_cresce</h3>
               <p class="oag-role"><span class="pt">O que cresce. Trabalha o outro lado da mesma leitura: onde o cliente está pronto para subir de plano, comprar de novo ou indicar, e quando falar sem atrapalhar.</span><span class="en" lang="en">The one that grows. It works the other side of the same reading: where the customer is ready to upgrade, buy again or refer, and when to speak without getting in the way.</span></p>
               <p class="oag-conf"><span class="pt">Diferencial</span><span class="en" lang="en">Differentiator</span>: <b><span class="pt">janela de oportunidade com trava de frequência, para crescimento não canibalizar a retenção</span><span class="en" lang="en">opportunity window with a frequency cap, so growth does not cannibalize retention</span></b></p>
             </article>
@@ -1245,7 +1245,7 @@ ENTAO  especificar('hipotese_recuperacao')</code></pre>
           <div class="oph-head"><span class="oph-num">05</span><span class="oph-name"><span class="pt">Melhorar</span><span class="en" lang="en">Improve</span></span></div>
           <div class="oph-agents">
             <article class="oag">
-              <h4 class="oag-name">leea_melhora</h4>
+              <h3 class="oag-name">leea_melhora</h3>
               <p class="oag-role"><span class="pt">O que melhora. Compara quem recebeu com o grupo de controle, diz se a regra valeu, e devolve o corte corrigido para os agentes anteriores. É o que fecha o ciclo.</span><span class="en" lang="en">The one that improves. Compares who received it against the control group, says whether the rule held up, and returns the corrected cutoff to the earlier agents. It is what closes the loop.</span></p>
               <p class="oag-conf"><span class="pt">Diferencial</span><span class="en" lang="en">Differentiator</span>: <b><span class="pt">recalibra contra grupo de controle e registra também o que foi descartado, não só o que deu certo</span><span class="en" lang="en">recalibrates against a control group and also records what was discarded, not only what worked</span></b></p>
             </article>

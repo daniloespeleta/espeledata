@@ -35,8 +35,8 @@ const INDEXABLE = new Set([
    string, so SVG <title> elements and body copy are never touched. Dash-free. */
 const EN_META = {
   'index.html': [
-    ["Danilo Espeleta, CRM &amp; Lifecycle Marketing em São Paulo. 8+ anos transformando dados em relacionamento e relacionamento em receita: jornadas, automação multicanal, segmentação e análise.",
-     "Danilo Espeleta, CRM &amp; Lifecycle Marketing in São Paulo. 8+ years turning data into relationships and relationships into revenue: journeys, multichannel automation, segmentation and analysis."],
+    ["Danilo Espeleta, CRM &amp; Lifecycle Marketing em São Paulo. 8+ anos em jornadas, automação multicanal, segmentação e análise que viram receita.",
+     "Danilo Espeleta, CRM &amp; Lifecycle Marketing in São Paulo. 8+ years in journeys, multichannel automation, segmentation and analysis that turn data into revenue."],
     ["Estratégia de CRM, automação e ciclo de vida: cases reais e conceituais de segmentação, jornada e captação.",
      "CRM strategy, automation and lifecycle: real and conceptual cases of segmentation, journey and fundraising."],
   ],
@@ -66,8 +66,8 @@ const EN_META = {
   ],
   'case-espeledata.html': [
     ["Case espeledata.com · Danilo Espeleta", "espeledata.com case · Danilo Espeleta"],
-    ["Case do espeledata.com: site bilíngue sem framework, com separação de idioma em tempo de build e um validador de CI que reprova o deploy, inclusive por regra de escrita.",
-     "The espeledata.com case: a bilingual site with no framework, build time language splitting and a CI validator that fails the deploy, writing rules included."],
+    ["Case do espeledata.com: site bilíngue sem framework, com separação de idioma no build e validador de CI que reprova o deploy por regra de escrita.",
+     "The espeledata.com case: a bilingual site with no framework, build time language splitting and a CI validator that fails the deploy on writing rules."],
     ["Site bilíngue sem framework nem dependência, onde a regra editorial é asserção de CI.",
      "A bilingual site with no framework and no dependencies, where the editorial rule is a CI assertion."],
   ],
@@ -107,7 +107,7 @@ const EN_META = {
      "SQL case 05: AVG() and GROUP BY to compute the average ticket by sector and steer paid-media investment toward the most profitable segment."],
   ],
   'notas.html': [
-    ["Notas · Danilo Espeleta", "Notes · Danilo Espeleta"],
+    ["Notas sobre CRM, retenção e dados · Danilo Espeleta", "Notes on CRM, retention and data · Danilo Espeleta"],
     ["Notas de Danilo Espeleta sobre CRM, retenção, dados de jornada e leitura de linguagem. Texto curto, com data e palavras-chave.",
      "Notes by Danilo Espeleta on CRM, retention, journey data and language reading. Short pieces, with a date and keywords."],
     ["Notas sobre CRM, retenção e leitura de linguagem.",
