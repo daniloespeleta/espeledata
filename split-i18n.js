@@ -20,6 +20,7 @@ const outDir = process.argv[3] || '_deploy';
 const PAGES = [
   'index.html', 'portfolio.html', 'contact.html', 'leea.html', 'notas.html',
   'case-fenix.html', 'case-espeledata.html', 'case-abrindo-caminhos.html', 'case-boa-leitura.html',
+  'case-lifecycle-lint.html', 'case-segment-brief.html', 'case-lentes.html',
   'case-sql-01.html', 'case-sql-02.html', 'case-sql-03.html', 'case-sql-04.html', 'case-sql-05.html',
   '404.html', 'obrigado.html',
 ];
@@ -27,6 +28,7 @@ const PAGES = [
 const INDEXABLE = new Set([
   'index.html', 'portfolio.html', 'contact.html', 'leea.html', 'notas.html',
   'case-fenix.html', 'case-espeledata.html', 'case-abrindo-caminhos.html', 'case-boa-leitura.html',
+  'case-lifecycle-lint.html', 'case-segment-brief.html', 'case-lentes.html',
   'case-sql-01.html', 'case-sql-02.html', 'case-sql-03.html', 'case-sql-04.html', 'case-sql-05.html',
 ]);
 
@@ -42,8 +44,8 @@ const EN_META = {
   ],
   'portfolio.html': [
     ["Portfólio · Danilo Espeleta", "Portfolio · Danilo Espeleta"],
-    ["Portfólio de Danilo Espeleta: projetos de CRM &amp; Lifecycle Marketing, cases conceituais de estratégia para o terceiro setor e casos de SQL aplicados a marketing.",
-     "Danilo Espeleta's portfolio: CRM &amp; Lifecycle Marketing projects, conceptual strategy cases for the nonprofit sector and SQL-for-marketing cases."],
+    ["Portfólio de Danilo Espeleta: projetos de CRM e Lifecycle, ferramentas de código aberto para jornada de cliente, cases de estratégia social e casos de SQL.",
+     "Danilo Espeleta's portfolio: CRM and Lifecycle projects, open source tools for customer journeys, social strategy cases and SQL for marketing cases."],
     ["Projetos de CRM &amp; Lifecycle, cases de estratégia e SQL aplicado a marketing.",
      "CRM &amp; Lifecycle projects, strategy cases and SQL applied to marketing."],
   ],
@@ -105,6 +107,21 @@ const EN_META = {
     ["SQL 05 · Ticket Médio por Segmento · Danilo Espeleta", "SQL 05 · Average Ticket by Segment · Danilo Espeleta"],
     ["Case SQL 05: AVG() e GROUP BY para calcular o ticket médio por setor e direcionar o investimento de mídia paga ao segmento mais rentável.",
      "SQL case 05: AVG() and GROUP BY to compute the average ticket by sector and steer paid-media investment toward the most profitable segment."],
+  ],
+  'case-lifecycle-lint.html': [
+    ["Case lifecycle-lint · Danilo Espeleta", "lifecycle-lint case · Danilo Espeleta"],
+    ["Linter que lê jornadas de CRM em YAML e acusa o defeito que só existe na interseção entre réguas ativas. Doze regras, diagnóstico sem modelo.", "A linter that reads CRM journeys in YAML and flags the defect that only exists where active flows overlap. Twelve rules, no model in the diagnosis."],
+    ["Doze regras sobre jornadas declaradas em YAML, com exit code que barra o merge.", "Twelve rules over journeys declared in YAML, with an exit code that blocks the merge."],
+  ],
+  'case-segment-brief.html': [
+    ["Case segment-brief · Danilo Espeleta", "segment-brief case · Danilo Espeleta"],
+    ["Agente que lê eventos de produto e devolve a jornada de lifecycle em YAML, com roteador e validador em código e limite de duas rodadas de correção.", "An agent that reads product events and returns a lifecycle journey in YAML, with routing and validation in code and a two round correction limit."],
+    ["Roteador determinístico na entrada, agente no meio, validador na saída.", "A deterministic router at the entrance, an agent in the middle, a validator at the exit."],
+  ],
+  'case-lentes.html': [
+    ["Case lentes · Danilo Espeleta", "lentes case · Danilo Espeleta"],
+    ["Biblioteca de lentes de leitura para CRM, versionadas, com harness que mede regressão quando o prompt ou o modelo muda. Cinco lentes, 25 casos em CI.", "A library of reading lenses for CRM, versioned, with a harness that measures regression when the prompt or the model changes. Five lenses, 25 cases in CI."],
+    ["Prompt versionado, com asserções verificáveis e placar de regressão em CI.", "Versioned prompts, with verifiable assertions and a regression scoreboard in CI."],
   ],
   'notas.html': [
     ["Notas sobre CRM, retenção e dados · Danilo Espeleta", "Notes on CRM, retention and data · Danilo Espeleta"],

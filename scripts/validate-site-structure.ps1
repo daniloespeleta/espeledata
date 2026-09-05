@@ -35,6 +35,18 @@ $expected = @{
     desktop = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
     mobile  = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
   }
+  'case-lifecycle-lint.html' = @{
+    desktop = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+    mobile  = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+  }
+  'case-segment-brief.html' = @{
+    desktop = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+    mobile  = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+  }
+  'case-lentes.html' = @{
+    desktop = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+    mobile  = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
+  }
   'case-fenix.html' = @{
     desktop = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')
     mobile  = @('index.html', 'index.html#sobre', 'portfolio.html', 'notas.html', 'contact.html', 'CV/DE-Curriculo.pdf')

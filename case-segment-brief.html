@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9NB09LQ1PT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9NB09LQ1PT');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case segment-brief · Danilo Espeleta</title>
+<meta name="description" content="Agente que lê eventos de produto e devolve a jornada de lifecycle em YAML, com roteador e validador em código e limite de duas rodadas de correção.">
+<meta name="author" content="Danilo Espeleta">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Case segment-brief · Danilo Espeleta">
+<meta property="og:description" content="Roteador determinístico na entrada, agente no meio, validador na saída.">
+<meta property="og:url" content="https://espeledata.com/case-segment-brief.html">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg:#0a0a0a; --bg2:#111113; --bg3:#17171a; --bg4:#08080a;
+  --cyan:#00d4ff;
+  --accent:#00d4ff;        /* case accent: #00d4ff (primary) | #ff5a47 (support) */
+  --accent-2:#00d4ff;    /* kicker/secondary: #00d4ff (primary) | #ff5a47 (support)    */
+  --red:#ff5a47; --amber:#f5b84c; --green:#5fe3a8;
+  --white:#f0f0ee; --gray:#a3a39d; --gray2:#888882;
+  --border:rgba(255,255,255,0.08);
+  --border2:rgba(255,255,255,0.18);
+  --sans:'Barlow',system-ui,sans-serif;
+  --cond:'Barlow Condensed',var(--sans);
+  --mono:'JetBrains Mono',Consolas,monospace;
+  --max:960px;
+}
+/* ============ BASE ============ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-padding-top:5.5rem}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{background:var(--bg);color:var(--white);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--cyan)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:2px}
+.visually-hidden{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.skip-link{position:absolute;left:1rem;top:-4rem;z-index:300;background:var(--cyan);color:#00232b;font-weight:600;padding:.6rem 1rem;text-decoration:none;transition:top .15s}
+.skip-link:focus{top:1rem}
+.lang-pt .en{display:none!important}
+.lang-en .pt{display:none!important}
+code{font-family:var(--mono);font-size:.88em}
+
+/* ============ READING PROGRESS ============ */
+.progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--accent);z-index:250;pointer-events:none;transition:width .1s linear}
+
+/* ============ NAV ============ */
+.site-nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.8rem 2rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;border-bottom:1px solid var(--border);background:rgba(10,10,10,0.92);backdrop-filter:blur(12px)}
+.brand{display:flex;flex-direction:column;gap:.1rem;text-decoration:none}
+.brand-name{font-family:var(--cond);font-weight:700;font-size:1.1rem;letter-spacing:.06em;color:var(--white);text-transform:uppercase}
+.brand-role{font-family:var(--mono);font-size:.6rem;color:var(--cyan);letter-spacing:.12em;text-transform:uppercase}
+.nav-right{display:flex;align-items:center;gap:1.4rem}
+.nav-links{display:flex;gap:1.4rem;align-items:center}
+.nav-links a{font-family:var(--mono);font-size:.68rem;color:var(--gray);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;padding:.3rem 0}
+.nav-links a:hover,.nav-links a[aria-current="page"]{color:var(--cyan)}
+.lang-switch{display:flex;border:1px solid var(--border)}
+.lang-switch button{background:none;border:none;color:var(--gray);cursor:pointer;font-family:var(--mono);font-size:.65rem;font-weight:500;letter-spacing:.1em;padding:.4rem .7rem}
+.lang-switch button+button{border-left:1px solid var(--border)}
+.lang-switch button[aria-pressed="true"]{background:var(--cyan);color:#00232b}
+.menu-btn{display:none;font-family:var(--mono);font-size:.68rem;color:var(--white);background:none;border:1px solid var(--border);padding:.45rem .9rem;cursor:pointer;letter-spacing:.12em;text-transform:uppercase;transition:all .2s}
+.menu-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:260;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.sidebar-overlay.open{opacity:1;visibility:visible}
+.sidebar{position:fixed;top:0;right:-290px;width:290px;height:100vh;background:var(--bg2);border-left:1px solid var(--border);z-index:270;transition:right .28s;padding:4.5rem 2rem 2rem;display:flex;flex-direction:column}
+.sidebar.open{right:0}
+.sidebar-close{position:absolute;top:1.1rem;right:1.1rem;background:none;border:1px solid var(--border);color:var(--gray);font-size:1rem;line-height:1;cursor:pointer;font-family:var(--mono);padding:.4rem .6rem}
+.sidebar-close:hover{color:var(--cyan);border-color:var(--cyan)}
+.sidebar a{font-family:var(--mono);font-size:.78rem;color:var(--gray);text-decoration:none;letter-spacing:.12em;text-transform:uppercase;padding:1rem 0;border-bottom:1px solid var(--border);transition:color .2s;display:block}
+.sidebar a:hover,.sidebar a[aria-current="page"]{color:var(--cyan)}
+.sidebar .lang-switch{margin-top:1.5rem;align-self:flex-start}
+@media(max-width:820px){
+  .site-nav{padding:.75rem 1.25rem}
+  .brand-role{display:none}
+  .nav-right .nav-links,.nav-right .lang-switch{display:none}
+  .menu-btn{display:block}
+}
+
+/* ============ LAYOUT ============ */
+.case-wrap{max-width:var(--max);margin:0 auto;padding:7.5rem 1.5rem 3rem}
+.breadcrumb{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray2);display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:2.2rem}
+.breadcrumb a{color:var(--gray);text-decoration:none;transition:color .2s}
+.breadcrumb a:hover{color:var(--cyan)}
+.breadcrumb .sep{color:var(--gray2)}
+
+/* ============ HERO ============ */
+.case-hero{border-top:4px solid var(--accent);padding-top:2.2rem;margin-bottom:1rem}
+.case-tag{font-family:var(--mono);font-size:.68rem;color:var(--accent-2);letter-spacing:.18em;text-transform:uppercase;display:block;margin-bottom:1rem}
+.case-title{font-family:var(--cond);font-weight:800;font-size:clamp(2.6rem,6.5vw,4.2rem);line-height:.95;text-transform:uppercase;color:var(--white)}
+.case-title .accent{color:var(--accent)}
+.case-sub{margin-top:1.3rem;font-size:1rem;color:var(--gray);max-width:60ch;line-height:1.8}
+.meta-pills{list-style:none;display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.6rem}
+.meta-pills li{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);border:1px solid var(--border);padding:.35rem .8rem}
+
+/* ============ SECTION RAIL ============ */
+.section-rail{display:flex;flex-wrap:wrap;gap:1px;background:var(--border);border:1px solid var(--border);margin-top:2.4rem}
+.section-rail a{flex:1 1 auto;background:var(--bg2);font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);text-decoration:none;padding:.7rem .85rem;text-align:center;white-space:nowrap;transition:color .2s,background .2s}
+.section-rail a:hover{color:var(--cyan);background:var(--bg3)}
+.section-rail .num{color:var(--gray2);margin-right:.45rem}
+.section-rail a:hover .num{color:var(--cyan)}
+
+/* ============ METRICS ============ */
+.metrics-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin:2.5rem 0}
+.metric{background:var(--bg2);padding:1.6rem 1.2rem;text-align:center}
+.metric-num{font-family:var(--cond);font-weight:800;font-size:2.2rem;color:var(--accent);line-height:1;display:block}
+.metric-label{font-family:var(--mono);font-size:.7rem;color:var(--gray);letter-spacing:.08em;text-transform:uppercase;margin-top:.55rem;display:block}
+
+/* ============ BLOCKS ============ */
+.block{margin:3.2rem 0;scroll-margin-top:5.5rem}
+.block-head{display:flex;align-items:baseline;gap:.9rem;padding-bottom:.7rem;border-bottom:1px solid var(--border);margin-bottom:1.3rem}
+.block-idx{font-family:var(--mono);font-size:.72rem;color:var(--accent);letter-spacing:.1em;flex:none}
+.block-head h2{font-family:var(--cond);font-weight:700;font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.1;text-transform:uppercase;margin:0}
+.block-head h2 .accent{color:var(--accent)}
+.block-lede{color:var(--gray);max-width:72ch;margin-bottom:1.2rem}
+.prose p{color:var(--gray);margin-bottom:1.05rem;max-width:70ch}
+.prose p:last-child{margin-bottom:0}
+.prose strong{color:var(--white);font-weight:500}
+
+/* ============ CARD GRIDS ============ */
+.grid-2,.grid-3{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);margin-top:1.4rem}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:640px){.grid-2,.grid-3{grid-template-columns:1fr}}
+.mini-card{background:var(--bg2);padding:1.5rem 1.3rem}
+.mini-num{font-family:var(--mono);font-size:.62rem;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:.6rem}
+.mini-title{font-family:var(--cond);font-weight:700;font-size:1.05rem;text-transform:uppercase;letter-spacing:.03em;color:var(--white);margin-bottom:.5rem}
+.mini-card p{font-size:.98rem;color:var(--gray);line-height:1.65}
+.mini-card p strong{color:var(--white);font-weight:500}
+.mini-card p+p{margin-top:.6rem}
+.mini-title a{color:var(--white);text-decoration:none;border-bottom:1px solid var(--accent)}
+.mini-title a:hover{color:var(--accent)}
+.kpi-pill{display:inline-block;font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);padding:.3rem .7rem;margin-top:.7rem;opacity:.9}
+
+/* ============ TERMINAL (tabbed, replayable) ============ */
+.term-tabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-bottom:none;margin-top:1.4rem}
+.tbtn{background:var(--bg2);border:none;border-top:2px solid transparent;color:var(--gray);font-family:var(--mono);font-size:.64rem;letter-spacing:.05em;padding:.75rem .9rem;cursor:pointer;text-align:left;transition:color .18s,background .18s}
+.tbtn:hover{color:var(--white);background:var(--bg3)}
+.tbtn[aria-selected="true"]{color:var(--accent);background:var(--bg3);border-top-color:var(--accent)}
+.term{border:1px solid var(--border);border-left:3px solid var(--accent);background:var(--bg4);padding:1.3rem 1.2rem;min-height:24rem;overflow-x:auto}
+.tline{font-family:var(--mono);font-size:.79rem;line-height:1.75;white-space:pre-wrap;color:var(--white)}
+.t-cmd{color:var(--gray)}
+.t-cmd b{color:var(--accent);font-weight:400}
+.t-head{color:var(--white);font-weight:500;margin-top:.9rem}
+.t-err{color:var(--red)}
+.t-warn{color:var(--amber)}
+.t-ok{color:var(--green)}
+.t-dim{color:var(--gray2)}
+.t-tool{color:var(--accent)}
+.t-note{color:var(--gray2);font-style:italic}
+.exit-chip{display:inline-block;font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;padding:.15rem .6rem;margin-left:.6rem;border:1px solid;font-style:normal}
+.ex1{color:var(--red);border-color:rgba(255,90,71,.45);background:rgba(255,90,71,.08)}
+.ex0{color:var(--green);border-color:rgba(95,227,168,.45);background:rgba(95,227,168,.08)}
+.cursor{display:inline-block;width:.5rem;height:.9rem;background:var(--accent);vertical-align:-2px}
+@media (prefers-reduced-motion:no-preference){
+  .cursor{animation:blink 1.05s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .term-panel.play .tline{opacity:0;animation:tin .3s ease forwards;animation-delay:calc(var(--i,0) * 80ms)}
+  @keyframes tin{to{opacity:1}}
+}
+
+/* ============ MECHANISM DIAGRAM ============ */
+.mech-wrap{border:1px solid var(--border);background:var(--bg2);margin-top:1.4rem}
+.mech-bar{display:flex;align-items:center;gap:.9rem;flex-wrap:wrap;padding:.85rem 1.1rem;border-bottom:1px solid var(--border)}
+.mech-svg{display:block;width:100%;height:auto;padding:1.2rem}
+.mn rect{fill:var(--bg3);stroke:var(--border2);stroke-width:1.2;transition:fill .3s,stroke .3s}
+.mn text{fill:var(--white);font-family:var(--mono);font-size:13px}
+.mn .sub{fill:var(--gray);font-size:10.5px}
+.mn .tagid{fill:var(--gray2);font-size:10.5px}
+.mn.on rect{stroke:var(--accent);fill:rgba(0,212,255,.07)}
+.mn.on text{fill:var(--accent)}
+.mn.on .sub{fill:var(--white)}
+.mn.bad.on rect{stroke:var(--red);fill:rgba(255,90,71,.08)}
+.mn.bad.on text{fill:var(--red)}
+.mn.good.on rect{stroke:var(--green);fill:rgba(95,227,168,.08)}
+.mn.good.on text{fill:var(--green)}
+.tchip rect{fill:var(--bg4);stroke:var(--border2);stroke-width:1}
+.tchip text{fill:var(--gray);font-family:var(--mono);font-size:10.5px}
+.mn.on .tchip text{fill:var(--accent)}
+.medge{stroke:var(--border2);stroke-width:1.5;fill:none;transition:stroke .3s,stroke-width .3s}
+.medge.on{stroke:var(--accent);stroke-width:2.2}
+.medge.on.warn{stroke:var(--red)}
+.elbl{fill:var(--gray2);font-family:var(--mono);font-size:10.5px}
+.mech-cap{font-family:var(--mono);font-size:.72rem;color:var(--accent);padding:.9rem 1.1rem;border-top:1px solid var(--border);background:var(--bg4);min-height:3.4rem;display:flex;align-items:center}
+.mech-cap p{margin:0}
+
+/* ============ BAR PLOT ============ */
+.press{border:1px solid var(--border);background:var(--bg2);margin-top:1.4rem;padding:1.6rem 1.4rem 1.2rem}
+.press-plot{position:relative;height:15rem;display:flex;align-items:flex-end;gap:1.4rem;padding:0 1rem;border-bottom:1px solid var(--border2)}
+.pbar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.pbar b{font-family:var(--cond);font-weight:800;font-size:1.35rem;color:var(--white);margin-bottom:.4rem;line-height:1}
+.pbar i{width:100%;max-width:4.5rem;height:0;background:rgba(0,212,255,.3);border:1px solid var(--accent);border-bottom:none;transition:height 1.05s cubic-bezier(.2,.8,.2,1)}
+.press.in .pbar i{height:var(--h)}
+.pbar.over i{background:rgba(255,90,71,.3);border-color:var(--red)}
+.pbar.over b{color:var(--red)}
+.press-x{display:flex;gap:1.4rem;padding:.7rem 1rem 0}
+.press-x span{flex:1;text-align:center;font-family:var(--mono);font-size:.62rem;color:var(--gray);line-height:1.5}
+.press-foot{font-family:var(--mono);font-size:.68rem;color:var(--gray2);margin-top:1rem;line-height:1.8}
+
+/* ============ ROUNDS STRIP ============ */
+.rounds{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:1.4rem}
+@media(max-width:760px){.rounds{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:460px){.rounds{grid-template-columns:1fr}}
+.rstep{background:var(--bg2);padding:1.2rem 1.1rem}
+.rstep h3{font-family:var(--mono);font-size:.66rem;letter-spacing:.06em;margin-bottom:.6rem;color:var(--accent)}
+.rstep.fail h3{color:var(--red)}
+.rstep.pass h3{color:var(--green)}
+.rstep p{font-size:.9rem;color:var(--gray);line-height:1.6}
+
+/* ============ CODE ============ */
+.code-wrap{border:1px solid var(--border);border-left:3px solid var(--accent);background:var(--bg2);margin-top:1.4rem;overflow:hidden}
+.code-head{font-family:var(--mono);font-size:.62rem;color:var(--gray);letter-spacing:.15em;text-transform:uppercase;padding:.7rem 1.2rem;border-bottom:1px solid var(--border)}
+.code-wrap pre{padding:1.2rem;overflow-x:auto}
+.code-wrap code{font-family:var(--mono);font-size:.76rem;line-height:1.85;color:var(--white)}
+.yk{color:var(--cyan)} .yv{color:var(--green)} .yc{color:var(--gray2);font-style:italic} .yr{color:var(--red)} .yt{color:var(--amber)}
+
+/* ============ TABLES ============ */
+.table-wrap{border:1px solid var(--border);background:var(--bg2);margin-top:1.4rem;overflow-x:auto}
+.rules-table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:.74rem;min-width:34rem}
+.rules-table th{text-align:left;font-weight:400;color:var(--gray2);letter-spacing:.1em;text-transform:uppercase;font-size:.6rem;padding:.85rem 1.1rem;border-bottom:1px solid var(--border)}
+.rules-table td{padding:.75rem 1.1rem;border-bottom:1px solid var(--border);color:var(--gray);vertical-align:top}
+.rules-table tr:last-child td{border-bottom:none}
+.rules-table td:first-child{color:var(--white)}
+.rules-table tbody tr.set-rule td{background:rgba(0,212,255,.05)}
+.rules-table tbody tr.set-rule td:first-child{color:var(--accent)}
+.chip{display:inline-block;font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;padding:.15rem .55rem;border:1px solid;white-space:nowrap}
+.c-warn{color:var(--amber);border-color:rgba(245,184,76,.45);background:rgba(245,184,76,.08)}
+.c-fail{color:var(--red);border-color:rgba(255,90,71,.45);background:rgba(255,90,71,.08)}
+.c-none{color:var(--gray2);border-color:var(--border)}
+.c-explo{color:var(--gray);border-color:var(--border2)}
+.c-diag{color:var(--amber);border-color:rgba(245,184,76,.45);background:rgba(245,184,76,.08)}
+.c-prop{color:var(--accent);border-color:rgba(0,212,255,.45);background:rgba(0,212,255,.08)}
+
+/* ============ CALLOUTS ============ */
+.insight-box{background:color-mix(in srgb,var(--accent) 6%,transparent);border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);border-left:3px solid var(--accent);padding:1.6rem 1.8rem;margin-top:1.4rem}
+.insight-box p{font-style:italic;color:var(--white);font-size:.98rem;line-height:1.8;max-width:70ch}
+.note-bar{border:1px solid var(--border);border-left:3px solid var(--accent);background:var(--bg2);padding:1.1rem 1.4rem;margin-top:1.4rem}
+.note-bar p{font-size:.98rem;color:var(--gray)}
+.note-bar strong{color:var(--white);font-weight:500}
+
+/* ============ BUTTONS / CASE NAV ============ */
+.btn{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.7rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:.85rem 1.5rem;text-decoration:none;border:1px solid;transition:all .15s;cursor:pointer}
+.btn-solid{background:var(--cyan);border-color:var(--cyan);color:#00232b}
+.btn-solid:hover{background:#33ddff;border-color:#33ddff}
+.btn-outline{background:transparent;border-color:var(--border2);color:var(--white)}
+.btn-outline:hover{border-color:var(--cyan);color:var(--cyan)}
+.btn-sm{font-size:.63rem;padding:.6rem 1.05rem}
+.case-nav{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin:3.5rem 0 0}
+@media(max-width:640px){.case-nav{grid-template-columns:1fr}}
+.case-nav-link{background:var(--bg2);padding:1.4rem 1.5rem;text-decoration:none;display:flex;flex-direction:column;gap:.35rem;transition:background .2s}
+.case-nav-link:hover{background:var(--bg3)}
+.case-nav-link.next{text-align:right;align-items:flex-end}
+.case-nav-link.all{grid-column:1/-1;align-items:center;text-align:center}
+.case-nav-dir{font-family:var(--mono);font-size:.6rem;color:var(--gray2);letter-spacing:.15em;text-transform:uppercase}
+.case-nav-title{font-family:var(--cond);font-weight:700;font-size:1.05rem;text-transform:uppercase;color:var(--white);transition:color .2s}
+.case-nav-link:hover .case-nav-title{color:var(--cyan)}
+.repo-cta{margin-top:1.6rem}
+
+/* ============ FOOTER ============ */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-top:4rem}
+.footer-name{font-family:var(--cond);font-weight:700;font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray)}
+.footer-info{font-family:var(--mono);font-size:.72rem;color:var(--gray2);letter-spacing:.06em;display:flex;flex-wrap:wrap;gap:.4rem 1rem;align-items:center}
+.footer-info a{color:var(--gray);text-decoration:none;transition:color .2s}
+.footer-info a:hover{color:var(--cyan)}
+@media(max-width:640px){footer{flex-direction:column;align-items:flex-start;padding:1.5rem}}
+
+/* ============ REVEAL ============ */
+@media (prefers-reduced-motion:no-preference){
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}
+  .reveal.in{opacity:1;transform:none}
+}
+</style>
+</head>
+<body class="lang-pt">
+
+<a class="skip-link" href="#main"><span class="pt">Pular para o conteúdo</span><span class="en" lang="en">Skip to content</span></a>
+<div class="progress" aria-hidden="true"></div>
+
+<!-- ============ NAV (identical on every case page) ============ -->
+<nav class="site-nav" aria-label="Principal">
+  <a class="brand" href="index.html">
+    <span class="brand-name">Danilo Espeleta</span>
+    <span class="brand-role"><span class="pt">CRM &amp; Lifecycle Marketing</span><span class="en" lang="en">CRM &amp; Lifecycle Marketing</span></span>
+  </a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="index.html"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
+      <a href="index.html#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
+      <a href="portfolio.html" aria-current="page"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
+      <a href="notas.html"><span class="pt">Notas</span><span class="en" lang="en">Notes</span></a>
+      <a href="contact.html"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
+      <a class="cv-link" href="CV/DE-Curriculo.pdf" download><span class="pt">Currículo ↓</span><span class="en" lang="en">Resume ↓</span></a>
+    </div>
+    <div class="lang-switch" role="group" aria-label="Idioma / Language">
+      <button type="button" data-lang="pt" aria-pressed="true">PT</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <button class="menu-btn" aria-expanded="false" aria-controls="sidebar">Menu</button>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="sidebar" id="sidebar" aria-label="Menu">
+  <button class="sidebar-close" aria-label="Fechar menu">✕</button>
+  <a href="index.html"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
+  <a href="index.html#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
+  <a href="portfolio.html" aria-current="page"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
+  <a href="notas.html"><span class="pt">Notas</span><span class="en" lang="en">Notes</span></a>
+  <a href="contact.html"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
+  <a class="cv-link" href="CV/DE-Curriculo.pdf" download><span class="pt">Currículo ↓</span><span class="en" lang="en">Resume ↓</span></a>
+  <div class="lang-switch" role="group" aria-label="Idioma / Language">
+    <button type="button" data-lang="pt" aria-pressed="true">PT</button>
+    <button type="button" data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</div>
+
+<main id="main" class="case-wrap">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="portfolio.html">Portfólio</a><span class="sep" aria-hidden="true">/</span>
+    <span><span class="pt">Projetos</span><span class="en" lang="en">Projects</span></span><span class="sep" aria-hidden="true">/</span>
+    <span aria-current="page">segment-brief</span>
+  </nav>
+
+  <header class="case-hero">
+    <span class="case-tag"><span class="pt">Projeto 04 · segment-brief</span><span class="en" lang="en">Project 04 · segment-brief</span></span>
+    <h1 class="case-title">
+      <span class="pt">Proposta que<br><span class="accent">passa no linter.</span></span>
+      <span class="en" lang="en">A proposal that<br><span class="accent">passes the linter.</span></span>
+    </h1>
+    <p class="case-sub">
+      <span class="pt">A pergunta sobre que segmento trabalhar leva cerca de uma semana em quase toda operação de CRM. A parte repetitiva desse trabalho é consulta e comparação, e é essa parte que o agente executa. O critério de aceite fica em código: a jornada proposta precisa passar no lifecycle-lint.</span>
+      <span class="en" lang="en">The question of which segment to work on takes about a week in almost every CRM operation. The repetitive part of that work is querying and comparing, and that is the part the agent runs. The acceptance criterion stays in code: the proposed journey has to pass lifecycle-lint.</span>
+    </p>
+    <ul class="meta-pills">
+      <li><span class="pt">Projeto próprio</span><span class="en" lang="en">Own project</span></li>
+      <li><span class="pt">Agente com uso de ferramentas</span><span class="en" lang="en">Tool using agent</span></li>
+      <li><span class="pt">Dados sintéticos</span><span class="en" lang="en">Synthetic data</span></li>
+    </ul>
+  </header>
+
+  <!-- ============ SECTION RAIL ============ -->
+  <h2 id="railLabel" class="visually-hidden"><span class="pt">Seções desta página</span><span class="en" lang="en">Sections on this page</span></h2>
+  <nav class="section-rail" aria-labelledby="railLabel">
+    <a href="#narrativa"><span class="num">01</span><span class="pt">Narrativa</span><span class="en" lang="en">Narrative</span></a>
+    <a href="#intencoes"><span class="num">02</span><span class="pt">Intenções</span><span class="en" lang="en">Intents</span></a>
+    <a href="#arquitetura"><span class="num">03</span><span class="pt">Arquitetura</span><span class="en" lang="en">Architecture</span></a>
+    <a href="#coorte"><span class="num">04</span><span class="pt">Coorte</span><span class="en" lang="en">Cohort</span></a>
+    <a href="#validador"><span class="num">05</span><span class="pt">Validador</span><span class="en" lang="en">Validator</span></a>
+    <a href="#roteamento"><span class="num">06</span><span class="pt">Roteamento</span><span class="en" lang="en">Routing</span></a>
+    <a href="#avaliacao"><span class="num">07</span><span class="pt">Avaliação</span><span class="en" lang="en">Evaluation</span></a>
+    <a href="#suite"><span class="num">08</span><span class="pt">Suíte</span><span class="en" lang="en">Suite</span></a>
+  </nav>
+
+  <!-- ============ METRICS ============ -->
+  <section class="metrics-strip reveal" aria-label="Números do projeto">
+    <div class="metric">
+      <span class="metric-num" data-count="4">4</span>
+      <span class="metric-label"><span class="pt">ferramentas, liberadas pelo roteador conforme a intenção</span><span class="en" lang="en">tools, released by the router according to intent</span></span>
+    </div>
+    <div class="metric">
+      <span class="metric-num" data-count="2">2</span>
+      <span class="metric-label"><span class="pt">rodadas de correção, por decisão de custo</span><span class="en" lang="en">correction rounds, a cost decision</span></span>
+    </div>
+    <div class="metric">
+      <span class="metric-num" data-count="13">13</span>
+      <span class="metric-label"><span class="pt">casos de eval, dez de roteamento e três de sessão</span><span class="en" lang="en">eval cases, ten on routing and three on sessions</span></span>
+    </div>
+    <div class="metric">
+      <span class="metric-num" data-count="17">17</span>
+      <span class="metric-label"><span class="pt">testes automatizados em CI</span><span class="en" lang="en">automated tests in CI</span></span>
+    </div>
+  </section>
+
+  <div class="note-bar reveal">
+    <p>
+      <span class="pt"><strong>Como esses números são contados:</strong> quatro ferramentas é o que <code>tools.py</code> declara, <code>run_sql</code>, <code>cohort_size</code>, <code>rfm</code> e <code>propose_journey</code>, e o roteador decide quais delas o modelo enxerga em cada execução. Duas rodadas é o teto em <code>agent.py</code>. Treze casos é a contagem em <code>evals/cases.yaml</code>, separada em dois blocos porque eles medem coisas diferentes. Os dezessete testes rodam em CI com o provedor roteirizado, sem chave de API e sem custo.</span>
+      <span class="en" lang="en"><strong>How these numbers are counted:</strong> four tools is what <code>tools.py</code> declares, <code>run_sql</code>, <code>cohort_size</code>, <code>rfm</code> and <code>propose_journey</code>, and the router decides which of them the model sees on each run. Two rounds is the ceiling in <code>agent.py</code>. Thirteen cases is the count in <code>evals/cases.yaml</code>, split into two blocks because they measure different things. The seventeen tests run in CI on the scripted provider, with no API key and no cost.</span>
+    </p>
+  </div>
+
+  <!-- ============ 01 NARRATIVA ============ -->
+  <section class="block reveal" id="narrativa">
+    <div class="block-head">
+      <span class="block-idx">01</span>
+      <h2><span class="pt">Narrativa</span><span class="en" lang="en">Narrative</span></h2>
+    </div>
+    <div class="grid-2">
+      <div class="mini-card">
+        <span class="mini-num">01</span>
+        <div class="mini-title"><span class="pt">Problema</span><span class="en" lang="en">Problem</span></div>
+        <p class="pt">Alguém extrai dado, alguém cruza com receita, alguém escreve um documento, alguém contesta o recorte. Uma semana depois existe um briefing de segmento cuja qualidade ninguém consegue avaliar sem refazer o caminho inteiro.</p>
+        <p class="en" lang="en">Someone pulls the data, someone crosses it with revenue, someone writes a document, someone disputes the cut. A week later there is a segment brief whose quality nobody can assess without redoing the whole path.</p>
+      </div>
+      <div class="mini-card">
+        <span class="mini-num">02</span>
+        <div class="mini-title"><span class="pt">Decisão</span><span class="en" lang="en">Decision</span></div>
+        <p class="pt">Roteador determinístico na entrada, agente no meio, validador na saída. O roteador classifica a pergunta em exploração, diagnóstico ou proposta por marcadores lexicais, e define quais ferramentas o modelo enxerga naquela execução. Uma pergunta exploratória não emite jornada por acidente de formulação.</p>
+        <p class="en" lang="en">A deterministic router at the entrance, an agent in the middle, a validator at the exit. The router classifies the question as exploration, diagnosis or proposal from lexical markers, and defines which tools the model sees on that run. An exploratory question cannot emit a journey by accident of phrasing.</p>
+      </div>
+      <div class="mini-card">
+        <span class="mini-num">03</span>
+        <div class="mini-title"><span class="pt">Execução</span><span class="en" lang="en">Execution</span></div>
+        <p class="pt">O agente consulta o DuckDB em modo leitura com teto de 50 linhas, mede coortes contra um piso de amostra, calcula quintis de RFM e fecha com uma jornada no formato canônico. O YAML sai do modelo e entra no lifecycle-lint. Quando reprova, os achados voltam ao agente como resultado de ferramenta.</p>
+        <p class="en" lang="en">The agent queries DuckDB in read only mode with a 50 row cap, sizes cohorts against a sample floor, computes RFM quintiles and closes with a journey in the canonical format. The YAML leaves the model and enters lifecycle-lint. On failure the findings return to the agent as a tool result.</p>
+      </div>
+      <div class="mini-card">
+        <span class="mini-num">04</span>
+        <div class="mini-title"><span class="pt">Aprendizado</span><span class="en" lang="en">Learning</span></div>
+        <p class="pt">A primeira proposta roteirizada passava com aviso, o que deixava o loop de correção sem demonstração. O validador do agente ficou mais rígido que o linter: quatro regras classificadas como aviso lá reprovam aqui. O linter audita régua escrita por gente, onde um aviso abre conversa com quem escreveu. A proposta do agente é automática, e refazer custa uma rodada.</p>
+        <p class="en" lang="en">The first scripted proposal passed with warnings, which left the correction loop without a demonstration. The agent's validator became stricter than the linter: four rules classified as warnings there fail here. The linter audits flows written by people, where a warning starts a conversation with whoever wrote it. The agent's proposal is automatic, and redoing it costs one round.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 02 INTENÇÕES ============ -->
+  <section class="block reveal" id="intencoes">
+    <div class="block-head">
+      <span class="block-idx">02</span>
+      <h2><span class="pt">Três intenções, <span class="accent">três escopos</span></span><span class="en" lang="en">Three intents, <span class="accent">three scopes</span></span></h2>
+    </div>
+    <p class="block-lede">
+      <span class="pt">A mesma base, o mesmo agente, três perguntas. O que muda entre elas é o conjunto de ferramentas que o modelo enxerga, e quem decide isso é o roteador, em código. A saída fica em português, que é o idioma da operação para a qual a ferramenta foi escrita.</span>
+      <span class="en" lang="en">The same base, the same agent, three questions. What changes between them is the set of tools the model sees, and the router decides that, in code. The output stays in Portuguese, the language of the operation the tool was written for.</span>
+    </p>
+
+    <h3 id="termLabel" class="visually-hidden"><span class="pt">Execuções do agente</span><span class="en" lang="en">Agent runs</span></h3>
+    <div class="term-tabs" role="tablist" aria-labelledby="termLabel">
+      <button class="tbtn" role="tab" id="tab-prop" aria-controls="panel-prop" aria-selected="true" type="button">ask "proponha uma jornada"</button>
+      <button class="tbtn" role="tab" id="tab-diag" aria-controls="panel-diag" aria-selected="false" tabindex="-1" type="button">ask "compare o churn por canal"</button>
+      <button class="tbtn" role="tab" id="tab-explo" aria-controls="panel-explo" aria-selected="false" tabindex="-1" type="button">ask "que dados de eventos temos?"</button>
+    </div>
+
+    <div class="term">
+      <div class="term-panel" id="panel-prop" role="tabpanel" aria-labelledby="tab-prop" tabindex="0">
+        <div class="tline t-cmd" style="--i:0"><b>$</b> segment-brief ask "Que segmento a gente deveria estar trabalhando
+  para reter melhor? Proponha uma jornada."</div>
+        <div class="tline t-head" style="--i:1">intenção: proposta · ferramentas: run_sql, cohort_size, rfm, propose_journey</div>
+        <div class="tline t-tool" style="--i:2">  → run_sql({"query": "WITH d7 AS (SELECT u.user_id, u.canal_aquisicao, ..."})</div>
+        <div class="tline t-dim" style="--i:3">      50 linhas · afiliados × mensal × aulas na 1a semana</div>
+        <div class="tline t-tool" style="--i:4">  → cohort_size({"where": "canal='afiliados' AND plano='mensal'"})</div>
+        <div class="tline t-dim" style="--i:5">      n = 3.412 · acima do piso de amostra (500)</div>
+        <div class="tline t-tool" style="--i:6">  → rfm({"segment": "afiliados_mensal"})</div>
+        <div class="tline t-dim" style="--i:7">      quintis: recência alta · frequência baixa · valor médio</div>
+        <div class="tline t-tool" style="--i:8">  → propose_journey({"id": "ativacao_afiliados_mensal", ...})   rodada 1/2</div>
+        <div class="tline t-err" style="--i:9">  ⇒ validador: reprovado (2 erro(s), 0 aviso(s))</div>
+        <div class="tline t-err" style="--i:10">      ERRO L007  Canal intrusivo sem janela de silêncio</div>
+        <div class="tline t-err" style="--i:11">      ERRO L009  Métrica de sucesso ausente ou de vaidade</div>
+        <div class="tline t-tool" style="--i:12">  → propose_journey({"id": "ativacao_afiliados_mensal", ...})   rodada 2/2</div>
+        <div class="tline t-ok" style="--i:13">  ⇒ validador: aprovado (0 erro(s), 0 aviso(s))</div>
+        <div class="tline t-head" style="--i:14">briefing · afiliados × mensal × d7 &lt; 2 aulas · churn 44% contra 28%</div>
+        <div class="tline t-ok" style="--i:15">jornada: ativacao_afiliados_mensal · holdout 0.1 · success: retencao_d30</div>
+        <div class="tline t-dim" style="--i:16">exit code 0<span class="exit-chip ex0">jornada aprovada</span> <span class="cursor" aria-hidden="true"></span></div>
+      </div>
+
+      <div class="term-panel" id="panel-diag" role="tabpanel" aria-labelledby="tab-diag" tabindex="0" hidden>
+        <div class="tline t-cmd" style="--i:0"><b>$</b> segment-brief ask "Compare o churn por canal de aquisição"</div>
+        <div class="tline t-head" style="--i:1">intenção: diagnostico · ferramentas: run_sql, rfm · propose_journey bloqueada</div>
+        <div class="tline t-tool" style="--i:2">  → run_sql({"query": "SELECT canal, AVG(churn_90d) ... GROUP BY 1"})</div>
+        <div class="tline t-dim" style="--i:3">      afiliados    0.37
+      pago         0.31
+      organico     0.22</div>
+        <div class="tline t-tool" style="--i:4">  → rfm({"group_by": "canal_aquisicao"})</div>
+        <div class="tline t-dim" style="--i:5">      afiliados: quintil de recência no topo · frequência baixa</div>
+        <div class="tline t-head" style="--i:6">leitura: afiliados × mensal com d7 &lt; 2 aulas churnam 44% contra 28% dos
+demais mensais.</div>
+        <div class="tline t-dim" style="--i:7">exit code 0<span class="exit-chip ex0">sem proposta · escopo respeitado</span> <span class="cursor" aria-hidden="true"></span></div>
+      </div>
+
+      <div class="term-panel" id="panel-explo" role="tabpanel" aria-labelledby="tab-explo" tabindex="0" hidden>
+        <div class="tline t-cmd" style="--i:0"><b>$</b> segment-brief ask "Que dados de eventos a gente tem?"</div>
+        <div class="tline t-head" style="--i:1">intenção: exploracao · ferramentas: run_sql</div>
+        <div class="tline t-tool" style="--i:2">  → run_sql({"query": "SELECT event, COUNT(*) FROM events GROUP BY 1"})</div>
+        <div class="tline t-dim" style="--i:3">      enrollment.created    20.114
+      lesson.watched       318.402
+      login                501.227
+      payment.made          36.884</div>
+        <div class="tline t-head" style="--i:4">schema: users(user_id, canal_aquisicao, plano, ...) · events(user_id, event, ts)</div>
+        <div class="tline t-dim" style="--i:5">exit code 0<span class="exit-chip ex0">somente leitura · teto 50 linhas</span> <span class="cursor" aria-hidden="true"></span></div>
+      </div>
+    </div>
+
+    <div class="note-bar">
+      <p>
+        <span class="pt">Repare no que <strong>não</strong> aparece na segunda e na terceira aba: <code>propose_journey</code> nem chega a ser oferecida ao modelo. O escopo de permissão é auditável justamente porque essa decisão fica fora dele.</span>
+        <span class="en" lang="en">Notice what is <strong>missing</strong> from the second and third tabs: <code>propose_journey</code> is never even offered to the model. The permission scope is auditable precisely because that decision sits outside it.</span>
+      </p>
+    </div>
+  </section>
+
+  <div class="insight-box reveal">
+    <p>
+      <span class="pt">Um agente que também roteia e valida a si mesmo devolve resultado sem critério de aceite verificável.</span>
+      <span class="en" lang="en">An agent that also routes and validates itself returns a result with no verifiable acceptance criterion.</span>
+    </p>
+  </div>
+
+  <!-- ============ 03 ARQUITETURA ============ -->
+  <section class="block reveal" id="arquitetura">
+    <div class="block-head">
+      <span class="block-idx">03</span>
+      <h2><span class="pt">Código, modelo, código</span><span class="en" lang="en">Code, model, code</span></h2>
+    </div>
+    <p class="block-lede">
+      <span class="pt">Roteamento e validação ficam fora do modelo por decisão de projeto. Percorra as seis etapas para ver a reprovação do validador voltando ao agente como resultado de ferramenta.</span>
+      <span class="en" lang="en">Routing and validation sit outside the model by design. Step through the six stages to watch the validator's rejection return to the agent as a tool result.</span>
+    </p>
+
+    <div class="mech-wrap">
+      <div class="mech-bar">
+        <button class="btn btn-outline btn-sm" id="mechPlay" type="button">
+          <span class="pt">▶ simular a sessão</span><span class="en" lang="en">▶ simulate the session</span>
+        </button>
+        <span class="tline t-dim" style="font-size:.68rem"><span class="pt">etapa</span><span class="en" lang="en">step</span> <span id="mechStep">1</span>/6</span>
+      </div>
+
+      <svg class="mech-svg" viewBox="0 0 900 510" role="img" aria-labelledby="mechTitle mechDesc">
+        <title id="mechTitle">segment-brief</title>
+        <desc id="mechDesc">Pergunta em linguagem natural entra no roteador em código, que libera ferramentas para o agente; o validador em código reprova a primeira proposta e devolve os achados ao agente, que corrige e entrega o briefing com exit code 0.</desc>
+        <defs>
+          <marker id="mArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="rgba(255,255,255,0.35)"/></marker>
+        </defs>
+
+        <g class="mn" id="n1"><rect x="290" y="14" width="320" height="44"/>
+          <text x="312" y="42"><tspan class="pt">pergunta em linguagem natural</tspan><tspan class="en" lang="en">question in natural language</tspan></text></g>
+        <path class="medge" id="a1" d="M450,58 L450,90" marker-end="url(#mArrow)"/>
+
+        <g class="mn" id="n2"><rect x="240" y="94" width="420" height="66"/>
+          <text x="262" y="122">router.py · código</text>
+          <text class="sub" x="262" y="144">marcadores lexicais: exploracao | diagnostico | proposta</text></g>
+        <path class="medge" id="a2" d="M450,160 L450,192" marker-end="url(#mArrow)"/>
+
+        <g class="mn" id="n3"><rect x="150" y="196" width="600" height="120"/>
+          <text x="172" y="224">agent.py · loop de uso de ferramentas</text>
+          <g class="tchip"><rect x="172" y="240" width="196" height="26"/><text x="184" y="257">run_sql · DuckDB, 50 linhas</text></g>
+          <g class="tchip"><rect x="380" y="240" width="150" height="26"/><text x="392" y="257">cohort_size · piso</text></g>
+          <g class="tchip"><rect x="542" y="240" width="130" height="26"/><text x="554" y="257">rfm · quintis</text></g>
+          <g class="tchip"><rect x="172" y="276" width="240" height="26"/><text x="184" y="293">propose_journey · YAML canônico</text></g>
+        </g>
+        <path class="medge" id="a3" d="M450,316 L450,350" marker-end="url(#mArrow)"/>
+
+        <g class="mn bad" id="n4"><rect x="230" y="354" width="440" height="66"/>
+          <text x="252" y="382">validator.py · código</text>
+          <text class="sub" x="252" y="404">lifecycle-lint rígido e piso de amostra · máximo 2 rodadas</text></g>
+
+        <path class="medge" id="aL" d="M670,387 L812,387 L812,256 L756,256" marker-end="url(#mArrow)"/>
+        <text class="elbl" x="828" y="326" text-anchor="middle" transform="rotate(-90 828 326)">reprovação volta como resultado de ferramenta</text>
+
+        <path class="medge" id="a4" d="M450,420 L450,452" marker-end="url(#mArrow)"/>
+        <g class="mn good" id="n5"><rect x="290" y="456" width="320" height="44"/>
+          <text x="312" y="484">briefing + YAML aprovado · exit code 0</text></g>
+      </svg>
+
+      <div class="mech-cap" aria-live="polite">
+        <p class="mech-step" data-step="1"><span class="pt">A pergunta em linguagem natural entra no pipeline. Nada foi decidido ainda.</span><span class="en" lang="en">The natural language question enters the pipeline. Nothing has been decided yet.</span></p>
+        <p class="mech-step" data-step="2" hidden><span class="pt">router.py classifica por marcadores lexicais: intenção proposta, e as quatro ferramentas ficam liberadas.</span><span class="en" lang="en">router.py classifies by lexical markers: proposal intent, and all four tools are released.</span></p>
+        <p class="mech-step" data-step="3" hidden><span class="pt">agent.py executa run_sql, mede a coorte contra o piso, calcula RFM e emite a jornada em YAML.</span><span class="en" lang="en">agent.py runs run_sql, sizes the cohort against the floor, computes RFM and emits the journey in YAML.</span></p>
+        <p class="mech-step" data-step="4" hidden><span class="pt">validator.py reprova a rodada 1: L007 e L009. Os achados voltam ao agente como resultado de ferramenta, não como texto solto.</span><span class="en" lang="en">validator.py fails round 1: L007 and L009. The findings return to the agent as a tool result, not as loose text.</span></p>
+        <p class="mech-step" data-step="5" hidden><span class="pt">Rodada 2 de 2: o agente declara janela de silêncio e troca a métrica de entrega por retencao_d30.</span><span class="en" lang="en">Round 2 of 2: the agent declares quiet hours and swaps the delivery metric for retencao_d30.</span></p>
+        <p class="mech-step" data-step="6" hidden><span class="pt">Aprovado com 0 erros. O briefing sai com holdout de 0.1 e exit code 0. Se a rota permitia proposta e nada foi aprovado, o exit code é 1.</span><span class="en" lang="en">Approved with 0 errors. The brief ships with a 0.1 holdout and exit code 0. If the route allowed a proposal and nothing was approved, the exit code is 1.</span></p>
+      </div>
+    </div>
+
+    <div class="prose" style="margin-top:1.6rem">
+      <p class="pt">O escopo de permissão precisa ser auditável, e o critério de aceite precisa ser o mesmo em toda execução. O agente ocupa a etapa intermediária, que é onde a tarefa é aberta o suficiente para justificar um modelo.</p>
+      <p class="pt">O limite de duas rodadas é decisão de custo. Um agente que não converge com os achados do linter em mãos raramente converge em dez tentativas, e cada rodada extra é token gasto sobre a mesma dúvida.</p>
+      <p class="pt">O roteador usa marcadores lexicais e erra em formulação ambígua. Classificar com modelo tornaria o escopo de permissão dependente de uma saída não determinística, e a troca não compensa: o custo do erro atual é uma ferramenta a menos na execução, e a pergunta pode ser reformulada.</p>
+      <p class="en" lang="en">The permission scope has to be auditable, and the acceptance criterion has to be the same on every run. The agent occupies the middle step, which is where the task is open ended enough to justify a model.</p>
+      <p class="en" lang="en">The two round limit is a cost decision. An agent that does not converge with the linter findings in hand rarely converges in ten attempts, and every extra round is token spend on the same doubt.</p>
+      <p class="en" lang="en">The router uses lexical markers and gets ambiguous phrasing wrong. Classifying with a model would make the permission scope depend on a non deterministic output, and the trade is not worth it: the cost of the current error is one tool less on the run, and the question can be rephrased.</p>
+    </div>
+  </section>
+
+  <!-- ============ 04 COORTE ============ -->
+  <section class="block reveal" id="coorte">
+    <div class="block-head">
+      <span class="block-idx">04</span>
+      <h2><span class="pt">A coorte plantada</span><span class="en" lang="en">The planted cohort</span></h2>
+    </div>
+    <p class="block-lede">
+      <span class="pt">O eval só é verificável porque a resposta certa está plantada em posição conhecida. Alunos vindos de afiliados no plano mensal que assistem menos de duas aulas na primeira semana churnam bem acima dos demais, e é esse recorte que o agente precisa encontrar sozinho.</span>
+      <span class="en" lang="en">The eval is only verifiable because the right answer is planted at a known position. Students from affiliates on the monthly plan who watch fewer than two classes in the first week churn well above the rest, and that is the cut the agent has to find on its own.</span>
+    </p>
+
+    <div class="press">
+      <div class="press-plot">
+        <div class="pbar over" style="--h:88%"><b>44%</b><i></i></div>
+        <div class="pbar" style="--h:56%"><b>28%</b><i></i></div>
+        <div class="pbar" style="--h:62%"><b>31%</b><i></i></div>
+        <div class="pbar" style="--h:44%"><b>22%</b><i></i></div>
+      </div>
+      <div class="press-x">
+        <span><span class="pt">afiliados · mensal<br>d7 menor que 2 aulas</span><span class="en" lang="en">affiliates · monthly<br>d7 under 2 classes</span></span>
+        <span><span class="pt">demais<br>mensais</span><span class="en" lang="en">other<br>monthly</span></span>
+        <span><span class="pt">pago<br>geral</span><span class="en" lang="en">paid<br>overall</span></span>
+        <span><span class="pt">orgânico<br>geral</span><span class="en" lang="en">organic<br>overall</span></span>
+      </div>
+      <p class="press-foot">
+        <span class="pt">churn em 90 dias · escala 0 a 50% · base sintética com seed fixa versionada</span>
+        <span class="en" lang="en">90 day churn · scale 0 to 50% · synthetic base with a versioned fixed seed</span>
+      </p>
+    </div>
+
+    <div class="prose" style="margin-top:1.6rem">
+      <p class="pt">Base sintética de edtech, gerada por script versionado com seed fixa: 20 mil alunos, 18 meses de eventos, sazonalidade de matrícula em janeiro, março e agosto. A coorte de risco em posição conhecida é o que torna o eval verificável, porque existe uma resposta certa contra a qual comparar.</p>
+      <p class="pt">Dado sintético é requisito aqui, declarado no README. Base real de empregador não entra em repositório público.</p>
+      <p class="en" lang="en">A synthetic edtech base, generated by a versioned script with a fixed seed: 20 thousand students, 18 months of events, enrollment seasonality in January, March and August. The risk cohort at a known position is what makes the eval verifiable, because there is a right answer to compare against.</p>
+      <p class="en" lang="en">Synthetic data is a requirement here, stated in the README. Real employer data does not go into a public repository.</p>
+    </div>
+  </section>
+
+  <!-- ============ 05 VALIDADOR ============ -->
+  <section class="block reveal" id="validador">
+    <div class="block-head">
+      <span class="block-idx">05</span>
+      <h2><span class="pt">O validador é <span class="accent">mais rígido que o linter</span></span><span class="en" lang="en">The validator is <span class="accent">stricter than the linter</span></span></h2>
+    </div>
+    <p class="block-lede">
+      <span class="pt">Quatro regras que o lifecycle-lint classifica como aviso reprovam aqui, mais o piso de amostra, que é exclusivo do validador. A diferença não é de rigor por rigor: muda quem recebe o achado.</span>
+      <span class="en" lang="en">Four rules that lifecycle-lint classifies as warnings fail here, plus the sample floor, which is exclusive to the validator. The difference is not strictness for its own sake: it changes who receives the finding.</span>
+    </p>
+
+    <div class="table-wrap">
+      <table class="rules-table">
+        <thead>
+          <tr>
+            <th scope="col"><span class="pt">Regra</span><span class="en" lang="en">Rule</span></th>
+            <th scope="col"><span class="pt">lifecycle-lint (régua humana)</span><span class="en" lang="en">lifecycle-lint (human written flow)</span></th>
+            <th scope="col"><span class="pt">validator.py (proposta automática)</span><span class="en" lang="en">validator.py (automatic proposal)</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>L005 · <span class="pt">Segmento sem decaimento temporal</span><span class="en" lang="en">Segment with no time decay</span></td><td><span class="chip c-warn">aviso</span></td><td><span class="chip c-fail">reprova</span></td></tr>
+          <tr><td>L007 · <span class="pt">Canal intrusivo sem janela de silêncio</span><span class="en" lang="en">Intrusive channel with no quiet hours</span></td><td><span class="chip c-warn">aviso</span></td><td><span class="chip c-fail">reprova</span></td></tr>
+          <tr><td>L008 · <span class="pt">Jornada ativa sem grupo de controle</span><span class="en" lang="en">Active journey with no control group</span></td><td><span class="chip c-warn">aviso</span></td><td><span class="chip c-fail">reprova</span></td></tr>
+          <tr><td>L009 · <span class="pt">Métrica de sucesso ausente ou de vaidade</span><span class="en" lang="en">Success metric missing or a vanity metric</span></td><td><span class="chip c-warn">aviso</span></td><td><span class="chip c-fail">reprova</span></td></tr>
+          <tr class="set-rule"><td><span class="pt">Piso de amostra da coorte</span><span class="en" lang="en">Cohort sample floor</span></td><td><span class="chip c-none"><span class="pt">não existe</span><span class="en" lang="en">not present</span></span></td><td><span class="chip c-fail">reprova</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="rounds">
+      <div class="rstep">
+        <h3>rodada 1/2 · propose_journey</h3>
+        <p><span class="pt">Jornada <code>ativacao_afiliados_mensal</code> com canal intrusivo sem janela declarada e <code>taxa_abertura</code> como métrica de sucesso.</span><span class="en" lang="en">Journey <code>ativacao_afiliados_mensal</code> with an intrusive channel, no declared window, and <code>taxa_abertura</code> as the success metric.</span></p>
+      </div>
+      <div class="rstep fail">
+        <h3>✕ reprovado · 2 erros</h3>
+        <p><span class="pt"><span class="chip c-fail">L007</span> <span class="chip c-fail">L009</span> Os achados voltam ao agente como resultado de ferramenta.</span><span class="en" lang="en"><span class="chip c-fail">L007</span> <span class="chip c-fail">L009</span> The findings return to the agent as a tool result.</span></p>
+      </div>
+      <div class="rstep">
+        <h3>rodada 2/2 · propose_journey</h3>
+        <p><span class="pt">Janela de silêncio declarada, e a métrica troca abertura por <code>retencao_d30</code>.</span><span class="en" lang="en">Quiet hours declared, and the metric swaps opens for <code>retencao_d30</code>.</span></p>
+      </div>
+      <div class="rstep pass">
+        <h3>✓ aprovado · 0 erros</h3>
+        <p><span class="pt">Briefing entregue com holdout de 0.1. Se a hipótese está certa, o teste dirá, e é para isso que o holdout entra.</span><span class="en" lang="en">Brief delivered with a 0.1 holdout. If the hypothesis is right, the test will say so, and that is what the holdout is for.</span></p>
+      </div>
+    </div>
+
+    <div class="insight-box">
+      <p>
+        <span class="pt">O linter audita régua escrita por gente, onde um aviso abre conversa com quem a escreveu. A proposta do agente é automática, e refazer custa uma rodada. Com esse custo, o padrão sobe.</span>
+        <span class="en" lang="en">The linter audits flows written by people, where a warning starts a conversation with whoever wrote it. The agent's proposal is automatic, and redoing it costs one round. At that price, the standard goes up.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 06 ROTEAMENTO ============ -->
+  <section class="block reveal" id="roteamento">
+    <div class="block-head">
+      <span class="block-idx">06</span>
+      <h2><span class="pt">Os dez casos de roteamento</span><span class="en" lang="en">The ten routing cases</span></h2>
+    </div>
+    <p class="block-lede">
+      <span class="pt">Bloco determinístico, sem modelo e sem custo, que roda em CI a cada push. Verifica a classificação da pergunta e o conjunto de ferramentas liberado. O caso 9 é de fronteira: carrega marcadores de duas intenções.</span>
+      <span class="en" lang="en">A deterministic block, no model and no cost, running in CI on every push. It checks the classification of the question and the set of tools released. Case 9 is a boundary case: it carries markers of two intents.</span>
+    </p>
+    <div class="table-wrap">
+      <table class="rules-table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col"><span class="pt">Pergunta</span><span class="en" lang="en">Question</span></th>
+            <th scope="col"><span class="pt">Intenção</span><span class="en" lang="en">Intent</span></th>
+            <th scope="col"><span class="pt">Ferramentas liberadas</span><span class="en" lang="en">Tools released</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>"Que dados temos na base?"</td><td><span class="chip c-explo">exploracao</span></td><td>run_sql</td></tr>
+          <tr><td>2</td><td>"Quais eventos existem?"</td><td><span class="chip c-explo">exploracao</span></td><td>run_sql</td></tr>
+          <tr><td>3</td><td>"Quantos alunos ativos por plano?"</td><td><span class="chip c-explo">exploracao</span></td><td>run_sql</td></tr>
+          <tr><td>4</td><td>"Compare o churn por canal de aquisição"</td><td><span class="chip c-diag">diagnostico</span></td><td>run_sql, rfm</td></tr>
+          <tr><td>5</td><td>"Diagnostique por que mensais evadem"</td><td><span class="chip c-diag">diagnostico</span></td><td>run_sql, rfm</td></tr>
+          <tr><td>6</td><td>"Qual o tamanho da coorte de afiliados?"</td><td><span class="chip c-diag">diagnostico</span></td><td>run_sql, cohort_size</td></tr>
+          <tr><td>7</td><td>"Mostre o RFM dos inativos"</td><td><span class="chip c-diag">diagnostico</span></td><td>run_sql, rfm</td></tr>
+          <tr class="set-rule"><td>8</td><td>"Proponha uma régua para afiliados mensais"</td><td><span class="chip c-prop">proposta</span></td><td><span class="pt">as 4 ferramentas</span><span class="en" lang="en">all 4 tools</span></td></tr>
+          <tr class="set-rule"><td>9</td><td>"Compare churn por canal e proponha jornada para o pior" <span class="chip c-warn"><span class="pt">fronteira</span><span class="en" lang="en">boundary</span></span></td><td><span class="chip c-prop">proposta</span></td><td><span class="pt">as 4 ferramentas</span><span class="en" lang="en">all 4 tools</span></td></tr>
+          <tr class="set-rule"><td>10</td><td>"Que segmento trabalhar para reter melhor?"</td><td><span class="chip c-prop">proposta</span></td><td><span class="pt">as 4 ferramentas</span><span class="en" lang="en">all 4 tools</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note-bar">
+      <p>
+        <span class="pt"><strong>Por que o caso de fronteira importa:</strong> uma pergunta que mistura diagnóstico e proposta precisa resolver para o escopo mais amplo, senão o agente perderia a ferramenta de que precisa no meio da execução. A regra é explícita e testada, em vez de emergir do comportamento do modelo.</span>
+        <span class="en" lang="en"><strong>Why the boundary case matters:</strong> a question mixing diagnosis and proposal has to resolve to the wider scope, otherwise the agent would lose the tool it needs mid run. The rule is explicit and tested, rather than emerging from model behaviour.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 07 AVALIAÇÃO ============ -->
+  <section class="block reveal" id="avaliacao">
+    <div class="block-head">
+      <span class="block-idx">07</span>
+      <h2><span class="pt">Dois blocos de avaliação</span><span class="en" lang="en">Two evaluation blocks</span></h2>
+    </div>
+    <div class="grid-2">
+      <div class="mini-card">
+        <span class="mini-num"><span class="pt">Roteamento · 10 casos</span><span class="en" lang="en">Routing · 10 cases</span></span>
+        <div class="mini-title"><span class="pt">Sem modelo</span><span class="en" lang="en">No model</span></div>
+        <p class="pt">Determinístico. Verifica a classificação da pergunta e o conjunto de ferramentas liberado, incluindo um caso de fronteira com marcadores de duas intenções.</p>
+        <p class="en" lang="en">Deterministic. Checks the classification of the question and the set of tools released, including a boundary case carrying markers of two intents.</p>
+      </div>
+      <div class="mini-card">
+        <span class="mini-num"><span class="pt">Sessões · 3 casos</span><span class="en" lang="en">Sessions · 3 cases</span></span>
+        <div class="mini-title"><span class="pt">Encanamento ou modelo</span><span class="en" lang="en">Plumbing or model</span></div>
+        <p class="pt">Com o provedor roteirizado mede ferramentas, validador e loop de correção, e roda em CI sem custo. Com a API mede o modelo, e o número obtido vale para aquela execução.</p>
+        <p class="en" lang="en">On the scripted provider it measures tools, validator and correction loop, and runs in CI at no cost. Against the API it measures the model, and the number obtained holds for that run.</p>
+      </div>
+    </div>
+
+    <div class="code-wrap">
+      <div class="code-head">runs/proposta_afiliados.json</div>
+      <pre><code><span class="yc"># o registro do que o agente fez, e não do que ele diz que fez</span>
+{
+  <span class="yk">"rota"</span>: <span class="yv">"proposta"</span>,
+  <span class="yk">"ferramentas_liberadas"</span>: [<span class="yv">"run_sql"</span>, <span class="yv">"cohort_size"</span>, <span class="yv">"rfm"</span>, <span class="yv">"propose_journey"</span>],
+  <span class="yk">"chamadas"</span>: [
+    {<span class="yk">"tool"</span>: <span class="yt">"run_sql"</span>, <span class="yk">"linhas"</span>: 50},
+    {<span class="yk">"tool"</span>: <span class="yt">"cohort_size"</span>, <span class="yk">"result"</span>: {<span class="yk">"n"</span>: 3412, <span class="yk">"piso"</span>: 500, <span class="yk">"ok"</span>: <span class="yv">true</span>}},
+    {<span class="yk">"tool"</span>: <span class="yt">"propose_journey"</span>, <span class="yk">"rodada"</span>: 1, <span class="yk">"veredito"</span>: <span class="yr">"reprovado"</span>, <span class="yk">"achados"</span>: [<span class="yr">"L007"</span>, <span class="yr">"L009"</span>]},
+    {<span class="yk">"tool"</span>: <span class="yt">"propose_journey"</span>, <span class="yk">"rodada"</span>: 2, <span class="yk">"veredito"</span>: <span class="yv">"aprovado"</span>}
+  ],
+  <span class="yk">"tokens"</span>: 4213, <span class="yk">"tempo_s"</span>: 9.8
+}</code></pre>
+    </div>
+
+    <div class="note-bar">
+      <p>
+        <span class="pt">Um placar que soma os dois blocos não informa nada sobre nenhum deles, então o relatório os separa e imprime o rótulo do que está sendo medido. A transcrição de cada execução fica em <code>runs/</code>, com rota, chamadas, vereditos, tokens e tempo.</span>
+        <span class="en" lang="en">A scoreboard that sums both blocks says nothing about either one, so the report separates them and prints the label of what is being measured. Each run's transcript is saved under <code>runs/</code>, with route, calls, verdicts, tokens and time.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 08 SUÍTE ============ -->
+  <section class="block reveal" id="suite">
+    <div class="block-head">
+      <span class="block-idx">08</span>
+      <h2><span class="pt">A suíte</span><span class="en" lang="en">The suite</span></h2>
+    </div>
+    <div class="prose">
+      <p class="pt">Três repositórios sobre a mesma tese: jornada de cliente é artefato versionável. Se ela pode ser declarada em arquivo, ela pode ser lida, auditada e revisada em pull request, com histórico e revisão por pares. Hoje ela vive dentro da interface da ferramenta de automação, onde não existe diff entre versões nem registro de por que aquele delay é de 48 horas.</p>
+      <p class="en" lang="en">Three repositories on the same thesis: a customer journey is a versionable artifact. If it can be declared in a file, it can be read, audited and reviewed in a pull request, with history and peer review. Today it lives inside the automation tool's interface, where there is no diff between versions and no record of why that delay is 48 hours.</p>
+      <p class="pt">A saída de um é a entrada do outro, o que torna objetivo o critério de aceite do agente: a jornada proposta precisa passar no linter.</p>
+      <p class="en" lang="en">The output of one is the input of the next, which makes the agent's acceptance criterion objective: the proposed journey has to pass the linter.</p>
+    </div>
+    <div class="grid-3">
+      <div class="mini-card">
+        <span class="mini-num">01 · <span class="pt">Auditar</span><span class="en" lang="en">Audit</span></span>
+        <div class="mini-title"><a href="case-lifecycle-lint.html">lifecycle-lint</a></div>
+        <p class="pt">Lê as jornadas declaradas em YAML e acusa o defeito antes da publicação, inclusive o que só existe entre duas réguas.</p>
+        <p class="en" lang="en">Reads journeys declared in YAML and flags the defect before publication, including the one that only exists between two flows.</p>
+      </div>
+      <div class="mini-card">
+        <span class="mini-num">02 · <span class="pt">Propor</span><span class="en" lang="en">Propose</span></span>
+        <div class="mini-title">segment-brief</div>
+        <p class="pt">Lê os eventos de produto e devolve o briefing de segmento com a jornada proposta, já validada pelo linter.</p>
+        <p class="en" lang="en">Reads product events and returns the segment brief with the proposed journey, already validated by the linter.</p>
+        <span class="kpi-pill"><span class="pt">Esta página</span><span class="en" lang="en">This page</span></span>
+      </div>
+      <div class="mini-card">
+        <span class="mini-num">03 · <span class="pt">Ler</span><span class="en" lang="en">Read</span></span>
+        <div class="mini-title"><a href="case-lentes.html">lentes</a></div>
+        <p class="pt">Guarda os prompts de leitura versionados, com asserções verificáveis e placar que mede regressão em CI.</p>
+        <p class="en" lang="en">Holds the versioned reading prompts, with verifiable assertions and a scoreboard that measures regression in CI.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STACK ============ -->
+  <section class="block reveal">
+    <div class="block-head">
+      <span class="block-idx">09</span>
+      <h2>Stack</h2>
+    </div>
+    <ul class="meta-pills">
+      <li>Python 3.10+</li>
+      <li>DuckDB</li>
+      <li><span class="pt">API de LLM</span><span class="en" lang="en">LLM API</span></li>
+      <li>lifecycle-lint</li>
+      <li>pytest</li>
+      <li>GitHub Actions</li>
+    </ul>
+    <p class="repo-cta"><a class="btn btn-solid" href="https://github.com/daniloespeleta/segment-brief" target="_blank" rel="noopener"><span class="pt">Ver o repositório</span><span class="en" lang="en">View the repository</span></a></p>
+  </section>
+
+  <nav class="case-nav" aria-label="Navegação entre cases">
+    <a class="case-nav-link prev" href="case-lifecycle-lint.html">
+      <span class="case-nav-dir"><span class="pt">← Case anterior</span><span class="en" lang="en">← Previous case</span></span>
+      <span class="case-nav-title">lifecycle-lint</span>
+    </a>
+    <a class="case-nav-link next" href="case-lentes.html">
+      <span class="case-nav-dir"><span class="pt">Próximo case →</span><span class="en" lang="en">Next case →</span></span>
+      <span class="case-nav-title">lentes</span>
+    </a>
+    <a class="case-nav-link all" href="portfolio.html">
+      <span class="case-nav-title"><span class="pt">Ver todos os cases</span><span class="en" lang="en">View all cases</span></span>
+    </a>
+  </nav>
+</main>
+
+<footer>
+  <div class="footer-name">Danilo Campos Espeleta</div>
+  <div class="footer-info">
+    <span>São Paulo / SP</span>
+    <a href="mailto:daniloespeleta@gmail.com">daniloespeleta@gmail.com</a>
+    <a href="https://www.linkedin.com/in/daniloespeleta" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/daniloespeleta" target="_blank" rel="noopener">GitHub</a>
+    <span>© <span id="year">2026</span></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+/* ---- language (persisted; syncs <html lang>, buttons, CV links) ---- */
+var CV={pt:'CV/DE-Curriculo.pdf',en:'CV/DE-Resume.pdf'};
+var langButtons=document.querySelectorAll('.lang-switch button');
+function setLang(lang){
+  document.body.classList.remove('lang-pt','lang-en');
+  document.body.classList.add('lang-'+lang);
+  document.documentElement.lang=(lang==='en')?'en':'pt-BR';
+  langButtons.forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.lang===lang));});
+  document.querySelectorAll('a.cv-link').forEach(function(a){a.setAttribute('href',CV[lang]);});
+  try{localStorage.setItem('lang',lang);}catch(e){}
+}
+langButtons.forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.lang);});});
+var saved=null;try{saved=localStorage.getItem('lang');}catch(e){}
+if(saved==='en'||saved==='pt')setLang(saved);
+
+/* ---- mobile sidebar ---- */
+var menuBtn=document.querySelector('.menu-btn'),sidebar=document.getElementById('sidebar'),
+    overlay=document.getElementById('sidebarOverlay'),closeBtn=document.querySelector('.sidebar-close');
+function openSb(){sidebar.classList.add('open');overlay.classList.add('open');menuBtn.setAttribute('aria-expanded','true');}
+function closeSb(){sidebar.classList.remove('open');overlay.classList.remove('open');menuBtn.setAttribute('aria-expanded','false');}
+if(menuBtn){
+  menuBtn.addEventListener('click',openSb);
+  closeBtn.addEventListener('click',closeSb);
+  overlay.addEventListener('click',closeSb);
+  sidebar.addEventListener('click',function(e){if(e.target.closest('a'))closeSb();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&sidebar.classList.contains('open')){closeSb();menuBtn.focus();}});
+}
+
+/* ---- reading progress ---- */
+var bar=document.querySelector('.progress');
+if(bar){
+  var onScroll=function(){
+    var h=document.documentElement,max=h.scrollHeight-h.clientHeight;
+    bar.style.width=(max>0?(h.scrollTop/max)*100:0)+'%';
+  };
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+}
+
+/* ---- scroll reveal ---- */
+var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var revealEls=document.querySelectorAll('.reveal');
+if('IntersectionObserver' in window&&!reduce&&revealEls.length){
+  var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});},{threshold:.12});
+  revealEls.forEach(function(el){io.observe(el);});
+}else{revealEls.forEach(function(el){el.classList.add('in');});}
+
+/* ---- animated counters ([data-count]) ---- */
+var counters=document.querySelectorAll('[data-count]');
+function animate(el){
+  var target=parseFloat(el.dataset.count),pre=el.dataset.prefix||'',suf=el.dataset.suffix||'',
+      dec=(el.dataset.count.indexOf('.')>-1)?1:0,start=null,dur=1100;
+  function fmt(v){return pre+v.toFixed(dec).replace('.',document.documentElement.lang==='en'?'.':',')+suf;}
+  if(reduce){el.textContent=fmt(target);return;}
+  function step(ts){if(!start)start=ts;var p=Math.min((ts-start)/dur,1),e=1-Math.pow(1-p,3);
+    el.textContent=fmt(target*e);if(p<1)requestAnimationFrame(step);}
+  requestAnimationFrame(step);
+}
+if('IntersectionObserver' in window&&counters.length){
+  var cio=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){animate(en.target);cio.unobserve(en.target);}});},{threshold:.4});
+  counters.forEach(function(el){cio.observe(el);});
+}else{counters.forEach(animate);}
+
+/* ---- cohort bars (grow once in view) ---- */
+var press=document.querySelector('.press');
+if(press){
+  if('IntersectionObserver' in window){
+    var pio=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){press.classList.add('in');pio.disconnect();}});},{threshold:.3});
+    pio.observe(press);
+  }else{press.classList.add('in');}
+}
+
+/* ---- intent tabs (roving tabindex, replays the line stagger) ---- */
+var tabs=[].slice.call(document.querySelectorAll('.tbtn'));
+function selectTab(tab,focus){
+  tabs.forEach(function(t){
+    var on=(t===tab);
+    t.setAttribute('aria-selected',String(on));
+    t.tabIndex=on?0:-1;
+    var panel=document.getElementById(t.getAttribute('aria-controls'));
+    if(!panel)return;
+    panel.hidden=!on;
+    if(on&&!reduce){panel.classList.remove('play');void panel.offsetWidth;panel.classList.add('play');}
+  });
+  if(focus)tab.focus();
+}
+tabs.forEach(function(tab,i){
+  tab.addEventListener('click',function(){selectTab(tab,false);});
+  tab.addEventListener('keydown',function(e){
+    var next=null;
+    if(e.key==='ArrowRight')next=tabs[(i+1)%tabs.length];
+    else if(e.key==='ArrowLeft')next=tabs[(i-1+tabs.length)%tabs.length];
+    else if(e.key==='Home')next=tabs[0];
+    else if(e.key==='End')next=tabs[tabs.length-1];
+    if(next){e.preventDefault();selectTab(next,true);}
+  });
+});
+if(tabs.length&&!reduce){
+  var firstPanel=document.getElementById(tabs[0].getAttribute('aria-controls'));
+  if(firstPanel&&'IntersectionObserver' in window){
+    var tio=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){firstPanel.classList.add('play');tio.disconnect();}});},{threshold:.2});
+    tio.observe(firstPanel);
+  }
+}
+
+/* ---- pipeline walkthrough (captions live in the DOM, one per step) ---- */
+var mechBtn=document.getElementById('mechPlay'),mechCounter=document.getElementById('mechStep');
+var mechSteps=[].slice.call(document.querySelectorAll('.mech-step'));
+var MECH=[
+  {nodes:['n1'],edges:['a1'],warn:false},
+  {nodes:['n2'],edges:['a1','a2'],warn:false},
+  {nodes:['n3'],edges:['a2','a3'],warn:false},
+  {nodes:['n4'],edges:['a3','aL'],warn:true},
+  {nodes:['n3'],edges:['aL'],warn:true},
+  {nodes:['n5'],edges:['a4'],warn:false}
+];
+var mechAt=0,mechTimer=null;
+function renderMech(i){
+  mechAt=i;
+  document.querySelectorAll('.mn').forEach(function(n){n.classList.remove('on');});
+  document.querySelectorAll('.medge').forEach(function(n){n.classList.remove('on','warn');});
+  MECH[i].nodes.forEach(function(id){var n=document.getElementById(id);if(n)n.classList.add('on');});
+  MECH[i].edges.forEach(function(id){var n=document.getElementById(id);if(n){n.classList.add('on');if(MECH[i].warn&&id==='aL')n.classList.add('warn');}});
+  mechSteps.forEach(function(p,k){p.hidden=(k!==i);});
+  if(mechCounter)mechCounter.textContent=String(i+1);
+}
+if(mechBtn){
+  renderMech(0);
+  mechBtn.addEventListener('click',function(){
+    if(mechTimer){clearInterval(mechTimer);mechTimer=null;}
+    renderMech(0);
+    if(reduce){renderMech(MECH.length-1);return;}
+    mechTimer=setInterval(function(){
+      if(mechAt>=MECH.length-1){clearInterval(mechTimer);mechTimer=null;return;}
+      renderMech(mechAt+1);
+    },1700);
+  });
+}
+
+/* ---- year ---- */
+var y=document.getElementById('year');if(y)y.textContent=new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

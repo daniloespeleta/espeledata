@@ -13,7 +13,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Portfólio · Danilo Espeleta</title>
-<meta name="description" content="Portfólio de Danilo Espeleta: projetos de CRM &amp; Lifecycle Marketing, cases conceituais de estratégia para o terceiro setor e casos de SQL aplicados a marketing.">
+<meta name="description" content="Portfólio de Danilo Espeleta: projetos de CRM e Lifecycle, ferramentas de código aberto para jornada de cliente, cases de estratégia social e casos de SQL.">
 <meta name="author" content="Danilo Espeleta">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Portfólio · Danilo Espeleta">
@@ -197,8 +197,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
 
   <!-- FILTERS -->
   <div class="filters" role="group" aria-label="Filtrar por categoria">
-    <button class="filter-btn" data-filter="all" aria-pressed="true"><span class="pt">Todos</span><span class="en" lang="en">All</span> <span class="count">9</span></button>
-    <button class="filter-btn" data-filter="projeto" aria-pressed="false"><span class="pt">Projetos</span><span class="en" lang="en">Projects</span> <span class="count">2</span></button>
+    <button class="filter-btn" data-filter="all" aria-pressed="true"><span class="pt">Todos</span><span class="en" lang="en">All</span> <span class="count">12</span></button>
+    <button class="filter-btn" data-filter="projeto" aria-pressed="false"><span class="pt">Projetos</span><span class="en" lang="en">Projects</span> <span class="count">5</span></button>
     <button class="filter-btn" data-filter="estrategia" aria-pressed="false"><span class="pt">Estratégia</span><span class="en" lang="en">Strategy</span> <span class="count">2</span></button>
     <button class="filter-btn" data-filter="sql" aria-pressed="false">SQL <span class="count">5</span></button>
   </div>
@@ -232,6 +232,47 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
           <span class="card-tag">Netlify</span>
           <span class="card-tag">Claude Code</span>
           <span class="card-tag">i18n</span>
+        </span>
+      </a>
+
+      <!-- PROJETO · LIFECYCLE-LINT -->
+      <a href="case-lifecycle-lint.html" class="card" data-cat="projeto">
+        <span class="card-num"><span class="pt">Projeto 03 · lifecycle-lint</span><span class="en" lang="en">Project 03 · lifecycle-lint</span></span>
+        <span class="card-title"><span class="pt">Linter para jornadas de CRM</span><span class="en" lang="en">A linter for CRM journeys</span></span>
+        <span class="card-desc"><span class="pt">Doze regras sobre jornadas declaradas em YAML. Duas delas leem o conjunto de réguas ativas e acusam a sobreposição de audiência e a pressão somada, que é o defeito que a revisão de fluxo individual não encontra.</span><span class="en" lang="en">Twelve rules over journeys declared in YAML. Two of them read the set of active flows and flag audience overlap and combined pressure, the defect that reviewing one flow at a time never finds.</span></span>
+        <span class="card-tags">
+          <span class="card-tag">Python</span>
+          <span class="card-tag">YAML</span>
+          <span class="card-tag">CI</span>
+          <span class="card-tag">Claude Code</span>
+          <span class="card-tag"><span class="pt">Pressão de mensagem</span><span class="en" lang="en">Message pressure</span></span>
+        </span>
+      </a>
+
+      <!-- PROJETO · SEGMENT-BRIEF -->
+      <a href="case-segment-brief.html" class="card" data-cat="projeto">
+        <span class="card-num"><span class="pt">Projeto 04 · segment-brief</span><span class="en" lang="en">Project 04 · segment-brief</span></span>
+        <span class="card-title"><span class="pt">Agente que propõe jornada e passa no linter</span><span class="en" lang="en">An agent that proposes a journey and passes the linter</span></span>
+        <span class="card-desc"><span class="pt">Roteador determinístico na entrada, agente no meio, validador na saída. A jornada proposta em YAML só é entregue depois de aprovada pelo lifecycle-lint, com limite de duas rodadas de correção.</span><span class="en" lang="en">A deterministic router at the entrance, an agent in the middle, a validator at the exit. The proposed YAML journey is only delivered after lifecycle-lint approves it, with a two round correction limit.</span></span>
+        <span class="card-tags">
+          <span class="card-tag">Python</span>
+          <span class="card-tag">DuckDB</span>
+          <span class="card-tag">Anthropic API</span>
+          <span class="card-tag">Tool use</span>
+          <span class="card-tag">Evals</span>
+        </span>
+      </a>
+
+      <!-- PROJETO · LENTES -->
+      <a href="case-lentes.html" class="card" data-cat="projeto">
+        <span class="card-num"><span class="pt">Projeto 05 · lentes</span><span class="en" lang="en">Project 05 · lentes</span></span>
+        <span class="card-title"><span class="pt">Prompt versionado com placar de regressão</span><span class="en" lang="en">Versioned prompts with a regression scoreboard</span></span>
+        <span class="card-desc"><span class="pt">Cinco lentes de leitura para tarefas recorrentes de CRM, com prompt, casos e asserções no mesmo arquivo. O CI exige que a versão atual passe e que a v1 continue falhando.</span><span class="en" lang="en">Five reading lenses for recurring CRM tasks, with prompt, cases and assertions in the same file. CI requires the current version to pass and v1 to keep failing.</span></span>
+        <span class="card-tags">
+          <span class="card-tag">Python</span>
+          <span class="card-tag">YAML</span>
+          <span class="card-tag">Evals</span>
+          <span class="card-tag">AI Fluency</span>
         </span>
       </a>
 
