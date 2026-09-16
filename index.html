@@ -212,6 +212,20 @@ main section{max-width:var(--max);margin:0 auto;padding:clamp(3.5rem,8vw,6rem) 1
 .tl-body li strong{color:var(--white);font-weight:500}
 
 /* ============ CERTS ============ */
+/* RELATOS */
+.relatos-list{margin-top:2.6rem;display:grid;gap:1px;background:var(--border);border:1px solid var(--border)}
+.relato{background:var(--bg2);padding:1.6rem 1.4rem;display:grid;row-gap:.7rem;scroll-margin-top:6rem}
+.relato-meta{grid-area:meta;font-family:var(--mono);font-size:.62rem;color:var(--gray);letter-spacing:.1em;text-transform:uppercase;line-height:1.7}
+.relato-n{color:var(--cyan)}
+.relato-title{grid-area:title;font-family:var(--cond);font-weight:700;font-size:1.45rem;line-height:1.05;text-transform:uppercase;letter-spacing:.02em;color:var(--white)}
+.relato-body{grid-area:body;color:var(--gray);line-height:1.7;max-width:68ch}
+.relato-fecho{grid-area:fecho;font-family:var(--cond);font-weight:600;font-size:1.2rem;line-height:1.25;color:var(--white);border-left:2px solid var(--cyan);padding-left:.9rem;margin-top:.2rem}
+.relato{grid-template-areas:"meta" "title" "fecho" "body"}
+@media(min-width:900px){
+  .relato{grid-template-columns:minmax(220px,300px) 1fr;grid-template-areas:"meta body" "title body" "fecho body";column-gap:2.8rem;align-content:start;padding:2.1rem 2.2rem}
+  .relato-title{font-size:1.6rem}
+  .relato-fecho{align-self:end}
+}
 .certs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-top:2.4rem}
 .cert{background:var(--bg2);padding:1.2rem 1.3rem}
 .cert-name{font-family:var(--cond);font-weight:700;font-size:.98rem;text-transform:uppercase;letter-spacing:.03em;line-height:1.25}
@@ -297,7 +311,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
     <div class="nav-links">
       <a href="#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
       <a href="leea.html" class="nav-leea" data-leea-entry="home_nav"><span class="pt">Leea</span><span class="en" lang="en">Leea</span></a>
-      <a href="#trajetoria"><span class="pt">Trajetória</span><span class="en" lang="en">Journey</span></a>
+      <a href="#trajetoria"><span class="pt">Relatos</span><span class="en" lang="en">Stories</span></a>
       <a href="portfolio.html"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
       <a href="notas.html"><span class="pt">Notas</span><span class="en" lang="en">Notes</span></a>
       <a href="contact.html"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
@@ -316,7 +330,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
   <button class="sidebar-close" aria-label="Fechar menu">✕</button>
   <a href="#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
   <a href="leea.html" class="nav-leea" data-leea-entry="home_mobile_nav"><span class="pt">Leea</span><span class="en" lang="en">Leea</span></a>
-  <a href="#trajetoria"><span class="pt">Trajetória</span><span class="en" lang="en">Journey</span></a>
+  <a href="#trajetoria"><span class="pt">Relatos</span><span class="en" lang="en">Stories</span></a>
   <a href="#cases">Cases</a>
   <a href="portfolio.html"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
   <a href="notas.html"><span class="pt">Notas</span><span class="en" lang="en">Notes</span></a>
@@ -384,8 +398,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
         <span class="lbl"><span class="pt">Taxa de abertura (de ~2%)</span><span class="en" lang="en">Email open rate (from ~2%)</span></span>
       </div>
       <div class="stat-cell">
-        <span class="num" data-count="500" data-suffix="%">500%</span>
-        <span class="lbl"><span class="pt">Crescimento em participação de eventos</span><span class="en" lang="en">Event attendance growth</span></span>
+        <span class="num" data-count="3" data-suffix="K">3K</span>
+        <span class="lbl"><span class="pt">Público por edição (de ~500 em 2 anos)</span><span class="en" lang="en">Attendees per edition (from ~500 in 2 years)</span></span>
       </div>
     </div>
   </section>
@@ -488,117 +502,64 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
   <div class="divider" role="presentation"></div>
 
   <!-- ============ TIMELINE ============ -->
-  <section id="trajetoria" aria-labelledby="traj-title">
-    <p class="kicker"><span class="pt">Trajetória</span><span class="en" lang="en">Journey</span></p>
-    <h2 class="section-title" id="traj-title">
-      <span class="pt">Do call center <span class="accent">ao lifecycle</span></span>
-      <span class="en" lang="en">From the call center <span class="accent">to lifecycle</span></span>
-    </h2>
-    <p class="section-sub">
-      <span class="pt">Clique em cada etapa para ver as principais entregas.</span>
-      <span class="en" lang="en">Click each step to see the main achievements.</span>
-    </p>
+  <!-- RELATOS:START -->
+  <section id="trajetoria" class="relatos" aria-labelledby="relatos-title">
+    <p class="kicker"><span class="pt">RELATOS</span><span class="en" lang="en">STORIES</span></p>
+    <h2 class="section-title" id="relatos-title"><span class="pt">SETE CENAS EM QUE LI COMPORTAMENTO ANTES DE DECIDIR</span><span class="en" lang="en">SEVEN SCENES WHERE I READ BEHAVIOR BEFORE DECIDING</span></h2>
+    <p class="section-sub"><span class="pt">O currículo completo está para download logo abaixo. Aqui ficam as cenas.</span><span class="en" lang="en">The full résumé is available for download below. Here are the scenes.</span></p>
+    <div class="relatos-list">
 
-    <div class="timeline reveal">
+      <article class="relato" id="relato-01">
+        <p class="relato-meta"><span class="relato-n">01</span> · <span class="pt">LBV</span><span class="en" lang="en">LBV</span> · <span class="pt">Coordenador de Telemarketing</span><span class="en" lang="en">Telemarketing Coordinator</span> · <span class="pt">2005 a 2012</span><span class="en" lang="en">2005 to 2012</span></p>
+        <h3 class="relato-title"><span class="pt">A língua de cada operador</span><span class="en" lang="en">Each agent's language</span></h3>
+        <p class="relato-body"><span class="pt">Antes do CRM, havia um salão com mais de quarenta operadores e um fone em cada cabeça. Eu tinha vindo das vendas e passei a coordenar gente com sotaques, histórias e relações com o trabalho muito diferentes das minhas. O painel mostrava tempo falado e número de aceites. Explicava pouco. Comecei a prestar atenção nas palavras que cada pessoa escolhia, no tom, nos gestos que repetia enquanto ouvia o doador. Para um operador, a orientação virou um caderno aberto sustentando a atenção. Para outro, um gesto recorrente virou âncora de escuta. Com coaching contínuo e SPIN Selling, a operação ganhou cerca de 25% em novos doadores e a rotatividade caiu cerca de 40%.</span><span class="en" lang="en">Before CRM, there was a room with more than forty agents and a headset on every head. I had come from sales and started coordinating people whose accents, histories and relationships with work were very different from mine. The dashboard showed talk time and number of acceptances. It explained little. I started paying attention to the words each person chose, the tone, the gestures they repeated while listening to the donor. For one agent, guidance became an open notebook holding their attention. For another, a recurring gesture became a listening anchor. With ongoing coaching and SPIN Selling, the operation gained about 25% in new donors and turnover fell by about 40%.</span></p>
+        <p class="relato-fecho"><span class="pt">Liderar começa por aprender a língua de cada um.</span><span class="en" lang="en">Leading starts with learning each person's language.</span></p>
+      </article>
 
-      <div class="tl-item">
-        <button class="tl-head" aria-expanded="true" aria-controls="tl1">
-          <span class="tl-period"><span class="pt">Desde jul 2022</span><span class="en" lang="en">Since Jul 2022</span></span>
-          <span class="tl-role"><span class="pt">Especialista em CRM e Lifecycle Marketing</span><span class="en" lang="en">CRM &amp; Lifecycle Marketing Specialist</span></span>
-          <span class="tl-org">Fênix Educação · São Paulo</span>
-          <span class="chev" aria-hidden="true">▾</span>
-        </button>
-        <div class="tl-body" id="tl1">
-          <ul>
-            <li><span class="pt">Jornadas de aquisição, onboarding e retenção em base de <strong>50K+ leads</strong> com lead scoring comportamental: <strong>+20% em matrículas</strong>.</span><span class="en" lang="en">Acquisition, onboarding and retention journeys on a <strong>50K+ lead base</strong> with behavioral lead scoring: <strong>+20% enrollment growth</strong>.</span></li>
-            <li><span class="pt">Taxa de abertura de <strong>~2% para ~25%</strong> e <strong>+35% de CTR</strong>, reconstruindo segmentação, higiene e cadência com rotina contínua de testes A/B.</span><span class="en" lang="en">Open rate from <strong>~2% to ~25%</strong> and <strong>+35% CTR</strong>, rebuilding segmentation, hygiene and cadence with a continuous A/B testing routine.</span></li>
-            <li><span class="pt"><strong>−30% de leads não qualificados</strong> com automação de qualificação e SLAs definidos entre Marketing e Comercial.</span><span class="en" lang="en"><strong>−30% unqualified leads</strong> with qualification automation and SLAs defined between Marketing and Sales.</span></li>
-            <li><span class="pt">Fluxos multicanal (e-mail, WhatsApp, push, SMS) via Mautic e RD Station; orquestração com n8n, Make e Zapier; IA generativa (Claude, Perplexity) no fluxo operacional.</span><span class="en" lang="en">Multichannel flows (email, WhatsApp, push, SMS) via Mautic and RD Station; orchestration with n8n, Make and Zapier; generative AI (Claude, Perplexity) in the operational flow.</span></li>
-          </ul>
-        </div>
-      </div>
+      <article class="relato" id="relato-02">
+        <p class="relato-meta"><span class="relato-n">02</span> · <span class="pt">Monchu</span><span class="en" lang="en">Monchu</span> · <span class="pt">Gerente de Comunicação e Branding</span><span class="en" lang="en">Communications &amp; Branding Manager</span> · <span class="pt">2016 a 2019</span><span class="en" lang="en">2016 to 2019</span></p>
+        <h3 class="relato-title"><span class="pt">A festa que aprendeu a reconhecer quem voltava</span><span class="en" lang="en">The party that learned to recognize who came back</span></h3>
+        <p class="relato-body"><span class="pt">Uma festa que começou com 300 a 500 pessoas por edição chegou a uma média de 2 a 3 mil em cerca de dois anos. Parte desse caminho passou por uma planilha. Montei um score com frequência, ticket médio e recência, e cada faixa ganhou uma conversa própria: combo para quem vinha pela primeira vez com amigos, ingresso antecipado para quem tinha sumido, plano anual de associado para quem aparecia sempre. Cada evento do portfólio pedia uma combinação diferente. Às vezes uma estratégia, às vezes três. A pesquisa seguia o mesmo ritmo. Nas primeiras visitas, eu perguntava se a pessoa tinha gostado e se voltaria. Depois da quarta ou quinta, perguntava o que atraía e o que incomodava. Essas respostas mudaram a posição de banheiros e pontos de comida sempre que o espaço deixava. O público passou a se sentir notado.</span><span class="en" lang="en">A party that started with 300 to 500 people per edition reached an average of 2,000 to 3,000 in about two years. Part of that path ran through a spreadsheet. I built a score with frequency, average ticket and recency, and each tier got its own conversation: a combo for first timers who came with friends, early tickets for those who had disappeared, an annual membership plan for those who showed up every time. Each event in the portfolio called for a different mix. Sometimes one strategy, sometimes three. Research followed the same rhythm. On the first visits, I asked whether people had enjoyed it and would come back. After the fourth or fifth, I asked what drew them in and what bothered them. Those answers changed where restrooms and food stands went, whenever the space allowed. The audience started to feel noticed.</span></p>
+        <p class="relato-fecho"><span class="pt">Quem volta sempre merece uma pergunta mais funda.</span><span class="en" lang="en">People who always come back deserve a deeper question.</span></p>
+      </article>
 
-      <div class="tl-item">
-        <button class="tl-head" aria-expanded="false" aria-controls="tl2">
-          <span class="tl-period">Abr 2021 a Jul 2022</span>
-          <span class="tl-role"><span class="pt">Analista de Parcerias Estratégicas</span><span class="en" lang="en">Strategic Partnerships Analyst</span></span>
-          <span class="tl-org">Legião da Boa Vontade (LBV) · São Paulo</span>
-          <span class="chev" aria-hidden="true">▾</span>
-        </button>
-        <div class="tl-body" id="tl2" hidden>
-          <ul>
-            <li><span class="pt"><strong>+15% em aquisição de usuários</strong> com campanhas co-branded com influenciadores e celebridades de alto perfil.</span><span class="en" lang="en"><strong>+15% data-driven user acquisition</strong> through co-branded campaigns with high-profile influencers and celebrities.</span></li>
-            <li><span class="pt">Funil de parcerias corporativas de ponta a ponta, garantindo patrocínios B2B de alto valor para grandes projetos promocionais.</span><span class="en" lang="en">End-to-end corporate partnership funnel, securing high-value B2B sponsorships for major promotional projects.</span></li>
-            <li><span class="pt">KPIs de campanha e parâmetros de acompanhamento para avaliar performance de parceiros, alcance e valor de mídia.</span><span class="en" lang="en">Campaign KPIs and tracking parameters to evaluate partner performance, audience reach and media value.</span></li>
-          </ul>
-        </div>
-      </div>
+      <article class="relato" id="relato-03">
+        <p class="relato-meta"><span class="relato-n">03</span> · <span class="pt">Monchu</span><span class="en" lang="en">Monchu</span> · <span class="pt">Gerente de Comunicação e Branding</span><span class="en" lang="en">Communications &amp; Branding Manager</span> · <span class="pt">2016 a 2019</span><span class="en" lang="en">2016 to 2019</span></p>
+        <h3 class="relato-title"><span class="pt">O horário que o público escolheu</span><span class="en" lang="en">The schedule the audience chose</span></h3>
+        <p class="relato-body"><span class="pt">Algumas festas demoravam a encher e esvaziavam cedo, deixando o bar trabalhando para uma pista vazia. O problema nem era da minha área. Cruzei o horário de validação dos ingressos com o controle manual de ocupação e saída e vi como aquele público chegava, ficava e ia embora. O horário padrão do gênero musical não servia para ele. Ajustamos o evento ao ritmo real de permanência. As vendas do bar subiram entre 15% e 20%, e o horário novo voltou em feedback como mais confortável.</span><span class="en" lang="en">Some parties took a long time to fill up and emptied early, leaving the bar working for an empty dance floor. The problem was not even in my area. I cross-referenced ticket validation times with the manual occupancy and exit log and saw how that audience arrived, stayed and left. The standard schedule for that music genre did not fit them. We adjusted the event to the real rhythm of their stay. Bar sales rose between 15% and 20%, and the new schedule came back in feedback as more comfortable.</span></p>
+        <p class="relato-fecho"><span class="pt">O relógio da festa é o do público.</span><span class="en" lang="en">The party's clock belongs to the audience.</span></p>
+      </article>
 
-      <div class="tl-item">
-        <button class="tl-head" aria-expanded="false" aria-controls="tl3">
-          <span class="tl-period">Mar 2016 a Abr 2019</span>
-          <span class="tl-role"><span class="pt">Gerente de Comunicação e Branding</span><span class="en" lang="en">Communication &amp; Branding Manager</span></span>
-          <span class="tl-org">Monchu Agenciamento, Editora e Eventos · São Paulo</span>
-          <span class="chev" aria-hidden="true">▾</span>
-        </button>
-        <div class="tl-body" id="tl3" hidden>
-          <ul>
-            <li><span class="pt">CRM próprio e pipeline de retenção integrando bases de ticketing com Google Sheets e Mailchimp para dados comportamentais de vários anos.</span><span class="en" lang="en">Custom CRM and retention pipeline integrating ticketing databases with Google Sheets and Mailchimp for multi-year behavioral data.</span></li>
-            <li><span class="pt">Framework RFM com fluxos de reengajamento que escalaram a participação em eventos em <strong>500% (de 500 para 3K+)</strong>.</span><span class="en" lang="en">RFM framework with re-engagement workflows that scaled event attendance by <strong>500% (from 500 to 3K+)</strong>.</span></li>
-            <li><span class="pt">Liderança de equipe de 15 a 20 promotores e estratégia omnichannel que ampliou o alcance orgânico em <strong>+150%</strong>.</span><span class="en" lang="en">Led a 15 to 20 promoter team and an omnichannel strategy that expanded organic reach by <strong>+150%</strong>.</span></li>
-          </ul>
-        </div>
-      </div>
+      <article class="relato" id="relato-04">
+        <p class="relato-meta"><span class="relato-n">04</span> · <span class="pt">LBV</span><span class="en" lang="en">LBV</span> · <span class="pt">Analista de Parcerias Estratégicas</span><span class="en" lang="en">Strategic Partnerships Analyst</span> · <span class="pt">2021 a 2022</span><span class="en" lang="en">2021 to 2022</span></p>
+        <h3 class="relato-title"><span class="pt">Alcance emprestado, base própria</span><span class="en" lang="en">Borrowed reach, owned audience</span></h3>
+        <p class="relato-body"><span class="pt">Na volta à LBV, estruturei do zero um funil de parceria corporativa, da prospecção ao contrato, e os patrocínios B2B, em dinheiro e em espécie, financiaram os projetos promocionais do período. Com influenciadores e celebridades, desenhei campanhas co-branded que trouxeram 15% mais aquisição de topo de funil, sem mídia paga, e transformaram alcance emprestado em base segmentável. Para quem já estava dentro, benefícios exclusivos bancados por parceiros, com KPI por parceiro orientando cada renovação.</span><span class="en" lang="en">Back at LBV, I built a corporate partnership funnel from scratch, from prospecting to contract, and B2B sponsorships, in cash and in kind, funded the period's promotional projects. With influencers and celebrities, I designed co-branded campaigns that brought 15% more top-of-funnel acquisition, with no paid media, and turned borrowed reach into a segmentable audience. For those already inside, exclusive benefits funded by partners, with per-partner KPIs guiding each renewal.</span></p>
+        <p class="relato-fecho"><span class="pt">Parceria boa também precisa de régua.</span><span class="en" lang="en">A good partnership also needs a cadence.</span></p>
+      </article>
 
-      <div class="tl-item">
-        <button class="tl-head" aria-expanded="false" aria-controls="tl4">
-          <span class="tl-period">Jul 2005 a Mar 2012</span>
-          <span class="tl-role"><span class="pt">Coordenador de Telemarketing</span><span class="en" lang="en">Telemarketing Coordinator</span></span>
-          <span class="tl-org">Legião da Boa Vontade (LBV) · São Paulo</span>
-          <span class="chev" aria-hidden="true">▾</span>
-        </button>
-        <div class="tl-body" id="tl4" hidden>
-          <ul>
-            <li><span class="pt"><strong>+25% em novos doadores</strong> e <strong>+20% no ticket médio</strong> com SPIN Selling e coaching contínuo para equipe de 40+ operadores.</span><span class="en" lang="en"><strong>+25% new donors</strong> and <strong>+20% average ticket</strong> with SPIN Selling and continuous coaching for a 40+ operator team.</span></li>
-            <li><span class="pt">Produtividade +15% e AHT −30% com rituais de feedback e KPIs críticos via CRM, Excel e Power BI.</span><span class="en" lang="en">+15% productivity and −30% AHT with feedback rituals and critical KPIs via CRM, Excel and Power BI.</span></li>
-            <li><span class="pt"><strong>−40% de turnover</strong> com cultura de liderança humanizada e onboarding acelerado.</span><span class="en" lang="en"><strong>−40% turnover</strong> with a humanized leadership culture and accelerated onboarding.</span></li>
-          </ul>
-        </div>
-      </div>
+      <article class="relato" id="relato-05">
+        <p class="relato-meta"><span class="relato-n">05</span> · <span class="pt">Fênix Educação</span><span class="en" lang="en">Fênix Educação</span> · <span class="pt">Especialista em CRM e Lifecycle Marketing</span><span class="en" lang="en">CRM &amp; Lifecycle Marketing Specialist</span> · <span class="pt">2022 a 2025</span><span class="en" lang="en">2022 to 2025</span></p>
+        <h3 class="relato-title"><span class="pt">Mesmo curso, momentos diferentes</span><span class="en" lang="en">Same course, different moments</span></h3>
+        <p class="relato-body"><span class="pt">Na Fênix, a conversa com o cliente passou a acontecer por sistema. Recebi uma base de 50 mil leads que abria 2% dos e-mails. Duas pessoas que compram o mesmo curso podem estar em momentos de necessidade muito diferentes, e uma régua de intervalos fixos trata as duas igual. Me aproximei de quem falava com aluno todos os dias no Comercial para entender nichos e dinâmica de venda. Reconstruí segmentação, limpeza e cadência, criei lead scoring comportamental e levei princípios de semiótica para o e-mail: tamanho, cor, posição e imagem testados por segmento, com layouts mais delicados para uns e mais sofisticados para outros. A abertura chegou a 25%, as matrículas cresceram 20% e o lead não qualificado caiu 30% na passagem para vendas.</span><span class="en" lang="en">At Fênix, the conversation with customers started happening through systems. I inherited a base of 50,000 leads that opened 2% of emails. Two people who buy the same course can be at very different moments of need, and a fixed-interval cadence treats both the same. I got close to the people on the Sales team who talked to students every day to understand niches and sales dynamics. I rebuilt segmentation, list cleaning and cadence, created behavioral lead scoring and brought semiotic principles into email: size, color, position and image tested by segment, with more delicate layouts for some and more sophisticated ones for others. Open rate reached 25%, enrollments grew 20% and unqualified leads fell 30% at the handoff to sales.</span></p>
+        <p class="relato-fecho"><span class="pt">A jornada responde ao estado da pessoa.</span><span class="en" lang="en">The journey responds to the person's state.</span></p>
+      </article>
 
-      <div class="tl-item edu">
-        <button class="tl-head" aria-expanded="false" aria-controls="tl5">
-          <span class="tl-period">2015</span>
-          <span class="tl-role"><span class="pt">Licenciatura: Letras PT &amp; EN</span><span class="en" lang="en">Bachelor of Arts: PT &amp; EN Linguistics and Literature</span></span>
-          <span class="tl-org">PUC-SP · Pontifícia Universidade Católica de São Paulo</span>
-          <span class="chev" aria-hidden="true">▾</span>
-        </button>
-        <div class="tl-body" id="tl5" hidden>
-          <ul>
-            <li><span class="pt">A base em linguagem que hoje sustenta copywriting de CRM, testes A/B de mensagem e comunicação bilíngue.</span><span class="en" lang="en">The language foundation that today underpins CRM copywriting, message A/B testing and bilingual communication.</span></li>
-          </ul>
-        </div>
-      </div>
+      <article class="relato" id="relato-06">
+        <p class="relato-meta"><span class="relato-n">06</span> · <span class="pt">Fênix Educação</span><span class="en" lang="en">Fênix Educação</span> · <span class="pt">Especialista em CRM e Lifecycle Marketing</span><span class="en" lang="en">CRM &amp; Lifecycle Marketing Specialist</span> · <span class="pt">2022 a 2025</span><span class="en" lang="en">2022 to 2025</span></p>
+        <h3 class="relato-title"><span class="pt">O teste que mudou meu método</span><span class="en" lang="en">The test that changed my method</span></h3>
+        <p class="relato-body"><span class="pt">Com uma base desorganizada nas mãos e muita vontade de arrumar tudo, mudei várias coisas ao mesmo tempo. O desempenho caiu e ninguém conseguia dizer por quê. Meu coordenador pediu a lista do que eu tinha feito. Ali ficou claro: eu tinha mexido em variáveis demais sem isolar nenhuma. Desde então organizo o CRM como um backlog de produto. Cada teste tem uma variável, uma pergunta e um critério de leitura antes de avançar.</span><span class="en" lang="en">With a messy base in my hands and a strong urge to fix everything, I changed several things at once. Performance dropped and no one could say why. My coordinator asked for the list of what I had done. That made it clear: I had touched too many variables without isolating any. Since then I run CRM like a product backlog. Each test has one variable, one question and one reading criterion before moving on.</span></p>
+        <p class="relato-fecho"><span class="pt">Teste que não explica o resultado vira só mais uma mudança.</span><span class="en" lang="en">A test that does not explain the result is just another change.</span></p>
+      </article>
 
-    </div>
-
-    <!-- CERTS -->
-    <h3 class="kicker" style="margin-top:3.5rem"><span class="pt">Certificações</span><span class="en" lang="en">Certifications</span></h3>
-    <div class="certs-grid reveal">
-      <div class="cert"><span class="cert-name">Claude Code in Action</span><span class="cert-org">Anthropic</span></div>
-      <div class="cert"><span class="cert-name">AI Fluency: Framework &amp; Foundations</span><span class="cert-org">Anthropic</span></div>
-      <div class="cert"><span class="cert-name">Marketing Psychology: How We Decide</span><span class="cert-org">Oxford Saïd Business School</span></div>
-      <div class="cert"><span class="cert-name"><span class="pt">Software de Marketing HubSpot</span><span class="en" lang="en">HubSpot Marketing Software</span></span><span class="cert-org">HubSpot Academy</span></div>
-      <div class="cert"><span class="cert-name">Inbound</span><span class="cert-org">HubSpot Academy</span></div>
-      <div class="cert"><span class="cert-name"><span class="pt">Certificação do Google Analytics</span><span class="en" lang="en">Google Analytics Certification</span></span><span class="cert-org">Google</span></div>
-      <div class="cert"><span class="cert-name">Manage GA4 Data and Learn to Read Reports</span><span class="cert-org">Google</span></div>
-      <div class="cert"><span class="cert-name">Build a CRM Performance Sales Track Dashboard</span><span class="cert-org">Maven Analytics</span></div>
-      <div class="cert"><span class="cert-name"><span class="pt">Inbound Marketing para Analistas</span><span class="en" lang="en">Inbound Marketing Fundamentals for Analysts</span></span><span class="cert-org">RD Station</span></div>
-      <div class="cert"><span class="cert-name"><span class="pt">Fundamentos de SEO</span><span class="en" lang="en">SEO Fundamentals</span></span><span class="cert-org">LinkedIn</span></div>
-      <div class="cert"><span class="cert-name"><span class="pt">Como Conduzir Conversas Difíceis</span><span class="en" lang="en">How to Have Difficult Conversations</span></span><span class="cert-org">LinkedIn</span></div>
-      <div class="cert"><span class="cert-name">Professional Scrum Product Owner</span><span class="cert-org">Awari</span></div>
+      <article class="relato" id="relato-07">
+        <p class="relato-meta"><span class="relato-n">07</span> · <span class="pt">Leea</span><span class="en" lang="en">Leea</span> · <span class="pt">Estudo de método em retenção</span><span class="en" lang="en">Retention Method Study</span> · <span class="pt">2025 a presente</span><span class="en" lang="en">2025 to present</span></p>
+        <h3 class="relato-title"><span class="pt">O silêncio antes do cancelamento</span><span class="en" lang="en">The silence before cancellation</span></h3>
+        <p class="relato-body"><span class="pt">Em outubro de 2025 dei nome ao que vinha fazendo desde o salão de telemarketing. Leea é um estudo de retenção que lê os sinais que chegam antes da decisão de cancelar, em quatro camadas. Comportamento, com padrões e desvios de cadência. Voz, porque comunicação estável ajuda a reter. Semiótica, para entender como o cliente se aproxima ou se afasta do produto. E tempo: a duração de cada estado da jornada, calculada a partir da estrutura que a própria empresa define, sem depender de uma ação do cliente. Hoje o estudo testa como agentes de IA podem ler essas camadas e cruzar as leituras antes de sugerir qualquer intervenção.</span><span class="en" lang="en">In October 2025 I gave a name to what I had been doing since the telemarketing floor. Leea is a retention study that reads the signals that arrive before the decision to cancel, across four layers. Behavior, with patterns and cadence deviations. Voice, because stable communication helps retain. Semiotics, to understand how customers move closer to or away from the product. And time: the duration of each journey state, calculated from the structure the company itself defines, without depending on a customer action. Today the study tests how AI agents can read these layers and cross-check readings before suggesting any intervention.</span></p>
+        <p class="relato-fecho"><span class="pt">O silêncio do cliente também tem duração.</span><span class="en" lang="en">Customer silence also has a duration.</span></p>
+      </article>
     </div>
   </section>
+  <!-- RELATOS:END -->
 
   <div class="divider" role="presentation"></div>
 
@@ -646,7 +607,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
         <div class="case-body">
           <span class="case-kicker">Projeto 01 · Fênix Educação</span>
           <span class="case-title"><span class="pt">CRM Turnaround em base de 50K+ leads</span><span class="en" lang="en">CRM Turnaround on a 50K+ lead base</span></span>
-          <span class="case-meta"><span class="pt">Projeto real · Educação · 2022+</span><span class="en" lang="en">Real project · Education · 2022+</span></span>
+          <span class="case-meta"><span class="pt">Projeto real · Educação · 2022 a 2025</span><span class="en" lang="en">Real project · Education · 2022 to 2025</span></span>
           <span class="case-desc"><span class="pt">Reconstrução da operação de CRM numa base de 50K: da higiene e do reengajamento à régua comportamental por curso. Resultado em ~2 meses.</span><span class="en" lang="en">Rebuilding the CRM operation on a 50K base: from cleanup and re-engagement to a course-level behavioral cadence. Results in ~2 months.</span></span>
           <span class="case-go"><span class="pt">Ver case</span><span class="en" lang="en">View case</span> <span class="arrow" aria-hidden="true">→</span></span>
         </div>
@@ -657,7 +618,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
         <div class="case-body">
           <span class="case-kicker">Projeto autoral · CRM + IA</span>
           <span class="case-title">Leea: arquitetura agêntica para retenção</span>
-          <span class="case-meta">Em validação · IA generativa · Lifecycle</span>
+          <span class="case-meta">Estudo de método · IA generativa · Lifecycle</span>
           <span class="case-desc">Um projeto autoral de CRM e IA aplicada, onde linguagem, semiótica, comportamento e tempo viram arquitetura de decisão.</span>
           <span class="case-go">Ver case <span class="arrow" aria-hidden="true">→</span></span>
         </div>
@@ -668,7 +629,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
         <div class="case-body">
           <span class="case-kicker">Author-led project · CRM + AI</span>
           <span class="case-title">Leea: agentic architecture for retention</span>
-          <span class="case-meta">In validation · Generative AI · Lifecycle</span>
+          <span class="case-meta">Method study · Generative AI · Lifecycle</span>
           <span class="case-desc">An author-led CRM and applied AI project where language, semiotics, behavior and time become a decision architecture.</span>
           <span class="case-go">Case currently available in Portuguese</span>
         </div>
@@ -719,13 +680,29 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
       <a class="cv-card reveal" href="CV/DE-Curriculo.pdf" download hreflang="pt-BR">
         <span class="cv-flag">PT · Português</span>
         <span class="cv-name"><span class="pt">Currículo em Português</span><span class="en" lang="en">Resume in Portuguese</span></span>
-        <span class="cv-note">DE-Curriculo.pdf · ~100 KB</span>
+        <span class="cv-note">DE-Curriculo.pdf · ~68 KB</span>
       </a>
       <a class="cv-card reveal" href="CV/DE-Resume.pdf" download hreflang="en">
         <span class="cv-flag">EN · English</span>
         <span class="cv-name"><span class="pt">Currículo em Inglês</span><span class="en" lang="en">Resume in English</span></span>
-        <span class="cv-note">DE-Resume.pdf · ~100 KB</span>
+        <span class="cv-note">DE-Resume.pdf · ~66 KB</span>
       </a>
+    </div>
+    <!-- CERTS -->
+    <h3 class="kicker" style="margin-top:3.5rem"><span class="pt">Certificações</span><span class="en" lang="en">Certifications</span></h3>
+    <div class="certs-grid reveal">
+      <div class="cert"><span class="cert-name">Claude Code in Action</span><span class="cert-org">Anthropic</span></div>
+      <div class="cert"><span class="cert-name">AI Fluency: Framework &amp; Foundations</span><span class="cert-org">Anthropic</span></div>
+      <div class="cert"><span class="cert-name">Marketing Psychology: How We Decide</span><span class="cert-org">Oxford Saïd Business School</span></div>
+      <div class="cert"><span class="cert-name"><span class="pt">Software de Marketing HubSpot</span><span class="en" lang="en">HubSpot Marketing Software</span></span><span class="cert-org">HubSpot Academy</span></div>
+      <div class="cert"><span class="cert-name">Inbound</span><span class="cert-org">HubSpot Academy</span></div>
+      <div class="cert"><span class="cert-name"><span class="pt">Certificação do Google Analytics</span><span class="en" lang="en">Google Analytics Certification</span></span><span class="cert-org">Google</span></div>
+      <div class="cert"><span class="cert-name">Manage GA4 Data and Learn to Read Reports</span><span class="cert-org">Google</span></div>
+      <div class="cert"><span class="cert-name">Build a CRM Performance Sales Track Dashboard</span><span class="cert-org">Maven Analytics</span></div>
+      <div class="cert"><span class="cert-name"><span class="pt">Inbound Marketing para Analistas</span><span class="en" lang="en">Inbound Marketing Fundamentals for Analysts</span></span><span class="cert-org">RD Station</span></div>
+      <div class="cert"><span class="cert-name"><span class="pt">Fundamentos de SEO</span><span class="en" lang="en">SEO Fundamentals</span></span><span class="cert-org">LinkedIn</span></div>
+      <div class="cert"><span class="cert-name"><span class="pt">Como Conduzir Conversas Difíceis</span><span class="en" lang="en">How to Have Difficult Conversations</span></span><span class="cert-org">LinkedIn</span></div>
+      <div class="cert"><span class="cert-name">Professional Scrum Product Owner</span><span class="cert-org">Awari</span></div>
     </div>
   </section>
 

@@ -1,0 +1,211 @@
+{
+  "menu": {
+    "pt": "Relatos",
+    "en": "Stories"
+  },
+  "secao": {
+    "eyebrow": {
+      "pt": "RELATOS",
+      "en": "STORIES"
+    },
+    "titulo": {
+      "pt": "SETE CENAS EM QUE LI COMPORTAMENTO ANTES DE DECIDIR",
+      "en": "SEVEN SCENES WHERE I READ BEHAVIOR BEFORE DECIDING"
+    },
+    "intro": {
+      "pt": "O currículo completo está para download logo abaixo. Aqui ficam as cenas.",
+      "en": "The full résumé is available for download below. Here are the scenes."
+    }
+  },
+  "relatos": [
+    {
+      "n": "01",
+      "empresa": {
+        "pt": "LBV",
+        "en": "LBV"
+      },
+      "cargo": {
+        "pt": "Coordenador de Telemarketing",
+        "en": "Telemarketing Coordinator"
+      },
+      "periodo": {
+        "pt": "2005 a 2012",
+        "en": "2005 to 2012"
+      },
+      "titulo": {
+        "pt": "A língua de cada operador",
+        "en": "Each agent's language"
+      },
+      "corpo": {
+        "pt": "Antes do CRM, havia um salão com mais de quarenta operadores e um fone em cada cabeça. Eu tinha vindo das vendas e passei a coordenar gente com sotaques, histórias e relações com o trabalho muito diferentes das minhas. O painel mostrava tempo falado e número de aceites. Explicava pouco. Comecei a prestar atenção nas palavras que cada pessoa escolhia, no tom, nos gestos que repetia enquanto ouvia o doador. Para um operador, a orientação virou um caderno aberto sustentando a atenção. Para outro, um gesto recorrente virou âncora de escuta. Com coaching contínuo e SPIN Selling, a operação ganhou cerca de 25% em novos doadores e a rotatividade caiu cerca de 40%.",
+        "en": "Before CRM, there was a room with more than forty agents and a headset on every head. I had come from sales and started coordinating people whose accents, histories and relationships with work were very different from mine. The dashboard showed talk time and number of acceptances. It explained little. I started paying attention to the words each person chose, the tone, the gestures they repeated while listening to the donor. For one agent, guidance became an open notebook holding their attention. For another, a recurring gesture became a listening anchor. With ongoing coaching and SPIN Selling, the operation gained about 25% in new donors and turnover fell by about 40%."
+      },
+      "fecho": {
+        "pt": "Liderar começa por aprender a língua de cada um.",
+        "en": "Leading starts with learning each person's language."
+      }
+    },
+    {
+      "n": "02",
+      "empresa": {
+        "pt": "Monchu",
+        "en": "Monchu"
+      },
+      "cargo": {
+        "pt": "Gerente de Comunicação e Branding",
+        "en": "Communications & Branding Manager"
+      },
+      "periodo": {
+        "pt": "2016 a 2019",
+        "en": "2016 to 2019"
+      },
+      "titulo": {
+        "pt": "A festa que aprendeu a reconhecer quem voltava",
+        "en": "The party that learned to recognize who came back"
+      },
+      "corpo": {
+        "pt": "Uma festa que começou com 300 a 500 pessoas por edição chegou a uma média de 2 a 3 mil em cerca de dois anos. Parte desse caminho passou por uma planilha. Montei um score com frequência, ticket médio e recência, e cada faixa ganhou uma conversa própria: combo para quem vinha pela primeira vez com amigos, ingresso antecipado para quem tinha sumido, plano anual de associado para quem aparecia sempre. Cada evento do portfólio pedia uma combinação diferente. Às vezes uma estratégia, às vezes três. A pesquisa seguia o mesmo ritmo. Nas primeiras visitas, eu perguntava se a pessoa tinha gostado e se voltaria. Depois da quarta ou quinta, perguntava o que atraía e o que incomodava. Essas respostas mudaram a posição de banheiros e pontos de comida sempre que o espaço deixava. O público passou a se sentir notado.",
+        "en": "A party that started with 300 to 500 people per edition reached an average of 2,000 to 3,000 in about two years. Part of that path ran through a spreadsheet. I built a score with frequency, average ticket and recency, and each tier got its own conversation: a combo for first timers who came with friends, early tickets for those who had disappeared, an annual membership plan for those who showed up every time. Each event in the portfolio called for a different mix. Sometimes one strategy, sometimes three. Research followed the same rhythm. On the first visits, I asked whether people had enjoyed it and would come back. After the fourth or fifth, I asked what drew them in and what bothered them. Those answers changed where restrooms and food stands went, whenever the space allowed. The audience started to feel noticed."
+      },
+      "fecho": {
+        "pt": "Quem volta sempre merece uma pergunta mais funda.",
+        "en": "People who always come back deserve a deeper question."
+      }
+    },
+    {
+      "n": "03",
+      "empresa": {
+        "pt": "Monchu",
+        "en": "Monchu"
+      },
+      "cargo": {
+        "pt": "Gerente de Comunicação e Branding",
+        "en": "Communications & Branding Manager"
+      },
+      "periodo": {
+        "pt": "2016 a 2019",
+        "en": "2016 to 2019"
+      },
+      "titulo": {
+        "pt": "O horário que o público escolheu",
+        "en": "The schedule the audience chose"
+      },
+      "corpo": {
+        "pt": "Algumas festas demoravam a encher e esvaziavam cedo, deixando o bar trabalhando para uma pista vazia. O problema nem era da minha área. Cruzei o horário de validação dos ingressos com o controle manual de ocupação e saída e vi como aquele público chegava, ficava e ia embora. O horário padrão do gênero musical não servia para ele. Ajustamos o evento ao ritmo real de permanência. As vendas do bar subiram entre 15% e 20%, e o horário novo voltou em feedback como mais confortável.",
+        "en": "Some parties took a long time to fill up and emptied early, leaving the bar working for an empty dance floor. The problem was not even in my area. I cross-referenced ticket validation times with the manual occupancy and exit log and saw how that audience arrived, stayed and left. The standard schedule for that music genre did not fit them. We adjusted the event to the real rhythm of their stay. Bar sales rose between 15% and 20%, and the new schedule came back in feedback as more comfortable."
+      },
+      "fecho": {
+        "pt": "O relógio da festa é o do público.",
+        "en": "The party's clock belongs to the audience."
+      }
+    },
+    {
+      "n": "04",
+      "empresa": {
+        "pt": "LBV",
+        "en": "LBV"
+      },
+      "cargo": {
+        "pt": "Analista de Parcerias Estratégicas",
+        "en": "Strategic Partnerships Analyst"
+      },
+      "periodo": {
+        "pt": "2021 a 2022",
+        "en": "2021 to 2022"
+      },
+      "titulo": {
+        "pt": "Alcance emprestado, base própria",
+        "en": "Borrowed reach, owned audience"
+      },
+      "corpo": {
+        "pt": "Na volta à LBV, estruturei do zero um funil de parceria corporativa, da prospecção ao contrato, e os patrocínios B2B, em dinheiro e em espécie, financiaram os projetos promocionais do período. Com influenciadores e celebridades, desenhei campanhas co-branded que trouxeram 15% mais aquisição de topo de funil, sem mídia paga, e transformaram alcance emprestado em base segmentável. Para quem já estava dentro, benefícios exclusivos bancados por parceiros, com KPI por parceiro orientando cada renovação.",
+        "en": "Back at LBV, I built a corporate partnership funnel from scratch, from prospecting to contract, and B2B sponsorships, in cash and in kind, funded the period's promotional projects. With influencers and celebrities, I designed co-branded campaigns that brought 15% more top-of-funnel acquisition, with no paid media, and turned borrowed reach into a segmentable audience. For those already inside, exclusive benefits funded by partners, with per-partner KPIs guiding each renewal."
+      },
+      "fecho": {
+        "pt": "Parceria boa também precisa de régua.",
+        "en": "A good partnership also needs a cadence."
+      }
+    },
+    {
+      "n": "05",
+      "empresa": {
+        "pt": "Fênix Educação",
+        "en": "Fênix Educação"
+      },
+      "cargo": {
+        "pt": "Especialista em CRM e Lifecycle Marketing",
+        "en": "CRM & Lifecycle Marketing Specialist"
+      },
+      "periodo": {
+        "pt": "2022 a 2025",
+        "en": "2022 to 2025"
+      },
+      "titulo": {
+        "pt": "Mesmo curso, momentos diferentes",
+        "en": "Same course, different moments"
+      },
+      "corpo": {
+        "pt": "Na Fênix, a conversa com o cliente passou a acontecer por sistema. Recebi uma base de 50 mil leads que abria 2% dos e-mails. Duas pessoas que compram o mesmo curso podem estar em momentos de necessidade muito diferentes, e uma régua de intervalos fixos trata as duas igual. Me aproximei de quem falava com aluno todos os dias no Comercial para entender nichos e dinâmica de venda. Reconstruí segmentação, limpeza e cadência, criei lead scoring comportamental e levei princípios de semiótica para o e-mail: tamanho, cor, posição e imagem testados por segmento, com layouts mais delicados para uns e mais sofisticados para outros. A abertura chegou a 25%, as matrículas cresceram 20% e o lead não qualificado caiu 30% na passagem para vendas.",
+        "en": "At Fênix, the conversation with customers started happening through systems. I inherited a base of 50,000 leads that opened 2% of emails. Two people who buy the same course can be at very different moments of need, and a fixed-interval cadence treats both the same. I got close to the people on the Sales team who talked to students every day to understand niches and sales dynamics. I rebuilt segmentation, list cleaning and cadence, created behavioral lead scoring and brought semiotic principles into email: size, color, position and image tested by segment, with more delicate layouts for some and more sophisticated ones for others. Open rate reached 25%, enrollments grew 20% and unqualified leads fell 30% at the handoff to sales."
+      },
+      "fecho": {
+        "pt": "A jornada responde ao estado da pessoa.",
+        "en": "The journey responds to the person's state."
+      }
+    },
+    {
+      "n": "06",
+      "empresa": {
+        "pt": "Fênix Educação",
+        "en": "Fênix Educação"
+      },
+      "cargo": {
+        "pt": "Especialista em CRM e Lifecycle Marketing",
+        "en": "CRM & Lifecycle Marketing Specialist"
+      },
+      "periodo": {
+        "pt": "2022 a 2025",
+        "en": "2022 to 2025"
+      },
+      "titulo": {
+        "pt": "O teste que mudou meu método",
+        "en": "The test that changed my method"
+      },
+      "corpo": {
+        "pt": "Com uma base desorganizada nas mãos e muita vontade de arrumar tudo, mudei várias coisas ao mesmo tempo. O desempenho caiu e ninguém conseguia dizer por quê. Meu coordenador pediu a lista do que eu tinha feito. Ali ficou claro: eu tinha mexido em variáveis demais sem isolar nenhuma. Desde então organizo o CRM como um backlog de produto. Cada teste tem uma variável, uma pergunta e um critério de leitura antes de avançar.",
+        "en": "With a messy base in my hands and a strong urge to fix everything, I changed several things at once. Performance dropped and no one could say why. My coordinator asked for the list of what I had done. That made it clear: I had touched too many variables without isolating any. Since then I run CRM like a product backlog. Each test has one variable, one question and one reading criterion before moving on."
+      },
+      "fecho": {
+        "pt": "Teste que não explica o resultado vira só mais uma mudança.",
+        "en": "A test that does not explain the result is just another change."
+      }
+    },
+    {
+      "n": "07",
+      "empresa": {
+        "pt": "Leea",
+        "en": "Leea"
+      },
+      "cargo": {
+        "pt": "Estudo de método em retenção",
+        "en": "Retention Method Study"
+      },
+      "periodo": {
+        "pt": "2025 a presente",
+        "en": "2025 to present"
+      },
+      "titulo": {
+        "pt": "O silêncio antes do cancelamento",
+        "en": "The silence before cancellation"
+      },
+      "corpo": {
+        "pt": "Em outubro de 2025 dei nome ao que vinha fazendo desde o salão de telemarketing. Leea é um estudo de retenção que lê os sinais que chegam antes da decisão de cancelar, em quatro camadas. Comportamento, com padrões e desvios de cadência. Voz, porque comunicação estável ajuda a reter. Semiótica, para entender como o cliente se aproxima ou se afasta do produto. E tempo: a duração de cada estado da jornada, calculada a partir da estrutura que a própria empresa define, sem depender de uma ação do cliente. Hoje o estudo testa como agentes de IA podem ler essas camadas e cruzar as leituras antes de sugerir qualquer intervenção.",
+        "en": "In October 2025 I gave a name to what I had been doing since the telemarketing floor. Leea is a retention study that reads the signals that arrive before the decision to cancel, across four layers. Behavior, with patterns and cadence deviations. Voice, because stable communication helps retain. Semiotics, to understand how customers move closer to or away from the product. And time: the duration of each journey state, calculated from the structure the company itself defines, without depending on a customer action. Today the study tests how AI agents can read these layers and cross-check readings before suggesting any intervention."
+      },
+      "fecho": {
+        "pt": "O silêncio do cliente também tem duração.",
+        "en": "Customer silence also has a duration."
+      }
+    }
+  ]
+}

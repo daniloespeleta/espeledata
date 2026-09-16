@@ -1,0 +1,34 @@
+{
+  "forbidden_chars": [
+    "—",
+    "–"
+  ],
+  "forbidden_words": [
+    "alavanc",
+    "destravar potencial",
+    "navegar pelo cenário",
+    "mergulhar fundo",
+    "robust",
+    "vale ressaltar",
+    "é importante destacar",
+    "em suma",
+    "por fim",
+    "ademais",
+    "é fundamental",
+    "leverage"
+  ],
+  "old_content": [
+    "500% crescimento",
+    "em validação",
+    "ainda não existe case pago",
+    "500 para mais de 3 mil",
+    "desde jul 2022",
+    "Do call center ao lifecycle",
+    "in validation",
+    "does not have a paid case",
+    "500%",
+    "since jul 2022",
+    "from the call center"
+  ],
+  "_nota": "old_content e forbidden_words valem para PT e EN. Ajuste esta lista quando uma ocorrência for legítima."
+}

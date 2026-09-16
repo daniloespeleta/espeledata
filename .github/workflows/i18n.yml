@@ -22,3 +22,9 @@ jobs:
 
       - name: Validate i18n (one language per URL, hreflang, canonical, no dashes)
         run: node scripts/validate-i18n.js
+
+      - name: Relatos (HTML idêntico ao JSON)
+        run: node scripts/render-relatos.js --check
+
+      - name: Relatos e conteúdo antigo
+        run: node scripts/check-relatos.js

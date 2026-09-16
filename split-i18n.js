@@ -80,8 +80,8 @@ const EN_META = {
   'case-boa-leitura.html': [
     ["Case de prospecção híbrida e Lifecycle: projeto social de incentivo à leitura desenhado como motor de prospecção de parceiros e captação de recursos.",
      "Hybrid prospecting and Lifecycle case: a reading-incentive social project designed as an engine for partner prospecting and fundraising."],
-    ["Funil de Defensores em cinco estágios, calendário literário como motor de cadência e nicho de convidados como canal de alavancagem.",
-     "A five-stage Defenders funnel, a literary calendar as a cadence engine and a guest niche as a leverage channel."],
+    ["Funil de Defensores em cinco estágios, calendário literário como motor de cadência e nicho de convidados como canal de expansão.",
+     "A five-stage Defenders funnel, a literary calendar as a cadence engine and a guest niche as a growth channel."],
   ],
   'case-sql-01.html': [
     ["SQL 01 · Filtros e Qualificação · Danilo Espeleta", "SQL 01 · Filters and Qualification · Danilo Espeleta"],
