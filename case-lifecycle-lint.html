@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9NB09LQ1PT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9NB09LQ1PT');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case lifecycle-lint · Danilo Espeleta</title>
+<meta name="description" content="Linter que lê jornadas de CRM em YAML e acusa o defeito que só existe na interseção entre réguas ativas. Doze regras, diagnóstico sem modelo.">
+<meta name="author" content="Danilo Espeleta">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Case lifecycle-lint · Danilo Espeleta">
+<meta property="og:description" content="Doze regras sobre jornadas declaradas em YAML, com exit code que barra o merge.">
+<meta property="og:url" content="https://espeledata.com/case-lifecycle-lint.html">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg:#0a0a0a; --bg2:#111113; --bg3:#17171a; --bg4:#08080a;
+  --cyan:#00d4ff;
+  --accent:#00d4ff;        /* case accent: #00d4ff (primary) | #ff5a47 (support) */
+  --accent-2:#00d4ff;    /* kicker/secondary: #00d4ff (primary) | #ff5a47 (support)    */
+  --red:#ff5a47; --amber:#f5b84c; --green:#5fe3a8;
+  --white:#f0f0ee; --gray:#a3a39d; --gray2:#888882;
+  --border:rgba(255,255,255,0.08);
+  --border2:rgba(255,255,255,0.18);
+  --sans:'Barlow',system-ui,sans-serif;
+  --cond:'Barlow Condensed',var(--sans);
+  --mono:'JetBrains Mono',Consolas,monospace;
+  --max:960px;
+}
+/* ============ BASE ============ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-padding-top:5.5rem}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{background:var(--bg);color:var(--white);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--cyan)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:2px}
+.visually-hidden{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.skip-link{position:absolute;left:1rem;top:-4rem;z-index:300;background:var(--cyan);color:#00232b;font-weight:600;padding:.6rem 1rem;text-decoration:none;transition:top .15s}
+.skip-link:focus{top:1rem}
+.lang-pt .en{display:none!important}
+.lang-en .pt{display:none!important}
+code{font-family:var(--mono);font-size:.88em}
+
+/* ============ READING PROGRESS ============ */
+.progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--accent);z-index:250;pointer-events:none;transition:width .1s linear}
+
+/* ============ NAV ============ */
+.site-nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.8rem 2rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;border-bottom:1px solid var(--border);background:rgba(10,10,10,0.92);backdrop-filter:blur(12px)}
+.brand{display:flex;flex-direction:column;gap:.1rem;text-decoration:none}
+.brand-name{font-family:var(--cond);font-weight:700;font-size:1.1rem;letter-spacing:.06em;color:var(--white);text-transform:uppercase}
+.brand-role{font-family:var(--mono);font-size:.6rem;color:var(--cyan);letter-spacing:.12em;text-transform:uppercase}
+.nav-right{display:flex;align-items:center;gap:1.4rem}
+.nav-links{display:flex;gap:1.4rem;align-items:center}
+.nav-links a{font-family:var(--mono);font-size:.68rem;color:var(--gray);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;padding:.3rem 0}
+.nav-links a:hover,.nav-links a[aria-current="page"]{color:var(--cyan)}
+.lang-switch{display:flex;border:1px solid var(--border)}
+.lang-switch button{background:none;border:none;color:var(--gray);cursor:pointer;font-family:var(--mono);font-size:.65rem;font-weight:500;letter-spacing:.1em;padding:.4rem .7rem}
+.lang-switch button+button{border-left:1px solid var(--border)}
+.lang-switch button[aria-pressed="true"]{background:var(--cyan);color:#00232b}
+.menu-btn{display:none;font-family:var(--mono);font-size:.68rem;color:var(--white);background:none;border:1px solid var(--border);padding:.45rem .9rem;cursor:pointer;letter-spacing:.12em;text-transform:uppercase;transition:all .2s}
+.menu-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:260;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.sidebar-overlay.open{opacity:1;visibility:visible}
+.sidebar{position:fixed;top:0;right:-290px;width:290px;height:100vh;background:var(--bg2);border-left:1px solid var(--border);z-index:270;transition:right .28s;padding:4.5rem 2rem 2rem;display:flex;flex-direction:column}
+.sidebar.open{right:0}
+.sidebar-close{position:absolute;top:1.1rem;right:1.1rem;background:none;border:1px solid var(--border);color:var(--gray);font-size:1rem;line-height:1;cursor:pointer;font-family:var(--mono);padding:.4rem .6rem}
+.sidebar-close:hover{color:var(--cyan);border-color:var(--cyan)}
+.sidebar a{font-family:var(--mono);font-size:.78rem;color:var(--gray);text-decoration:none;letter-spacing:.12em;text-transform:uppercase;padding:1rem 0;border-bottom:1px solid var(--border);transition:color .2s;display:block}
+.sidebar a:hover,.sidebar a[aria-current="page"]{color:var(--cyan)}
+.sidebar .lang-switch{margin-top:1.5rem;align-self:flex-start}
+@media(max-width:820px){
+  .site-nav{padding:.75rem 1.25rem}
+  .brand-role{display:none}
+  .nav-right .nav-links,.nav-right .lang-switch{display:none}
+  .menu-btn{display:block}
+}
+
+/* ============ LAYOUT ============ */
+.case-wrap{max-width:var(--max);margin:0 auto;padding:7.5rem 1.5rem 3rem}
+.breadcrumb{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray2);display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:2.2rem}
+.breadcrumb a{color:var(--gray);text-decoration:none;transition:color .2s}
+.breadcrumb a:hover{color:var(--cyan)}
+.breadcrumb .sep{color:var(--gray2)}
+
+/* ============ HERO ============ */
+.case-hero{border-top:4px solid var(--accent);padding-top:2.2rem;margin-bottom:1rem}
+.case-tag{font-family:var(--mono);font-size:.68rem;color:var(--accent-2);letter-spacing:.18em;text-transform:uppercase;display:block;margin-bottom:1rem}
+.case-title{font-family:var(--cond);font-weight:800;font-size:clamp(2.6rem,6.5vw,4.2rem);line-height:.95;text-transform:uppercase;color:var(--white)}
+.case-title .accent{color:var(--accent)}
+.case-sub{margin-top:1.3rem;font-size:1rem;color:var(--gray);max-width:60ch;line-height:1.8}
+.meta-pills{list-style:none;display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.6rem}
+.meta-pills li{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);border:1px solid var(--border);padding:.35rem .8rem}
+
+/* ============ SECTION RAIL ============ */
+.section-rail{display:flex;flex-wrap:wrap;gap:1px;background:var(--border);border:1px solid var(--border);margin-top:2.4rem}
+.section-rail a{flex:1 1 auto;background:var(--bg2);font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);text-decoration:none;padding:.7rem .85rem;text-align:center;white-space:nowrap;transition:color .2s,background .2s}
+.section-rail a:hover{color:var(--cyan);background:var(--bg3)}
+.section-rail .num{color:var(--gray2);margin-right:.45rem}
+.section-rail a:hover .num{color:var(--cyan)}
+
+/* ============ METRICS ============ */
+.metrics-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin:2.5rem 0}
+.metric{background:var(--bg2);padding:1.6rem 1.2rem;text-align:center}
+.metric-num{font-family:var(--cond);font-weight:800;font-size:2.2rem;color:var(--accent);line-height:1;display:block}
+.metric-label{font-family:var(--mono);font-size:.7rem;color:var(--gray);letter-spacing:.08em;text-transform:uppercase;margin-top:.55rem;display:block}
+
+/* ============ BLOCKS ============ */
+.block{margin:3.2rem 0;scroll-margin-top:5.5rem}
+.block-head{display:flex;align-items:baseline;gap:.9rem;padding-bottom:.7rem;border-bottom:1px solid var(--border);margin-bottom:1.3rem}
+.block-idx{font-family:var(--mono);font-size:.72rem;color:var(--accent);letter-spacing:.1em;flex:none}
+.block-head h2{font-family:var(--cond);font-weight:700;font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.1;text-transform:uppercase;margin:0}
+.block-head h2 .accent{color:var(--accent)}
+.block-lede{color:var(--gray);max-width:72ch;margin-bottom:1.2rem}
+.prose p{color:var(--gray);margin-bottom:1.05rem;max-width:70ch}
+.prose p:last-child{margin-bottom:0}
+.prose strong{color:var(--white);font-weight:500}
+
+/* ============ CARD GRIDS ============ */
+.grid-2,.grid-3{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);margin-top:1.4rem}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:640px){.grid-2,.grid-3{grid-template-columns:1fr}}
+.mini-card{background:var(--bg2);padding:1.5rem 1.3rem}
+.mini-num{font-family:var(--mono);font-size:.62rem;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:.6rem}
+.mini-title{font-family:var(--cond);font-weight:700;font-size:1.05rem;text-transform:uppercase;letter-spacing:.03em;color:var(--white);margin-bottom:.5rem}
+.mini-card p{font-size:.98rem;color:var(--gray);line-height:1.65}
+.mini-card p strong{color:var(--white);font-weight:500}
+.mini-card p+p{margin-top:.6rem}
+.mini-title a{color:var(--white);text-decoration:none;border-bottom:1px solid var(--accent)}
+.mini-title a:hover{color:var(--accent)}
+.kpi-pill{display:inline-block;font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);padding:.3rem .7rem;margin-top:.7rem;opacity:.9}
+
+/* ============ TERMINAL (tabbed, replayable) ============ */
+.term-tabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(10rem,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-bottom:none;margin-top:1.4rem}
+.tbtn{background:var(--bg2);border:none;border-top:2px solid transparent;color:var(--gray);font-family:var(--mono);font-size:.64rem;letter-spacing:.05em;padding:.75rem .9rem;cursor:pointer;text-align:left;transition:color .18s,background .18s}
+.tbtn:hover{color:var(--white);background:var(--bg3)}
+.tbtn[aria-selected="true"]{color:var(--accent);background:var(--bg3);border-top-color:var(--accent)}
+.term{border:1px solid var(--border);border-left:3px solid var(--accent);background:var(--bg4);padding:1.3rem 1.2rem;min-height:24rem;overflow-x:auto}
+.tline{font-family:var(--mono);font-size:.79rem;line-height:1.75;white-space:pre-wrap;color:var(--white)}
+.t-cmd{color:var(--gray)}
+.t-cmd b{color:var(--accent);font-weight:400}
+.t-head{color:var(--white);font-weight:500;margin-top:.9rem}
+.t-err{color:var(--red)}
+.t-warn{color:var(--amber)}
+.t-ok{color:var(--green)}
+.t-dim{color:var(--gray2)}
+.t-set{color:var(--accent)}
+.t-note{color:var(--gray2);font-style:italic}
+.exit-chip{display:inline-block;font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;padding:.15rem .6rem;margin-left:.6rem;border:1px solid;font-style:normal}
+.ex1{color:var(--red);border-color:rgba(255,90,71,.45);background:rgba(255,90,71,.08)}
+.ex0{color:var(--green);border-color:rgba(95,227,168,.45);background:rgba(95,227,168,.08)}
+.cursor{display:inline-block;width:.5rem;height:.9rem;background:var(--accent);vertical-align:-2px}
+@media (prefers-reduced-motion:no-preference){
+  .cursor{animation:blink 1.05s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .term-panel.play .tline{opacity:0;animation:tin .3s ease forwards;animation-delay:calc(var(--i,0) * 80ms)}
+  @keyframes tin{to{opacity:1}}
+}
+
+/* ============ MECHANISM DIAGRAM ============ */
+.mech-wrap{border:1px solid var(--border);background:var(--bg2);margin-top:1.4rem}
+.mech-bar{display:flex;align-items:center;gap:.9rem;flex-wrap:wrap;padding:.85rem 1.1rem;border-bottom:1px solid var(--border)}
+.mech-svg{display:block;width:100%;height:auto;padding:1.2rem}
+.mn rect{fill:var(--bg3);stroke:var(--border2);stroke-width:1.2;transition:fill .3s,stroke .3s}
+.mn text{fill:var(--white);font-family:var(--mono);font-size:13px}
+.mn .sub{fill:var(--gray);font-size:10.5px}
+.mn .tagid{fill:var(--gray2);font-size:10.5px}
+.mn.on rect{stroke:var(--accent);fill:rgba(0,212,255,.07)}
+.mn.on text{fill:var(--accent)}
+.mn.on .sub{fill:var(--white)}
+.mn.bad.on rect{stroke:var(--red);fill:rgba(255,90,71,.08)}
+.mn.bad.on text{fill:var(--red)}
+.medge{stroke:var(--border2);stroke-width:1.5;fill:none;transition:stroke .3s,stroke-width .3s}
+.medge.on{stroke:var(--accent);stroke-width:2.2}
+.mech-cap{font-family:var(--mono);font-size:.72rem;color:var(--accent);padding:.9rem 1.1rem;border-top:1px solid var(--border);background:var(--bg4);min-height:3.4rem;display:flex;align-items:center}
+.mech-cap p{margin:0}
+
+/* ============ PRESSURE BARS ============ */
+.press{border:1px solid var(--border);background:var(--bg2);margin-top:1.4rem;padding:1.6rem 1.4rem 1.2rem}
+.press-plot{position:relative;height:15rem;display:flex;align-items:flex-end;gap:1.6rem;padding:0 1rem 0 9.5rem;border-bottom:1px solid var(--border2)}
+.pbar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.pbar b{font-family:var(--cond);font-weight:800;font-size:1.35rem;color:var(--white);margin-bottom:.4rem;line-height:1}
+.pbar i{width:100%;max-width:5rem;height:0;background:rgba(0,212,255,.3);border:1px solid var(--accent);border-bottom:none;transition:height 1.05s cubic-bezier(.2,.8,.2,1)}
+.press.in .pbar i{height:var(--h)}
+.pbar.over i{background:rgba(255,90,71,.3);border-color:var(--red)}
+.pbar.over b{color:var(--red)}
+.ceil{position:absolute;left:0;right:0;border-top:1px dashed var(--white);pointer-events:none}
+.ceil span{position:absolute;left:0;top:-.62rem;white-space:nowrap;font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:var(--white);background:var(--bg2);padding:0 .35rem}
+.ceil.soft{border-top-color:var(--gray2)}
+.ceil.soft span{color:var(--gray2)}
+.press-x{display:flex;gap:1.6rem;padding:.7rem 1rem 0 9.5rem}
+.press-x span{flex:1;text-align:center;font-family:var(--mono);font-size:.62rem;color:var(--gray);line-height:1.5}
+.press-foot{font-family:var(--mono);font-size:.68rem;color:var(--gray2);margin-top:1rem;line-height:1.8}
+
+/* ============ CODE ============ */
+.code-wrap{border:1px solid var(--border);border-left:3px solid var(--accent);background:var(--bg2);margin-top:1.4rem;overflow:hidden}
+.code-head{font-family:var(--mono);font-size:.62rem;color:var(--gray);letter-spacing:.15em;text-transform:uppercase;padding:.7rem 1.2rem;border-bottom:1px solid var(--border)}
+.code-wrap pre{padding:1.2rem;overflow-x:auto}
+.code-wrap code{font-family:var(--mono);font-size:.79rem;line-height:1.85;color:var(--white)}
+.yk{color:var(--cyan)} .yv{color:var(--green)} .yc{color:var(--gray2);font-style:italic}
+
+/* ============ FORMULA COMPARE ============ */
+.formula-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:1.4rem}
+@media(max-width:640px){.formula-grid{grid-template-columns:1fr}}
+.formula{background:var(--bg2);padding:1.5rem 1.3rem}
+.formula.win{background:var(--bg3)}
+.formula-name{font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:.9rem;display:block}
+.formula.win .formula-name{color:var(--accent)}
+.formula-math{font-family:var(--mono);font-size:.8rem;color:var(--white);border:1px solid var(--border);background:var(--bg4);padding:1rem .9rem;line-height:1.5;text-align:center}
+.formula-math .num{display:block;padding-bottom:.5rem}
+.formula-math .den{display:block;padding-top:.5rem;border-top:1px solid var(--amber);color:var(--amber);width:fit-content;margin:0 auto;min-width:8rem}
+.formula.win .formula-math .den{border-top-color:var(--accent);color:var(--accent)}
+.formula-out{display:flex;align-items:baseline;gap:.7rem;margin-top:1rem;flex-wrap:wrap}
+.formula-val{font-family:var(--cond);font-weight:800;font-size:2.3rem;line-height:1;color:var(--gray)}
+.formula.win .formula-val{color:var(--accent)}
+.formula-verdict{font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;padding:.25rem .6rem;border:1px solid}
+.v-miss{color:var(--red);border-color:rgba(255,90,71,.45);background:rgba(255,90,71,.08)}
+.v-hit{color:var(--green);border-color:rgba(95,227,168,.45);background:rgba(95,227,168,.08)}
+.formula p{font-size:.93rem;color:var(--gray);margin-top:.9rem}
+
+/* ============ RULES TABLE ============ */
+.table-wrap{border:1px solid var(--border);background:var(--bg2);margin-top:1.4rem;overflow-x:auto}
+.rules-table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:.76rem;min-width:32rem}
+.rules-table th{text-align:left;font-weight:400;color:var(--gray2);letter-spacing:.1em;text-transform:uppercase;font-size:.6rem;padding:.85rem 1.1rem;border-bottom:1px solid var(--border)}
+.rules-table td{padding:.75rem 1.1rem;border-bottom:1px solid var(--border);color:var(--gray);vertical-align:top}
+.rules-table tr:last-child td{border-bottom:none}
+.rules-table td:first-child{color:var(--white);white-space:nowrap}
+.rules-table tbody tr.set-rule td{background:rgba(0,212,255,.05)}
+.rules-table tbody tr.set-rule td:first-child{color:var(--accent)}
+.chip{display:inline-block;font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;padding:.15rem .55rem;border:1px solid;white-space:nowrap}
+.c-set{color:var(--accent);border-color:rgba(0,212,255,.45);background:rgba(0,212,255,.08)}
+.c-one{color:var(--gray2);border-color:var(--border)}
+
+/* ============ CALLOUTS ============ */
+.insight-box{background:color-mix(in srgb,var(--accent) 6%,transparent);border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);border-left:3px solid var(--accent);padding:1.6rem 1.8rem;margin-top:1.4rem}
+.insight-box p{font-style:italic;color:var(--white);font-size:.98rem;line-height:1.8;max-width:70ch}
+.note-bar{border:1px solid var(--border);border-left:3px solid var(--accent);background:var(--bg2);padding:1.1rem 1.4rem;margin-top:1.4rem}
+.note-bar p{font-size:.98rem;color:var(--gray)}
+.note-bar strong{color:var(--white);font-weight:500}
+
+/* ============ BUTTONS / CASE NAV ============ */
+.btn{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.7rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:.85rem 1.5rem;text-decoration:none;border:1px solid;transition:all .15s;cursor:pointer}
+.btn-solid{background:var(--cyan);border-color:var(--cyan);color:#00232b}
+.btn-solid:hover{background:#33ddff;border-color:#33ddff}
+.btn-outline{background:transparent;border-color:var(--border2);color:var(--white)}
+.btn-outline:hover{border-color:var(--cyan);color:var(--cyan)}
+.btn-sm{font-size:.63rem;padding:.6rem 1.05rem}
+.case-nav{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin:3.5rem 0 0}
+@media(max-width:640px){.case-nav{grid-template-columns:1fr}}
+.case-nav-link{background:var(--bg2);padding:1.4rem 1.5rem;text-decoration:none;display:flex;flex-direction:column;gap:.35rem;transition:background .2s}
+.case-nav-link:hover{background:var(--bg3)}
+.case-nav-link.next{text-align:right;align-items:flex-end}
+.case-nav-link.all{grid-column:1/-1;align-items:center;text-align:center}
+.case-nav-dir{font-family:var(--mono);font-size:.6rem;color:var(--gray2);letter-spacing:.15em;text-transform:uppercase}
+.case-nav-title{font-family:var(--cond);font-weight:700;font-size:1.05rem;text-transform:uppercase;color:var(--white);transition:color .2s}
+.case-nav-link:hover .case-nav-title{color:var(--cyan)}
+.repo-cta{margin-top:1.6rem}
+
+/* ============ FOOTER ============ */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-top:4rem}
+.footer-name{font-family:var(--cond);font-weight:700;font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray)}
+.footer-info{font-family:var(--mono);font-size:.72rem;color:var(--gray2);letter-spacing:.06em;display:flex;flex-wrap:wrap;gap:.4rem 1rem;align-items:center}
+.footer-info a{color:var(--gray);text-decoration:none;transition:color .2s}
+.footer-info a:hover{color:var(--cyan)}
+@media(max-width:640px){footer{flex-direction:column;align-items:flex-start;padding:1.5rem}}
+
+/* ============ REVEAL ============ */
+@media (prefers-reduced-motion:no-preference){
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}
+  .reveal.in{opacity:1;transform:none}
+}
+</style>
+</head>
+<body class="lang-pt">
+
+<a class="skip-link" href="#main"><span class="pt">Pular para o conteúdo</span><span class="en" lang="en">Skip to content</span></a>
+<div class="progress" aria-hidden="true"></div>
+
+<!-- ============ NAV (identical on every case page) ============ -->
+<nav class="site-nav" aria-label="Principal">
+  <a class="brand" href="index.html">
+    <span class="brand-name">Danilo Espeleta</span>
+    <span class="brand-role"><span class="pt">CRM &amp; Lifecycle Marketing</span><span class="en" lang="en">CRM &amp; Lifecycle Marketing</span></span>
+  </a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="index.html"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
+      <a href="index.html#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
+      <a href="portfolio.html" aria-current="page"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
+      <a href="notas.html"><span class="pt">Notas</span><span class="en" lang="en">Notes</span></a>
+      <a href="contact.html"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
+      <a class="cv-link" href="CV/DE-Curriculo.pdf" download><span class="pt">Currículo ↓</span><span class="en" lang="en">Resume ↓</span></a>
+    </div>
+    <div class="lang-switch" role="group" aria-label="Idioma / Language">
+      <button type="button" data-lang="pt" aria-pressed="true">PT</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <button class="menu-btn" aria-expanded="false" aria-controls="sidebar">Menu</button>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="sidebar" id="sidebar" aria-label="Menu">
+  <button class="sidebar-close" aria-label="Fechar menu">✕</button>
+  <a href="index.html"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
+  <a href="index.html#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
+  <a href="portfolio.html" aria-current="page"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
+  <a href="notas.html"><span class="pt">Notas</span><span class="en" lang="en">Notes</span></a>
+  <a href="contact.html"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
+  <a class="cv-link" href="CV/DE-Curriculo.pdf" download><span class="pt">Currículo ↓</span><span class="en" lang="en">Resume ↓</span></a>
+  <div class="lang-switch" role="group" aria-label="Idioma / Language">
+    <button type="button" data-lang="pt" aria-pressed="true">PT</button>
+    <button type="button" data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</div>
+
+<main id="main" class="case-wrap">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="portfolio.html">Portfólio</a><span class="sep" aria-hidden="true">/</span>
+    <span><span class="pt">Projetos</span><span class="en" lang="en">Projects</span></span><span class="sep" aria-hidden="true">/</span>
+    <span aria-current="page">lifecycle-lint</span>
+  </nav>
+
+  <header class="case-hero">
+    <span class="case-tag"><span class="pt">Projeto 03 · lifecycle-lint</span><span class="en" lang="en">Project 03 · lifecycle-lint</span></span>
+    <h1 class="case-title">
+      <span class="pt">O defeito está<br><span class="accent">na interseção.</span></span>
+      <span class="en" lang="en">The defect lives<br><span class="accent">in the overlap.</span></span>
+    </h1>
+    <p class="case-sub">
+      <span class="pt">Cada régua passa em revisão isolada. Somadas, duas delas alcançam a mesma audiência e cobram pressão semanal de 9,5 do mesmo contato, contra um teto de 6,0. Essa conta não consta de nenhum dos dois arquivos.</span>
+      <span class="en" lang="en">Each flow passes review on its own. Together, two of them reach the same audience and charge a weekly pressure of 9.5 to the same contact, against a ceiling of 6.0. That sum appears in neither file.</span>
+    </p>
+    <ul class="meta-pills">
+      <li><span class="pt">Projeto próprio</span><span class="en" lang="en">Own project</span></li>
+      <li><span class="pt">Python e CLI</span><span class="en" lang="en">Python and CLI</span></li>
+      <li><span class="pt">Código aberto</span><span class="en" lang="en">Open source</span></li>
+    </ul>
+  </header>
+
+  <!-- ============ SECTION RAIL ============ -->
+  <h2 id="railLabel" class="visually-hidden"><span class="pt">Seções desta página</span><span class="en" lang="en">Sections on this page</span></h2>
+  <nav class="section-rail" aria-labelledby="railLabel">
+    <a href="#narrativa"><span class="num">01</span><span class="pt">Narrativa</span><span class="en" lang="en">Narrative</span></a>
+    <a href="#saida"><span class="num">02</span><span class="pt">Auditoria</span><span class="en" lang="en">Audit</span></a>
+    <a href="#intersecao"><span class="num">03</span><span class="pt">Interseção</span><span class="en" lang="en">Overlap</span></a>
+    <a href="#pressao"><span class="num">04</span><span class="pt">Pressão</span><span class="en" lang="en">Pressure</span></a>
+    <a href="#calculo"><span class="num">05</span><span class="pt">Cálculo</span><span class="en" lang="en">Math</span></a>
+    <a href="#regras"><span class="num">06</span><span class="pt">Regras</span><span class="en" lang="en">Rules</span></a>
+    <a href="#modelo"><span class="num">07</span><span class="pt">Modelo</span><span class="en" lang="en">Model</span></a>
+    <a href="#suite"><span class="num">08</span><span class="pt">Suíte</span><span class="en" lang="en">Suite</span></a>
+  </nav>
+
+  <!-- ============ METRICS ============ -->
+  <section class="metrics-strip reveal" aria-label="Números">
+    <div class="metric">
+      <span class="metric-num" data-count="12">12</span>
+      <span class="metric-label"><span class="pt">regras de operação de CRM, não de engenharia de software</span><span class="en" lang="en">rules of CRM operation, not of software engineering</span></span>
+    </div>
+    <div class="metric">
+      <span class="metric-num" data-count="2">2</span>
+      <span class="metric-label"><span class="pt">regras de portfólio, que leem o conjunto de jornadas</span><span class="en" lang="en">portfolio rules, which read the set of journeys</span></span>
+    </div>
+    <div class="metric">
+      <span class="metric-num" data-count="21">21</span>
+      <span class="metric-label"><span class="pt">testes, cada regra com caso positivo e negativo</span><span class="en" lang="en">tests, each rule with a positive and a negative case</span></span>
+    </div>
+    <div class="metric">
+      <span class="metric-num" data-count="0">0</span>
+      <span class="metric-label"><span class="pt">chamadas de modelo no diagnóstico</span><span class="en" lang="en">model calls in the diagnosis</span></span>
+    </div>
+  </section>
+
+  <div class="note-bar reveal">
+    <p>
+      <span class="pt"><strong>Como esses números são contados:</strong> doze regras é o que <code>lifecycle-lint rules</code> imprime, cada uma com identificador, severidade e escopo. Vinte e uma é a contagem de testes em <code>tests/test_rules.py</code>, que o CI roda em Python 3.10 e 3.12. Zero chamada de modelo é verificável no código, porque nenhuma das doze regras importa cliente de API e a explicação em prosa fica atrás de uma flag opcional. A dependência única é PyYAML, declarada no <code>pyproject.toml</code>.</span>
+      <span class="en" lang="en"><strong>How these numbers are counted:</strong> twelve rules is what <code>lifecycle-lint rules</code> prints, each with an id, a severity and a scope. Twenty one is the test count in <code>tests/test_rules.py</code>, which CI runs on Python 3.10 and 3.12. Zero model calls is verifiable in the code, since none of the twelve rules imports an API client and the prose explanation sits behind an optional flag. The single dependency is PyYAML, declared in <code>pyproject.toml</code>.</span>
+    </p>
+  </div>
+
+  <!-- ============ 01 NARRATIVA ============ -->
+  <section class="block reveal" id="narrativa">
+    <div class="block-head">
+      <span class="block-idx">01</span>
+      <h2><span class="pt">Narrativa</span><span class="en" lang="en">Narrative</span></h2>
+    </div>
+    <div class="grid-2">
+      <div class="mini-card">
+        <span class="mini-num">01</span>
+        <div class="mini-title"><span class="pt">Problema</span><span class="en" lang="en">Problem</span></div>
+        <p class="pt">Uma jornada com defeito de construção continua executando. O fluxo dispara, as mensagens saem, o relatório fecha com número positivo, e quem já converteu segue recebendo a sequência de quem não converteu. O efeito aparece semanas depois, no descadastro e na entregabilidade do domínio.</p>
+        <p class="en" lang="en">A journey with a construction defect keeps running. The flow fires, the messages go out, the report closes with a positive number, and whoever already converted keeps receiving the sequence built for those who did not. The effect shows up weeks later, in unsubscribes and in domain deliverability.</p>
+      </div>
+      <div class="mini-card">
+        <span class="mini-num">02</span>
+        <div class="mini-title"><span class="pt">Decisão</span><span class="en" lang="en">Decision</span></div>
+        <p class="pt">Declarar a jornada em YAML e auditar o arquivo antes da publicação. Critério de saída, lista de supressão, teto de frequência e grupo de controle são quatro campos que a interface de automação não solicita, e que por isso ficam em branco. No formato declarado, a ausência deles vira falha com identificador e exit code.</p>
+        <p class="en" lang="en">Declare the journey in YAML and audit the file before it ships. Exit criteria, suppression list, frequency cap and control group are four fields the automation interface never asks for, which is why they stay empty. In a declared format, their absence becomes a failure with an id and an exit code.</p>
+      </div>
+      <div class="mini-card">
+        <span class="mini-num">03</span>
+        <div class="mini-title"><span class="pt">Execução</span><span class="en" lang="en">Execution</span></div>
+        <p class="pt">Doze regras. Dez leem uma jornada por vez, e duas leem o portfólio de jornadas ativas. As duas de portfólio são a razão de a ferramenta existir. L011 mede a sobreposição entre as definições de audiência, L012 soma a pressão semanal ponderada que essas jornadas cobram do mesmo contato e compara com o teto configurado.</p>
+        <p class="en" lang="en">Twelve rules. Ten read one journey at a time, and two read the portfolio of active journeys. The two portfolio rules are why the tool exists. L011 measures the overlap between audience definitions, L012 sums the weighted weekly pressure those journeys charge to the same contact and compares it with the configured ceiling.</p>
+      </div>
+      <div class="mini-card">
+        <span class="mini-num">04</span>
+        <div class="mini-title"><span class="pt">Aprendizado</span><span class="en" lang="en">Learning</span></div>
+        <p class="pt">A primeira versão de L011 usava índice de Jaccard e não acusava nada nos exemplos. Ela devolvia 0,5 justamente no caso que motivou a regra, porque um dos conjuntos tem um filtro a mais. Uma regra que erra o caso que a originou é pior que a ausência de regra, porque ela devolve resultado verde.</p>
+        <p class="en" lang="en">The first version of L011 used the Jaccard index and flagged nothing in the examples. It returned 0.5 on exactly the case that motivated the rule, because one of the sets carries an extra filter. A rule that misses the case that created it is worse than no rule, because it reports green.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 02 AUDITORIA ============ -->
+  <section class="block reveal" id="saida">
+    <div class="block-head">
+      <span class="block-idx">02</span>
+      <h2><span class="pt">A auditoria em ação</span><span class="en" lang="en">The audit in action</span></h2>
+    </div>
+    <p class="block-lede">
+      <span class="pt">O mesmo comando que roda na máquina roda no CI. A saída fica em português, que é o idioma da operação para a qual a ferramenta foi escrita, nas duas versões desta página.</span>
+      <span class="en" lang="en">The same command that runs locally runs in CI. The output stays in Portuguese, the language of the operation the tool was written for, in both versions of this page.</span>
+    </p>
+
+    <h3 id="termLabel" class="visually-hidden"><span class="pt">Execuções da CLI</span><span class="en" lang="en">CLI runs</span></h3>
+    <div class="term-tabs" role="tablist" aria-labelledby="termLabel">
+      <button class="tbtn" role="tab" id="tab-audit" aria-controls="panel-audit" aria-selected="true" type="button">$ audit journeys</button>
+      <button class="tbtn" role="tab" id="tab-fixed" aria-controls="panel-fixed" aria-selected="false" tabindex="-1" type="button">$ audit corrigidas</button>
+      <button class="tbtn" role="tab" id="tab-rules" aria-controls="panel-rules" aria-selected="false" tabindex="-1" type="button">$ rules</button>
+      <button class="tbtn" role="tab" id="tab-explain" aria-controls="panel-explain" aria-selected="false" tabindex="-1" type="button">$ audit --explain</button>
+    </div>
+
+    <div class="term">
+      <div class="term-panel" id="panel-audit" role="tabpanel" aria-labelledby="tab-audit" tabindex="0">
+        <div class="tline t-cmd" style="--i:0"><b>$</b> lifecycle-lint audit examples/journeys</div>
+        <div class="tline t-head" style="--i:1">winback_inativos · Reengajamento de inativos</div>
+        <div class="tline t-err" style="--i:2">   ERRO L001  Jornada ativa sem critério de saída</div>
+        <div class="tline t-err" style="--i:3">   ERRO L003 [repete_ate_reagir]  Loop sem limite de iterações</div>
+        <div class="tline t-err" style="--i:4">   ERRO L004  Audiência sem lista de supressão</div>
+        <div class="tline t-warn" style="--i:5">  AVISO L005  Segmento sem decaimento temporal</div>
+        <div class="tline t-warn" style="--i:6">  AVISO L008  Jornada ativa sem grupo de controle</div>
+        <div class="tline t-head" style="--i:7">checkout_abandonado · Recuperação de checkout abandonado</div>
+        <div class="tline t-err" style="--i:8">   ERRO L002 [decide_desconto]  Branch sem caminho padrão</div>
+        <div class="tline t-err" style="--i:9">   ERRO L012 (com winback_inativos)  Pressão agregada acima do teto por contato</div>
+        <div class="tline t-note" style="--i:10">        As jornadas ['checkout_abandonado', 'winback_inativos'] alcançam a mesma
+        audiência e somam pressão semanal de 9.5 (teto: 6.0).</div>
+        <div class="tline t-warn" style="--i:11">  AVISO L011 (com winback_inativos)  Jornadas ativas concorrendo pela mesma audiência</div>
+        <div class="tline t-dim" style="--i:12">5 erro(s) · 12 aviso(s) · 0 info</div>
+        <div class="tline t-err" style="--i:13">exit code 1<span class="exit-chip ex1">CI barraria o merge</span> <span class="cursor" aria-hidden="true"></span></div>
+      </div>
+
+      <div class="term-panel" id="panel-fixed" role="tabpanel" aria-labelledby="tab-fixed" tabindex="0" hidden>
+        <div class="tline t-cmd" style="--i:0"><b>$</b> lifecycle-lint audit examples/journeys_corrigidas</div>
+        <div class="tline t-head" style="--i:1">winback_inativos · Reengajamento de inativos</div>
+        <div class="tline t-ok" style="--i:2">     OK  supressão declarada · exit por conversão ou timeout 14d · holdout 0.1</div>
+        <div class="tline t-head" style="--i:3">checkout_abandonado · Recuperação de checkout abandonado</div>
+        <div class="tline t-ok" style="--i:4">     OK  branch com default · loop máx. 3 · audiência disjunta</div>
+        <div class="tline t-dim" style="--i:5">0 erro(s) · 0 aviso(s) · 0 info</div>
+        <div class="tline t-ok" style="--i:6">exit code 0<span class="exit-chip ex0">merge liberado</span> <span class="cursor" aria-hidden="true"></span></div>
+      </div>
+
+      <div class="term-panel" id="panel-rules" role="tabpanel" aria-labelledby="tab-rules" tabindex="0" hidden>
+        <div class="tline t-cmd" style="--i:0"><b>$</b> lifecycle-lint rules</div>
+        <div class="tline t-dim" style="--i:1">L001 jornada   Jornada ativa sem critério de saída</div>
+        <div class="tline t-dim" style="--i:2">L002 jornada   Branch sem caminho padrão</div>
+        <div class="tline t-dim" style="--i:3">L003 jornada   Loop sem limite de iterações</div>
+        <div class="tline t-dim" style="--i:4">L004 jornada   Audiência sem lista de supressão</div>
+        <div class="tline t-dim" style="--i:5">L005 jornada   Segmento sem decaimento temporal</div>
+        <div class="tline t-dim" style="--i:6">L006 jornada   Pressão de mensagem alta dentro da jornada</div>
+        <div class="tline t-dim" style="--i:7">L007 jornada   Canal intrusivo sem janela de silêncio</div>
+        <div class="tline t-dim" style="--i:8">L008 jornada   Jornada ativa sem grupo de controle</div>
+        <div class="tline t-dim" style="--i:9">L009 jornada   Métrica de sucesso ausente ou de vaidade</div>
+        <div class="tline t-dim" style="--i:10">L010 jornada   Reentrada sem período de carência</div>
+        <div class="tline t-set" style="--i:11">L011 portfólio Jornadas ativas concorrendo pela mesma audiência</div>
+        <div class="tline t-set" style="--i:12">L012 portfólio Pressão agregada acima do teto por contato</div>
+        <div class="tline t-dim" style="--i:13">exit code 0 <span class="cursor" aria-hidden="true"></span></div>
+      </div>
+
+      <div class="term-panel" id="panel-explain" role="tabpanel" aria-labelledby="tab-explain" tabindex="0" hidden>
+        <div class="tline t-cmd" style="--i:0"><b>$</b> lifecycle-lint audit examples/journeys --explain</div>
+        <div class="tline t-dim" style="--i:1">... diagnóstico determinístico idêntico ao da primeira aba, impresso em stdout ...</div>
+        <div class="tline t-head" style="--i:2">[explain] resumo em prosa, impresso em stderr</div>
+        <div class="tline t-note" style="--i:3">        O diagnóstico fechou 5 erros e 12 avisos. O ponto central é o L012:
+        checkout_abandonado e winback_inativos alcançam a mesma pessoa e somam
+        9.5 de pressão semanal contra um teto de 6.0, quase o dobro do volume
+        que a operação considera seguro. O contato que já converteu segue
+        recebendo a sequência de quem não converteu, e o acúmulo de toques
+        transforma serviço em assédio. A reatância aparece como descadastro, e
+        o custo chega semanas depois, na entregabilidade do domínio.
+        Recomendação: suprimir convertidos da régua de winback, limitar o loop
+        de reengajamento e declarar holdout de 10% para medir o efeito real.</div>
+        <div class="tline t-err" style="--i:4">exit code 1<span class="exit-chip ex1">CI barraria o merge</span> <span class="cursor" aria-hidden="true"></span></div>
+      </div>
+    </div>
+
+    <div class="note-bar">
+      <p>
+        <span class="pt">O exit code é 1 quando há erro, o que permite rodar em CI e barrar merge. A flag <code>--explain</code> não muda o diagnóstico: ela opera sobre o resultado já fechado e escreve a prosa em <code>stderr</code>, separada do <code>stdout</code> que a automação lê.</span>
+        <span class="en" lang="en">The exit code is 1 when there is an error, which allows it to run in CI and block a merge. The <code>--explain</code> flag does not change the diagnosis: it operates on the already closed result and writes prose to <code>stderr</code>, separate from the <code>stdout</code> that automation reads.</span>
+      </p>
+    </div>
+  </section>
+
+  <div class="insight-box reveal">
+    <p>
+      <span class="pt">Conhecimento tácito de operação não escala em revisão manual. Escala quando vira regra executável, com identificador, severidade e exit code.</span>
+      <span class="en" lang="en">Tacit operational knowledge does not scale through manual review. It scales when it becomes an executable rule, with an id, a severity and an exit code.</span>
+    </p>
+  </div>
+
+  <!-- ============ 03 INTERSEÇÃO ============ -->
+  <section class="block reveal" id="intersecao">
+    <div class="block-head">
+      <span class="block-idx">03</span>
+      <h2><span class="pt">O defeito que <span class="accent">nenhum arquivo contém</span></span><span class="en" lang="en">The defect <span class="accent">no file contains</span></span></h2>
+    </div>
+    <p class="block-lede">
+      <span class="pt">As duas regras de portfólio leem o que as revisões individuais não conseguem ver. Percorra as quatro etapas para acompanhar de onde sai o exit code 1.</span>
+      <span class="en" lang="en">The two portfolio rules read what individual reviews cannot see. Step through the four stages to follow where exit code 1 comes from.</span>
+    </p>
+
+    <div class="mech-wrap">
+      <div class="mech-bar">
+        <button class="btn btn-outline btn-sm" id="mechPlay" type="button">
+          <span class="pt">▶ percorrer as etapas</span><span class="en" lang="en">▶ step through</span>
+        </button>
+        <span class="tline t-dim" style="font-size:.68rem"><span class="pt">etapa</span><span class="en" lang="en">step</span> <span id="mechStep">1</span>/4</span>
+      </div>
+
+      <svg class="mech-svg" viewBox="0 0 900 440" role="img" aria-labelledby="mechTitle mechDesc">
+        <title id="mechTitle">L011 e L012</title>
+        <desc id="mechDesc">Duas jornadas passam em revisão isolada, alcançam a mesma audiência, somam pressão semanal de 9.5 contra um teto de 6.0 e o linter devolve exit code 1.</desc>
+        <defs>
+          <marker id="mArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="rgba(255,255,255,0.35)"/></marker>
+        </defs>
+
+        <g class="mn" id="mA"><rect x="40" y="20" width="330" height="74"/>
+          <text x="62" y="50">winback_inativos</text>
+          <text class="sub" x="62" y="72"><tspan class="pt">revisão isolada: passa</tspan><tspan class="en" lang="en">reviewed alone: passes</tspan></text></g>
+        <g class="mn" id="mB"><rect x="530" y="20" width="330" height="74"/>
+          <text x="552" y="50">checkout_abandonado</text>
+          <text class="sub" x="552" y="72"><tspan class="pt">revisão isolada: passa</tspan><tspan class="en" lang="en">reviewed alone: passes</tspan></text></g>
+
+        <path class="medge" id="mE1" d="M205,94 L205,140 L380,140 L380,166" marker-end="url(#mArrow)"/>
+        <path class="medge" id="mE2" d="M695,94 L695,140 L520,140 L520,166" marker-end="url(#mArrow)"/>
+
+        <g class="mn" id="mC"><rect x="270" y="170" width="360" height="76"/>
+          <text class="tagid" x="292" y="196">L011 · escopo portfólio</text>
+          <text x="292" y="222"><tspan class="pt">mesma audiência · 1,0</tspan><tspan class="en" lang="en">same audience · 1.0</tspan></text></g>
+
+        <path class="medge" id="mE3" d="M450,246 L450,290" marker-end="url(#mArrow)"/>
+
+        <g class="mn bad" id="mD"><rect x="240" y="294" width="420" height="76"/>
+          <text class="tagid" x="262" y="320">L012 · escopo portfólio</text>
+          <text x="262" y="346"><tspan class="pt">pressão semanal 9,5 · teto 6,0</tspan><tspan class="en" lang="en">weekly pressure 9.5 · ceiling 6.0</tspan></text></g>
+
+        <path class="medge" id="mE4" d="M450,370 L450,398" marker-end="url(#mArrow)"/>
+
+        <g class="mn bad" id="mE"><rect x="310" y="400" width="280" height="38"/>
+          <text x="332" y="425">exit code 1</text></g>
+      </svg>
+
+      <div class="mech-cap" aria-live="polite">
+        <p class="mech-step" data-step="1"><span class="pt">Cada arquivo passa na revisão individual. Nada aqui está errado quando se lê uma régua por vez.</span><span class="en" lang="en">Each file passes individual review. Nothing here is wrong when you read one flow at a time.</span></p>
+        <p class="mech-step" data-step="2" hidden><span class="pt">L011 compara as definições de audiência. A de checkout está contida na de winback, e o coeficiente de sobreposição devolve 1,0 contra um limiar de 0,6.</span><span class="en" lang="en">L011 compares the audience definitions. The checkout one is contained in the winback one, and the overlap coefficient returns 1.0 against a threshold of 0.6.</span></p>
+        <p class="mech-step" data-step="3" hidden><span class="pt">L012 soma a carga ponderada das duas réguas na janela de sete dias: 5,5 mais 4,0, ou seja 9,5 contra um teto de 6,0.</span><span class="en" lang="en">L012 sums the weighted load of both flows over the seven day window: 5.5 plus 4.0, that is 9.5 against a ceiling of 6.0.</span></p>
+        <p class="mech-step" data-step="4" hidden><span class="pt">Erro de escopo portfólio devolve exit code 1, e o merge não passa. O defeito não estava em nenhum dos dois arquivos.</span><span class="en" lang="en">A portfolio level error returns exit code 1, and the merge does not pass. The defect was in neither file.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 04 PRESSÃO ============ -->
+  <section class="block reveal" id="pressao">
+    <div class="block-head">
+      <span class="block-idx">04</span>
+      <h2><span class="pt">Pressão semanal</span><span class="en" lang="en">Weekly pressure</span></h2>
+    </div>
+    <p class="block-lede">
+      <span class="pt">Cada jornada isolada cabe no teto de jornada. Somadas sobre o mesmo contato, elas estouram o teto de portfólio. São dois limites diferentes, e só o segundo depende de ler o conjunto.</span>
+      <span class="en" lang="en">Each journey on its own fits under the journey ceiling. Summed over the same contact, they blow past the portfolio ceiling. These are two different limits, and only the second requires reading the set.</span>
+    </p>
+
+    <div class="press">
+      <div class="press-plot">
+        <div class="ceil" style="bottom:60%"><span><span class="pt">teto de portfólio · 6,0</span><span class="en" lang="en">portfolio ceiling · 6.0</span></span></div>
+        <div class="ceil soft" style="bottom:40%"><span><span class="pt">teto de jornada · 4,0</span><span class="en" lang="en">journey ceiling · 4.0</span></span></div>
+        <div class="pbar" style="--h:55%"><b>5,5</b><i></i></div>
+        <div class="pbar" style="--h:40%"><b>4,0</b><i></i></div>
+        <div class="pbar over" style="--h:95%"><b>9,5</b><i></i></div>
+      </div>
+      <div class="press-x">
+        <span>checkout_<br>abandonado</span>
+        <span>winback_<br>inativos</span>
+        <span><span class="pt">agregada</span><span class="en" lang="en">aggregate</span><br>(L012)</span>
+      </div>
+      <p class="press-foot">
+        <span class="pt">escala 0 a 10 · pesos por canal: e-mail 1,0 · push 1,5 · SMS e WhatsApp 2,0<br>weekly_pressure = carga × 7 / max(duração_dias, 7)</span>
+        <span class="en" lang="en">scale 0 to 10 · channel weights: email 1.0 · push 1.5 · SMS and WhatsApp 2.0<br>weekly_pressure = load × 7 / max(duration_days, 7)</span>
+      </p>
+    </div>
+
+    <div class="prose" style="margin-top:1.6rem">
+      <p class="pt">Contagem simples de mensagens não serve, porque push, SMS e e-mail têm custo de atenção diferente. Cada canal recebeu um peso que reflete intrusividade percebida, e a pressão da jornada é a carga ponderada em janela de sete dias, com piso de sete dias no denominador. Sem o piso, um fluxo de checkout com três toques em 24 horas seria lido como 21 toques por semana, número que não ocorre porque a jornada termina antes. Falso positivo é a causa mais comum de abandono de linter, e calibrar essa fórmula foi o que mais consumiu tempo no projeto.</p>
+      <p class="en" lang="en">A plain message count does not work, because push, SMS and email carry different attention costs. Each channel got a weight reflecting perceived intrusiveness, and journey pressure is the weighted load over a seven day window, with a seven day floor in the denominator. Without the floor, a checkout flow with three touches in 24 hours would read as 21 touches per week, a number that never happens because the journey ends first. False positives are the most common reason a linter gets abandoned, and calibrating that formula took the longest in the project.</p>
+    </div>
+
+    <div class="code-wrap">
+      <div class="code-head">.lifecycle-lint.yaml</div>
+      <pre><code><span class="yc"># limites são decisão de operação, versionados no repositório</span>
+<span class="yk">max_weekly_pressure</span>: <span class="yv">6.0</span>
+<span class="yk">max_journey_pressure</span>: <span class="yv">4.0</span>
+<span class="yk">audience_overlap_threshold</span>: <span class="yv">0.6</span>
+<span class="yk">holdout_required_above</span>: <span class="yv">5000</span>
+<span class="yk">disabled_rules</span>: []
+<span class="yk">downgrade_to_warning</span>: [<span class="yv">L007</span>]</code></pre>
+    </div>
+    <div class="note-bar">
+      <p>
+        <span class="pt"><strong>Por que os limites ficam em arquivo:</strong> teto de pressão e limiar de sobreposição são decisão de operação, não constante de código. No repositório, mudá-los é um commit revisável, e desligar uma regra deixa rastro em vez de virar acordo verbal.</span>
+        <span class="en" lang="en"><strong>Why the limits live in a file:</strong> pressure ceiling and overlap threshold are operational decisions, not code constants. In the repository, changing them is a reviewable commit, and switching a rule off leaves a trace instead of becoming a verbal agreement.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 05 CÁLCULO ============ -->
+  <section class="block reveal" id="calculo">
+    <div class="block-head">
+      <span class="block-idx">05</span>
+      <h2><span class="pt">As decisões de cálculo</span><span class="en" lang="en">The calculation decisions</span></h2>
+    </div>
+    <p class="block-lede">
+      <span class="pt">"Inativos há 60 dias" e "inativos há 60 dias que abandonaram o checkout" alcançam o mesmo grupo de pessoas: o segundo conjunto está contido no primeiro. Mesmo numerador, dois denominadores, dois veredictos.</span>
+      <span class="en" lang="en">"Inactive for 60 days" and "inactive for 60 days who abandoned checkout" reach the same group of people: the second set is contained in the first. Same numerator, two denominators, two verdicts.</span>
+    </p>
+
+    <div class="formula-grid">
+      <div class="formula">
+        <span class="formula-name"><span class="pt">Índice de Jaccard · a escolha padrão</span><span class="en" lang="en">Jaccard index · the default choice</span></span>
+        <div class="formula-math"><span class="num">|A ∩ B|</span><span class="den">|A ∪ B|</span></div>
+        <div class="formula-out">
+          <span class="formula-val">0,5</span>
+          <span class="formula-verdict v-miss"><span class="pt">abaixo do limiar 0,6</span><span class="en" lang="en">below the 0.6 threshold</span></span>
+        </div>
+        <p><span class="pt">Divide pela união. Como o conjunto contido é menor, a união cresce e o resultado cai abaixo do limiar. Verde no caso que originou a regra.</span><span class="en" lang="en">Divides by the union. Since the contained set is smaller, the union grows and the result falls below the threshold. Green on the very case that created the rule.</span></p>
+      </div>
+      <div class="formula win">
+        <span class="formula-name"><span class="pt">Coeficiente de sobreposição · o que ficou</span><span class="en" lang="en">Overlap coefficient · what shipped</span></span>
+        <div class="formula-math"><span class="num">|A ∩ B|</span><span class="den">min(|A|, |B|)</span></div>
+        <div class="formula-out">
+          <span class="formula-val">1,0</span>
+          <span class="formula-verdict v-hit"><span class="pt">L011 dispara</span><span class="en" lang="en">L011 fires</span></span>
+        </div>
+        <p><span class="pt">Divide pela cardinalidade do menor conjunto. Sob contenção, a interseção é o próprio conjunto menor, então o coeficiente é 1,0 e a regra passa a enxergar o conflito.</span><span class="en" lang="en">Divides by the smaller set's cardinality. Under containment, the intersection is the smaller set itself, so the coefficient is 1.0 and the rule finally sees the conflict.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 06 REGRAS ============ -->
+  <section class="block reveal" id="regras">
+    <div class="block-head">
+      <span class="block-idx">06</span>
+      <h2><span class="pt">As doze regras</span><span class="en" lang="en">The twelve rules</span></h2>
+    </div>
+    <p class="block-lede">
+      <span class="pt">Codificam prática de operação de CRM, não convenção de engenharia de software. O escopo é a coluna que importa: dez leem uma jornada por vez, e duas leem o portfólio inteiro.</span>
+      <span class="en" lang="en">They encode CRM operational practice, not software engineering convention. Scope is the column that matters: ten read one journey at a time, and two read the whole portfolio.</span>
+    </p>
+    <div class="table-wrap">
+      <table class="rules-table">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col"><span class="pt">Escopo</span><span class="en" lang="en">Scope</span></th>
+            <th scope="col"><span class="pt">Regra</span><span class="en" lang="en">Rule</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>L001</td><td><span class="chip c-one"><span class="pt">jornada</span><span class="en" lang="en">journey</span></span></td><td><span class="pt">Jornada ativa sem critério de saída</span><span class="en" lang="en">Active journey with no exit criterion</span></td></tr>
+          <tr><td>L002</td><td><span class="chip c-one"><span class="pt">jornada</span><span class="en" lang="en">journey</span></span></td><td><span class="pt">Branch sem caminho padrão</span><span class="en" lang="en">Branch with no default path</span></td></tr>
+          <tr><td>L003</td><td><span class="chip c-one"><span class="pt">jornada</span><span class="en" lang="en">journey</span></span></td><td><span class="pt">Loop sem limite de iterações</span><span class="en" lang="en">Loop with no iteration cap</span></td></tr>
+          <tr><td>L004</td><td><span class="chip c-one"><span class="pt">jornada</span><span class="en" lang="en">journey</span></span></td><td><span class="pt">Audiência sem lista de supressão</span><span class="en" lang="en">Audience with no suppression list</span></td></tr>
+          <tr><td>L005</td><td><span class="chip c-one"><span class="pt">jornada</span><span class="en" lang="en">journey</span></span></td><td><span class="pt">Segmento sem decaimento temporal</span><span class="en" lang="en">Segment with no time decay</span></td></tr>
+          <tr><td>L006</td><td><span class="chip c-one"><span class="pt">jornada</span><span class="en" lang="en">journey</span></span></td><td><span class="pt">Pressão de mensagem alta dentro da jornada</span><span class="en" lang="en">High message pressure within the journey</span></td></tr>
+          <tr><td>L007</td><td><span class="chip c-one"><span class="pt">jornada</span><span class="en" lang="en">journey</span></span></td><td><span class="pt">Canal intrusivo sem janela de silêncio</span><span class="en" lang="en">Intrusive channel with no quiet hours</span></td></tr>
+          <tr><td>L008</td><td><span class="chip c-one"><span class="pt">jornada</span><span class="en" lang="en">journey</span></span></td><td><span class="pt">Jornada ativa sem grupo de controle</span><span class="en" lang="en">Active journey with no control group</span></td></tr>
+          <tr><td>L009</td><td><span class="chip c-one"><span class="pt">jornada</span><span class="en" lang="en">journey</span></span></td><td><span class="pt">Métrica de sucesso ausente ou de vaidade</span><span class="en" lang="en">Success metric missing or a vanity metric</span></td></tr>
+          <tr><td>L010</td><td><span class="chip c-one"><span class="pt">jornada</span><span class="en" lang="en">journey</span></span></td><td><span class="pt">Reentrada sem período de carência</span><span class="en" lang="en">Re-entry with no cooldown period</span></td></tr>
+          <tr class="set-rule"><td>L011</td><td><span class="chip c-set"><span class="pt">portfólio</span><span class="en" lang="en">portfolio</span></span></td><td><span class="pt">Jornadas ativas concorrendo pela mesma audiência</span><span class="en" lang="en">Active journeys competing for the same audience</span></td></tr>
+          <tr class="set-rule"><td>L012</td><td><span class="chip c-set"><span class="pt">portfólio</span><span class="en" lang="en">portfolio</span></span></td><td><span class="pt">Pressão agregada acima do teto por contato</span><span class="en" lang="en">Aggregate pressure above the per contact ceiling</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note-bar">
+      <p>
+        <span class="pt"><strong>Por que só as de portfólio justificam a ferramenta:</strong> as dez primeiras poderiam virar checklist de revisão. As duas últimas não, porque exigem ler todas as jornadas ativas ao mesmo tempo e fazer uma conta que nenhum revisor faz de cabeça. Cada regra tem caso positivo e caso negativo em teste, e o caso negativo existe para conter falso positivo.</span>
+        <span class="en" lang="en"><strong>Why only the portfolio rules justify the tool:</strong> the first ten could become a review checklist. The last two could not, because they require reading every active journey at once and doing arithmetic no reviewer does in their head. Each rule has a positive and a negative test case, and the negative case exists to hold back false positives.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 07 MODELO ============ -->
+  <section class="block reveal" id="modelo">
+    <div class="block-head">
+      <span class="block-idx">07</span>
+      <h2><span class="pt">Onde o modelo entra</span><span class="en" lang="en">Where the model comes in</span></h2>
+    </div>
+    <div class="prose">
+      <p class="pt">A flag <code>--explain</code> envia os achados já fechados a um assistente de IA e imprime um resumo em prosa no <code>stderr</code>, para levar à reunião de revisão. Ela é opcional. O diagnóstico é integralmente determinístico: nenhuma das doze regras chama modelo, e sem chave de API o linter roda igual, com a flag avisando que a explicação está indisponível.</p>
+      <p class="pt">Um LLM no caminho crítico de uma auditoria troca um resultado reproduzível por um que varia entre execuções, e auditoria com essa propriedade não serve como critério de publicação. O critério que apliquei: onde existe regra determinável, escrevo regra. O modelo entra na síntese e na tradução do achado para a linguagem de quem decide.</p>
+      <p class="en" lang="en">The <code>--explain</code> flag sends the already closed findings to an AI assistant and prints a prose summary to <code>stderr</code>, to take into the review meeting. It is optional. The diagnosis is entirely deterministic: none of the twelve rules calls a model, and with no API key the linter runs the same, with the flag reporting that the explanation is unavailable.</p>
+      <p class="en" lang="en">An LLM on the critical path of an audit trades a reproducible result for one that varies between runs, and an audit with that property cannot serve as a publication criterion. The criterion I applied: where a rule can be determined, I write the rule. The model comes in at synthesis and at translating the finding into the language of whoever decides.</p>
+    </div>
+  </section>
+
+  <!-- ============ 08 SUÍTE ============ -->
+  <section class="block reveal" id="suite">
+    <div class="block-head">
+      <span class="block-idx">08</span>
+      <h2><span class="pt">A suíte</span><span class="en" lang="en">The suite</span></h2>
+    </div>
+    <div class="prose">
+      <p class="pt">Três repositórios sobre a mesma tese: jornada de cliente é artefato versionável. Se ela pode ser declarada em arquivo, ela pode ser lida, auditada e revisada em pull request, com histórico e revisão por pares. Hoje ela vive dentro da interface da ferramenta de automação, onde não existe diff entre versões nem registro de por que aquele delay é de 48 horas.</p>
+      <p class="en" lang="en">Three repositories on the same thesis: a customer journey is a versionable artifact. If it can be declared in a file, it can be read, audited and reviewed in a pull request, with history and peer review. Today it lives inside the automation tool's interface, where there is no diff between versions and no record of why that delay is 48 hours.</p>
+      <p class="pt">A saída de um é a entrada do outro, o que torna objetivo o critério de aceite do agente: a jornada proposta precisa passar no linter.</p>
+      <p class="en" lang="en">The output of one is the input of the next, which makes the agent's acceptance criterion objective: the proposed journey has to pass the linter.</p>
+    </div>
+    <div class="grid-3">
+      <div class="mini-card">
+        <span class="mini-num">01 · <span class="pt">Auditar</span><span class="en" lang="en">Audit</span></span>
+        <div class="mini-title">lifecycle-lint</div>
+        <p class="pt">Lê as jornadas declaradas em YAML e acusa o defeito antes da publicação, inclusive o que só existe entre duas réguas.</p>
+        <p class="en" lang="en">Reads journeys declared in YAML and flags the defect before publication, including the one that only exists between two flows.</p>
+        <span class="kpi-pill"><span class="pt">Esta página</span><span class="en" lang="en">This page</span></span>
+      </div>
+      <div class="mini-card">
+        <span class="mini-num">02 · <span class="pt">Propor</span><span class="en" lang="en">Propose</span></span>
+        <div class="mini-title"><a href="case-segment-brief.html">segment-brief</a></div>
+        <p class="pt">Lê os eventos de produto e devolve o briefing de segmento com a jornada proposta, já validada pelo linter.</p>
+        <p class="en" lang="en">Reads product events and returns the segment brief with the proposed journey, already validated by the linter.</p>
+      </div>
+      <div class="mini-card">
+        <span class="mini-num">03 · <span class="pt">Ler</span><span class="en" lang="en">Read</span></span>
+        <div class="mini-title"><a href="case-lentes.html">lentes</a></div>
+        <p class="pt">Guarda os prompts de leitura versionados, com asserções verificáveis e placar que mede regressão em CI.</p>
+        <p class="en" lang="en">Holds the versioned reading prompts, with verifiable assertions and a scoreboard that measures regression in CI.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STACK ============ -->
+  <section class="block reveal">
+    <div class="block-head">
+      <span class="block-idx">09</span>
+      <h2>Stack</h2>
+    </div>
+    <ul class="meta-pills">
+      <li>Python 3.10+</li>
+      <li>PyYAML</li>
+      <li>pytest</li>
+      <li>GitHub Actions</li>
+      <li><span class="pt">Assistente de IA</span><span class="en" lang="en">AI assistant</span></li>
+      <li><span class="pt">Jornada em YAML</span><span class="en" lang="en">Journey in YAML</span></li>
+    </ul>
+    <p class="repo-cta"><a class="btn btn-solid" href="https://github.com/daniloespeleta/lifecycle-lint" target="_blank" rel="noopener"><span class="pt">Ver o repositório</span><span class="en" lang="en">View the repository</span></a></p>
+  </section>
+
+  <nav class="case-nav" aria-label="Navegação entre cases">
+    <a class="case-nav-link prev" href="case-espeledata.html">
+      <span class="case-nav-dir"><span class="pt">← Case anterior</span><span class="en" lang="en">← Previous case</span></span>
+      <span class="case-nav-title">espeledata.com</span>
+    </a>
+    <a class="case-nav-link next" href="case-segment-brief.html">
+      <span class="case-nav-dir"><span class="pt">Próximo case →</span><span class="en" lang="en">Next case →</span></span>
+      <span class="case-nav-title">segment-brief</span>
+    </a>
+    <a class="case-nav-link all" href="portfolio.html">
+      <span class="case-nav-title"><span class="pt">Ver todos os cases</span><span class="en" lang="en">View all cases</span></span>
+    </a>
+  </nav>
+</main>
+
+<footer>
+  <div class="footer-name">Danilo Campos Espeleta</div>
+  <div class="footer-info">
+    <span>São Paulo / SP</span>
+    <a href="mailto:daniloespeleta@gmail.com">daniloespeleta@gmail.com</a>
+    <a href="https://www.linkedin.com/in/daniloespeleta" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/daniloespeleta" target="_blank" rel="noopener">GitHub</a>
+    <span>© <span id="year">2026</span></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+/* ---- language (persisted; syncs <html lang>, buttons, CV links) ---- */
+var CV={pt:'CV/DE-Curriculo.pdf',en:'CV/DE-Resume.pdf'};
+var langButtons=document.querySelectorAll('.lang-switch button');
+function setLang(lang){
+  document.body.classList.remove('lang-pt','lang-en');
+  document.body.classList.add('lang-'+lang);
+  document.documentElement.lang=(lang==='en')?'en':'pt-BR';
+  langButtons.forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.lang===lang));});
+  document.querySelectorAll('a.cv-link').forEach(function(a){a.setAttribute('href',CV[lang]);});
+  try{localStorage.setItem('lang',lang);}catch(e){}
+}
+langButtons.forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.lang);});});
+var saved=null;try{saved=localStorage.getItem('lang');}catch(e){}
+if(saved==='en'||saved==='pt')setLang(saved);
+
+/* ---- mobile sidebar ---- */
+var menuBtn=document.querySelector('.menu-btn'),sidebar=document.getElementById('sidebar'),
+    overlay=document.getElementById('sidebarOverlay'),closeBtn=document.querySelector('.sidebar-close');
+function openSb(){sidebar.classList.add('open');overlay.classList.add('open');menuBtn.setAttribute('aria-expanded','true');}
+function closeSb(){sidebar.classList.remove('open');overlay.classList.remove('open');menuBtn.setAttribute('aria-expanded','false');}
+if(menuBtn){
+  menuBtn.addEventListener('click',openSb);
+  closeBtn.addEventListener('click',closeSb);
+  overlay.addEventListener('click',closeSb);
+  sidebar.addEventListener('click',function(e){if(e.target.closest('a'))closeSb();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&sidebar.classList.contains('open')){closeSb();menuBtn.focus();}});
+}
+
+/* ---- reading progress ---- */
+var bar=document.querySelector('.progress');
+if(bar){
+  var onScroll=function(){
+    var h=document.documentElement,max=h.scrollHeight-h.clientHeight;
+    bar.style.width=(max>0?(h.scrollTop/max)*100:0)+'%';
+  };
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+}
+
+/* ---- scroll reveal ---- */
+var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var revealEls=document.querySelectorAll('.reveal');
+if('IntersectionObserver' in window&&!reduce&&revealEls.length){
+  var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});},{threshold:.12});
+  revealEls.forEach(function(el){io.observe(el);});
+}else{revealEls.forEach(function(el){el.classList.add('in');});}
+
+/* ---- animated counters ([data-count]) ---- */
+var counters=document.querySelectorAll('[data-count]');
+function animate(el){
+  var target=parseFloat(el.dataset.count),pre=el.dataset.prefix||'',suf=el.dataset.suffix||'',
+      dec=(el.dataset.count.indexOf('.')>-1)?1:0,start=null,dur=1100;
+  function fmt(v){return pre+v.toFixed(dec).replace('.',document.documentElement.lang==='en'?'.':',')+suf;}
+  if(reduce){el.textContent=fmt(target);return;}
+  function step(ts){if(!start)start=ts;var p=Math.min((ts-start)/dur,1),e=1-Math.pow(1-p,3);
+    el.textContent=fmt(target*e);if(p<1)requestAnimationFrame(step);}
+  requestAnimationFrame(step);
+}
+if('IntersectionObserver' in window&&counters.length){
+  var cio=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){animate(en.target);cio.unobserve(en.target);}});},{threshold:.4});
+  counters.forEach(function(el){cio.observe(el);});
+}else{counters.forEach(animate);}
+
+/* ---- pressure bars (grow once in view) ---- */
+var press=document.querySelector('.press');
+if(press){
+  if('IntersectionObserver' in window){
+    var pio=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){press.classList.add('in');pio.disconnect();}});},{threshold:.3});
+    pio.observe(press);
+  }else{press.classList.add('in');}
+}
+
+/* ---- terminal tabs (roving tabindex, replays the line stagger) ---- */
+var tabs=[].slice.call(document.querySelectorAll('.tbtn'));
+function selectTab(tab,focus){
+  tabs.forEach(function(t){
+    var on=(t===tab);
+    t.setAttribute('aria-selected',String(on));
+    t.tabIndex=on?0:-1;
+    var panel=document.getElementById(t.getAttribute('aria-controls'));
+    if(!panel)return;
+    panel.hidden=!on;
+    if(on&&!reduce){panel.classList.remove('play');void panel.offsetWidth;panel.classList.add('play');}
+  });
+  if(focus)tab.focus();
+}
+tabs.forEach(function(tab,i){
+  tab.addEventListener('click',function(){selectTab(tab,false);});
+  tab.addEventListener('keydown',function(e){
+    var next=null;
+    if(e.key==='ArrowRight')next=tabs[(i+1)%tabs.length];
+    else if(e.key==='ArrowLeft')next=tabs[(i-1+tabs.length)%tabs.length];
+    else if(e.key==='Home')next=tabs[0];
+    else if(e.key==='End')next=tabs[tabs.length-1];
+    if(next){e.preventDefault();selectTab(next,true);}
+  });
+});
+if(tabs.length&&!reduce){
+  var firstPanel=document.getElementById(tabs[0].getAttribute('aria-controls'));
+  if(firstPanel&&'IntersectionObserver' in window){
+    var tio=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){firstPanel.classList.add('play');tio.disconnect();}});},{threshold:.2});
+    tio.observe(firstPanel);
+  }
+}
+
+/* ---- mechanism walkthrough (captions live in the DOM, one per step) ---- */
+var mechBtn=document.getElementById('mechPlay'),mechCounter=document.getElementById('mechStep');
+var mechSteps=[].slice.call(document.querySelectorAll('.mech-step'));
+var MECH=[
+  {nodes:['mA','mB'],edges:[]},
+  {nodes:['mC'],edges:['mE1','mE2']},
+  {nodes:['mD'],edges:['mE3']},
+  {nodes:['mE'],edges:['mE4']}
+];
+var mechAt=0,mechTimer=null;
+function renderMech(i){
+  mechAt=i;
+  document.querySelectorAll('.mn').forEach(function(n){n.classList.remove('on');});
+  document.querySelectorAll('.medge').forEach(function(n){n.classList.remove('on');});
+  MECH[i].nodes.forEach(function(id){var n=document.getElementById(id);if(n)n.classList.add('on');});
+  MECH[i].edges.forEach(function(id){var n=document.getElementById(id);if(n)n.classList.add('on');});
+  mechSteps.forEach(function(p,k){p.hidden=(k!==i);});
+  if(mechCounter)mechCounter.textContent=String(i+1);
+}
+if(mechBtn){
+  renderMech(0);
+  mechBtn.addEventListener('click',function(){
+    if(mechTimer){clearInterval(mechTimer);mechTimer=null;}
+    renderMech(0);
+    if(reduce){renderMech(MECH.length-1);return;}
+    mechTimer=setInterval(function(){
+      if(mechAt>=MECH.length-1){clearInterval(mechTimer);mechTimer=null;return;}
+      renderMech(mechAt+1);
+    },1700);
+  });
+}
+
+/* ---- year ---- */
+var y=document.getElementById('year');if(y)y.textContent=new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

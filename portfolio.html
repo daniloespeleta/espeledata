@@ -13,7 +13,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Portfólio · Danilo Espeleta</title>
-<meta name="description" content="Portfólio de Danilo Espeleta: projetos de CRM &amp; Lifecycle Marketing, cases conceituais de estratégia para o terceiro setor e casos de SQL aplicados a marketing.">
+<meta name="description" content="Portfólio de Danilo Espeleta: projetos de CRM e Lifecycle, ferramentas de código aberto para jornada de cliente, cases de estratégia social e casos de SQL.">
 <meta name="author" content="Danilo Espeleta">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Portfólio · Danilo Espeleta">
@@ -197,8 +197,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
 
   <!-- FILTERS -->
   <div class="filters" role="group" aria-label="Filtrar por categoria">
-    <button class="filter-btn" data-filter="all" aria-pressed="true"><span class="pt">Todos</span><span class="en" lang="en">All</span> <span class="count">9</span></button>
-    <button class="filter-btn" data-filter="projeto" aria-pressed="false"><span class="pt">Projetos</span><span class="en" lang="en">Projects</span> <span class="count">2</span></button>
+    <button class="filter-btn" data-filter="all" aria-pressed="true"><span class="pt">Todos</span><span class="en" lang="en">All</span> <span class="count">12</span></button>
+    <button class="filter-btn" data-filter="projeto" aria-pressed="false"><span class="pt">Projetos</span><span class="en" lang="en">Projects</span> <span class="count">5</span></button>
     <button class="filter-btn" data-filter="estrategia" aria-pressed="false"><span class="pt">Estratégia</span><span class="en" lang="en">Strategy</span> <span class="count">2</span></button>
     <button class="filter-btn" data-filter="sql" aria-pressed="false">SQL <span class="count">5</span></button>
   </div>
@@ -235,16 +235,57 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
         </span>
       </a>
 
+      <!-- PROJETO · LIFECYCLE-LINT -->
+      <a href="case-lifecycle-lint.html" class="card" data-cat="projeto">
+        <span class="card-num"><span class="pt">Projeto 03 · lifecycle-lint</span><span class="en" lang="en">Project 03 · lifecycle-lint</span></span>
+        <span class="card-title"><span class="pt">Linter para jornadas de CRM</span><span class="en" lang="en">A linter for CRM journeys</span></span>
+        <span class="card-desc"><span class="pt">Doze regras sobre jornadas declaradas em YAML. Duas delas leem o conjunto de réguas ativas e acusam a sobreposição de audiência e a pressão somada, que é o defeito que a revisão de fluxo individual não encontra.</span><span class="en" lang="en">Twelve rules over journeys declared in YAML. Two of them read the set of active flows and flag audience overlap and combined pressure, the defect that reviewing one flow at a time never finds.</span></span>
+        <span class="card-tags">
+          <span class="card-tag">Python</span>
+          <span class="card-tag">YAML</span>
+          <span class="card-tag">CI</span>
+          <span class="card-tag">Claude Code</span>
+          <span class="card-tag"><span class="pt">Pressão de mensagem</span><span class="en" lang="en">Message pressure</span></span>
+        </span>
+      </a>
+
+      <!-- PROJETO · SEGMENT-BRIEF -->
+      <a href="case-segment-brief.html" class="card" data-cat="projeto">
+        <span class="card-num"><span class="pt">Projeto 04 · segment-brief</span><span class="en" lang="en">Project 04 · segment-brief</span></span>
+        <span class="card-title"><span class="pt">Agente que propõe jornada e passa no linter</span><span class="en" lang="en">An agent that proposes a journey and passes the linter</span></span>
+        <span class="card-desc"><span class="pt">Roteador determinístico na entrada, agente no meio, validador na saída. A jornada proposta em YAML só é entregue depois de aprovada pelo lifecycle-lint, com limite de duas rodadas de correção.</span><span class="en" lang="en">A deterministic router at the entrance, an agent in the middle, a validator at the exit. The proposed YAML journey is only delivered after lifecycle-lint approves it, with a two round correction limit.</span></span>
+        <span class="card-tags">
+          <span class="card-tag">Python</span>
+          <span class="card-tag">DuckDB</span>
+          <span class="card-tag">Anthropic API</span>
+          <span class="card-tag">Tool use</span>
+          <span class="card-tag">Evals</span>
+        </span>
+      </a>
+
+      <!-- PROJETO · LENTES -->
+      <a href="case-lentes.html" class="card" data-cat="projeto">
+        <span class="card-num"><span class="pt">Projeto 05 · lentes</span><span class="en" lang="en">Project 05 · lentes</span></span>
+        <span class="card-title"><span class="pt">Prompt versionado com placar de regressão</span><span class="en" lang="en">Versioned prompts with a regression scoreboard</span></span>
+        <span class="card-desc"><span class="pt">Cinco lentes de leitura para tarefas recorrentes de CRM, com prompt, casos e asserções no mesmo arquivo. O CI exige que a versão atual passe e que a v1 continue falhando.</span><span class="en" lang="en">Five reading lenses for recurring CRM tasks, with prompt, cases and assertions in the same file. CI requires the current version to pass and v1 to keep failing.</span></span>
+        <span class="card-tags">
+          <span class="card-tag">Python</span>
+          <span class="card-tag">YAML</span>
+          <span class="card-tag">Evals</span>
+          <span class="card-tag">AI Fluency</span>
+        </span>
+      </a>
+
       <!-- PROJETO · LEEA -->
       <a href="case-leea.html" class="card pt" data-cat="projeto" data-portfolio-case="leea">
         <span class="leea-card-brand" aria-label="Identidade visual Leea">
           <img class="leea-card-logo" src="assets/leea/leea-logo-transparent.png" alt="" width="1800" height="1100" loading="lazy" decoding="async">
           <img class="leea-card-wordmark" src="assets/leea/leea-wordmark-transparent.png" alt="Leea" width="1800" height="1000" loading="lazy" decoding="async">
         </span>
-        <span class="card-num">Projeto autoral em validação · CRM + IA</span>
+        <span class="card-num">Estudo de método · CRM + IA</span>
         <span class="card-title">Leea, prática autoral de IA aplicada</span>
         <span class="card-desc">Diagnóstico de uma transição de CRM e Lifecycle para organizar evidências, especificar uma intervenção mensurável e decidir o próximo teste sem prometer uplift.</span>
-        <span class="card-tags"><span class="card-tag">Projeto em validação</span><span class="card-tag">CRM / Lifecycle</span><span class="card-tag">IA aplicada</span><span class="card-tag">Mensuração</span></span>
+        <span class="card-tags"><span class="card-tag">Estudo de método</span><span class="card-tag">CRM / Lifecycle</span><span class="card-tag">IA aplicada</span><span class="card-tag">Mensuração</span></span>
       </a>
 
       <article class="card en" data-cat="projeto" lang="en">
@@ -252,10 +293,10 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
           <img class="leea-card-logo" src="assets/leea/leea-logo-transparent.png" alt="" width="1800" height="1100" loading="lazy" decoding="async">
           <img class="leea-card-wordmark" src="assets/leea/leea-wordmark-transparent.png" alt="Leea" width="1800" height="1000" loading="lazy" decoding="async">
         </span>
-        <span class="card-num">Author-led project in validation · CRM + AI</span>
+        <span class="card-num">Method study · CRM + AI</span>
         <span class="card-title">Leea, an author-led applied AI practice</span>
         <span class="card-desc">A CRM and Lifecycle transition diagnostic that organizes evidence, specifies a measurable intervention and defines the next test without promising uplift.</span>
-        <span class="card-tags"><span class="card-tag">Project in validation</span><span class="card-tag">CRM / Lifecycle</span><span class="card-tag">Applied AI</span><span class="card-tag">Measurement</span></span>
+        <span class="card-tags"><span class="card-tag">Method study</span><span class="card-tag">CRM / Lifecycle</span><span class="card-tag">Applied AI</span><span class="card-tag">Measurement</span></span>
       </article>
 
       <!-- ESTRATÉGIA -->
@@ -273,7 +314,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
       <a href="case-boa-leitura.html" class="card cc-coral" data-cat="estrategia">
         <span class="card-num">Case 02 · <span class="pt">Prospecção híbrida</span><span class="en" lang="en">Hybrid prospecting</span></span>
         <span class="card-title">Boa Leitura</span>
-        <span class="card-desc"><span class="pt">Ação social de incentivo à leitura desenhada como motor de prospecção: funil de Defensores em 5 estágios, calendário literário como cadência e convidados como canal de alavancagem.</span><span class="en" lang="en">A reading-incentive social project designed as a prospecting engine: a 5-stage Defenders funnel, a literary calendar as cadence and guests as a leverage channel.</span></span>
+        <span class="card-desc"><span class="pt">Ação social de incentivo à leitura desenhada como motor de prospecção: funil de Defensores em 5 estágios, calendário literário como cadência e convidados como canal de expansão.</span><span class="en" lang="en">A reading-incentive social project designed as a prospecting engine: a 5-stage Defenders funnel, a literary calendar as cadence and guests as a growth channel.</span></span>
         <span class="card-tags">
           <span class="card-tag"><span class="pt">Funil de lifecycle</span><span class="en" lang="en">Lifecycle funnel</span></span>
           <span class="card-tag">Mautic / Make</span>

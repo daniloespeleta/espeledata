@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9NB09LQ1PT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9NB09LQ1PT');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case lentes · Danilo Espeleta</title>
+<meta name="description" content="Biblioteca de lentes de leitura para CRM, versionadas, com harness que mede regressão quando o prompt ou o modelo muda. Cinco lentes, 25 casos em CI.">
+<meta name="author" content="Danilo Espeleta">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Case lentes · Danilo Espeleta">
+<meta property="og:description" content="Prompt versionado, com asserções verificáveis e placar de regressão em CI.">
+<meta property="og:url" content="https://espeledata.com/case-lentes.html">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg:#0a0a0a; --bg2:#111113; --bg3:#17171a; --bg4:#08080a;
+  --cyan:#00d4ff;
+  --accent:#00d4ff;        /* case accent: #00d4ff (primary) | #ff5a47 (support) */
+  --accent-2:#00d4ff;    /* kicker/secondary: #00d4ff (primary) | #ff5a47 (support)    */
+  --red:#ff5a47; --amber:#f5b84c; --green:#5fe3a8;
+  --white:#f0f0ee; --gray:#a3a39d; --gray2:#888882;
+  --border:rgba(255,255,255,0.08);
+  --border2:rgba(255,255,255,0.18);
+  --sans:'Barlow',system-ui,sans-serif;
+  --cond:'Barlow Condensed',var(--sans);
+  --mono:'JetBrains Mono',Consolas,monospace;
+  --max:960px;
+}
+/* ============ BASE ============ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-padding-top:5.5rem}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{background:var(--bg);color:var(--white);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--cyan)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:2px}
+.visually-hidden{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.skip-link{position:absolute;left:1rem;top:-4rem;z-index:300;background:var(--cyan);color:#00232b;font-weight:600;padding:.6rem 1rem;text-decoration:none;transition:top .15s}
+.skip-link:focus{top:1rem}
+.lang-pt .en{display:none!important}
+.lang-en .pt{display:none!important}
+code{font-family:var(--mono);font-size:.88em}
+
+/* ============ READING PROGRESS ============ */
+.progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--accent);z-index:250;pointer-events:none;transition:width .1s linear}
+
+/* ============ NAV ============ */
+.site-nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.8rem 2rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;border-bottom:1px solid var(--border);background:rgba(10,10,10,0.92);backdrop-filter:blur(12px)}
+.brand{display:flex;flex-direction:column;gap:.1rem;text-decoration:none}
+.brand-name{font-family:var(--cond);font-weight:700;font-size:1.1rem;letter-spacing:.06em;color:var(--white);text-transform:uppercase}
+.brand-role{font-family:var(--mono);font-size:.6rem;color:var(--cyan);letter-spacing:.12em;text-transform:uppercase}
+.nav-right{display:flex;align-items:center;gap:1.4rem}
+.nav-links{display:flex;gap:1.4rem;align-items:center}
+.nav-links a{font-family:var(--mono);font-size:.68rem;color:var(--gray);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;padding:.3rem 0}
+.nav-links a:hover,.nav-links a[aria-current="page"]{color:var(--cyan)}
+.lang-switch{display:flex;border:1px solid var(--border)}
+.lang-switch button{background:none;border:none;color:var(--gray);cursor:pointer;font-family:var(--mono);font-size:.65rem;font-weight:500;letter-spacing:.1em;padding:.4rem .7rem}
+.lang-switch button+button{border-left:1px solid var(--border)}
+.lang-switch button[aria-pressed="true"]{background:var(--cyan);color:#00232b}
+.menu-btn{display:none;font-family:var(--mono);font-size:.68rem;color:var(--white);background:none;border:1px solid var(--border);padding:.45rem .9rem;cursor:pointer;letter-spacing:.12em;text-transform:uppercase;transition:all .2s}
+.menu-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:260;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.sidebar-overlay.open{opacity:1;visibility:visible}
+.sidebar{position:fixed;top:0;right:-290px;width:290px;height:100vh;background:var(--bg2);border-left:1px solid var(--border);z-index:270;transition:right .28s;padding:4.5rem 2rem 2rem;display:flex;flex-direction:column}
+.sidebar.open{right:0}
+.sidebar-close{position:absolute;top:1.1rem;right:1.1rem;background:none;border:1px solid var(--border);color:var(--gray);font-size:1rem;line-height:1;cursor:pointer;font-family:var(--mono);padding:.4rem .6rem}
+.sidebar-close:hover{color:var(--cyan);border-color:var(--cyan)}
+.sidebar a{font-family:var(--mono);font-size:.78rem;color:var(--gray);text-decoration:none;letter-spacing:.12em;text-transform:uppercase;padding:1rem 0;border-bottom:1px solid var(--border);transition:color .2s;display:block}
+.sidebar a:hover,.sidebar a[aria-current="page"]{color:var(--cyan)}
+.sidebar .lang-switch{margin-top:1.5rem;align-self:flex-start}
+@media(max-width:820px){
+  .site-nav{padding:.75rem 1.25rem}
+  .brand-role{display:none}
+  .nav-right .nav-links,.nav-right .lang-switch{display:none}
+  .menu-btn{display:block}
+}
+
+/* ============ LAYOUT ============ */
+.case-wrap{max-width:var(--max);margin:0 auto;padding:7.5rem 1.5rem 3rem}
+.breadcrumb{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray2);display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:2.2rem}
+.breadcrumb a{color:var(--gray);text-decoration:none;transition:color .2s}
+.breadcrumb a:hover{color:var(--cyan)}
+.breadcrumb .sep{color:var(--gray2)}
+
+/* ============ HERO ============ */
+.case-hero{border-top:4px solid var(--accent);padding-top:2.2rem;margin-bottom:1rem}
+.case-tag{font-family:var(--mono);font-size:.68rem;color:var(--accent-2);letter-spacing:.18em;text-transform:uppercase;display:block;margin-bottom:1rem}
+.case-title{font-family:var(--cond);font-weight:800;font-size:clamp(2.6rem,6.5vw,4.2rem);line-height:.95;text-transform:uppercase;color:var(--white)}
+.case-title .accent{color:var(--accent)}
+.case-sub{margin-top:1.3rem;font-size:1rem;color:var(--gray);max-width:60ch;line-height:1.8}
+.meta-pills{list-style:none;display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.6rem}
+.meta-pills li{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);border:1px solid var(--border);padding:.35rem .8rem}
+
+/* ============ SECTION RAIL ============ */
+.section-rail{display:flex;flex-wrap:wrap;gap:1px;background:var(--border);border:1px solid var(--border);margin-top:2.4rem}
+.section-rail a{flex:1 1 auto;background:var(--bg2);font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);text-decoration:none;padding:.7rem .85rem;text-align:center;white-space:nowrap;transition:color .2s,background .2s}
+.section-rail a:hover{color:var(--cyan);background:var(--bg3)}
+.section-rail .num{color:var(--gray2);margin-right:.45rem}
+.section-rail a:hover .num{color:var(--cyan)}
+
+/* ============ METRICS ============ */
+.metrics-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin:2.5rem 0}
+.metric{background:var(--bg2);padding:1.6rem 1.2rem;text-align:center}
+.metric-num{font-family:var(--cond);font-weight:800;font-size:2.2rem;color:var(--accent);line-height:1;display:block}
+.metric-label{font-family:var(--mono);font-size:.7rem;color:var(--gray);letter-spacing:.08em;text-transform:uppercase;margin-top:.55rem;display:block}
+
+/* ============ BLOCKS ============ */
+.block{margin:3.2rem 0;scroll-margin-top:5.5rem}
+.block-head{display:flex;align-items:baseline;gap:.9rem;padding-bottom:.7rem;border-bottom:1px solid var(--border);margin-bottom:1.3rem}
+.block-idx{font-family:var(--mono);font-size:.72rem;color:var(--accent);letter-spacing:.1em;flex:none}
+.block-head h2{font-family:var(--cond);font-weight:700;font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.1;text-transform:uppercase;margin:0}
+.block-head h2 .accent{color:var(--accent)}
+.block-lede{color:var(--gray);max-width:72ch;margin-bottom:1.2rem}
+.prose p{color:var(--gray);margin-bottom:1.05rem;max-width:70ch}
+.prose p:last-child{margin-bottom:0}
+.prose strong{color:var(--white);font-weight:500}
+
+/* ============ CARD GRIDS ============ */
+.grid-2,.grid-3{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);margin-top:1.4rem}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:640px){.grid-2,.grid-3{grid-template-columns:1fr}}
+.mini-card{background:var(--bg2);padding:1.5rem 1.3rem}
+.mini-num{font-family:var(--mono);font-size:.62rem;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:.6rem}
+.mini-title{font-family:var(--cond);font-weight:700;font-size:1.05rem;text-transform:uppercase;letter-spacing:.03em;color:var(--white);margin-bottom:.5rem}
+.mini-card p{font-size:.98rem;color:var(--gray);line-height:1.65}
+.mini-card p strong{color:var(--white);font-weight:500}
+.mini-card p+p{margin-top:.6rem}
+.mini-card code{color:var(--white)}
+.mini-title a{color:var(--white);text-decoration:none;border-bottom:1px solid var(--accent)}
+.mini-title a:hover{color:var(--accent)}
+.kpi-pill{display:inline-block;font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);padding:.3rem .7rem;margin-top:.7rem;opacity:.9}
+
+/* ============ TERMINAL (tabbed, replayable) ============ */
+.term-tabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(12rem,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-bottom:none;margin-top:1.4rem}
+.tbtn{background:var(--bg2);border:none;border-top:2px solid transparent;color:var(--gray);font-family:var(--mono);font-size:.64rem;letter-spacing:.05em;padding:.75rem .9rem;cursor:pointer;text-align:left;transition:color .18s,background .18s}
+.tbtn:hover{color:var(--white);background:var(--bg3)}
+.tbtn[aria-selected="true"]{color:var(--accent);background:var(--bg3);border-top-color:var(--accent)}
+.term{border:1px solid var(--border);border-left:3px solid var(--accent);background:var(--bg4);padding:1.3rem 1.2rem;min-height:20rem;overflow-x:auto}
+.tline{font-family:var(--mono);font-size:.79rem;line-height:1.75;white-space:pre-wrap;color:var(--white)}
+.t-cmd{color:var(--gray)}
+.t-cmd b{color:var(--accent);font-weight:400}
+.t-head{color:var(--white);font-weight:500;margin-top:.9rem}
+.t-err{color:var(--red)}
+.t-warn{color:var(--amber)}
+.t-ok{color:var(--green)}
+.t-dim{color:var(--gray2)}
+.t-note{color:var(--gray2);font-style:italic}
+.exit-chip{display:inline-block;font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;padding:.15rem .6rem;margin-left:.6rem;border:1px solid;font-style:normal}
+.ex1{color:var(--red);border-color:rgba(255,90,71,.45);background:rgba(255,90,71,.08)}
+.ex0{color:var(--green);border-color:rgba(95,227,168,.45);background:rgba(95,227,168,.08)}
+.cursor{display:inline-block;width:.5rem;height:.9rem;background:var(--accent);vertical-align:-2px}
+@media (prefers-reduced-motion:no-preference){
+  .cursor{animation:blink 1.05s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .term-panel.play .tline{opacity:0;animation:tin .3s ease forwards;animation-delay:calc(var(--i,0) * 80ms)}
+  @keyframes tin{to{opacity:1}}
+}
+
+/* ============ REGRESSION LOCK ============ */
+.rounds{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:1.4rem}
+@media(max-width:640px){.rounds{grid-template-columns:1fr}}
+.rstep{background:var(--bg2);padding:1.3rem 1.2rem}
+.rstep h3{font-family:var(--mono);font-size:.66rem;letter-spacing:.06em;margin-bottom:.6rem;color:var(--accent)}
+.rstep.fail h3{color:var(--red)}
+.rstep.pass h3{color:var(--green)}
+.rstep p{font-size:.95rem;color:var(--gray);line-height:1.65}
+.rstep code{color:var(--white)}
+
+/* ============ SCOREBOARD ============ */
+.score-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:1.4rem}
+@media(max-width:640px){.score-grid{grid-template-columns:1fr}}
+.score{background:var(--bg2);padding:1.5rem 1.3rem}
+.score-fam{font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);display:block;margin-bottom:.9rem}
+.score.judge .score-fam{color:var(--amber)}
+.score.code .score-fam{color:var(--accent)}
+.score-val{font-family:var(--cond);font-weight:800;font-size:2.6rem;line-height:1;color:var(--accent)}
+.score.judge .score-val{color:var(--amber)}
+.score-unit{font-family:var(--mono);font-size:.66rem;color:var(--gray2);margin-left:.5rem}
+.score p{font-size:.95rem;color:var(--gray);margin-top:.9rem}
+.no-sum{font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray2);text-align:center;padding:.9rem;border:1px dashed var(--border2);margin-top:1px;background:var(--bg2)}
+
+/* ============ CODE ============ */
+.code-wrap{border:1px solid var(--border);border-left:3px solid var(--accent);background:var(--bg2);margin-top:1.4rem;overflow:hidden}
+.code-head{font-family:var(--mono);font-size:.62rem;color:var(--gray);letter-spacing:.15em;text-transform:uppercase;padding:.7rem 1.2rem;border-bottom:1px solid var(--border)}
+.code-wrap pre{padding:1.2rem;overflow-x:auto}
+.code-wrap code{font-family:var(--mono);font-size:.77rem;line-height:1.85;color:var(--white)}
+.yk{color:var(--cyan)} .yv{color:var(--green)} .yc{color:var(--gray2);font-style:italic} .yr{color:var(--red)} .yt{color:var(--amber)}
+.req{color:var(--red);font-style:normal}
+
+/* ============ TABLES ============ */
+.table-wrap{border:1px solid var(--border);background:var(--bg2);margin-top:1.4rem;overflow-x:auto}
+.rules-table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:.74rem;min-width:34rem}
+.rules-table th{text-align:left;font-weight:400;color:var(--gray2);letter-spacing:.1em;text-transform:uppercase;font-size:.6rem;padding:.85rem 1.1rem;border-bottom:1px solid var(--border)}
+.rules-table td{padding:.8rem 1.1rem;border-bottom:1px solid var(--border);color:var(--gray);vertical-align:top}
+.rules-table tr:last-child td{border-bottom:none}
+.rules-table td:first-child{color:var(--accent);white-space:nowrap}
+.chip{display:inline-block;font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;padding:.15rem .55rem;border:1px solid;white-space:nowrap}
+.c-code{color:var(--accent);border-color:rgba(0,212,255,.45);background:rgba(0,212,255,.08)}
+.c-judge{color:var(--amber);border-color:rgba(245,184,76,.45);background:rgba(245,184,76,.08)}
+
+/* ============ CALLOUTS ============ */
+.insight-box{background:color-mix(in srgb,var(--accent) 6%,transparent);border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);border-left:3px solid var(--accent);padding:1.6rem 1.8rem;margin-top:1.4rem}
+.insight-box p{font-style:italic;color:var(--white);font-size:.98rem;line-height:1.8;max-width:70ch}
+.note-bar{border:1px solid var(--border);border-left:3px solid var(--accent);background:var(--bg2);padding:1.1rem 1.4rem;margin-top:1.4rem}
+.note-bar p{font-size:.98rem;color:var(--gray)}
+.note-bar strong{color:var(--white);font-weight:500}
+
+/* ============ BUTTONS / CASE NAV ============ */
+.btn{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.7rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:.85rem 1.5rem;text-decoration:none;border:1px solid;transition:all .15s;cursor:pointer}
+.btn-solid{background:var(--cyan);border-color:var(--cyan);color:#00232b}
+.btn-solid:hover{background:#33ddff;border-color:#33ddff}
+.btn-outline{background:transparent;border-color:var(--border2);color:var(--white)}
+.btn-outline:hover{border-color:var(--cyan);color:var(--cyan)}
+.case-nav{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin:3.5rem 0 0}
+@media(max-width:640px){.case-nav{grid-template-columns:1fr}}
+.case-nav-link{background:var(--bg2);padding:1.4rem 1.5rem;text-decoration:none;display:flex;flex-direction:column;gap:.35rem;transition:background .2s}
+.case-nav-link:hover{background:var(--bg3)}
+.case-nav-link.next{text-align:right;align-items:flex-end}
+.case-nav-link.all{grid-column:1/-1;align-items:center;text-align:center}
+.case-nav-dir{font-family:var(--mono);font-size:.6rem;color:var(--gray2);letter-spacing:.15em;text-transform:uppercase}
+.case-nav-title{font-family:var(--cond);font-weight:700;font-size:1.05rem;text-transform:uppercase;color:var(--white);transition:color .2s}
+.case-nav-link:hover .case-nav-title{color:var(--cyan)}
+.repo-cta{margin-top:1.6rem}
+
+/* ============ FOOTER ============ */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-top:4rem}
+.footer-name{font-family:var(--cond);font-weight:700;font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray)}
+.footer-info{font-family:var(--mono);font-size:.72rem;color:var(--gray2);letter-spacing:.06em;display:flex;flex-wrap:wrap;gap:.4rem 1rem;align-items:center}
+.footer-info a{color:var(--gray);text-decoration:none;transition:color .2s}
+.footer-info a:hover{color:var(--cyan)}
+@media(max-width:640px){footer{flex-direction:column;align-items:flex-start;padding:1.5rem}}
+
+/* ============ REVEAL ============ */
+@media (prefers-reduced-motion:no-preference){
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}
+  .reveal.in{opacity:1;transform:none}
+}
+</style>
+</head>
+<body class="lang-pt">
+
+<a class="skip-link" href="#main"><span class="pt">Pular para o conteúdo</span><span class="en" lang="en">Skip to content</span></a>
+<div class="progress" aria-hidden="true"></div>
+
+<!-- ============ NAV (identical on every case page) ============ -->
+<nav class="site-nav" aria-label="Principal">
+  <a class="brand" href="index.html">
+    <span class="brand-name">Danilo Espeleta</span>
+    <span class="brand-role"><span class="pt">CRM &amp; Lifecycle Marketing</span><span class="en" lang="en">CRM &amp; Lifecycle Marketing</span></span>
+  </a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="index.html"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
+      <a href="index.html#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
+      <a href="portfolio.html" aria-current="page"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
+      <a href="notas.html"><span class="pt">Notas</span><span class="en" lang="en">Notes</span></a>
+      <a href="contact.html"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
+      <a class="cv-link" href="CV/DE-Curriculo.pdf" download><span class="pt">Currículo ↓</span><span class="en" lang="en">Resume ↓</span></a>
+    </div>
+    <div class="lang-switch" role="group" aria-label="Idioma / Language">
+      <button type="button" data-lang="pt" aria-pressed="true">PT</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <button class="menu-btn" aria-expanded="false" aria-controls="sidebar">Menu</button>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="sidebar" id="sidebar" aria-label="Menu">
+  <button class="sidebar-close" aria-label="Fechar menu">✕</button>
+  <a href="index.html"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
+  <a href="index.html#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
+  <a href="portfolio.html" aria-current="page"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
+  <a href="notas.html"><span class="pt">Notas</span><span class="en" lang="en">Notes</span></a>
+  <a href="contact.html"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></a>
+  <a class="cv-link" href="CV/DE-Curriculo.pdf" download><span class="pt">Currículo ↓</span><span class="en" lang="en">Resume ↓</span></a>
+  <div class="lang-switch" role="group" aria-label="Idioma / Language">
+    <button type="button" data-lang="pt" aria-pressed="true">PT</button>
+    <button type="button" data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</div>
+
+<main id="main" class="case-wrap">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="portfolio.html">Portfólio</a><span class="sep" aria-hidden="true">/</span>
+    <span><span class="pt">Projetos</span><span class="en" lang="en">Projects</span></span><span class="sep" aria-hidden="true">/</span>
+    <span aria-current="page">lentes</span>
+  </nav>
+
+  <header class="case-hero">
+    <span class="case-tag"><span class="pt">Projeto 05 · lentes</span><span class="en" lang="en">Project 05 · lentes</span></span>
+    <h1 class="case-title">
+      <span class="pt">Prompt com<br><span class="accent">placar de regressão.</span></span>
+      <span class="en" lang="en">Prompts with a<br><span class="accent">regression scoreboard.</span></span>
+    </h1>
+    <p class="case-sub">
+      <span class="pt">Prompt tem contrato de entrada e saída e costuma ser tratado como texto solto: testado no chat, salvo em nota, esquecido. Quando o modelo é atualizado meses depois, a degradação passa despercebida por falta de linha de base. Aqui o prompt, os casos e as asserções ficam no mesmo arquivo.</span>
+      <span class="en" lang="en">A prompt has an input and output contract and usually gets treated as loose text: tested in chat, saved in a note, forgotten. When the model is updated months later, the degradation goes unnoticed for lack of a baseline. Here the prompt, the cases and the assertions live in the same file.</span>
+    </p>
+    <ul class="meta-pills">
+      <li><span class="pt">Projeto próprio</span><span class="en" lang="en">Own project</span></li>
+      <li><span class="pt">Avaliação de prompt</span><span class="en" lang="en">Prompt evaluation</span></li>
+      <li>AI Fluency</li>
+    </ul>
+  </header>
+
+  <!-- ============ SECTION RAIL ============ -->
+  <h2 id="railLabel" class="visually-hidden"><span class="pt">Seções desta página</span><span class="en" lang="en">Sections on this page</span></h2>
+  <nav class="section-rail" aria-labelledby="railLabel">
+    <a href="#narrativa"><span class="num">01</span><span class="pt">Narrativa</span><span class="en" lang="en">Narrative</span></a>
+    <a href="#versoes"><span class="num">02</span><span class="pt">Versões</span><span class="en" lang="en">Versions</span></a>
+    <a href="#anatomia"><span class="num">03</span><span class="pt">Anatomia</span><span class="en" lang="en">Anatomy</span></a>
+    <a href="#lentes"><span class="num">04</span><span class="pt">As lentes</span><span class="en" lang="en">The lenses</span></a>
+    <a href="#placar"><span class="num">05</span><span class="pt">Placar</span><span class="en" lang="en">Scoreboard</span></a>
+    <a href="#limitacoes"><span class="num">06</span><span class="pt">Limitações</span><span class="en" lang="en">Limits</span></a>
+    <a href="#suite"><span class="num">07</span><span class="pt">Suíte</span><span class="en" lang="en">Suite</span></a>
+  </nav>
+
+  <!-- ============ METRICS ============ -->
+  <section class="metrics-strip reveal" aria-label="Números do projeto">
+    <div class="metric">
+      <span class="metric-num" data-count="5">5</span>
+      <span class="metric-label"><span class="pt">lentes, uma por tarefa recorrente de operação</span><span class="en" lang="en">lenses, one per recurring operational task</span></span>
+    </div>
+    <div class="metric">
+      <span class="metric-num" data-count="25">25</span>
+      <span class="metric-label"><span class="pt">casos com asserção verificável</span><span class="en" lang="en">cases with verifiable assertions</span></span>
+    </div>
+    <div class="metric">
+      <span class="metric-num" data-count="8">8</span>
+      <span class="metric-label"><span class="pt">checagens de código, sem custo de API</span><span class="en" lang="en">code checks, at no API cost</span></span>
+    </div>
+    <div class="metric">
+      <span class="metric-num" data-count="21">21</span>
+      <span class="metric-label"><span class="pt">testes automatizados em CI</span><span class="en" lang="en">automated tests in CI</span></span>
+    </div>
+  </section>
+
+  <div class="note-bar reveal">
+    <p>
+      <span class="pt"><strong>Como esses números são contados:</strong> cinco lentes são os arquivos em <code>lentes/</code>, cada um com no mínimo cinco casos, somando 25. Oito é a contagem de checagens registradas em <code>checks.py</code>, todas determinísticas. As asserções que exigem julgamento usam modelo como juiz e aparecem no placar com a família <code>juiz</code>, separadas das de código. Os vinte e um testes rodam em CI com fixtures gravadas, sem chave de API.</span>
+      <span class="en" lang="en"><strong>How these numbers are counted:</strong> five lenses are the files in <code>lentes/</code>, each with at least five cases, adding up to 25. Eight is the count of checks registered in <code>checks.py</code>, all deterministic. Assertions that require judgment use a model as judge and appear on the scoreboard under the <code>juiz</code> family, separate from the code ones. The twenty one tests run in CI on recorded fixtures, with no API key.</span>
+    </p>
+  </div>
+
+  <!-- ============ 01 NARRATIVA ============ -->
+  <section class="block reveal" id="narrativa">
+    <div class="block-head">
+      <span class="block-idx">01</span>
+      <h2><span class="pt">Narrativa</span><span class="en" lang="en">Narrative</span></h2>
+    </div>
+    <div class="grid-2">
+      <div class="mini-card">
+        <span class="mini-num">01</span>
+        <div class="mini-title"><span class="pt">Problema</span><span class="en" lang="en">Problem</span></div>
+        <p class="pt">Um prompt em produção não tem linha de base. Ele funciona quando foi escrito, o modelo muda meses depois, e a queda de qualidade aparece como impressão de quem lê a saída. Sem caso registrado e asserção verificável, não há como separar degradação do modelo de mudança no que se espera dele.</p>
+        <p class="en" lang="en">A prompt in production has no baseline. It works when it is written, the model changes months later, and the drop in quality shows up as an impression in whoever reads the output. With no recorded case and no verifiable assertion, there is no way to separate model degradation from a change in what is expected of it.</p>
+      </div>
+      <div class="mini-card">
+        <span class="mini-num">02</span>
+        <div class="mini-title"><span class="pt">Decisão</span><span class="en" lang="en">Decision</span></div>
+        <p class="pt">Cada lente é um arquivo YAML com quatro partes, que correspondem às competências do framework de AI Fluency: <code>task</code> para o que se delega e o que fica com o humano, <code>versions</code> para o prompt com histórico preservado, <code>checks</code> para as asserções e <code>provenance</code> para modelo, revisor, data e limite de uso da saída.</p>
+        <p class="en" lang="en">Each lens is a YAML file with four parts, matching the competencies of the AI Fluency framework: <code>task</code> for what is delegated and what stays with the human, <code>versions</code> for the prompt with its history preserved, <code>checks</code> for the assertions and <code>provenance</code> for model, reviewer, date and the limits on how the output may be used.</p>
+      </div>
+      <div class="mini-card">
+        <span class="mini-num">03</span>
+        <div class="mini-title"><span class="pt">Execução</span><span class="en" lang="en">Execution</span></div>
+        <p class="pt">O campo <code>provenance.nao_decide</code> é obrigatório e o parser recusa a lente sem ele. Ele registra o limite de uso da saída, que é a informação que some primeiro quando um prompt circula pelo time. Fixtures gravadas por versão e por caso permitem que o placar rode em CI sem chave e sem custo.</p>
+        <p class="en" lang="en">The <code>provenance.nao_decide</code> field is mandatory and the parser refuses a lens without it. It records the limit on how the output may be used, which is the first piece of information to disappear when a prompt circulates through a team. Fixtures recorded per version and per case let the scoreboard run in CI with no key and no cost.</p>
+      </div>
+      <div class="mini-card">
+        <span class="mini-num">04</span>
+        <div class="mini-title"><span class="pt">Aprendizado</span><span class="en" lang="en">Learning</span></div>
+        <p class="pt">A lente de nomear segmento tem três versões no arquivo, e a diferença entre elas é verificável. A v1 pedia o nome sem especificar formato, e o modelo devolvia título em prosa em dois dos cinco casos. A v3 declara o formato de saída em duas linhas e passa em todos. O CI trava a regressão nos dois sentidos.</p>
+        <p class="en" lang="en">The segment naming lens has three versions in the file, and the difference between them is verifiable. v1 asked for the name without specifying a format, and the model returned a prose title in two of the five cases. v3 declares the output format in two lines and passes on all of them. CI locks the regression in both directions.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 02 VERSÕES ============ -->
+  <section class="block reveal" id="versoes">
+    <div class="block-head">
+      <span class="block-idx">02</span>
+      <h2><span class="pt">O histórico de versão, <span class="accent">executável</span></span><span class="en" lang="en">Version history, <span class="accent">executable</span></span></h2>
+    </div>
+    <p class="block-lede">
+      <span class="pt">As três versões da lente de nomear segmento continuam no arquivo, e todas continuam executáveis. A diferença entre elas deixa de ser lembrança e vira resultado de comando.</span>
+      <span class="en" lang="en">The three versions of the segment naming lens stay in the file, and all of them stay runnable. The difference between them stops being a memory and becomes the result of a command.</span>
+    </p>
+
+    <h3 id="termLabel" class="visually-hidden"><span class="pt">Execuções do harness</span><span class="en" lang="en">Harness runs</span></h3>
+    <div class="term-tabs" role="tablist" aria-labelledby="termLabel">
+      <button class="tbtn" role="tab" id="tab-v1" aria-controls="panel-v1" aria-selected="true" type="button">$ eval nomear-segmento --version v1</button>
+      <button class="tbtn" role="tab" id="tab-v3" aria-controls="panel-v3" aria-selected="false" tabindex="-1" type="button">$ eval nomear-segmento --version v3</button>
+      <button class="tbtn" role="tab" id="tab-all" aria-controls="panel-all" aria-selected="false" tabindex="-1" type="button">$ eval --all</button>
+    </div>
+
+    <div class="term">
+      <div class="term-panel" id="panel-v1" role="tabpanel" aria-labelledby="tab-v1" tabindex="0">
+        <div class="tline t-cmd" style="--i:0"><b>$</b> lentes eval nomear-segmento --version v1</div>
+        <div class="tline t-err" style="--i:1">FALHA nomear-segmento [v1]  3/5 casos</div>
+        <div class="tline t-dim" style="--i:2">       caso inativos_60d: falhou</div>
+        <div class="tline t-err" style="--i:3">         [codigo] formato_snake_case: primeira linha não é snake_case:
+                  'Segmento de Usuários Inativos (60 dias)'</div>
+        <div class="tline t-dim" style="--i:4">       caso checkout_abandonado: falhou</div>
+        <div class="tline t-err" style="--i:5">         [codigo] formato_snake_case: primeira linha não é snake_case:
+                  'Carrinho Abandonado 3D'</div>
+        <div class="tline t-note" style="--i:6">        A v1 pedia o nome sem declarar formato de saída. O modelo devolveu
+        título em prosa em dois dos cinco casos.</div>
+        <div class="tline t-dim" style="--i:7">exit code 1<span class="exit-chip ex1">falha esperada, travada em CI</span> <span class="cursor" aria-hidden="true"></span></div>
+      </div>
+
+      <div class="term-panel" id="panel-v3" role="tabpanel" aria-labelledby="tab-v3" tabindex="0" hidden>
+        <div class="tline t-cmd" style="--i:0"><b>$</b> lentes eval nomear-segmento --version v3</div>
+        <div class="tline t-ok" style="--i:1">ok  nomear-segmento [v3]  5/5 casos</div>
+        <div class="tline t-dim" style="--i:2">       codigo: 20/20 asserções</div>
+        <div class="tline t-dim" style="--i:3">       juiz: 5/5 asserções</div>
+        <div class="tline t-note" style="--i:4">        A v3 declara o formato de saída em duas linhas. A diferença entre
+        v1 e v3 são essas duas linhas, e o placar mede o efeito delas.</div>
+        <div class="tline t-dim" style="--i:5">exit code 0<span class="exit-chip ex0">versão corrente</span> <span class="cursor" aria-hidden="true"></span></div>
+      </div>
+
+      <div class="term-panel" id="panel-all" role="tabpanel" aria-labelledby="tab-all" tabindex="0" hidden>
+        <div class="tline t-cmd" style="--i:0"><b>$</b> lentes eval --all</div>
+        <div class="tline t-ok" style="--i:1">ok  auditoria-tom [v2]  5/5 casos</div>
+        <div class="tline t-dim" style="--i:2">       codigo: 20/20 asserções
+       juiz: 5/5 asserções</div>
+        <div class="tline t-ok" style="--i:3">ok  nomear-segmento [v3]  5/5 casos</div>
+        <div class="tline t-dim" style="--i:4">       codigo: 20/20 asserções
+       juiz: 5/5 asserções</div>
+        <div class="tline t-dim" style="--i:5">...</div>
+        <div class="tline t-ok" style="--i:6">25/25 casos passaram · provider fixture</div>
+        <div class="tline t-note" style="--i:7">        as fixtures medem as asserções, não o modelo</div>
+        <div class="tline t-dim" style="--i:8">exit code 0 <span class="cursor" aria-hidden="true"></span></div>
+      </div>
+    </div>
+
+    <div class="rounds">
+      <div class="rstep pass">
+        <h3>✓ a v3 precisa passar</h3>
+        <p><span class="pt">O sentido óbvio da trava. Se a versão corrente parar de passar, alguma coisa mudou: o prompt, a asserção ou o modelo.</span><span class="en" lang="en">The obvious direction of the lock. If the current version stops passing, something changed: the prompt, the assertion or the model.</span></p>
+      </div>
+      <div class="rstep fail">
+        <h3>✕ a v1 precisa continuar falhando</h3>
+        <p><span class="pt">O sentido que quase ninguém escreve. Se a v1 parar de falhar, a asserção <code>formato_snake_case</code> quebrou, e o placar passaria a dar verde para tudo sem que ninguém percebesse.</span><span class="en" lang="en">The direction almost nobody writes. If v1 stops failing, the <code>formato_snake_case</code> assertion broke, and the scoreboard would start reporting green for everything with nobody noticing.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <div class="insight-box reveal">
+    <p>
+      <span class="pt">Somar checagem de código e juiz-modelo num número único dá ao resultado uma precisão que a segunda metade não tem.</span>
+      <span class="en" lang="en">Summing code checks and model judge checks into a single number gives the result a precision the second half does not have.</span>
+    </p>
+  </div>
+
+  <!-- ============ 03 ANATOMIA ============ -->
+  <section class="block reveal" id="anatomia">
+    <div class="block-head">
+      <span class="block-idx">03</span>
+      <h2><span class="pt">A anatomia de uma lente</span><span class="en" lang="en">The anatomy of a lens</span></h2>
+    </div>
+    <p class="block-lede">
+      <span class="pt">Quatro partes no mesmo arquivo, que correspondem às competências do framework de AI Fluency. O prompt sem os casos é texto solto, e os casos sem o limite de uso são um convite a usar a saída para o que ela não serve.</span>
+      <span class="en" lang="en">Four parts in the same file, matching the competencies of the AI Fluency framework. The prompt without the cases is loose text, and the cases without the usage limit are an invitation to use the output for what it does not serve.</span>
+    </p>
+    <div class="code-wrap">
+      <div class="code-head">lentes/nomear-segmento.yaml</div>
+      <pre><code><span class="yc"># 1. o que se delega e o que fica com a pessoa</span>
+<span class="yk">task</span>:
+  <span class="yk">delega</span>: <span class="yv">propor nome de uso interno a partir da definição do filtro</span>
+  <span class="yk">humano_decide</span>: <span class="yv">aprovar o nome e publicar no dicionário de segmentos</span>
+
+<span class="yc"># 2. o prompt, com o histórico preservado e executável</span>
+<span class="yk">versions</span>:
+  - <span class="yk">id</span>: <span class="yv">v1</span>   <span class="yc"># sem formato declarado</span>
+  - <span class="yk">id</span>: <span class="yv">v2</span>
+  - <span class="yk">id</span>: <span class="yv">v3</span>   <span class="yc"># formato de saída declarado em duas linhas</span>
+
+<span class="yc"># 3. as asserções, com a família explícita</span>
+<span class="yk">checks</span>:
+  - <span class="yk">nome</span>: <span class="yv">formato_snake_case</span>   <span class="yk">familia</span>: <span class="yt">codigo</span>
+  - <span class="yk">nome</span>: <span class="yv">so_cita_entrada</span>      <span class="yk">familia</span>: <span class="yt">codigo</span>
+  - <span class="yk">nome</span>: <span class="yv">sem_antitese</span>         <span class="yk">familia</span>: <span class="yt">codigo</span>
+  - <span class="yk">nome</span>: <span class="yv">justifica_a_escolha</span>  <span class="yk">familia</span>: <span class="yr">juiz</span>
+
+<span class="yc"># 4. de onde veio e até onde vale</span>
+<span class="yk">provenance</span>:
+  <span class="yk">modelo</span>: <span class="yv">&lt;id do modelo avaliado&gt;</span>
+  <span class="yk">revisor</span>: <span class="yv">Danilo Espeleta</span>
+  <span class="yk">data</span>: <span class="yv">2026-01-14</span>
+  <span class="yk">nao_decide</span>: <span class="yv">não substitui a aprovação do dicionário de segmentos</span>  <span class="req">← obrigatório</span></code></pre>
+    </div>
+    <div class="note-bar">
+      <p>
+        <span class="pt"><strong>Estrutura real, valores ilustrativos:</strong> as quatro chaves de topo e o campo obrigatório <code>provenance.nao_decide</code> são o contrato que o parser exige. Os nomes de checagem acima são reais, com uma exceção no nome da asserção de juiz. Datas e identificadores servem só para mostrar a forma.</span>
+        <span class="en" lang="en"><strong>Real structure, illustrative values:</strong> the four top level keys and the mandatory <code>provenance.nao_decide</code> field are the contract the parser enforces. The check names above are real, with one exception in the judge assertion's name. Dates and identifiers are there only to show the shape.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 04 AS LENTES ============ -->
+  <section class="block reveal" id="lentes">
+    <div class="block-head">
+      <span class="block-idx">04</span>
+      <h2><span class="pt">As cinco lentes</span><span class="en" lang="en">The five lenses</span></h2>
+    </div>
+    <p class="block-lede">
+      <span class="pt">Uma por tarefa recorrente de operação. Cada uma tem um contrato de entrada e de saída, e é esse contrato que as asserções verificam.</span>
+      <span class="en" lang="en">One per recurring operational task. Each has an input and an output contract, and that contract is what the assertions verify.</span>
+    </p>
+    <div class="table-wrap">
+      <table class="rules-table">
+        <thead>
+          <tr>
+            <th scope="col"><span class="pt">Lente</span><span class="en" lang="en">Lens</span></th>
+            <th scope="col"><span class="pt">Recebe</span><span class="en" lang="en">Takes</span></th>
+            <th scope="col"><span class="pt">Devolve</span><span class="en" lang="en">Returns</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>nomear-segmento</td>
+            <td><span class="pt">a definição técnica do filtro</span><span class="en" lang="en">the technical definition of the filter</span></td>
+            <td><span class="pt">o nome de uso interno, com justificativa</span><span class="en" lang="en">the internal name, with a rationale</span></td>
+          </tr>
+          <tr>
+            <td>diagnostico-queda</td>
+            <td><span class="pt">a série temporal de uma métrica</span><span class="en" lang="en">the time series of a metric</span></td>
+            <td><span class="pt">hipóteses ordenadas por custo de teste</span><span class="en" lang="en">hypotheses ordered by cost of testing</span></td>
+          </tr>
+          <tr>
+            <td>copy-por-estagio</td>
+            <td><span class="pt">estágio de ciclo de vida e proposta de valor</span><span class="en" lang="en">a lifecycle stage and a value proposition</span></td>
+            <td><span class="pt">variações, com a hipótese que cada uma testa</span><span class="en" lang="en">variations, with the hypothesis each one tests</span></td>
+          </tr>
+          <tr>
+            <td>leitura-cancelamento</td>
+            <td><span class="pt">respostas abertas de pesquisa de churn</span><span class="en" lang="en">open ended answers from a churn survey</span></td>
+            <td><span class="pt">eixos de motivo com contagem e citação, restrito ao texto</span><span class="en" lang="en">reason axes with counts and quotes, restricted to the text</span></td>
+          </tr>
+          <tr>
+            <td>auditoria-tom</td>
+            <td><span class="pt">as mensagens numeradas de uma régua</span><span class="en" lang="en">the numbered messages of a flow</span></td>
+            <td><span class="pt">onde o registro quebra entre elas</span><span class="en" lang="en">where the register breaks between them</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ 05 PLACAR ============ -->
+  <section class="block reveal" id="placar">
+    <div class="block-head">
+      <span class="block-idx">05</span>
+      <h2><span class="pt">O placar não soma as famílias</span><span class="en" lang="en">The scoreboard does not sum the families</span></h2>
+    </div>
+    <p class="block-lede">
+      <span class="pt">As duas famílias medem coisas com confiabilidade diferente, então o relatório as imprime separadas e com rótulo. Números de uma lente, na versão corrente:</span>
+      <span class="en" lang="en">The two families measure things with different reliability, so the report prints them separately and labelled. Numbers for one lens, on the current version:</span>
+    </p>
+
+    <div class="score-grid">
+      <div class="score code">
+        <span class="score-fam">familia: codigo</span>
+        <span class="score-val">20</span><span class="score-unit">/ 20</span>
+        <p><span class="pt">Determinística, reproduzível e sem custo de API. Oito checagens registradas em <code>checks.py</code> cobrem formato, contenção e padrões de texto.</span><span class="en" lang="en">Deterministic, reproducible and free of API cost. Eight checks registered in <code>checks.py</code> cover format, containment and text patterns.</span></p>
+      </div>
+      <div class="score judge">
+        <span class="score-fam">familia: juiz</span>
+        <span class="score-val">5</span><span class="score-unit">/ 5</span>
+        <p><span class="pt">Usa modelo para julgar o que forma não alcança. Carrega o viés do próprio juiz, e é por isso que aparece com rótulo em vez de diluída no total.</span><span class="en" lang="en">Uses a model to judge what form cannot reach. It carries the judge's own bias, which is why it appears labelled rather than diluted into the total.</span></p>
+      </div>
+    </div>
+    <p class="no-sum"><span class="pt">o relatório não soma as duas famílias num placar único</span><span class="en" lang="en">the report does not sum the two families into a single score</span></p>
+
+    <div class="grid-2" style="margin-top:2rem">
+      <div class="mini-card">
+        <span class="mini-num"><span class="pt">Checagem de código</span><span class="en" lang="en">Code check</span></span>
+        <div class="mini-title">so_cita_entrada</div>
+        <p class="pt">Reprova qualquer número da saída que não esteja na entrada. Ela cobre o modo de falha mais caro em análise de CRM, que é o modelo produzir um valor plausível e ninguém conferir.</p>
+        <p class="en" lang="en">Fails any number in the output that is absent from the input. It covers the most expensive failure mode in CRM analysis, which is the model producing a plausible value and nobody checking it.</p>
+      </div>
+      <div class="mini-card">
+        <span class="mini-num"><span class="pt">Checagem de código</span><span class="en" lang="en">Code check</span></span>
+        <div class="mini-title">sem_antitese</div>
+        <p class="pt">Reprova o padrão "X não é A, é B". Em densidade alta ele funciona como assinatura de texto gerado por modelo, e a regra entrou aqui depois de aparecer em revisão de texto meu.</p>
+        <p class="en" lang="en">Fails the "X is not A, it is B" pattern. At high density it works as a signature of model generated text, and the rule landed here after showing up in a review of my own writing.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 06 LIMITAÇÕES ============ -->
+  <section class="block reveal" id="limitacoes">
+    <div class="block-head">
+      <span class="block-idx">06</span>
+      <h2><span class="pt">Limitações</span><span class="en" lang="en">Limitations</span></h2>
+    </div>
+    <div class="prose">
+      <p class="pt">As asserções cobrem forma, e a maior parte do valor de uma lente está no conteúdo. <code>contagem_itens</code> verifica que vieram quatro hipóteses, sem avaliar se são boas hipóteses. O juiz-modelo cobre parte dessa distância, com o viés que a marcação de família torna visível.</p>
+      <p class="pt">As fixtures envelhecem. Uma saída gravada há seis meses testa as asserções contra o comportamento de um modelo que mudou, e regravar é operação manual.</p>
+      <p class="en" lang="en">The assertions cover form, and most of a lens's value sits in the content. <code>contagem_itens</code> verifies that four hypotheses came back, without assessing whether they are good hypotheses. The model judge covers part of that distance, with the bias the family label makes visible.</p>
+      <p class="en" lang="en">Fixtures age. An output recorded six months ago tests the assertions against the behavior of a model that has changed, and re-recording is a manual operation.</p>
+    </div>
+  </section>
+
+  <!-- ============ 07 SUÍTE ============ -->
+  <section class="block reveal" id="suite">
+    <div class="block-head">
+      <span class="block-idx">07</span>
+      <h2><span class="pt">A suíte</span><span class="en" lang="en">The suite</span></h2>
+    </div>
+    <div class="prose">
+      <p class="pt">Três repositórios sobre a mesma tese: jornada de cliente é artefato versionável. Se ela pode ser declarada em arquivo, ela pode ser lida, auditada e revisada em pull request, com histórico e revisão por pares. Hoje ela vive dentro da interface da ferramenta de automação, onde não existe diff entre versões nem registro de por que aquele delay é de 48 horas.</p>
+      <p class="en" lang="en">Three repositories on the same thesis: a customer journey is a versionable artifact. If it can be declared in a file, it can be read, audited and reviewed in a pull request, with history and peer review. Today it lives inside the automation tool's interface, where there is no diff between versions and no record of why that delay is 48 hours.</p>
+      <p class="pt">A saída de um é a entrada do outro, o que torna objetivo o critério de aceite do agente: a jornada proposta precisa passar no linter.</p>
+      <p class="en" lang="en">The output of one is the input of the next, which makes the agent's acceptance criterion objective: the proposed journey has to pass the linter.</p>
+    </div>
+    <div class="grid-3">
+      <div class="mini-card">
+        <span class="mini-num">01 · <span class="pt">Auditar</span><span class="en" lang="en">Audit</span></span>
+        <div class="mini-title"><a href="case-lifecycle-lint.html">lifecycle-lint</a></div>
+        <p class="pt">Lê as jornadas declaradas em YAML e acusa o defeito antes da publicação, inclusive o que só existe entre duas réguas.</p>
+        <p class="en" lang="en">Reads journeys declared in YAML and flags the defect before publication, including the one that only exists between two flows.</p>
+      </div>
+      <div class="mini-card">
+        <span class="mini-num">02 · <span class="pt">Propor</span><span class="en" lang="en">Propose</span></span>
+        <div class="mini-title"><a href="case-segment-brief.html">segment-brief</a></div>
+        <p class="pt">Lê os eventos de produto e devolve o briefing de segmento com a jornada proposta, já validada pelo linter.</p>
+        <p class="en" lang="en">Reads product events and returns the segment brief with the proposed journey, already validated by the linter.</p>
+      </div>
+      <div class="mini-card">
+        <span class="mini-num">03 · <span class="pt">Ler</span><span class="en" lang="en">Read</span></span>
+        <div class="mini-title">lentes</div>
+        <p class="pt">Guarda os prompts de leitura versionados, com asserções verificáveis e placar que mede regressão em CI.</p>
+        <p class="en" lang="en">Holds the versioned reading prompts, with verifiable assertions and a scoreboard that measures regression in CI.</p>
+        <span class="kpi-pill"><span class="pt">Esta página</span><span class="en" lang="en">This page</span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STACK ============ -->
+  <section class="block reveal">
+    <div class="block-head">
+      <span class="block-idx">08</span>
+      <h2>Stack</h2>
+    </div>
+    <ul class="meta-pills">
+      <li>Python 3.10+</li>
+      <li>PyYAML</li>
+      <li><span class="pt">API de LLM</span><span class="en" lang="en">LLM API</span></li>
+      <li>pytest</li>
+      <li>GitHub Actions</li>
+      <li><span class="pt">Lente em YAML</span><span class="en" lang="en">Lens in YAML</span></li>
+    </ul>
+    <p class="repo-cta"><a class="btn btn-solid" href="https://github.com/daniloespeleta/lentes" target="_blank" rel="noopener"><span class="pt">Ver o repositório</span><span class="en" lang="en">View the repository</span></a></p>
+  </section>
+
+  <nav class="case-nav" aria-label="Navegação entre cases">
+    <a class="case-nav-link prev" href="case-segment-brief.html">
+      <span class="case-nav-dir"><span class="pt">← Case anterior</span><span class="en" lang="en">← Previous case</span></span>
+      <span class="case-nav-title">segment-brief</span>
+    </a>
+    <a class="case-nav-link next" href="case-abrindo-caminhos.html">
+      <span class="case-nav-dir"><span class="pt">Próximo case →</span><span class="en" lang="en">Next case →</span></span>
+      <span class="case-nav-title">Abrindo Caminhos</span>
+    </a>
+    <a class="case-nav-link all" href="portfolio.html">
+      <span class="case-nav-title"><span class="pt">Ver todos os cases</span><span class="en" lang="en">View all cases</span></span>
+    </a>
+  </nav>
+</main>
+
+<footer>
+  <div class="footer-name">Danilo Campos Espeleta</div>
+  <div class="footer-info">
+    <span>São Paulo / SP</span>
+    <a href="mailto:daniloespeleta@gmail.com">daniloespeleta@gmail.com</a>
+    <a href="https://www.linkedin.com/in/daniloespeleta" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/daniloespeleta" target="_blank" rel="noopener">GitHub</a>
+    <span>© <span id="year">2026</span></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+/* ---- language (persisted; syncs <html lang>, buttons, CV links) ---- */
+var CV={pt:'CV/DE-Curriculo.pdf',en:'CV/DE-Resume.pdf'};
+var langButtons=document.querySelectorAll('.lang-switch button');
+function setLang(lang){
+  document.body.classList.remove('lang-pt','lang-en');
+  document.body.classList.add('lang-'+lang);
+  document.documentElement.lang=(lang==='en')?'en':'pt-BR';
+  langButtons.forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.lang===lang));});
+  document.querySelectorAll('a.cv-link').forEach(function(a){a.setAttribute('href',CV[lang]);});
+  try{localStorage.setItem('lang',lang);}catch(e){}
+}
+langButtons.forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.lang);});});
+var saved=null;try{saved=localStorage.getItem('lang');}catch(e){}
+if(saved==='en'||saved==='pt')setLang(saved);
+
+/* ---- mobile sidebar ---- */
+var menuBtn=document.querySelector('.menu-btn'),sidebar=document.getElementById('sidebar'),
+    overlay=document.getElementById('sidebarOverlay'),closeBtn=document.querySelector('.sidebar-close');
+function openSb(){sidebar.classList.add('open');overlay.classList.add('open');menuBtn.setAttribute('aria-expanded','true');}
+function closeSb(){sidebar.classList.remove('open');overlay.classList.remove('open');menuBtn.setAttribute('aria-expanded','false');}
+if(menuBtn){
+  menuBtn.addEventListener('click',openSb);
+  closeBtn.addEventListener('click',closeSb);
+  overlay.addEventListener('click',closeSb);
+  sidebar.addEventListener('click',function(e){if(e.target.closest('a'))closeSb();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&sidebar.classList.contains('open')){closeSb();menuBtn.focus();}});
+}
+
+/* ---- reading progress ---- */
+var bar=document.querySelector('.progress');
+if(bar){
+  var onScroll=function(){
+    var h=document.documentElement,max=h.scrollHeight-h.clientHeight;
+    bar.style.width=(max>0?(h.scrollTop/max)*100:0)+'%';
+  };
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+}
+
+/* ---- scroll reveal ---- */
+var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var revealEls=document.querySelectorAll('.reveal');
+if('IntersectionObserver' in window&&!reduce&&revealEls.length){
+  var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});},{threshold:.12});
+  revealEls.forEach(function(el){io.observe(el);});
+}else{revealEls.forEach(function(el){el.classList.add('in');});}
+
+/* ---- animated counters ([data-count]) ---- */
+var counters=document.querySelectorAll('[data-count]');
+function animate(el){
+  var target=parseFloat(el.dataset.count),pre=el.dataset.prefix||'',suf=el.dataset.suffix||'',
+      dec=(el.dataset.count.indexOf('.')>-1)?1:0,start=null,dur=1100;
+  function fmt(v){return pre+v.toFixed(dec).replace('.',document.documentElement.lang==='en'?'.':',')+suf;}
+  if(reduce){el.textContent=fmt(target);return;}
+  function step(ts){if(!start)start=ts;var p=Math.min((ts-start)/dur,1),e=1-Math.pow(1-p,3);
+    el.textContent=fmt(target*e);if(p<1)requestAnimationFrame(step);}
+  requestAnimationFrame(step);
+}
+if('IntersectionObserver' in window&&counters.length){
+  var cio=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){animate(en.target);cio.unobserve(en.target);}});},{threshold:.4});
+  counters.forEach(function(el){cio.observe(el);});
+}else{counters.forEach(animate);}
+
+/* ---- version tabs (roving tabindex, replays the line stagger) ---- */
+var tabs=[].slice.call(document.querySelectorAll('.tbtn'));
+function selectTab(tab,focus){
+  tabs.forEach(function(t){
+    var on=(t===tab);
+    t.setAttribute('aria-selected',String(on));
+    t.tabIndex=on?0:-1;
+    var panel=document.getElementById(t.getAttribute('aria-controls'));
+    if(!panel)return;
+    panel.hidden=!on;
+    if(on&&!reduce){panel.classList.remove('play');void panel.offsetWidth;panel.classList.add('play');}
+  });
+  if(focus)tab.focus();
+}
+tabs.forEach(function(tab,i){
+  tab.addEventListener('click',function(){selectTab(tab,false);});
+  tab.addEventListener('keydown',function(e){
+    var next=null;
+    if(e.key==='ArrowRight')next=tabs[(i+1)%tabs.length];
+    else if(e.key==='ArrowLeft')next=tabs[(i-1+tabs.length)%tabs.length];
+    else if(e.key==='Home')next=tabs[0];
+    else if(e.key==='End')next=tabs[tabs.length-1];
+    if(next){e.preventDefault();selectTab(next,true);}
+  });
+});
+if(tabs.length&&!reduce){
+  var firstPanel=document.getElementById(tabs[0].getAttribute('aria-controls'));
+  if(firstPanel&&'IntersectionObserver' in window){
+    var tio=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){firstPanel.classList.add('play');tio.disconnect();}});},{threshold:.2});
+    tio.observe(firstPanel);
+  }
+}
+
+/* ---- year ---- */
+var y=document.getElementById('year');if(y)y.textContent=new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
