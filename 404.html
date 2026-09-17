@@ -29,7 +29,8 @@
   --mono:'JetBrains Mono',Consolas,monospace;
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--white);font-family:var(--sans);font-weight:300;line-height:1.7;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center}
+body{background:var(--bg);color:var(--white);font-family:var(--sans);font-weight:300;line-height:1.7}
+main{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center}
 a{color:var(--cyan)}
 :focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
 .lang-pt .en{display:none!important}
@@ -48,6 +49,7 @@ p{color:var(--gray);max-width:44ch;margin-top:.8rem;font-size:.95rem}
 </style>
 </head>
 <body class="lang-pt">
+<main>
 <div class="code" aria-hidden="true">404</div>
 <p class="kicker">SELECT * FROM pages WHERE url = ? <span aria-hidden="true">→</span> 0 rows</p>
 <h1><span class="pt">Página não encontrada</span><span class="en" lang="en">Page not found</span></h1>
@@ -60,6 +62,7 @@ p{color:var(--gray);max-width:44ch;margin-top:.8rem;font-size:.95rem}
   <a class="btn btn-outline" href="/portfolio.html"><span class="pt">Ver portfólio</span><span class="en" lang="en">View portfolio</span></a>
 </div>
 <div class="brand">Danilo Espeleta · CRM &amp; Lifecycle Marketing</div>
+</main>
 <script>
 (function(){var s=null;try{s=localStorage.getItem('lang');}catch(e){}
 if(s==='en'){document.body.className='lang-en';document.documentElement.lang='en';}})();

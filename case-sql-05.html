@@ -246,13 +246,13 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
       <button type="button" data-lang="pt" aria-pressed="true">PT</button>
       <button type="button" data-lang="en" aria-pressed="false">EN</button>
     </div>
-    <button class="menu-btn" aria-expanded="false" aria-controls="sidebar">Menu</button>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="sidebar">Menu</button>
   </div>
 </nav>
 
 <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
 <div class="sidebar" id="sidebar" role="dialog" aria-modal="true" aria-label="Menu">
-  <button class="sidebar-close" aria-label="Fechar menu">✕</button>
+  <button class="sidebar-close" type="button" aria-label="Fechar menu">✕</button>
   <a href="index.html"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
   <a href="index.html#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
   <a href="portfolio.html" aria-current="page"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
@@ -466,16 +466,16 @@ if(saved==='en'||saved==='pt')setLang(saved);
 var menuBtn=document.querySelector('.menu-btn'),sidebar=document.getElementById('sidebar'),
     overlay=document.getElementById('sidebarOverlay'),closeBtn=document.querySelector('.sidebar-close');
 function openSb(){sidebar.classList.add('open');overlay.classList.add('open');menuBtn.setAttribute('aria-expanded','true');closeBtn.focus();}
-function closeSb(){sidebar.classList.remove('open');overlay.classList.remove('open');menuBtn.setAttribute('aria-expanded','false');}
+function closeSb(restoreFocus){sidebar.classList.remove('open');overlay.classList.remove('open');menuBtn.setAttribute('aria-expanded','false');if(restoreFocus)menuBtn.focus();}
 if(menuBtn){
   menuBtn.addEventListener('click',openSb);
-  closeBtn.addEventListener('click',closeSb);
-  overlay.addEventListener('click',closeSb);
-  sidebar.addEventListener('click',function(e){if(e.target.closest('a'))closeSb();});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&sidebar.classList.contains('open')){closeSb();menuBtn.focus();}});
+  closeBtn.addEventListener('click',function(){closeSb(true);});
+  overlay.addEventListener('click',function(){closeSb(true);});
+  sidebar.addEventListener('click',function(e){if(e.target.closest('a'))closeSb(false);});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&sidebar.classList.contains('open'))closeSb(true);});
   document.addEventListener('keydown',function(e){
     if(e.key!=='Tab'||!sidebar.classList.contains('open'))return;
-    var f=[closeBtn].concat(Array.prototype.slice.call(sidebar.querySelectorAll('a[href],button:not([disabled])')));
+    var f=Array.prototype.slice.call(sidebar.querySelectorAll('a[href],button:not([disabled])'));
     var first=f[0],last=f[f.length-1];
     if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
     else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}

@@ -29,7 +29,8 @@
   --mono:'JetBrains Mono',Consolas,monospace;
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--white);font-family:var(--sans);font-weight:300;line-height:1.7;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center}
+body{background:var(--bg);color:var(--white);font-family:var(--sans);font-weight:300;line-height:1.7}
+main{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center}
 a{color:var(--cyan)}
 :focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
 .lang-pt .en{display:none!important}
@@ -49,6 +50,7 @@ p{color:var(--gray);max-width:46ch;margin-top:.9rem;font-size:.98rem}
 </style>
 </head>
 <body class="lang-pt">
+<main>
 <div class="check" aria-hidden="true">✓</div>
 <p class="kicker"><span id="defaultKicker"><span class="pt">Contato</span><span class="en" lang="en">Contact</span></span><span id="leeaKicker" hidden>Leea</span></p>
 <h1><span id="defaultTitle"><span class="pt">Mensagem <span class="accent">enviada</span></span><span class="en" lang="en">Message <span class="accent">sent</span></span></span><span id="leeaTitle" hidden><span class="pt">Contexto <span class="accent">recebido</span></span><span class="en" lang="en">Context <span class="accent">received</span></span></span></h1>
@@ -61,6 +63,7 @@ p{color:var(--gray);max-width:46ch;margin-top:.9rem;font-size:.98rem}
   <div class="actions"><a class="btn btn-solid" href="/leea.html"><span class="pt">Voltar para a Leea</span><span class="en" lang="en">Back to Leea</span></a><a class="btn btn-outline" href="/portfolio.html"><span class="pt">Ver portfólio</span><span class="en" lang="en">View portfolio</span></a></div>
 </div>
 <div class="brand">Danilo Espeleta · CRM &amp; Lifecycle Marketing</div>
+</main>
 <script>
 (function(){var s=null;try{s=localStorage.getItem('lang');}catch(e){}
 if(s==='en'){document.body.className='lang-en';document.documentElement.lang='en';}})();
