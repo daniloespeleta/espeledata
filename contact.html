@@ -160,8 +160,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
   </div>
 </nav>
 
-<div class="sidebar-overlay" id="sidebarOverlay"></div>
-<div class="sidebar" id="sidebar" aria-label="Menu">
+<div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
+<div class="sidebar" id="sidebar" role="dialog" aria-modal="true" aria-label="Menu">
   <button class="sidebar-close" aria-label="Fechar menu">✕</button>
   <a href="index.html"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
   <a href="index.html#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
@@ -270,8 +270,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
           <input type="text" id="field-name" name="name" autocomplete="name">
         </div>
         <div class="field-group">
-          <label for="field-email">E-mail *</label>
-          <input type="email" id="field-email" name="email" autocomplete="email" required>
+          <label for="field-email"><span class="pt">E-mail *</span></label>
+          <input type="email" id="field-email" name="email" autocomplete="email" aria-required="true" required>
         </div>
         <div class="field-group">
           <label for="field-company"><span class="pt">Empresa</span><span class="en" lang="en">Company</span></label>
@@ -282,7 +282,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
             <span class="variant-default"><span class="pt">Mensagem *</span><span class="en" lang="en">Message *</span></span>
             <span class="variant-leea" hidden><span class="pt">Qual jornada está em jogo, o que mudou e quando vocês perceberam? *</span><span class="en" lang="en">Which journey is at stake, what changed and when did you notice it? *</span></span>
           </label>
-          <textarea id="field-message" name="message" required></textarea>
+          <textarea id="field-message" name="message" aria-required="true" required></textarea>
         </div>
         <div class="leea-fields" id="leeaFields" hidden>
           <div class="field-group">
@@ -319,12 +319,18 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
         </p>
         <div class="form-status" id="formStatus" role="status" aria-live="polite" tabindex="-1"></div>
       </form>
+      <script>
+        (function(){
+          var hf=document.querySelector('input[name="bot-field"]');
+          if(hf)hf.setAttribute('type','text');
+        })();
+      </script>
     </div>
 
   </div>
 </main>
 
-<footer>
+<footer aria-label="Rodapé">
   <div class="footer-name">Danilo Campos Espeleta</div>
   <div class="footer-info">
     <span>São Paulo / SP</span>
@@ -398,13 +404,20 @@ if(window.LEEA_CONTACT){
 /* ---- mobile sidebar ---- */
 var menuBtn=document.querySelector('.menu-btn'),sidebar=document.getElementById('sidebar'),
     overlay=document.getElementById('sidebarOverlay'),closeBtn=document.querySelector('.sidebar-close');
-function openSb(){sidebar.classList.add('open');overlay.classList.add('open');menuBtn.setAttribute('aria-expanded','true');}
+function openSb(){sidebar.classList.add('open');overlay.classList.add('open');menuBtn.setAttribute('aria-expanded','true');closeBtn.focus();}
 function closeSb(){sidebar.classList.remove('open');overlay.classList.remove('open');menuBtn.setAttribute('aria-expanded','false');}
 menuBtn.addEventListener('click',openSb);
 closeBtn.addEventListener('click',closeSb);
 overlay.addEventListener('click',closeSb);
 sidebar.addEventListener('click',function(e){if(e.target.closest('a'))closeSb();});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&sidebar.classList.contains('open')){closeSb();menuBtn.focus();}});
+document.addEventListener('keydown',function(e){
+  if(e.key!=='Tab'||!sidebar.classList.contains('open'))return;
+  var f=[closeBtn].concat(Array.prototype.slice.call(sidebar.querySelectorAll('a[href],button:not([disabled])')));
+  var first=f[0],last=f[f.length-1];
+  if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+  else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+});
 
 /* ---- year ---- */
 var y=document.getElementById('year');if(y)y.textContent=new Date().getFullYear();
