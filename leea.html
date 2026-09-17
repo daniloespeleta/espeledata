@@ -478,13 +478,13 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
       <button type="button" data-lang="pt" aria-pressed="true">PT</button>
       <button type="button" data-lang="en" aria-pressed="false">EN</button>
     </div>
-    <button class="menu-btn" aria-expanded="false" aria-controls="sidebar">Menu</button>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="sidebar">Menu</button>
   </div>
 </nav>
 
 <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
 <div class="sidebar" id="sidebar" role="dialog" aria-modal="true" aria-label="Menu">
-  <button class="sidebar-close" aria-label="Fechar menu">✕</button>
+  <button class="sidebar-close" type="button" aria-label="Fechar menu">✕</button>
   <a href="index.html"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
   <a href="index.html#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
   <a href="portfolio.html"><span class="pt">Portfólio</span><span class="en" lang="en">Portfolio</span></a>
@@ -586,7 +586,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
       <h3 id="compareLabel" class="visually-hidden"><span class="pt">Comparar formas de medir retenção</span><span class="en" lang="en">Compare ways to measure retention</span></h3>
       <div class="compare-toggle" role="tablist" aria-labelledby="compareLabel">
         <button type="button" role="tab" id="ctab-static" aria-controls="cpanel-static" aria-selected="true" class="compare-btn"><span class="pt">Taxa estática</span><span class="en" lang="en">Static rate</span></button>
-        <button type="button" role="tab" id="ctab-seq" aria-controls="cpanel-seq" aria-selected="false" class="compare-btn"><span class="pt">Sequência de estados</span><span class="en" lang="en">Sequence of states</span></button>
+        <button type="button" role="tab" id="ctab-seq" aria-controls="cpanel-seq" aria-selected="false" tabindex="-1" class="compare-btn"><span class="pt">Sequência de estados</span><span class="en" lang="en">Sequence of states</span></button>
       </div>
       <div class="compare-panels">
         <div class="compare-panel" role="tabpanel" id="cpanel-static" aria-labelledby="ctab-static">
@@ -1452,15 +1452,15 @@ if('IntersectionObserver' in window){
 var menuBtn=document.querySelector('.menu-btn'),sidebar=document.getElementById('sidebar'),
     overlay=document.getElementById('sidebarOverlay'),closeBtn=document.querySelector('.sidebar-close');
 function openSb(){sidebar.classList.add('open');overlay.classList.add('open');menuBtn.setAttribute('aria-expanded','true');closeBtn.focus();}
-function closeSb(){sidebar.classList.remove('open');overlay.classList.remove('open');menuBtn.setAttribute('aria-expanded','false');}
+function closeSb(restoreFocus){sidebar.classList.remove('open');overlay.classList.remove('open');menuBtn.setAttribute('aria-expanded','false');if(restoreFocus)menuBtn.focus();}
 menuBtn.addEventListener('click',openSb);
-closeBtn.addEventListener('click',closeSb);
-overlay.addEventListener('click',closeSb);
-sidebar.addEventListener('click',function(e){if(e.target.closest('a'))closeSb();});
-document.addEventListener('keydown',function(e){if(e.key==='Escape'&&sidebar.classList.contains('open')){closeSb();menuBtn.focus();}});
+closeBtn.addEventListener('click',function(){closeSb(true);});
+overlay.addEventListener('click',function(){closeSb(true);});
+sidebar.addEventListener('click',function(e){if(e.target.closest('a'))closeSb(false);});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&sidebar.classList.contains('open'))closeSb(true);});
 document.addEventListener('keydown',function(e){
   if(e.key!=='Tab'||!sidebar.classList.contains('open'))return;
-  var f=[closeBtn].concat(Array.prototype.slice.call(sidebar.querySelectorAll('a[href],button:not([disabled])')));
+  var f=Array.prototype.slice.call(sidebar.querySelectorAll('a[href],button:not([disabled])'));
   var first=f[0],last=f[f.length-1];
   if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
   else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
@@ -1560,6 +1560,14 @@ updateProgress();
   function update(i){
     items.forEach(function(li,idx){li.classList.toggle('current',idx===i);});
     if(playhead)playhead.style.left=(i/(items.length-1)*100)+'%';
+    /* Sem isto o leitor de tela anuncia só o número bruto (0 a 11). */
+    var cur=items[i];
+    if(cur){
+      var parts=[cur.querySelector('.ep-period'),cur.querySelector('.ep-badge')].map(function(el){
+        return el?(el.innerText||el.textContent).trim():'';
+      }).filter(Boolean);
+      if(parts.length)range.setAttribute('aria-valuetext',parts.join(' · '));
+    }
     paintRule(i);
   }
   range.addEventListener('input',function(){update(parseInt(range.value,10));});
@@ -1568,14 +1576,24 @@ updateProgress();
 
 /* ---- comparator: static rate vs sequence of states ---- */
 (function(){
-  var tabs=document.querySelectorAll('.compare-btn');
+  var tabs=Array.prototype.slice.call(document.querySelectorAll('.compare-btn'));
   var panels=document.querySelectorAll('.compare-panel');
   if(!tabs.length||!panels.length)return;
   panels.forEach(function(p,i){if(i>0)p.hidden=true;});
-  tabs.forEach(function(t){
-    t.addEventListener('click',function(){
-      tabs.forEach(function(o){o.setAttribute('aria-selected',String(o===t));});
-      panels.forEach(function(p){p.hidden=(p.id!==t.getAttribute('aria-controls'));});
+  function selectTab(t){
+    tabs.forEach(function(o){o.setAttribute('aria-selected',String(o===t));o.tabIndex=o===t?0:-1;});
+    panels.forEach(function(p){p.hidden=(p.id!==t.getAttribute('aria-controls'));});
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){selectTab(t);});
+    /* Arrow/Home/End movement, as the tab pattern requires. */
+    t.addEventListener('keydown',function(e){
+      var ni=null;
+      if(e.key==='ArrowRight')ni=(i+1)%tabs.length;
+      if(e.key==='ArrowLeft')ni=(i-1+tabs.length)%tabs.length;
+      if(e.key==='Home')ni=0;
+      if(e.key==='End')ni=tabs.length-1;
+      if(ni!==null){e.preventDefault();tabs[ni].focus();selectTab(tabs[ni]);}
     });
   });
 })();
