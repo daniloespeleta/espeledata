@@ -325,8 +325,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
   </div>
 </nav>
 
-<div class="sidebar-overlay" id="sidebarOverlay"></div>
-<div class="sidebar" id="sidebar" aria-label="Menu">
+<div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
+<div class="sidebar" id="sidebar" role="dialog" aria-modal="true" aria-label="Menu">
   <button class="sidebar-close" aria-label="Fechar menu">✕</button>
   <a href="#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
   <a href="leea.html" class="nav-leea" data-leea-entry="home_mobile_nav"><span class="pt">Leea</span><span class="en" lang="en">Leea</span></a>
@@ -430,9 +430,9 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
       </div>
 
       <div class="reveal about-side">
-        <h3 class="visually-hidden"><span class="pt">Competências</span><span class="en" lang="en">Skills</span></h3>
+        <h3 class="visually-hidden" id="skillsHeading"><span class="pt">Competências</span><span class="en" lang="en">Skills</span></h3>
         <div class="tabs" id="skillTabs">
-          <div class="tablist" role="tablist" aria-label="Competências">
+          <div class="tablist" role="tablist" aria-labelledby="skillsHeading">
             <button role="tab" id="tab-1" aria-controls="panel-1" aria-selected="true"><span class="pt">Estratégia</span><span class="en" lang="en">Strategy</span></button>
             <button role="tab" id="tab-2" aria-controls="panel-2" aria-selected="false" tabindex="-1"><span class="pt">Automação</span><span class="en" lang="en">Automation</span></button>
             <button role="tab" id="tab-3" aria-controls="panel-3" aria-selected="false" tabindex="-1"><span class="pt">Dados</span><span class="en" lang="en">Data</span></button>
@@ -760,7 +760,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
 
 </main>
 
-<footer>
+<footer aria-label="Rodapé">
   <div class="footer-name">Danilo Campos Espeleta</div>
   <div class="footer-info">
     <span>São Paulo / SP</span>
@@ -792,13 +792,20 @@ if(saved==='en'||saved==='pt')setLang(saved);
 /* ---- mobile sidebar ---- */
 var menuBtn=document.querySelector('.menu-btn'),sidebar=document.getElementById('sidebar'),
     overlay=document.getElementById('sidebarOverlay'),closeBtn=document.querySelector('.sidebar-close');
-function openSb(){sidebar.classList.add('open');overlay.classList.add('open');menuBtn.setAttribute('aria-expanded','true');}
+function openSb(){sidebar.classList.add('open');overlay.classList.add('open');menuBtn.setAttribute('aria-expanded','true');closeBtn.focus();}
 function closeSb(){sidebar.classList.remove('open');overlay.classList.remove('open');menuBtn.setAttribute('aria-expanded','false');}
 menuBtn.addEventListener('click',openSb);
 closeBtn.addEventListener('click',closeSb);
 overlay.addEventListener('click',closeSb);
 sidebar.addEventListener('click',function(e){if(e.target.closest('a'))closeSb();});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&sidebar.classList.contains('open')){closeSb();menuBtn.focus();}});
+document.addEventListener('keydown',function(e){
+  if(e.key!=='Tab'||!sidebar.classList.contains('open'))return;
+  var f=[closeBtn].concat(Array.prototype.slice.call(sidebar.querySelectorAll('a[href],button:not([disabled])')));
+  var first=f[0],last=f[f.length-1];
+  if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+  else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+});
 
 /* ---- reduced motion flag ---- */
 var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;

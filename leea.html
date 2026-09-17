@@ -482,8 +482,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
   </div>
 </nav>
 
-<div class="sidebar-overlay" id="sidebarOverlay"></div>
-<div class="sidebar" id="sidebar" aria-label="Menu">
+<div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
+<div class="sidebar" id="sidebar" role="dialog" aria-modal="true" aria-label="Menu">
   <button class="sidebar-close" aria-label="Fechar menu">✕</button>
   <a href="index.html"><span class="pt">Início</span><span class="en" lang="en">Home</span></a>
   <a href="index.html#sobre"><span class="pt">Sobre</span><span class="en" lang="en">About</span></a>
@@ -529,7 +529,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
     </div>
     <div class="hero-identity" aria-hidden="true">
       <img class="hero-logo" src="assets/leea/leea-logo-transparent.png" alt="" width="1800" height="1100" decoding="async">
-      <img class="hero-wordmark" src="assets/leea/leea-wordmark-transparent.png" alt="" width="1800" height="1000" decoding="async">
+      <img class="hero-wordmark" src="assets/leea/leea-wordmark-transparent.png" alt="Leea" width="1800" height="1000" decoding="async">
     </div>
   </section>
   <div class="divider" role="presentation"></div>
@@ -1380,8 +1380,8 @@ ENTAO  especificar('hipotese_recuperacao')</code></pre>
 
 </main>
 
-<footer>
-  <div class="footer-brand"><img class="footer-logo" src="assets/leea/leea-logo-transparent.png" alt=""><img class="footer-wordmark" src="assets/leea/leea-wordmark-transparent.png" alt="Leea"><span>Prática autoral de Danilo Espeleta</span></div>
+<footer aria-label="Rodapé">
+  <div class="footer-brand" aria-hidden="true"><img class="footer-logo" src="assets/leea/leea-logo-transparent.png" alt=""><img class="footer-wordmark" src="assets/leea/leea-wordmark-transparent.png" alt=""><span>Prática autoral de Danilo Espeleta</span></div>
   <div class="footer-info">
     <span>São Paulo / SP</span>
     <a href="mailto:daniloespeleta@gmail.com">daniloespeleta@gmail.com</a>
@@ -1451,13 +1451,20 @@ if('IntersectionObserver' in window){
 /* ---- mobile sidebar ---- */
 var menuBtn=document.querySelector('.menu-btn'),sidebar=document.getElementById('sidebar'),
     overlay=document.getElementById('sidebarOverlay'),closeBtn=document.querySelector('.sidebar-close');
-function openSb(){sidebar.classList.add('open');overlay.classList.add('open');menuBtn.setAttribute('aria-expanded','true');}
+function openSb(){sidebar.classList.add('open');overlay.classList.add('open');menuBtn.setAttribute('aria-expanded','true');closeBtn.focus();}
 function closeSb(){sidebar.classList.remove('open');overlay.classList.remove('open');menuBtn.setAttribute('aria-expanded','false');}
 menuBtn.addEventListener('click',openSb);
 closeBtn.addEventListener('click',closeSb);
 overlay.addEventListener('click',closeSb);
 sidebar.addEventListener('click',function(e){if(e.target.closest('a'))closeSb();});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&sidebar.classList.contains('open')){closeSb();menuBtn.focus();}});
+document.addEventListener('keydown',function(e){
+  if(e.key!=='Tab'||!sidebar.classList.contains('open'))return;
+  var f=[closeBtn].concat(Array.prototype.slice.call(sidebar.querySelectorAll('a[href],button:not([disabled])')));
+  var first=f[0],last=f[f.length-1];
+  if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+  else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+});
 
 /* ---- reduced motion flag ---- */
 var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;

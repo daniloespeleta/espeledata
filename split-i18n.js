@@ -284,6 +284,7 @@ function appendToggleSupport(h) {
   h = h.replace(/<\/style>/, css + '</style>');
   const js = '\n<script>document.querySelectorAll("a.lang-alt").forEach(function(a){a.addEventListener("click",function(){if(location.hash)a.setAttribute("href",a.getAttribute("data-base")+location.hash)})});<\/script>';
   h = h.replace(/<\/body>/, js + '</body>');
+  h = h.replace(/role="group" aria-label="Idioma \/ Language"/g, 'role="group" aria-label="Language"');
   return h;
 }
 
