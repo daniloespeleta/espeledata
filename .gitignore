@@ -17,3 +17,7 @@ node_modules/
 .DS_Store
 Thumbs.db
 *.log
+
+# Pipeline de agentes: saídas locais dos portões
+runs/
+checks/node_modules/
