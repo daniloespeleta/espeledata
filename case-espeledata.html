@@ -458,7 +458,8 @@ if(bar){
     var h=document.documentElement,max=h.scrollHeight-h.clientHeight;
     bar.style.width=(max>0?(h.scrollTop/max)*100:0)+'%';
   };
-  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var scrollFrame=0;
+  window.addEventListener('scroll',function(){if(!scrollFrame)scrollFrame=requestAnimationFrame(function(){scrollFrame=0;onScroll();});},{passive:true});onScroll();
 }
 
 /* ---- scroll reveal ---- */

@@ -528,8 +528,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;dis
       </div>
     </div>
     <div class="hero-identity" aria-hidden="true">
-      <img class="hero-logo" src="assets/leea/leea-logo-transparent.png" alt="">
-      <img class="hero-wordmark" src="assets/leea/leea-wordmark-transparent.png" alt="">
+      <img class="hero-logo" src="assets/leea/leea-logo-transparent.png" alt="" width="1800" height="1100" decoding="async">
+      <img class="hero-wordmark" src="assets/leea/leea-wordmark-transparent.png" alt="" width="1800" height="1000" decoding="async">
     </div>
   </section>
   <div class="divider" role="presentation"></div>
@@ -1490,8 +1490,12 @@ function updateProgress(){
   if(progressFill)progressFill.style.width=pct+'%';
   if(progressTrack)progressTrack.setAttribute('aria-valuenow',String(Math.round(pct)));
 }
-window.addEventListener('scroll',updateProgress,{passive:true});
-window.addEventListener('resize',updateProgress);
+var progressFrame=0;
+function scheduleProgress(){
+  if(!progressFrame)progressFrame=requestAnimationFrame(function(){progressFrame=0;updateProgress();});
+}
+window.addEventListener('scroll',scheduleProgress,{passive:true});
+window.addEventListener('resize',scheduleProgress);
 updateProgress();
 
 /* ---- state map: click a state, see its detail panel ---- */
